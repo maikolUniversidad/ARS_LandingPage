@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { MobileMenu } from "@/components/MobileMenu";
+import { mailtoUrl } from "@/lib/contact";
 import { Scramble } from "@/components/Scramble";
-import { DemoOverlay } from "@/components/DemoOverlay";
 import { CameraStream } from "@/components/CameraStream";
 import { VideoUpload } from "@/components/VideoUpload";
 import { useI18n } from "@/lib/i18n/context";
@@ -78,6 +79,13 @@ export default function LaboratorioPage() {
               <span className="text-accent">◀</span>{" "}
               <Scramble text={t.nav.home} trigger={locale} />
             </Link>
+            <MobileMenu
+              links={[
+                { label: "Plataforma", href: "/plataforma" },
+                { label: t.nav.projects, href: "/proyectos" },
+                { label: t.nav.home, href: "/" },
+              ]}
+            />
           </nav>
         </div>
       </header>
@@ -315,7 +323,7 @@ export default function LaboratorioPage() {
                 : "We connect to your existing infrastructure and activate the models in under 48 hours. No hardware replacement."}
             </p>
             <a
-              href="mailto:afiliaciones.tuapo@gmail.com"
+              href={mailtoUrl()}
               className="bevel-btn mt-8 inline-flex items-center gap-3 bg-white px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary shadow-xl transition-all hover:bg-white/95"
             >
               <span>▸</span>
@@ -343,9 +351,6 @@ function ShowcaseStage({ capability }: { capability: AICapability }) {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-deep/30 via-transparent to-deep/60" />
       <div className="grid-bg absolute inset-0 opacity-30" />
-
-      {/* Synthetic detection overlay */}
-      <DemoOverlay demoType={capability.demoType} active />
 
       {/* HUD top */}
       <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/85">

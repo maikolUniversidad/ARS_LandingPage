@@ -128,6 +128,7 @@ export default function AdminPage() {
 
   // City wizard state — opens a modal to pick from official municipality list
   const [wizardOpen, setWizardOpen] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Auto-prune any leftover placeholder cities ("Nueva ciudad" / new-city-*)
   // from old sessions where the free-text creator was used.
@@ -259,6 +260,14 @@ export default function AdminPage() {
       {/* HEADER */}
       <header className="flex shrink-0 items-center justify-between border-b border-border/60 bg-background/95 px-6 py-3 md:px-10">
         <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => setMobileSidebarOpen((v) => !v)}
+            aria-label="Mostrar/ocultar ciudades"
+            className="flex size-9 items-center justify-center border border-border bg-secondary text-foreground/80 transition-colors hover:bg-secondary/70 md:hidden"
+          >
+            <span aria-hidden className="text-base leading-none">☰</span>
+          </button>
           <Link href="/" className="flex items-center gap-2">
             <Image
               src="/images/logos/horizontal-blanco.png"
@@ -364,9 +373,22 @@ export default function AdminPage() {
         </div>
       )}
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="relative flex flex-1 overflow-hidden">
+        {/* Backdrop (solo móvil, drawer abierto) */}
+        {mobileSidebarOpen && (
+          <button
+            type="button"
+            aria-label="Cerrar lista de ciudades"
+            onClick={() => setMobileSidebarOpen(false)}
+            className="absolute inset-0 z-20 bg-background/60 backdrop-blur-sm md:hidden"
+          />
+        )}
         {/* CITIES SIDEBAR */}
-        <aside className="flex w-72 shrink-0 flex-col border-r border-border/60 bg-background/95">
+        <aside
+          className={`absolute inset-y-0 left-0 z-30 flex w-72 max-w-[85vw] shrink-0 flex-col border-r border-border/60 bg-background/95 transition-transform md:static md:max-w-none md:translate-x-0 ${
+            mobileSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          }`}
+        >
           <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-foreground/55">
               Ciudades · {cities.length}
@@ -389,6 +411,7 @@ export default function AdminPage() {
                     onClick={() => {
                       setSelectedCityId(c.id);
                       setEditingProjectId(null);
+                      setMobileSidebarOpen(false);
                     }}
                     className={`flex w-full items-start justify-between gap-2 border-l-2 px-4 py-3 text-left transition-colors ${
                       selectedCityId === c.id
@@ -415,7 +438,7 @@ export default function AdminPage() {
         </aside>
 
         {/* MAIN EDITOR */}
-        <main className="flex-1 overflow-y-auto p-8">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">
           {!selectedCity ? (
             <div className="grid h-full place-items-center font-mono text-xs uppercase tracking-[0.25em] text-foreground/40">
               Selecciona o crea una ciudad

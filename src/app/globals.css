@@ -228,3 +228,30 @@
     linear-gradient(90deg, rgba(213, 224, 255, 0.04) 1px, transparent 1px);
   background-size: 64px 64px;
 }
+
+/* Foco visible accesible (solo navegación por teclado) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/*
+ * Respeta la preferencia del sistema de reducir movimiento: corta las
+ * animaciones decorativas y acorta transiciones. Mejora accesibilidad y
+ * evita mareo en usuarios sensibles a la animación.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .glow-blob,
+  .glow-drift,
+  .scan-line {
+    animation: none !important;
+  }
+}

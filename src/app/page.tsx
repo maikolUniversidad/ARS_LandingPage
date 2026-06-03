@@ -5,8 +5,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CinematicCanvas, type SceneId } from "@/components/CinematicCanvas";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { MobileMenu } from "@/components/MobileMenu";
 import { Scramble } from "@/components/Scramble";
+import { ContactForm } from "@/components/ContactForm";
 import { ScrollScene } from "@/components/ScrollScene";
+import { mailtoUrl, whatsappUrl } from "@/lib/contact";
 import { useI18n } from "@/lib/i18n/context";
 import { sectionKeys, type SectionKey } from "@/lib/i18n/dictionaries";
 
@@ -110,6 +113,20 @@ const scenes: SceneConfig[] = [
 export default function Home() {
   const { t, locale } = useI18n();
   const [activeIdx, setActiveIdx] = useState(0);
+  const [soundOn, setSoundOn] = useState(false);
+
+  // Activa/silencia el audio de todos los videos de escena. El autoplay exige
+  // mute inicial; desmutear tras el click del usuario es un gesto permitido.
+  const toggleSound = () => {
+    setSoundOn((prev) => {
+      const next = !prev;
+      document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
+        v.muted = !next;
+        if (next) void v.play().catch(() => {});
+      });
+      return next;
+    });
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -170,11 +187,19 @@ export default function Home() {
             </Link>
             <a
               href="#cierre"
-              className="bevel-btn flex items-center gap-2 border border-border/60 bg-foreground px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-background"
+              className="bevel-btn hidden items-center gap-2 border border-border/60 bg-foreground px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-background sm:flex"
             >
               <span>▸</span>{" "}
               <Scramble text={t.closing.ctaPrimary} trigger={locale} />
             </a>
+            <MobileMenu
+              links={[
+                { label: "Plataforma", href: "/plataforma" },
+                { label: "Laboratorio", href: "/laboratorio" },
+                { label: t.nav.projects, href: "/proyectos" },
+                { label: t.closing.ctaPrimary, href: "#cierre", primary: true },
+              ]}
+            />
           </nav>
         </div>
       </header>
@@ -271,10 +296,16 @@ export default function Home() {
         <div className="pointer-events-auto mx-auto flex max-w-[1800px] items-center justify-between px-6 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/65 md:px-10 md:text-[11px]">
           <button
             type="button"
+            onClick={toggleSound}
+            aria-pressed={soundOn}
+            aria-label={soundOn ? "Silenciar" : "Activar sonido"}
             className="hidden items-center gap-2 transition-colors hover:text-foreground sm:flex"
           >
-            <span className="opacity-70">🔇</span>{" "}
-            <Scramble text={t.bottomBar.sound} trigger={locale} />
+            <span className="opacity-70">{soundOn ? "🔊" : "🔇"}</span>{" "}
+            <Scramble
+              text={soundOn ? (isES ? "Sonido on" : "Sound on") : t.bottomBar.sound}
+              trigger={`${locale}-${soundOn}`}
+            />
           </button>
           <div className="flex items-center gap-2">
             <span className="text-accent">↓</span>
@@ -289,7 +320,9 @@ export default function Home() {
             </span>
           </div>
           <a
-            href="https://wa.me/"
+            href={whatsappUrl("Hola ARS Intelligence, quiero hablar con un asesor.")}
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 transition-colors hover:text-foreground"
           >
             <Scramble text={t.bottomBar.chat} trigger={locale} />{" "}
@@ -459,7 +492,7 @@ function ClosingSection({
 
         <div className="mt-12 flex flex-wrap justify-center gap-4">
           <a
-            href="mailto:afiliaciones.tuapo@gmail.com?subject=Solicitud de demo - ARS Intelligence"
+            href={mailtoUrl()}
             className="bevel-btn inline-flex items-center gap-3 bg-white px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary shadow-2xl transition-all hover:bg-white/95 hover:shadow-white/20"
           >
             <span>▸</span>
@@ -472,6 +505,14 @@ function ClosingSection({
             <span className="text-white/80">◇</span>
             <Scramble text={t.closing.ctaSecondary} trigger={locale} />
           </Link>
+        </div>
+
+        {/* Contact form */}
+        <div className="mx-auto mt-14 max-w-2xl border border-white/15 bg-background/30 p-6 backdrop-blur md:p-8">
+          <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.3em] text-white/70">
+            {isES ? "Contanos qué necesitás" : "Tell us what you need"}
+          </div>
+          <ContactForm />
         </div>
 
         {/* Trust strip */}

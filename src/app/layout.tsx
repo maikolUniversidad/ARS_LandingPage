@@ -26,11 +26,67 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+const SITE_URL = "https://arsintelligence.com";
+const SITE_NAME = "ARS Intelligence";
+const TITLE = "ARS Intelligence — La forma simple de hacer que todo funcione";
+const DESCRIPTION =
+  "Plataforma de monitoreo inteligente con IA: video analítica, reconocimiento facial, LPR, detección de personas y EPP, y alertas en tiempo real.";
+
 export const metadata: Metadata = {
-  title: "ARS Intelligence — La forma simple de hacer que todo funcione",
-  description:
-    "Plataforma de monitoreo inteligente con IA: video analítica, reconocimiento facial, LPR, detección de personas y EPP, y alertas en tiempo real.",
-  metadataBase: new URL("https://arsintelligence.com"),
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: "%s — ARS Intelligence",
+  },
+  description: DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "monitoreo inteligente",
+    "video analítica",
+    "inteligencia artificial",
+    "reconocimiento facial",
+    "LPR",
+    "detección de personas",
+    "EPP",
+    "seguridad integral",
+    "CCTV",
+    "alertas en tiempo real",
+    "LATAM",
+  ],
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "es_CO",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  icons: { icon: "/favicon.ico" },
+  category: "technology",
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: DESCRIPTION,
+  logo: `${SITE_URL}/images/logos/horizontal-blanco.png`,
+  areaServed: ["CO", "PE", "LATAM"],
 };
 
 export default function RootLayout({
@@ -48,6 +104,10 @@ export default function RootLayout({
         className="min-h-full bg-background text-foreground overflow-x-hidden"
         suppressHydrationWarning
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <I18nProvider>
           <DataStoreProvider>{children}</DataStoreProvider>
         </I18nProvider>

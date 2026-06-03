@@ -246,7 +246,7 @@ export function mockPredict(
 
 // ─────────────────────────── Rules engine ───────────────────────────
 
-function evaluateRules(
+export function evaluateRules(
   model: VisionModel,
   preds: Prediction[],
   rules: Rules,

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { MobileMenu } from "@/components/MobileMenu";
 import { VisionCanvas } from "@/components/vision-lab/VisionCanvas";
 import {
   EventsPanel,
@@ -21,6 +22,7 @@ import {
   type PredictResponse,
   type Rules,
 } from "@/lib/vision-mock";
+import { browserInferenceSupported, useBrowserVision } from "@/lib/vision-browser";
 
 /**
  * /vision-lab — Playground técnico para modelos de visión.
@@ -45,6 +47,9 @@ export default function VisionLabPage() {
   const [result, setResult] = useState<PredictResponse | null>(null);
   const [eventsHistory, setEventsHistory] = useState<Event[]>([]);
 
+  // Motor: "real" = inferencia en el navegador (MediaPipe) · "demo" = simulado.
+  const [engineMode, setEngineMode] = useState<"real" | "demo">("real");
+
   const imgRef = useRef<HTMLImageElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -54,6 +59,37 @@ export default function VisionLabPage() {
     () => visionModels.find((m) => m.id === selectedId) ?? visionModels[0],
     [selectedId]
   );
+
+  // ¿Hay una fuente activa para procesar?
+  const hasSource =
+    (source === "image" && !!imgUrl) ||
+    (source === "video" && !!videoUrl) ||
+    (source === "webcam" && webcamOn);
+
+  // Usar el motor real (navegador) cuando: el usuario lo eligió, el modelo lo
+  // soporta y hay una fuente. Si no, caemos al simulador.
+  const browserSupported = browserInferenceSupported(selected.id);
+  const useBrowser = engineMode === "real" && browserSupported && hasSource;
+
+  // Handler único: publica el resultado y acumula eventos (compartido mock/real).
+  function pushResult(r: PredictResponse) {
+    setResult(r);
+    if (r.events.length > 0) {
+      setEventsHistory((prev) => [...r.events, ...prev].slice(0, 50));
+    }
+  }
+
+  // Motor real en navegador (MediaPipe). Inactivo si useBrowser es false.
+  const browser = useBrowserVision({
+    enabled: useBrowser,
+    model: selected,
+    source,
+    mediaRef: (source === "image" ? imgRef : videoRef) as React.RefObject<
+      HTMLVideoElement | HTMLImageElement | null
+    >,
+    rules,
+    onResult: pushResult,
+  });
 
   // When model changes, switch to a source it supports
   useEffect(() => {
@@ -102,9 +138,10 @@ export default function VisionLabPage() {
     };
   }, [source, webcamOn]);
 
-  // Mock prediction tick — runs every 600ms while there's a source
+  // Mock prediction tick — runs every 600ms while the real engine is NOT active.
   const tickRef = useRef(0);
   useEffect(() => {
+    if (useBrowser) return; // el motor real (navegador) toma el control
     const id = setInterval(() => {
       tickRef.current += 1;
       const stage = stageRef.current;
@@ -118,14 +155,10 @@ export default function VisionLabPage() {
         tickRef.current,
         rules
       );
-      setResult(r);
-      // Append new events to history (cap at 50)
-      if (r.events.length > 0) {
-        setEventsHistory((prev) => [...r.events, ...prev].slice(0, 50));
-      }
+      pushResult(r);
     }, 600);
     return () => clearInterval(id);
-  }, [selected, source, rules]);
+  }, [selected, source, rules, useBrowser]);
 
   function handleFile(f: File) {
     const url = URL.createObjectURL(f);
@@ -232,6 +265,13 @@ export default function VisionLabPage() {
             >
               <span className="text-accent">◀</span> Inicio
             </Link>
+            <MobileMenu
+              links={[
+                { label: "Plataforma", href: "/plataforma" },
+                { label: "Laboratorio", href: "/laboratorio" },
+                { label: "Inicio", href: "/" },
+              ]}
+            />
           </nav>
         </div>
       </header>
@@ -247,7 +287,7 @@ export default function VisionLabPage() {
 
         {/* CENTER — Stage */}
         <section className="space-y-3">
-          {/* Source selector + actions */}
+          {/* Source selector + engine toggle */}
           <div className="flex flex-wrap items-center justify-between gap-2 border border-border/50 bg-background/40 p-3 backdrop-blur">
             <SourceSelector
               available={selected.sources}
@@ -260,6 +300,41 @@ export default function VisionLabPage() {
               onWebcamToggle={() => setWebcamOn(!webcamOn)}
               webcamOn={webcamOn}
             />
+
+            {/* Motor: IA real (navegador) vs Demo simulado */}
+            <div className="flex items-center gap-2">
+              <div className="flex border border-border/60">
+                <button
+                  type="button"
+                  onClick={() => setEngineMode("real")}
+                  className={`px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] transition-colors ${
+                    engineMode === "real"
+                      ? "bg-accent/25 text-foreground"
+                      : "bg-background/40 text-foreground/55 hover:bg-background/70"
+                  }`}
+                  title="Corre el modelo real en tu navegador con tu cámara/video. Sin servidor, sin costo."
+                >
+                  ◉ IA real
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEngineMode("demo")}
+                  className={`border-l border-border/60 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] transition-colors ${
+                    engineMode === "demo"
+                      ? "bg-accent/25 text-foreground"
+                      : "bg-background/40 text-foreground/55 hover:bg-background/70"
+                  }`}
+                  title="Predicciones simuladas (no usa la cámara)."
+                >
+                  ◌ Demo
+                </button>
+              </div>
+              {engineMode === "real" && !browserSupported && (
+                <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-yellow-400/90">
+                  ⚠ este modelo no corre en navegador · simulado
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Stage */}
@@ -311,8 +386,32 @@ export default function VisionLabPage() {
 
             {/* HUD */}
             <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between p-3 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/85">
-              <div className="border border-accent/50 bg-deep/70 px-3 py-1.5 backdrop-blur">
-                <span className="text-accent">●</span> {selected.id} · {source}
+              <div className="flex items-center gap-2">
+                <div className="border border-accent/50 bg-deep/70 px-3 py-1.5 backdrop-blur">
+                  <span className="text-accent">●</span> {selected.id} · {source}
+                </div>
+                {/* Estado del motor */}
+                {useBrowser ? (
+                  <div
+                    className={`border bg-deep/70 px-3 py-1.5 backdrop-blur ${
+                      browser.status === "running"
+                        ? "border-green-400/60 text-green-300"
+                        : browser.status === "error"
+                          ? "border-red-400/60 text-red-300"
+                          : "border-yellow-400/50 text-yellow-200"
+                    }`}
+                  >
+                    {browser.status === "loading" && "⟳ cargando modelo…"}
+                    {browser.status === "running" &&
+                      `◉ IA real · ${browser.backend} · ${browser.fps} fps`}
+                    {browser.status === "error" && "✕ error del motor"}
+                    {browser.status === "unsupported" && "simulado"}
+                  </div>
+                ) : (
+                  <div className="border border-border/40 bg-deep/70 px-3 py-1.5 backdrop-blur text-foreground/55">
+                    ◌ demo simulado
+                  </div>
+                )}
               </div>
               <div className="border border-border/40 bg-deep/70 px-3 py-1.5 backdrop-blur">
                 {result?.predictions.length ?? 0} pred · {result?.events.length ?? 0} ev

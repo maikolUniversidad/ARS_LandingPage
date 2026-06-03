@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { LatamMap } from "@/components/LatamMap";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { MobileMenu } from "@/components/MobileMenu";
 import { Scramble } from "@/components/Scramble";
 import { ProjectDetail } from "@/components/ProjectDetail";
 import { useI18n } from "@/lib/i18n/context";
@@ -148,6 +149,14 @@ export default function ProyectosPage() {
               <span className="text-accent">◀</span>{" "}
               <Scramble text={t.nav.home} trigger={locale} />
             </Link>
+            <MobileMenu
+              links={[
+                { label: "Plataforma", href: "/plataforma" },
+                { label: "Laboratorio", href: "/laboratorio" },
+                { label: "Admin", href: "/admin" },
+                { label: t.nav.home, href: "/" },
+              ]}
+            />
           </nav>
         </div>
       </header>

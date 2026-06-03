@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { mailtoUrl, whatsappUrl } from "@/lib/contact";
 
 export function FinalCTA() {
   return (
@@ -42,14 +43,16 @@ export function FinalCTA() {
         {/* CTAs */}
         <div className="mt-12 flex flex-wrap justify-center gap-4">
           <a
-            href="mailto:afiliaciones.tuapo@gmail.com?subject=Solicitud de demo - ARS Intelligence"
+            href={mailtoUrl()}
             className="bevel-btn inline-flex items-center gap-3 bg-white px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary shadow-2xl transition-all hover:bg-white/95 hover:shadow-white/20"
           >
             <span>▸</span>
             Solicitar demo
           </a>
           <a
-            href="https://wa.me/"
+            href={whatsappUrl("Hola ARS Intelligence, quiero hablar con un asesor.")}
+            target="_blank"
+            rel="noopener noreferrer"
             className="bevel-btn inline-flex items-center gap-3 border border-white/40 bg-white/10 px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-white transition-colors hover:bg-white/20"
           >
             <span className="text-white/80">◇</span>

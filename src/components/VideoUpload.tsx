@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { DemoOverlay } from "./DemoOverlay";
 import type { DemoType } from "@/data/ai-capabilities";
 
 /**
- * Video upload + playback + AI overlay.
+ * Video upload + playback.
  *
  * The user picks a local video file (MP4 / WebM / MOV). It's loaded into a
- * blob URL and played in-browser. Synthetic AI overlay runs on top.
+ * blob URL and played in-browser, sin cajas sintéticas. Para detección real
+ * en navegador ver /vision-lab (vision-browser.ts).
  *
  * Nothing is uploaded to a server — everything happens client-side.
  */
@@ -98,7 +98,7 @@ export function VideoUpload({ demoType }: Props) {
   function togglePlay() {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) v.play();
+    if (v.paused) void v.play().catch(() => {});
     else v.pause();
   }
 
@@ -162,7 +162,6 @@ export function VideoUpload({ demoType }: Props) {
               muted
               className="size-full object-contain"
             />
-            <DemoOverlay demoType={demoType} active={playing} />
 
             {/* HUD */}
             <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/85">

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Scramble } from "@/components/Scramble";
+import { mailtoUrl } from "@/lib/contact";
 import { guidingPhrase, operatingVerbs } from "@/data/integral-security";
 
 export function IntegralSecurityHero() {
@@ -44,7 +45,7 @@ export function IntegralSecurityHero() {
 
           <div className="mt-10 flex flex-wrap gap-3">
             <a
-              href="mailto:afiliaciones.tuapo@gmail.com?subject=Solicitud de demo - ARS Intelligence"
+              href={mailtoUrl()}
               className="bevel-btn group inline-flex items-center gap-3 border border-border bg-foreground px-7 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-background shadow-xl transition-opacity hover:opacity-90"
             >
               <span>▸</span>

@@ -266,6 +266,11 @@ export function CinematicCanvas({ scene, intensity = 1 }: Props) {
     ro.observe(canvas);
     window.addEventListener("resize", resize);
 
+    // Respeta prefers-reduced-motion: renderiza un único frame estático.
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
     const startTime = performance.now();
 
     const tick = (now: number) => {
@@ -277,8 +282,8 @@ export function CinematicCanvas({ scene, intensity = 1 }: Props) {
       const { width, height, nodes, edges, particles } = state;
       const elapsed = (now - startTime) / 1000;
 
-      // Smooth intensity transition
-      state.intensity += (state.targetIntensity - state.intensity) * 0.08;
+      // Smooth intensity transition (snap inmediato si reduced-motion)
+      state.intensity += (state.targetIntensity - state.intensity) * (reduceMotion ? 1 : 0.08);
 
       ctx.clearRect(0, 0, width, height);
 
@@ -386,7 +391,8 @@ export function CinematicCanvas({ scene, intensity = 1 }: Props) {
         }
       }
 
-      rafRef.current = requestAnimationFrame(tick);
+      // En reduced-motion no encadenamos frames: queda un render estático.
+      if (!reduceMotion) rafRef.current = requestAnimationFrame(tick);
     };
 
     rafRef.current = requestAnimationFrame(tick);

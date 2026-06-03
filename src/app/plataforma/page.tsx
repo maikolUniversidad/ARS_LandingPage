@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { MobileMenu } from "@/components/MobileMenu";
 import { IntegralSecurityHero } from "@/components/integral/IntegralSecurityHero";
 import { OperationCycle } from "@/components/integral/OperationCycle";
 import { ScreenshotShowcase } from "@/components/integral/ScreenshotShowcase";
@@ -66,16 +67,24 @@ export default function PlataformaPage() {
             </Link>
             <Link
               href="/"
-              className="bevel-btn group flex items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground"
+              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground sm:flex"
             >
               <span className="text-accent">◀</span> Inicio
             </Link>
             <a
               href="#cierre"
-              className="bevel-btn flex items-center gap-2 border border-border/60 bg-foreground px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-background"
+              className="bevel-btn hidden items-center gap-2 border border-border/60 bg-foreground px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-background sm:flex"
             >
               <span>▸</span> Solicitar demo
             </a>
+            <MobileMenu
+              links={[
+                { label: "Laboratorio", href: "/laboratorio" },
+                { label: "Proyectos", href: "/proyectos" },
+                { label: "Inicio", href: "/" },
+                { label: "Solicitar demo", href: "#cierre", primary: true },
+              ]}
+            />
           </nav>
         </div>
       </header>
