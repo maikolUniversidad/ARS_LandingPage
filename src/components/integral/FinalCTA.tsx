@@ -2,8 +2,40 @@
 
 import Link from "next/link";
 import { mailtoUrl, whatsappUrl } from "@/lib/contact";
+import { useI18n } from "@/lib/i18n/context";
 
 export function FinalCTA() {
+  const { locale } = useI18n();
+  const c =
+    locale === "en"
+      ? {
+          eyebrow: "Final result",
+          titleLine1: "Transform traditional security",
+          titleLine2: "into an intelligent operation.",
+          body: "ARS Intelligence connects human, technological and managerial operations to deliver more control, more evidence and better response times.",
+          requestDemo: "Request a demo",
+          talkToAdvisor: "Talk to an advisor",
+          whatsappMessage: "Hi ARS Intelligence, I'd like to talk to an advisor.",
+          seeModules: "See platform modules",
+          metricDeploymentLabel: "Deployment",
+          metricOperationLabel: "Operation",
+          metricCoverageLabel: "Coverage",
+          metricModelsLabel: "AI models",
+        }
+      : {
+          eyebrow: "Resultado final",
+          titleLine1: "Transforma la seguridad tradicional",
+          titleLine2: "en una operación inteligente.",
+          body: "ARS Intelligence permite conectar la operación humana, tecnológica y gerencial para ofrecer más control, más evidencia y mejores tiempos de respuesta.",
+          requestDemo: "Solicitar demo",
+          talkToAdvisor: "Hablar con un asesor",
+          whatsappMessage: "Hola ARS Intelligence, quiero hablar con un asesor.",
+          seeModules: "Ver módulos de la plataforma",
+          metricDeploymentLabel: "Despliegue",
+          metricOperationLabel: "Operación",
+          metricCoverageLabel: "Cobertura",
+          metricModelsLabel: "Modelos IA",
+        };
   return (
     <section
       id="cierre"
@@ -26,18 +58,17 @@ export function FinalCTA() {
       <div className="relative mx-auto max-w-5xl text-center text-white">
         <div className="font-mono text-[11px] font-medium uppercase tracking-[0.4em] text-white/70">
           <span className="mr-3 inline-block size-1.5 align-middle bg-white" />
-          Resultado final
+          {c.eyebrow}
         </div>
 
         <h2 className="mt-6 font-heading text-4xl font-black uppercase leading-[1.05] tracking-tight md:text-6xl">
-          Transforma la seguridad tradicional
+          {c.titleLine1}
           <br />
-          <span className="text-white/85">en una operación inteligente.</span>
+          <span className="text-white/85">{c.titleLine2}</span>
         </h2>
 
         <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/85 md:text-lg">
-          ARS Intelligence permite conectar la operación humana, tecnológica y gerencial
-          para ofrecer más control, más evidencia y mejores tiempos de respuesta.
+          {c.body}
         </p>
 
         {/* CTAs */}
@@ -47,32 +78,32 @@ export function FinalCTA() {
             className="bevel-btn inline-flex items-center gap-3 bg-white px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary shadow-2xl transition-all hover:bg-white/95 hover:shadow-white/20"
           >
             <span>▸</span>
-            Solicitar demo
+            {c.requestDemo}
           </a>
           <a
-            href={whatsappUrl("Hola ARS Intelligence, quiero hablar con un asesor.")}
+            href={whatsappUrl(c.whatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
             className="bevel-btn inline-flex items-center gap-3 border border-white/40 bg-white/10 px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-white transition-colors hover:bg-white/20"
           >
             <span className="text-white/80">◇</span>
-            Hablar con un asesor
+            {c.talkToAdvisor}
           </a>
           <Link
             href="/laboratorio"
             className="bevel-btn inline-flex items-center gap-3 border border-white/40 px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-white transition-colors hover:bg-white/10"
           >
             <span className="text-white/80">◎</span>
-            Ver módulos de la plataforma
+            {c.seeModules}
           </Link>
         </div>
 
         {/* Trust strip */}
         <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-4 border-t border-white/20 pt-8 font-mono text-[10px] uppercase tracking-[0.25em] text-white/70 md:grid-cols-4">
-          <TrustMetric label="Despliegue" value="< 48h" />
-          <TrustMetric label="Operación" value="24/7" />
-          <TrustMetric label="Cobertura" value="LATAM" />
-          <TrustMetric label="Modelos IA" value="12+" />
+          <TrustMetric label={c.metricDeploymentLabel} value="< 48h" />
+          <TrustMetric label={c.metricOperationLabel} value="24/7" />
+          <TrustMetric label={c.metricCoverageLabel} value="LATAM" />
+          <TrustMetric label={c.metricModelsLabel} value="12+" />
         </div>
       </div>
     </section>

@@ -27,6 +27,10 @@ export type Prediction = {
   angle?: number;
   /** Para PPE, qué item está faltando. */
   missing?: string[];
+  /** Heurística de comportamiento: alarma activa para esta caja. */
+  alarm?: "arms" | "fight";
+  /** Nota efímera sobre la caja (p.ej. cuenta regresiva de brazos arriba). */
+  note?: string;
 };
 
 export type Event = {

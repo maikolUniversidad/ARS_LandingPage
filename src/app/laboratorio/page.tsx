@@ -252,8 +252,8 @@ export default function LaboratorioPage() {
 
               <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/45">
                 {isES
-                  ? "Las detecciones mostradas son una simulación visual del patrón. La detección real corre en el servidor ARS sobre las cámaras conectadas."
-                  : "Detections shown are a visual simulation of the pattern. Real detection runs on the ARS server over connected cameras."}
+                  ? "La detección corre en tiempo real en tu navegador, sin enviar tu video a ningún servidor. En producción, los modelos avanzados corren sobre las cámaras conectadas a ARS."
+                  : "Detection runs in real time in your browser — your video is never sent to any server. In production, advanced models run over the cameras connected to ARS."}
               </p>
             </div>
 

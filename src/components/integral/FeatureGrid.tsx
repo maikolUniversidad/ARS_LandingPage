@@ -7,15 +7,35 @@ import {
   featureGroups,
   type Feature,
 } from "@/data/integral-security";
+import { useI18n } from "@/lib/i18n/context";
+import type { Locale } from "@/lib/i18n/dictionaries";
 
 type FilterKey = Feature["group"] | "all";
 
 export function FeatureGrid() {
+  const { locale } = useI18n();
+  const items = features[locale];
+  const groups = featureGroups[locale];
   const [filter, setFilter] = useState<FilterKey>("all");
   const [expanded, setExpanded] = useState<string | null>(null);
 
+  const c =
+    locale === "en"
+      ? {
+          eyebrow: "Core capabilities",
+          titleA: "Fourteen capabilities,",
+          titleB: "one single platform.",
+          all: "All",
+        }
+      : {
+          eyebrow: "Funcionalidades principales",
+          titleA: "Catorce capacidades,",
+          titleB: "una sola plataforma.",
+          all: "Todas",
+        };
+
   const filtered =
-    filter === "all" ? features : features.filter((f) => f.group === filter);
+    filter === "all" ? items : items.filter((f) => f.group === filter);
 
   return (
     <section
@@ -26,12 +46,12 @@ export function FeatureGrid() {
         <header className="mb-10">
           <div className="font-mono text-[11px] font-medium uppercase tracking-[0.4em] text-foreground/55">
             <span className="mr-3 inline-block size-1.5 align-middle bg-accent" />
-            Funcionalidades principales
+            {c.eyebrow}
           </div>
           <h2 className="mt-4 max-w-3xl font-heading text-3xl font-black uppercase tracking-tight md:text-5xl">
-            Catorce capacidades,
+            {c.titleA}
             <br />
-            <span className="text-foreground/80">una sola plataforma.</span>
+            <span className="text-foreground/80">{c.titleB}</span>
           </h2>
         </header>
 
@@ -40,16 +60,16 @@ export function FeatureGrid() {
           <FilterPill
             active={filter === "all"}
             onClick={() => setFilter("all")}
-            label="Todas"
-            count={features.length}
+            label={c.all}
+            count={items.length}
           />
-          {(Object.keys(featureGroups) as Feature["group"][]).map((g) => (
+          {(Object.keys(groups) as Feature["group"][]).map((g) => (
             <FilterPill
               key={g}
               active={filter === g}
               onClick={() => setFilter(g)}
-              label={featureGroups[g].label}
-              count={features.filter((f) => f.group === g).length}
+              label={groups[g].label}
+              count={items.filter((f) => f.group === g).length}
             />
           ))}
         </div>
@@ -60,6 +80,7 @@ export function FeatureGrid() {
             <FeatureCard
               key={f.id}
               feature={f}
+              locale={locale}
               expanded={expanded === f.id}
               onToggle={() => setExpanded(expanded === f.id ? null : f.id)}
             />
@@ -101,10 +122,12 @@ function FilterPill({
 
 function FeatureCard({
   feature,
+  locale,
   expanded,
   onToggle,
 }: {
   feature: Feature;
+  locale: Locale;
   expanded: boolean;
   onToggle: () => void;
 }) {
@@ -125,7 +148,7 @@ function FeatureCard({
       >
         <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-foreground/45">
           <span>
-            <span className="text-accent">{feature.letter}</span> · {featureGroupLabel(feature.group)}
+            <span className="text-accent">{feature.letter}</span> · {featureGroupLabel(feature.group, locale)}
           </span>
           <span
             className={`transition-transform ${expanded ? "rotate-45" : ""}`}
@@ -175,8 +198,8 @@ function FeatureCard({
   );
 }
 
-function featureGroupLabel(g: Feature["group"]): string {
-  return featureGroups[g].label;
+function featureGroupLabel(g: Feature["group"], locale: Locale): string {
+  return featureGroups[locale][g].label;
 }
 
 // Sub-accordion for features that have grouped bullets

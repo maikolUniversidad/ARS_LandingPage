@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n/context";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileMenu } from "@/components/MobileMenu";
 import { IntegralSecurityHero } from "@/components/integral/IntegralSecurityHero";
@@ -23,6 +24,33 @@ import { RevealOnScroll } from "@/components/integral/RevealOnScroll";
  * Composición de bloques con scroll-reveal por sección.
  */
 export default function PlataformaPage() {
+  const { locale } = useI18n();
+  const c =
+    locale === "en"
+      ? {
+          navLab: "Lab",
+          navProjects: "Projects",
+          navHome: "Home",
+          requestDemo: "Request a demo",
+          anchorBadge: "Platform · Integral security",
+          anchorFeatures: "Features",
+          anchorScreens: "Screenshots",
+          anchorCases: "Use cases",
+          anchorDemo: "Request a demo",
+          footerTagline: "The simple way to make everything work.",
+        }
+      : {
+          navLab: "Laboratorio",
+          navProjects: "Proyectos",
+          navHome: "Inicio",
+          requestDemo: "Solicitar demo",
+          anchorBadge: "Plataforma · Seguridad integral",
+          anchorFeatures: "Funcionalidades",
+          anchorScreens: "Capturas",
+          anchorCases: "Casos",
+          anchorDemo: "Solicitar demo",
+          footerTagline: "La forma simple de hacer que todo funcione.",
+        };
   return (
     <div className="relative bg-background text-foreground">
       {/* Background decorative */}
@@ -57,32 +85,32 @@ export default function PlataformaPage() {
               href="/laboratorio"
               className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground md:flex"
             >
-              <span className="text-accent">◎</span> Laboratorio
+              <span className="text-accent">◎</span> {c.navLab}
             </Link>
             <Link
               href="/proyectos"
               className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground sm:flex"
             >
-              <span className="text-accent">▣</span> Proyectos
+              <span className="text-accent">▣</span> {c.navProjects}
             </Link>
             <Link
               href="/"
               className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground sm:flex"
             >
-              <span className="text-accent">◀</span> Inicio
+              <span className="text-accent">◀</span> {c.navHome}
             </Link>
             <a
               href="#cierre"
               className="bevel-btn hidden items-center gap-2 border border-border/60 bg-foreground px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-background sm:flex"
             >
-              <span>▸</span> Solicitar demo
+              <span>▸</span> {c.requestDemo}
             </a>
             <MobileMenu
               links={[
-                { label: "Laboratorio", href: "/laboratorio" },
-                { label: "Proyectos", href: "/proyectos" },
-                { label: "Inicio", href: "/" },
-                { label: "Solicitar demo", href: "#cierre", primary: true },
+                { label: c.navLab, href: "/laboratorio" },
+                { label: c.navProjects, href: "/proyectos" },
+                { label: c.navHome, href: "/" },
+                { label: c.requestDemo, href: "#cierre", primary: true },
               ]}
             />
           </nav>
@@ -94,13 +122,13 @@ export default function PlataformaPage() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2 font-mono text-[10px] uppercase tracking-[0.3em] text-foreground/55 md:px-10">
           <span className="flex items-center gap-2">
             <span className="size-1.5 bg-accent" />
-            Plataforma · Seguridad integral
+            {c.anchorBadge}
           </span>
           <nav className="flex items-center gap-6">
-            <a href="#funcionalidades" className="transition-colors hover:text-foreground">Funcionalidades</a>
-            <a href="#capturas" className="transition-colors hover:text-foreground">Capturas</a>
-            <a href="#casos" className="transition-colors hover:text-foreground">Casos</a>
-            <a href="#cierre" className="transition-colors hover:text-foreground">Solicitar demo</a>
+            <a href="#funcionalidades" className="transition-colors hover:text-foreground">{c.anchorFeatures}</a>
+            <a href="#capturas" className="transition-colors hover:text-foreground">{c.anchorScreens}</a>
+            <a href="#casos" className="transition-colors hover:text-foreground">{c.anchorCases}</a>
+            <a href="#cierre" className="transition-colors hover:text-foreground">{c.anchorDemo}</a>
           </nav>
         </div>
       </div>
@@ -158,7 +186,7 @@ export default function PlataformaPage() {
               <span className="hidden sm:inline">arsintelligence.com</span>
             </div>
             <p className="font-serif text-sm italic text-foreground/55">
-              La forma simple de hacer que todo funcione.
+              {c.footerTagline}
             </p>
             <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/40">
               © {new Date().getFullYear()} ARS Intelligence

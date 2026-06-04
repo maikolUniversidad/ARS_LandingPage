@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { LiveAIOverlay } from "./LiveAIOverlay";
 import type { DemoType } from "@/data/ai-capabilities";
 
 /**
- * Video upload + playback.
+ * Video upload + playback + DETECCIÓN REAL de IA en el navegador.
  *
  * The user picks a local video file (MP4 / WebM / MOV). It's loaded into a
- * blob URL and played in-browser, sin cajas sintéticas. Para detección real
- * en navegador ver /vision-lab (vision-browser.ts).
+ * blob URL y se procesa con MediaPipe (LiveAIOverlay) en el navegador: cajas,
+ * esqueleto, conteo y heurísticas — igual que la cámara.
  *
- * Nothing is uploaded to a server — everything happens client-side.
+ * Nada se sube a un servidor: el video vive como blob local y se libera al
+ * cambiarlo (URL.revokeObjectURL). Es solo para probar que la IA funciona.
  */
 
 type Props = {
@@ -162,6 +164,9 @@ export function VideoUpload({ demoType }: Props) {
               muted
               className="size-full object-contain"
             />
+
+            {/* Detección de IA REAL sobre el video subido (MediaPipe) */}
+            <LiveAIOverlay videoRef={videoRef} demoType={demoType} active objectFit="contain" />
 
             {/* HUD */}
             <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/85">

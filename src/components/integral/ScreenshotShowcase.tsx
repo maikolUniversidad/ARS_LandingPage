@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useI18n } from "@/lib/i18n/context";
 import { RevealOnScroll } from "./RevealOnScroll";
 
 /**
@@ -19,7 +20,7 @@ type Shot = {
   highlights: string[];
 };
 
-const shots: Shot[] = [
+const shotsEs: Shot[] = [
   {
     id: "central",
     title: "Central de monitoreo",
@@ -99,7 +100,101 @@ const shots: Shot[] = [
   },
 ];
 
+const shotsEn: Shot[] = [
+  {
+    id: "central",
+    title: "Monitoring center",
+    caption: "A single dashboard with cameras, alerts and a live operations map.",
+    src: "/images/features/02-central-monitoreo.png",
+    highlights: [
+      "Configurable multi-screen view",
+      "Automatic event prioritization",
+      "Operator assignment per shift",
+    ],
+  },
+  {
+    id: "ia",
+    title: "AI per camera",
+    caption: "Enable models per camera without replacing your existing hardware.",
+    src: "/images/features/04-ia-por-camara.png",
+    highlights: [
+      "Configurable rules per camera",
+      "Multiple models on the same source",
+      "Edge + cloud based on required latency",
+    ],
+  },
+  {
+    id: "facial",
+    title: "Facial recognition",
+    caption: "Watchlists, historical search and alerts at access points.",
+    src: "/images/features/06-reconocimiento-facial.png",
+    highlights: [
+      "Allow and block lists per site",
+      "Forensic search by face",
+      "Configurable confidence",
+    ],
+  },
+  {
+    id: "lpr",
+    title: "License plate recognition",
+    caption: "Plate OCR with watchlist matching and automatic logging.",
+    src: "/images/features/07-lpr.png",
+    highlights: [
+      "Support for LATAM plates",
+      "Integration with barriers",
+      "Reports per fleet or client",
+    ],
+  },
+  {
+    id: "intrusion",
+    title: "Intrusion and ROI zones",
+    caption: "Perimeter rules with precise areas of interest per camera.",
+    src: "/images/features/08-intrusion-roi.png",
+    highlights: [
+      "Polygonal or rectangular ROI",
+      "Line crossing with direction",
+      "Activation schedules",
+    ],
+  },
+  {
+    id: "epp",
+    title: "Industrial PPE",
+    caption: "Automatic verification of personal protective equipment usage.",
+    src: "/images/features/09-epp.png",
+    highlights: [
+      "Helmet, vest, gloves, goggles",
+      "Reporting for OHS audits",
+      "Real-time alerts to supervisors",
+    ],
+  },
+  {
+    id: "alerts",
+    title: "Alerts with evidence",
+    caption: "Every alert arrives with a clip, snapshot, location and traceability.",
+    src: "/images/features/10-alertas-evidencia.png",
+    highlights: [
+      "Snapshot + associated video clip",
+      "Handling status per operator",
+      "Closure with notes and signature",
+    ],
+  },
+];
+
 export function ScreenshotShowcase() {
+  const { locale } = useI18n();
+  const shots = locale === "en" ? shotsEn : shotsEs;
+  const c =
+    locale === "en"
+      ? {
+          eyebrow: "Product screenshots",
+          titleLine1: "What the operation looks like",
+          titleLine2: "from inside ARS.",
+        }
+      : {
+          eyebrow: "Capturas del producto",
+          titleLine1: "Cómo se ve la operación",
+          titleLine2: "desde adentro de ARS.",
+        };
   const [activeId, setActiveId] = useState(shots[0].id);
   const active = shots.find((s) => s.id === activeId) ?? shots[0];
 
@@ -110,12 +205,12 @@ export function ScreenshotShowcase() {
           <header className="mb-12 max-w-3xl">
             <div className="font-mono text-[11px] font-medium uppercase tracking-[0.4em] text-foreground/55">
               <span className="mr-3 inline-block size-1.5 align-middle bg-accent" />
-              Capturas del producto
+              {c.eyebrow}
             </div>
             <h2 className="mt-4 font-heading text-3xl font-black uppercase tracking-tight md:text-5xl">
-              Cómo se ve la operación
+              {c.titleLine1}
               <br />
-              <span className="text-foreground/80">desde adentro de ARS.</span>
+              <span className="text-foreground/80">{c.titleLine2}</span>
             </h2>
           </header>
         </RevealOnScroll>

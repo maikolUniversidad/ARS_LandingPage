@@ -2,25 +2,41 @@
 
 import { Icon } from "./Icon";
 import { useCases } from "@/data/integral-security";
+import { useI18n } from "@/lib/i18n/context";
 
 export function UseCases() {
+  const { locale } = useI18n();
+  const cases = useCases[locale];
+  const c =
+    locale === "en"
+      ? {
+          eyebrow: "Use cases",
+          titleA: "The same platform,",
+          titleB: "adapted to every operation.",
+        }
+      : {
+          eyebrow: "Casos de uso",
+          titleA: "La misma plataforma,",
+          titleB: "adaptada a cada operación.",
+        };
+
   return (
     <section className="relative border-b border-border/40 px-6 py-20 md:px-10 md:py-28">
       <div className="mx-auto max-w-7xl">
         <header className="mb-12 max-w-3xl">
           <div className="font-mono text-[11px] font-medium uppercase tracking-[0.4em] text-foreground/55">
             <span className="mr-3 inline-block size-1.5 align-middle bg-accent" />
-            Casos de uso
+            {c.eyebrow}
           </div>
           <h2 className="mt-4 font-heading text-3xl font-black uppercase tracking-tight md:text-5xl">
-            La misma plataforma,
+            {c.titleA}
             <br />
-            <span className="text-foreground/80">adaptada a cada operación.</span>
+            <span className="text-foreground/80">{c.titleB}</span>
           </h2>
         </header>
 
         <div className="grid gap-4 md:grid-cols-2">
-          {useCases.map((u) => (
+          {cases.map((u) => (
             <article
               key={u.id}
               className="group flex flex-col border border-border/50 bg-background/40 p-6 backdrop-blur transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-secondary/40"

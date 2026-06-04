@@ -520,7 +520,7 @@ export default function VisionLabPage() {
       <footer className="border-t border-border/40 bg-background py-6">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-6 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/45 md:px-10">
           <span>
-            Vision Lab · Fase 1 (mock predictions) · Backend spec:{" "}
+            Vision Lab · Inferencia real en el navegador (MediaPipe) + modo demo ·{" "}
             <code className="text-foreground/70">docs/vision-demo-api.md</code>
           </span>
           <span>© {new Date().getFullYear()} ARS Intelligence</span>

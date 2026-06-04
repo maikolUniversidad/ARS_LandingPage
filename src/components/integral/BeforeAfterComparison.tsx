@@ -1,20 +1,46 @@
 "use client";
 
 import { beforeAfter } from "@/data/integral-security";
+import { useI18n } from "@/lib/i18n/context";
 
 export function BeforeAfterComparison() {
+  const { locale } = useI18n();
+  const data = beforeAfter[locale];
+  const c =
+    locale === "en"
+      ? {
+          eyebrow: "Before vs. With ARS",
+          titleA: "The difference between watching",
+          titleB: "and operating with intelligence.",
+          beforeLabel: "Before ARS",
+          afterLabel: "With ARS Intelligence",
+          m1: "alert latency",
+          m2: "traceability per event",
+          m3: "deployment on your infrastructure",
+        }
+      : {
+          eyebrow: "Antes vs. Con ARS",
+          titleA: "La diferencia entre vigilar",
+          titleB: "y operar con inteligencia.",
+          beforeLabel: "Antes de ARS",
+          afterLabel: "Con ARS Intelligence",
+          m1: "latencia de alertas",
+          m2: "trazabilidad por evento",
+          m3: "despliegue sobre tu infraestructura",
+        };
+
   return (
     <section className="relative border-b border-border/40 px-6 py-20 md:px-10 md:py-28">
       <div className="mx-auto max-w-6xl">
         <header className="mb-12 max-w-3xl">
           <div className="font-mono text-[11px] font-medium uppercase tracking-[0.4em] text-foreground/55">
             <span className="mr-3 inline-block size-1.5 align-middle bg-accent" />
-            Antes vs. Con ARS
+            {c.eyebrow}
           </div>
           <h2 className="mt-4 font-heading text-3xl font-black uppercase tracking-tight md:text-5xl">
-            La diferencia entre vigilar
+            {c.titleA}
             <br />
-            <span className="text-foreground/80">y operar con inteligencia.</span>
+            <span className="text-foreground/80">{c.titleB}</span>
           </h2>
         </header>
 
@@ -23,10 +49,10 @@ export function BeforeAfterComparison() {
           <div className="border border-border/40 bg-background/30 p-6 backdrop-blur md:p-8">
             <div className="flex items-center gap-3 border-b border-border/40 pb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-foreground/45">
               <span className="size-1.5 bg-foreground/40" />
-              Antes de ARS
+              {c.beforeLabel}
             </div>
             <ul className="mt-5 space-y-3 font-mono text-[12px] leading-relaxed text-foreground/55">
-              {beforeAfter.before.map((item) => (
+              {data.before.map((item) => (
                 <li key={item} className="flex gap-3">
                   <span className="mt-1 text-foreground/30">✕</span>
                   <span className="line-through decoration-foreground/20 decoration-1">
@@ -49,10 +75,10 @@ export function BeforeAfterComparison() {
             />
             <div className="relative flex items-center gap-3 border-b border-accent/40 pb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-accent">
               <span className="size-1.5 bg-accent" />
-              Con ARS Intelligence
+              {c.afterLabel}
             </div>
             <ul className="relative mt-5 space-y-3 font-mono text-[12px] leading-relaxed text-foreground/85">
-              {beforeAfter.after.map((item) => (
+              {data.after.map((item) => (
                 <li key={item} className="flex gap-3">
                   <span className="mt-0.5 text-accent">✓</span>
                   <span>{item}</span>
@@ -64,9 +90,9 @@ export function BeforeAfterComparison() {
 
         {/* Result strip */}
         <div className="mt-10 grid gap-4 border-y border-border/40 py-6 md:grid-cols-3">
-          <ResultMetric value="< 1s" label="latencia de alertas" />
-          <ResultMetric value="100%" label="trazabilidad por evento" />
-          <ResultMetric value="48h" label="despliegue sobre tu infraestructura" />
+          <ResultMetric value="< 1s" label={c.m1} />
+          <ResultMetric value="100%" label={c.m2} />
+          <ResultMetric value="48h" label={c.m3} />
         </div>
       </div>
     </section>

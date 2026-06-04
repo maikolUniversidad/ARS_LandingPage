@@ -185,10 +185,6 @@ function ScenePlaceholder({
             "linear-gradient(90deg, transparent, rgba(35,72,212,0.7), transparent)",
         }}
       />
-      {/* "Placeholder" label so user knows where to drop the video */}
-      <div className="absolute right-6 top-6 border border-border/60 bg-background/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-foreground/50 backdrop-blur">
-        ◇ placeholder · {kind}
-      </div>
     </div>
   );
 }

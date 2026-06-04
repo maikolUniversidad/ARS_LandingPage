@@ -4,8 +4,32 @@ import Link from "next/link";
 import { Scramble } from "@/components/Scramble";
 import { mailtoUrl } from "@/lib/contact";
 import { guidingPhrase, operatingVerbs } from "@/data/integral-security";
+import { useI18n } from "@/lib/i18n/context";
 
 export function IntegralSecurityHero() {
+  const { locale } = useI18n();
+  const verbs = operatingVerbs[locale];
+  const c =
+    locale === "en"
+      ? {
+          eyebrow: "Module · Integral security",
+          titleA: "Integral security",
+          titleB: "on a single platform.",
+          lead:
+            "ARS connects shifts, staff, patrols, cameras, AI, alerts, communication, forms, maps and reports to turn the security operation into a traceable, intelligent, real-time system.",
+          requestDemo: "Request a demo",
+          viewFeatures: "View features",
+        }
+      : {
+          eyebrow: "Módulo · Seguridad integral",
+          titleA: "Seguridad integral",
+          titleB: "en una sola plataforma.",
+          lead:
+            "ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real.",
+          requestDemo: "Solicitar demo",
+          viewFeatures: "Ver funcionalidades",
+        };
+
   return (
     <section className="relative isolate overflow-hidden border-b border-border/40 px-6 pb-20 pt-32 md:px-10 md:pb-28 md:pt-44">
       {/* Background */}
@@ -26,21 +50,19 @@ export function IntegralSecurityHero() {
         <div>
           <div className="font-mono text-[11px] font-medium uppercase tracking-[0.4em] text-foreground/65">
             <span className="mr-3 inline-block size-1.5 align-middle bg-accent" />
-            <Scramble text="Módulo · Seguridad integral" />
+            <Scramble text={c.eyebrow} />
           </div>
 
           <h1 className="mt-6 font-heading text-4xl font-black uppercase leading-[1.05] tracking-tight md:text-6xl lg:text-[5rem]">
-            <Scramble as="span" text="Seguridad integral" durationMs={900} />
+            <Scramble as="span" text={c.titleA} durationMs={900} />
             <br />
             <span className="text-foreground/85">
-              <Scramble as="span" text="en una sola plataforma." durationMs={900} delayMs={200} />
+              <Scramble as="span" text={c.titleB} durationMs={900} delayMs={200} />
             </span>
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-foreground/75 md:text-lg">
-            ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación,
-            formularios, mapas y reportes para transformar la operación de seguridad
-            en un sistema trazable, inteligente y en tiempo real.
+            {c.lead}
           </p>
 
           <div className="mt-10 flex flex-wrap gap-3">
@@ -49,20 +71,20 @@ export function IntegralSecurityHero() {
               className="bevel-btn group inline-flex items-center gap-3 border border-border bg-foreground px-7 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-background shadow-xl transition-opacity hover:opacity-90"
             >
               <span>▸</span>
-              <Scramble text="Solicitar demo" />
+              <Scramble text={c.requestDemo} />
             </a>
             <Link
               href="#funcionalidades"
               className="bevel-btn group inline-flex items-center gap-3 border border-border bg-background/40 px-7 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-foreground backdrop-blur transition-colors hover:border-accent hover:bg-background/60"
             >
               <span className="text-accent">◎</span>
-              <Scramble text="Ver funcionalidades" />
+              <Scramble text={c.viewFeatures} />
             </Link>
           </div>
 
           {/* Operating verbs strip */}
           <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.4em] text-foreground/45">
-            {operatingVerbs.map((v, i) => (
+            {verbs.map((v, i) => (
               <li key={v} className="flex items-center gap-2">
                 <span className="text-accent">{String(i + 1).padStart(2, "0")}</span>
                 {v}
@@ -72,13 +94,13 @@ export function IntegralSecurityHero() {
         </div>
 
         {/* Right — abstract dashboard */}
-        <DashboardSketch />
+        <DashboardSketch locale={locale} />
       </div>
 
       {/* Guiding phrase */}
       <div className="mx-auto mt-20 max-w-4xl border-y border-border/40 py-8 text-center md:mt-28">
         <p className="font-serif text-base italic text-foreground/70 md:text-xl">
-          “{guidingPhrase}”
+          “{guidingPhrase[locale]}”
         </p>
       </div>
     </section>
@@ -86,18 +108,40 @@ export function IntegralSecurityHero() {
 }
 
 // Abstract dashboard graphic — connected nodes (no library, just SVG)
-function DashboardSketch() {
+function DashboardSketch({ locale }: { locale: "es" | "en" }) {
+  const labels =
+    locale === "en"
+      ? {
+          cameras: "Cameras",
+          operators: "Operators",
+          ai: "AI",
+          reports: "Reports",
+          map: "Map",
+          shifts: "Shifts",
+          patrols: "Patrols",
+          alerts: "Alerts",
+        }
+      : {
+          cameras: "Cámaras",
+          operators: "Operadores",
+          ai: "IA",
+          reports: "Reportes",
+          map: "Mapa",
+          shifts: "Turnos",
+          patrols: "Rondas",
+          alerts: "Alertas",
+        };
   // 8 nodes laid out in a soft constellation around a center brain
   const nodes = [
-    { x: 50, y: 50, label: "ARS",        size: 18, kind: "core"   },
-    { x: 18, y: 22, label: "Cámaras",    size: 7,  kind: "leaf"   },
-    { x: 80, y: 18, label: "Operadores", size: 7,  kind: "leaf"   },
-    { x: 82, y: 50, label: "IA",         size: 7,  kind: "leaf"   },
-    { x: 86, y: 80, label: "Reportes",   size: 7,  kind: "leaf"   },
-    { x: 50, y: 88, label: "Mapa",       size: 7,  kind: "leaf"   },
-    { x: 18, y: 80, label: "Turnos",     size: 7,  kind: "leaf"   },
-    { x: 12, y: 50, label: "Rondas",     size: 7,  kind: "leaf"   },
-    { x: 50, y: 18, label: "Alertas",    size: 7,  kind: "leaf"   },
+    { x: 50, y: 50, label: "ARS",             size: 18, kind: "core"   },
+    { x: 18, y: 22, label: labels.cameras,    size: 7,  kind: "leaf"   },
+    { x: 80, y: 18, label: labels.operators,  size: 7,  kind: "leaf"   },
+    { x: 82, y: 50, label: labels.ai,         size: 7,  kind: "leaf"   },
+    { x: 86, y: 80, label: labels.reports,    size: 7,  kind: "leaf"   },
+    { x: 50, y: 88, label: labels.map,        size: 7,  kind: "leaf"   },
+    { x: 18, y: 80, label: labels.shifts,     size: 7,  kind: "leaf"   },
+    { x: 12, y: 50, label: labels.patrols,    size: 7,  kind: "leaf"   },
+    { x: 50, y: 18, label: labels.alerts,     size: 7,  kind: "leaf"   },
   ];
   const core = nodes[0];
   const leaves = nodes.slice(1);
