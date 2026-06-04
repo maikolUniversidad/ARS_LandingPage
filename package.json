@@ -27,6 +27,8 @@
     "node": ">=24"
   },
   "scripts": {
+    "postinstall": "node scripts/fetch-models.mjs",
+    "fetch-models": "node scripts/fetch-models.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

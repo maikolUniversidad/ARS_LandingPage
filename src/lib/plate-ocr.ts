@@ -44,7 +44,11 @@ export class PlateOcrController {
     this.status = "loading";
     try {
       const Tesseract = await import("tesseract.js");
+      // Modelos auto-hospedados en /public/tesseract (postinstall). Sin CDN externo.
       const worker = await Tesseract.createWorker("eng", undefined, {
+        workerPath: "/tesseract/worker.min.js",
+        corePath: "/tesseract",
+        langPath: "/tesseract",
         logger: (m: { status?: string; progress?: number }) => {
           if (typeof m.progress === "number") {
             this.progress = Math.max(this.progress, Math.round(m.progress * 100));

@@ -53,3 +53,7 @@ docs/research/*.txt
 
 # Claude Code internal worktrees
 .claude/worktrees/
+
+# Modelos de IA auto-hospedados (se bajan en postinstall: scripts/fetch-models.mjs)
+/public/mediapipe/
+/public/tesseract/

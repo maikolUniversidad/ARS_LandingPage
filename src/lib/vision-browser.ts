@@ -38,13 +38,14 @@ import type {
   NormalizedLandmark,
 } from "@mediapipe/tasks-vision";
 
-const MP_VERSION = "0.10.35";
-const WASM_BASE = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm`;
-const MODEL_BASE = "https://storage.googleapis.com/mediapipe-models";
+// Modelos auto-hospedados en /public (los baja `scripts/fetch-models.mjs` en
+// el postinstall). Sin dependencia de CDNs externos en runtime.
+const WASM_BASE = "/mediapipe/wasm";
+const MODEL_BASE = "/mediapipe/models";
 
-const POSE_MODEL = `${MODEL_BASE}/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task`;
-const OBJ_MODEL = `${MODEL_BASE}/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite`;
-const FACE_MODEL = `${MODEL_BASE}/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite`;
+const POSE_MODEL = `${MODEL_BASE}/pose_landmarker_lite.task`;
+const OBJ_MODEL = `${MODEL_BASE}/efficientdet_lite0.tflite`;
+const FACE_MODEL = `${MODEL_BASE}/blaze_face_short_range.tflite`;
 
 /** Modelos que SÍ pueden correr 100% en el navegador. El resto cae al simulador. */
 export const BROWSER_MODELS = new Set<string>([
