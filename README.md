@@ -2,6 +2,74 @@
 
 <a href="https://github.com/JCodesMore/ai-website-cloner-template/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a> <a href="https://github.com/JCodesMore/ai-website-cloner-template/stargazers"><img src="https://img.shields.io/github/stars/JCodesMore/ai-website-cloner-template?style=flat" alt="Stars" /></a> <a href="https://discord.gg/hrTSX5yTpB"><img src="https://img.shields.io/discord/1400896964597383279?label=discord" alt="Discord" /></a>
 
+> **Este repositorio contiene la plataforma web de ARS Intelligence.** La
+> documentación de abajo (a partir de "AI Website Cloner Template") es del
+> andamiaje original; lo específico de ARS está en esta sección.
+
+---
+
+# ARS Intelligence — Plataforma web
+
+Landing/plataforma de **ARS Intelligence** (seguridad y videovigilancia con IA).
+Incluye demos de **visión por computador que corren 100 % en el navegador** —
+pose/esqueleto, personas, vehículos, rostros, conteo, heurísticas de
+comportamiento (brazos arriba 10 s, pelea) y **OCR de placas** — sin servidor y
+sin costo por inferencia (el video del usuario nunca se sube).
+
+## Clonar y correr (todo automático)
+
+```bash
+git clone <repo-url> ars
+cd ars
+npm install     # ⬅ el postinstall descarga/copia los modelos de IA a /public
+npm run dev     # http://localhost:3000
+```
+
+**No hay paso manual para "bajar modelos".** El script
+[`scripts/fetch-models.mjs`](scripts/fetch-models.mjs) corre en `postinstall` y deja
+todo local en `/public/mediapipe` y `/public/tesseract` (MediaPipe + tesseract.js).
+En runtime la IA carga **100 % local, sin CDNs externos**.
+
+- Requiere **Node 24+** y **internet durante `npm install`** (igual que cualquier install).
+- Si instalaste sin red o con `--ignore-scripts`, corré: `npm run fetch-models`.
+- La **cámara** necesita **HTTPS o `http://localhost`** (contexto seguro) y un
+  navegador real (Chrome/Edge/Safari) — no el navegador embebido de algunos editores.
+- Los modelos (~22 MB) están en `.gitignore` (no se commitean; se generan en install).
+
+## Demos de IA (dónde verlas)
+
+| Ruta | Qué hace |
+|------|----------|
+| `/laboratorio` | Prendé la cámara o subí un video → detección real en vivo (incluye OCR de placas). |
+| `/vision-lab` | Playground técnico, con toggle **IA real (navegador)** / demo. |
+| `/plataforma` | Sitio institucional, **bilingüe ES/EN**. |
+| `/proyectos` | Mapa de operaciones (datos de ejemplo — ver checklist). |
+
+## Pendiente antes de publicar (checklist)
+
+- [ ] Definir `RESEND_API_KEY` en el entorno para que el **formulario de contacto**
+      envíe los leads por email (sin la key, solo quedan en el log del servidor).
+- [ ] Quitar/proteger el link público **"Admin"** en `/proyectos`.
+- [ ] Reemplazar los **datos placeholder de `/proyectos`** (direcciones, nº de
+      cámaras, stats) por datos reales.
+- [ ] Confirmar el **dominio** (`arsintelligence.com`) en la config de SEO
+      (`layout.tsx`, `sitemap.ts`, `robots.ts`).
+- [ ] Conseguir **autorización de uso de marca** de los logos de clientes.
+- [ ] (Opcional) Videos reales para las escenas 2–8 del home (hoy usan visuales generadas).
+
+## Comandos
+
+```bash
+npm run dev          # dev server
+npm run build        # build de producción
+npm run typecheck    # chequeo de tipos
+npm run lint         # ESLint
+npm run check        # lint + typecheck + build
+npm run fetch-models # (re)descargar modelos de IA a /public
+```
+
+---
+
 A reusable template for reverse-engineering any website into a clean, modern Next.js codebase using AI coding agents. 
 
 **Recommended: [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with Opus 4.7 for best results** — but works with a variety of AI coding agents.
