@@ -79,6 +79,10 @@ export class YoloxDetector {
     this.cfg = cfg;
   }
 
+  get modelUrl(): string {
+    return this.cfg.modelUrl;
+  }
+
   async init(): Promise<void> {
     if (this.session || this.status === "loading") return;
     this.status = "loading";

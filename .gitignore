@@ -58,4 +58,5 @@ docs/research/*.txt
 /public/mediapipe/
 /public/tesseract/
 /public/ort/
-/public/models/vigias/*.onnx
+/public/models/vigias/*
+!/public/models/vigias/README.txt

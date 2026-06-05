@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { BrowserVisionEngine } from "@/lib/vision-browser";
 import { BehaviorAnalyzer } from "@/lib/behavior-heuristics";
 import { PlateOcrController, type OcrStatus } from "@/lib/plate-ocr";
-import { YoloxDetector, EPP_CONFIG } from "@/lib/yolox-detector";
+import { YoloxDetector, EPP_CONFIG, WEAPONS_CONFIG } from "@/lib/yolox-detector";
 import type { Prediction } from "@/lib/vision-mock";
 import type { DemoType } from "@/data/ai-capabilities";
 
@@ -115,8 +115,8 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
   const runHeuristics = demoType === "behavior";
   // OCR de placas (tesseract.js) sobre los vehículos detectados.
   const enableOcr = demoType === "lpr";
-  // Detector YOLOX (ONNX vigias): EPP. Reemplaza el path MediaPipe para este demo.
-  const usesYolox = demoType === "ppe";
+  // Detector YOLOX (ONNX vigias): EPP y armas. Reemplaza el path MediaPipe.
+  const usesYolox = demoType === "ppe" || demoType === "weapons";
 
   useEffect(() => {
     if (!active || usesYolox) return; // EPP usa el detector YOLOX (efecto aparte)
@@ -264,7 +264,13 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
     let inflight = false;
     const THROTTLE = 350;
 
-    const det = yoloxRef.current ?? new YoloxDetector(EPP_CONFIG);
+    const cfg = demoType === "weapons" ? WEAPONS_CONFIG : EPP_CONFIG;
+    // Recrear si cambió de modelo (EPP ↔ armas).
+    if (yoloxRef.current && yoloxRef.current.modelUrl !== cfg.modelUrl) {
+      yoloxRef.current.dispose();
+      yoloxRef.current = null;
+    }
+    const det = yoloxRef.current ?? new YoloxDetector(cfg);
     yoloxRef.current = det;
 
     (async () => {
@@ -331,7 +337,7 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
       cancelled = true;
       cancelAnimationFrame(raf);
     };
-  }, [active, usesYolox, videoRef, objectFit]);
+  }, [active, usesYolox, demoType, videoRef, objectFit]);
 
   // Liberar el engine al desmontar.
   useEffect(() => {

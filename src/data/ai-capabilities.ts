@@ -26,7 +26,8 @@ export type DemoType =
   | "object"
   | "fall"
   | "fire"
-  | "crowd";
+  | "crowd"
+  | "weapons";
 
 export type AICapability = {
   id: string;
@@ -77,6 +78,23 @@ export const aiCapabilities: AICapability[] = [
     ],
     metric: { label: "Lectura", value: "99.2%" },
     category: "vehicle",
+  },
+  {
+    id: "weapons",
+    name: "Detección de armas",
+    tagline: "Alerta temprana de pistolas, cuchillos y fusiles en escena",
+    description:
+      "Detecta armas (pistola, cuchillo, fusil) en tiempo real sobre las cámaras y dispara una alerta inmediata con evidencia para la central de monitoreo. Pensado para accesos, perímetros y zonas sensibles donde cada segundo cuenta.",
+    demoType: "weapons",
+    hero: F("08-intrusion-roi"),
+    useCases: [
+      "Alerta temprana en accesos y perímetros",
+      "Zonas sensibles (bancos, retail, educación)",
+      "Escalamiento inmediato a la central",
+      "Evidencia en video del evento",
+    ],
+    metric: { label: "Modelo", value: "YOLOX" },
+    category: "perimeter",
   },
   {
     id: "ppe",
