@@ -28,6 +28,8 @@ const MP_MODELS_DST = join(ROOT, "public/mediapipe/models");
 const TESS_DST = join(ROOT, "public/tesseract");
 const TESS_WORKER_SRC = join(ROOT, "node_modules/tesseract.js/dist/worker.min.js");
 const TESS_CORE_SRC = join(ROOT, "node_modules/tesseract.js-core");
+const ORT_SRC = join(ROOT, "node_modules/onnxruntime-web/dist");
+const ORT_DST = join(ROOT, "public/ort");
 
 const MP_MODELS = [
   {
@@ -124,7 +126,36 @@ async function main() {
   // 4) eng.traineddata (descargado)
   await download(TESS_LANG.url, join(TESS_DST, TESS_LANG.name));
 
-  console.log("[fetch-models] listo. Modelos locales en /public/mediapipe y /public/tesseract.");
+  // 5) onnxruntime-web wasm (copiado del paquete) — para los detectores YOLOX (EPP/armas)
+  if (existsSync(ORT_SRC)) {
+    const { readdir } = await import("node:fs/promises");
+    const files = (await readdir(ORT_SRC)).filter((f) => f.startsWith("ort-wasm"));
+    await mkdir(ORT_DST, { recursive: true });
+    let copied = 0;
+    for (const f of files) {
+      const dst = join(ORT_DST, f);
+      if (!FORCE && existsSync(dst)) continue;
+      await cp(join(ORT_SRC, f), dst);
+      copied++;
+    }
+    console.log(`  ⇒ onnxruntime-web wasm → ${rel(ORT_DST)} (${copied} archivos nuevos / ${files.length})`);
+  } else {
+    console.warn("  ⚠ no se encontró onnxruntime-web/dist (¿npm install?)");
+  }
+
+  // 6) Modelos vigias (EPP/armas): NO se pueden auto-descargar (server privado).
+  //    Solo dejamos la carpeta + aviso de dónde colocarlos.
+  const VIGIAS_DST = join(ROOT, "public/models/vigias");
+  await mkdir(VIGIAS_DST, { recursive: true });
+  const epp = join(VIGIAS_DST, "epp_detector.onnx");
+  if (!existsSync(epp)) {
+    console.warn(
+      "  ⚠ faltan los modelos YOLOX en public/models/vigias/ (epp_detector.onnx, weapon_detector.onnx)."
+    );
+    console.warn("     Son privados (server vigias) → copialos a mano. Ver public/models/vigias/README.txt");
+  }
+
+  console.log("[fetch-models] listo. Modelos locales en /public/mediapipe, /public/tesseract, /public/ort.");
 }
 
 main().catch((e) => {

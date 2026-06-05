@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { BrowserVisionEngine } from "@/lib/vision-browser";
 import { BehaviorAnalyzer } from "@/lib/behavior-heuristics";
 import { PlateOcrController, type OcrStatus } from "@/lib/plate-ocr";
+import { YoloxDetector, EPP_CONFIG } from "@/lib/yolox-detector";
 import type { Prediction } from "@/lib/vision-mock";
 import type { DemoType } from "@/data/ai-capabilities";
 
@@ -94,6 +95,7 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
   const engineRef = useRef<BrowserVisionEngine | null>(null);
   const analyzerRef = useRef<BehaviorAnalyzer | null>(null);
   const plateOcrRef = useRef<PlateOcrController | null>(null);
+  const yoloxRef = useRef<YoloxDetector | null>(null);
   const [status, setStatus] = useState<"loading" | "running" | "error">("loading");
   const [fps, setFps] = useState(0);
   const [backend, setBackend] = useState<"GPU" | "CPU">("GPU");
@@ -113,9 +115,11 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
   const runHeuristics = demoType === "behavior";
   // OCR de placas (tesseract.js) sobre los vehículos detectados.
   const enableOcr = demoType === "lpr";
+  // Detector YOLOX (ONNX vigias): EPP. Reemplaza el path MediaPipe para este demo.
+  const usesYolox = demoType === "ppe";
 
   useEffect(() => {
-    if (!active) return;
+    if (!active || usesYolox) return; // EPP usa el detector YOLOX (efecto aparte)
     let raf = 0;
     let cancelled = false;
     let frames = 0;
@@ -246,7 +250,88 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
       cancelled = true;
       cancelAnimationFrame(raf);
     };
-  }, [active, modelId, videoRef, runHeuristics, enableOcr, objectFit]);
+  }, [active, modelId, videoRef, runHeuristics, enableOcr, objectFit, usesYolox]);
+
+  // ── Detección YOLOX (EPP / armas, modelos ONNX de vigias) ──
+  useEffect(() => {
+    if (!active || !usesYolox) return;
+    let raf = 0;
+    let cancelled = false;
+    let infs = 0;
+    let fpsWindow = performance.now();
+    let lastPreds: Prediction[] = [];
+    let lastRun = 0;
+    let inflight = false;
+    const THROTTLE = 350;
+
+    const det = yoloxRef.current ?? new YoloxDetector(EPP_CONFIG);
+    yoloxRef.current = det;
+
+    (async () => {
+      setStatus("loading");
+      await det.init();
+      if (cancelled) return;
+      setBackend(det.backend);
+      setStatus(det.ready ? "running" : "error");
+      if (!det.ready) return;
+
+      const loop = () => {
+        if (cancelled) return;
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
+        if (video && canvas && video.readyState >= 2 && video.videoWidth > 0) {
+          const rect = canvas.getBoundingClientRect();
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          if (canvas.width !== Math.round(rect.width * dpr)) {
+            canvas.width = Math.round(rect.width * dpr);
+            canvas.height = Math.round(rect.height * dpr);
+          }
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            const now = performance.now();
+            // Inferencia throttled, sin bloquear el dibujo.
+            if (!inflight && now - lastRun >= THROTTLE) {
+              inflight = true;
+              lastRun = now;
+              det
+                .detect(video)
+                .then((r) => {
+                  if (cancelled || !r) return;
+                  lastPreds = r;
+                  infs += 1;
+                  const t = performance.now();
+                  if (t - fpsWindow >= 1000) {
+                    setFps(Math.round((infs * 1000) / (t - fpsWindow)));
+                    infs = 0;
+                    fpsWindow = t;
+                  }
+                })
+                .finally(() => {
+                  inflight = false;
+                });
+            }
+            const map = fitMapping(
+              video.videoWidth,
+              video.videoHeight,
+              rect.width,
+              rect.height,
+              objectFit
+            );
+            draw(ctx, lastPreds, rect.width, rect.height, map);
+            setCount(lastPreds.length);
+          }
+        }
+        raf = requestAnimationFrame(loop);
+      };
+      raf = requestAnimationFrame(loop);
+    })();
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+    };
+  }, [active, usesYolox, videoRef, objectFit]);
 
   // Liberar el engine al desmontar.
   useEffect(() => {
@@ -257,6 +342,8 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
       analyzerRef.current = null;
       void plateOcrRef.current?.dispose();
       plateOcrRef.current = null;
+      yoloxRef.current?.dispose();
+      yoloxRef.current = null;
     };
   }, []);
 
@@ -393,7 +480,14 @@ function draw(
 
     // Tag de ALARMA sobre la etiqueta
     if (isAlarm) {
-      const atext = p.alarm === "fight" ? "⚠ PELEA" : "⚠ ALARMA · BRAZOS 10s";
+      const atext =
+        p.alarm === "fight"
+          ? "⚠ PELEA"
+          : p.alarm === "weapon"
+            ? "⚠ ARMA DETECTADA"
+            : p.alarm === "violation"
+              ? "⚠ SIN EPP"
+              : "⚠ ALARMA · BRAZOS 10s";
       const aw = ctx.measureText(atext).width + 12;
       const ay = ly - 20;
       ctx.fillStyle = RED;

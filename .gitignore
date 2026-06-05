@@ -57,3 +57,5 @@ docs/research/*.txt
 # Modelos de IA auto-hospedados (se bajan en postinstall: scripts/fetch-models.mjs)
 /public/mediapipe/
 /public/tesseract/
+/public/ort/
+/public/models/vigias/*.onnx
