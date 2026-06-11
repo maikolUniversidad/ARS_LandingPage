@@ -1,0 +1,43 @@
+{
+  "classes": [
+    "Hardhat",
+    "Mask",
+    "NO-Hardhat",
+    "NO-Mask",
+    "NO-Safety Vest",
+    "Safety Vest"
+  ],
+  "num_classes": 6,
+  "canon": [
+    {
+      "old_id": 3,
+      "new_id": 0,
+      "name": "Hardhat"
+    },
+    {
+      "old_id": 5,
+      "new_id": 1,
+      "name": "Mask"
+    },
+    {
+      "old_id": 6,
+      "new_id": 2,
+      "name": "NO-Hardhat"
+    },
+    {
+      "old_id": 7,
+      "new_id": 3,
+      "name": "NO-Mask"
+    },
+    {
+      "old_id": 8,
+      "new_id": 4,
+      "name": "NO-Safety Vest"
+    },
+    {
+      "old_id": 12,
+      "new_id": 5,
+      "name": "Safety Vest"
+    }
+  ]
+}

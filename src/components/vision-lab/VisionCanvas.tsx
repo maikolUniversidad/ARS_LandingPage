@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { drawFaceMesh } from "@/lib/face-mesh";
 import type { PredictResponse, Rules } from "@/lib/vision-mock";
 
 /**
@@ -193,6 +194,14 @@ export function VisionCanvas({
           if (p.keypoints && p.keypoints.length > 0) {
             drawSkeleton(ctx, p.keypoints, w, h);
           }
+
+          // Face mesh (478 puntos + contornos + iris) y expresión dominante
+          if (p.faceMesh && p.faceMesh.length > 0) {
+            drawFaceMesh(ctx, p.faceMesh, (x) => x * w, (y) => y * h);
+            if (p.expression) {
+              drawTag(ctx, px + pw / 2, py + ph + 13, `◉ ${p.expression}`, "rgb(34, 211, 238)");
+            }
+          }
         }
       }
 
@@ -255,7 +264,7 @@ function colorForLabel(label: string): string {
   if (label.includes("ALERT") || label.includes("Watchlist") || label.includes("ppe-missing")) return "rgb(239, 68, 68)";
   if (label.includes("fall")) return "rgb(239, 68, 68)";
   if (label.includes("plate")) return "rgb(168, 85, 247)";
-  if (label.includes("face") || label.includes("Empleado")) return "rgb(107, 138, 255)";
+  if (label.includes("face") || label.includes("rostro") || label.includes("Empleado")) return "rgb(107, 138, 255)";
   if (label.includes("car") || label.includes("vehicle") || label.includes("truck") || label.includes("motorcycle") || label.includes("bus")) return "rgb(168, 85, 247)";
   return "rgb(35, 72, 212)";
 }

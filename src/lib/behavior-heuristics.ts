@@ -6,7 +6,7 @@
  *   0 nariz · 5/6 hombros L/R · 7/8 codos · 9/10 muñecas · 11/12 caderas.
  *
  * Detecta dos comportamientos para la demo del laboratorio:
- *   A) BRAZOS LEVANTADOS sostenidos 10 s  → alarma (la caja se pone roja).
+ *   A) BRAZOS LEVANTADOS sostenidos 5 s  → alarma (la caja se pone roja).
  *   B) PUÑO / PELEA: movimiento rápido de muñeca + brazo extendido dirigido
  *      hacia otra persona cercana (≥2 personas) → alarma de pelea.
  *
@@ -19,9 +19,9 @@
  *    swap de trackId (CentroidTracker) y se descarta esa velocidad.
  *  - histéresis + ventana de gracia + latch/cooldown ⇒ sin parpadeo.
  *
- * IMPORTANTE: B es una heurística de DEMOSTRACIÓN, no forense (falsos positivos
- * con saludos efusivos/baile, falsos negativos con golpes cortos). Mostrar el
- * disclaimer en UI.
+ * IMPORTANTE: B (pelea) está DESACTIVADA por defecto (FIGHT_ENABLED = false) por
+ * sus falsos positivos (saludos efusivos/baile). Es heurística de demo, no forense.
+ * A (brazos levantados) queda activa. Para reactivar B, flip FIGHT_ENABLED.
  */
 
 import type { Prediction } from "@/lib/vision-mock";
@@ -34,19 +34,23 @@ const VIS_MIN = 0.3;          // visibilidad mínima (lite suele dar ~1, geometr
 // A) brazos arriba
 const MARGIN_ENTER = 0.05;    // muñeca 5% por encima del hombro para ENTRAR
 const MARGIN_EXIT = 0.01;     // histéresis: sale con margen menor
-const HOLD_MS = 10000;        // 10 s sostenidos
+const HOLD_MS = 5000;         // 5 s sostenidos
 const GRACE_MS = 700;         // tolera oclusión/jitter breve sin resetear
 const ALARM_A_LATCH = 1500;   // mantener alarma visible ≥1.5 s
 
 // B) puño / pelea
+// ⚠️ DESACTIVADA por defecto: detectar pelea con una heurística sobre pose da
+// falsos positivos (gestos rápidos, saludos, baile). Para reactivarla, poné
+// FIGHT_ENABLED = true — los umbrales de abajo ya están MUY endurecidos.
+const FIGHT_ENABLED = false;
 const EMA_VEL = 0.6;          // suavizado (único) de la velocidad
-const VEL_PUNCH = 4.0;        // cuerpos/seg (recalibrado para esta tubería @15-30fps)
-const EXT_MIN = 1.15;         // brazo extendido (suma de segmentos / escala)
-const PROX_MAX = 1.4;         // otra persona a <1.4 cuerpos de la muñeca
-const DOT_MIN = 0.25;         // la muñeca debe ir HACIA el otro (coseno)
+const VEL_PUNCH = 6.5;        // cuerpos/seg — golpe MUY rápido (antes 4.0)
+const EXT_MIN = 1.35;         // brazo casi totalmente extendido (antes 1.15)
+const PROX_MAX = 1.0;         // el otro a <1.0 cuerpo de la muñeca (antes 1.4)
+const DOT_MIN = 0.6;          // muñeca claramente HACIA el otro, ≲53° (antes 0.25)
 const PUNCH_HIT = 1.0;        // suma por frame que cumple las 3 condiciones
-const PUNCH_DECAY = 2.5;      // resta por segundo sin golpe
-const TRIGGER_SCORE = 1.6;    // disparo (~2 frames buenos; alcanzable a 15 fps)
+const PUNCH_DECAY = 3.0;      // decae más rápido sin golpe (antes 2.5)
+const TRIGGER_SCORE = 3.0;    // disparo: ~3 frames buenos SEGUIDOS (antes 1.6)
 const PUNCH_CLAMP = 5.0;
 const COOLDOWN_MS = 4000;     // banner de pelea estable ≥4 s
 
@@ -187,9 +191,9 @@ export class BehaviorAnalyzer {
         s.raisedSince != null ? Math.min(1, (tNow - s.raisedSince) / HOLD_MS) : armsAlarm ? 1 : 0;
       if (progress > 0) armsProgress.set(id, progress);
 
-      // ─── B) PUÑO / PELEA ───
+      // ─── B) PUÑO / PELEA ─── (desactivada por defecto: FIGHT_ENABLED)
       let fightHit = false;
-      if (scale != null && !teleported) {
+      if (FIGHT_ENABLED && scale != null && !teleported) {
         for (const side of ["L", "R"] as const) {
           const wIdx = side === "L" ? LWR : RWR;
           const w = kp[wIdx];
@@ -230,7 +234,7 @@ export class BehaviorAnalyzer {
       if (fightHit) s.punchScore = Math.min(PUNCH_CLAMP, s.punchScore + PUNCH_HIT);
       else s.punchScore = Math.max(0, s.punchScore - PUNCH_DECAY * dt);
       if (s.punchScore >= TRIGGER_SCORE) s.alarmBUntil = tNow + COOLDOWN_MS;
-      const fightAlarm = tNow < s.alarmBUntil;
+      const fightAlarm = FIGHT_ENABLED && tNow < s.alarmBUntil;
 
       // Prioridad visual: pelea > brazos.
       if (fightAlarm) alarms.set(id, "fight");
@@ -264,7 +268,7 @@ function armsRaised(kp: KP[], margin: number): boolean {
   const ls = kp[LSH], rs = kp[RSH], lw = kp[LWR], rw = kp[RWR];
   if (!ls || !rs || !lw || !rw) return false;
   // visibilidad de lite es poco fiable; si está presente y baja, descartamos,
-  // pero no dependemos de ella (geometría + 10 s es el filtro real).
+  // pero no dependemos de ella (geometría + 5 s es el filtro real).
   if (vis(lw) > 0 && vis(lw) < VIS_MIN) return false;
   if (vis(rw) > 0 && vis(rw) < VIS_MIN) return false;
   const leftUp = lw[1] < ls[1] - margin;

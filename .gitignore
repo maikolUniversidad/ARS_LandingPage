@@ -53,10 +53,16 @@ docs/research/*.txt
 
 # Claude Code internal worktrees
 .claude/worktrees/
+.claude/scheduled_tasks.lock
+
+# Carpeta de staging de modelos entrenados (no va al deploy; pesados).
+# Los modelos en uso se copian a /public/models/<demo>/.
+/Export/
 
 # Modelos de IA auto-hospedados (se bajan en postinstall: scripts/fetch-models.mjs)
 /public/mediapipe/
 /public/tesseract/
 /public/ort/
+/public/models/plate/
 /public/models/vigias/*
 !/public/models/vigias/README.txt

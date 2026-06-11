@@ -1,0 +1,17 @@
+{
+  "classes": [
+    "fire",
+    "smoke"
+  ],
+  "num_classes": 2,
+  "canon": [
+    {
+      "new_id": 0,
+      "name": "Fire"
+    },
+    {
+      "new_id": 1,
+      "name": "Smoke"
+    }
+  ]
+}

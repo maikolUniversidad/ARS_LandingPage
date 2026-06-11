@@ -113,22 +113,22 @@ export const visionModels: VisionModel[] = [
     events: ["plate_read", "ocr_text"],
     sensitive: true,
     warning: "El OCR de placas requiere autorización del responsable de datos.",
-    provider: "EasyOCR / PaddleOCR (local)",
+    provider: "YOLOv9 + fast-plate-ocr (ONNX, en navegador) · fallback tesseract",
     category: "ocr",
   },
   {
     id: "face_detection",
-    name: "Detección facial",
-    shortDescription: "Localiza rostros sin identificarlos.",
+    name: "Malla facial · 478 puntos",
+    shortDescription: "Malla de 478 puntos + análisis de acciones faciales.",
     whatItDemonstrates:
-      "Encuentra rostros en escena. Sólo localización, no identificación. Útil para conteo y blur en publicaciones.",
+      "Reconstruye el rostro con 478 puntos de malla (incluido iris) y analiza 52 acciones faciales (blendshapes): sonrisa, sorpresa, ojos cerrados, mandíbula abierta y más. Sin identificar a la persona — sólo geometría y expresión. Corre 100% local en el navegador.",
     badges: ["free", "local"],
     sources: ["image", "video", "webcam"],
     events: ["person_detected"],
     sensitive: true,
     warning:
-      "El uso de detección facial debe cumplir con las leyes de protección de datos del país (ej. Habeas Data en Colombia, Ley 29733 en Perú).",
-    provider: "InsightFace (local) · MediaPipe Face",
+      "El uso de análisis facial debe cumplir con las leyes de protección de datos del país (ej. Habeas Data en Colombia, Ley 29733 en Perú).",
+    provider: "MediaPipe Face Landmarker (local · navegador)",
     category: "people",
   },
   {

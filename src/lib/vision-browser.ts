@@ -11,7 +11,7 @@
  *   - people_detection / roi_intrusion /
  *     line_crossing / loitering             → ObjectDetector (EfficientDet-Lite), clase persona
  *   - vehicle_detection                     → ObjectDetector, clases vehículo
- *   - face_detection                        → FaceDetector (BlazeFace short-range)
+ *   - face_detection                        → FaceLandmarker (478 puntos + 52 blendshapes)
  *
  * Los modelos pesados (EPP custom, OCR de placas, reconocimiento facial, VLM,
  * objeto abandonado) NO corren bien en el navegador → caen al simulador y se
@@ -34,7 +34,7 @@ import {
 import type {
   PoseLandmarker as PoseLandmarkerT,
   ObjectDetector as ObjectDetectorT,
-  FaceDetector as FaceDetectorT,
+  FaceLandmarker as FaceLandmarkerT,
   NormalizedLandmark,
 } from "@mediapipe/tasks-vision";
 
@@ -45,7 +45,8 @@ const MODEL_BASE = "/mediapipe/models";
 
 const POSE_MODEL = `${MODEL_BASE}/pose_landmarker_lite.task`;
 const OBJ_MODEL = `${MODEL_BASE}/efficientdet_lite0.tflite`;
-const FACE_MODEL = `${MODEL_BASE}/blaze_face_short_range.tflite`;
+// Malla facial 478 puntos + 52 blendshapes (acciones faciales).
+const FACE_LANDMARKER_MODEL = `${MODEL_BASE}/face_landmarker.task`;
 
 /** Modelos que SÍ pueden correr 100% en el navegador. El resto cae al simulador. */
 export const BROWSER_MODELS = new Set<string>([
@@ -145,10 +146,32 @@ function mediaReady(el: AnyMedia): boolean {
   return el.complete && el.naturalWidth > 0;
 }
 
+// MediaPipe/TFLite escriben logs informativos a stderr (vía el wasm) que el
+// modo dev de Next intercepta y muestra como "Console Error", alarmando aunque
+// NO son fallos (p.ej. "Created TensorFlow Lite XNNPACK delegate for CPU").
+// Filtramos SOLO ese ruido conocido; cualquier otro error pasa sin tocar.
+const MP_NOISE =
+  /XNNPACK|TensorFlow Lite|Feedback manager|landmark_projection|InferenceCalculator|gl_context|GL version|OpenGL|single signature|inference feedback/i;
+
+let mpNoiseSilenced = false;
+function silenceMediaPipeNoise() {
+  if (mpNoiseSilenced || typeof console === "undefined") return;
+  mpNoiseSilenced = true;
+  const methods = ["error", "warn", "info", "log"] as const;
+  for (const m of methods) {
+    const original = console[m].bind(console);
+    console[m] = (...args: unknown[]) => {
+      const first = args[0];
+      if (typeof first === "string" && MP_NOISE.test(first)) return; // ruido benigno
+      original(...args);
+    };
+  }
+}
+
 export class BrowserVisionEngine {
   private pose: PoseLandmarkerT | null = null;
   private object: ObjectDetectorT | null = null;
-  private face: FaceDetectorT | null = null;
+  private face: FaceLandmarkerT | null = null;
   private kind: TaskKind | null = null;
   private runningMode: "VIDEO" | "IMAGE" = "VIDEO";
   private tracker = new CentroidTracker();
@@ -157,10 +180,11 @@ export class BrowserVisionEngine {
 
   /** Crea (o reutiliza) la task de MediaPipe que necesita este modelo. */
   async ensure(modelId: string, isVideo: boolean): Promise<void> {
+    silenceMediaPipeNoise();
     const kind = taskForModel(modelId);
     const mode = isVideo ? "VIDEO" : "IMAGE";
     const mp = await import("@mediapipe/tasks-vision");
-    const { FilesetResolver, PoseLandmarker, ObjectDetector, FaceDetector } = mp;
+    const { FilesetResolver, PoseLandmarker, ObjectDetector, FaceLandmarker } = mp;
     const fileset = await FilesetResolver.forVisionTasks(WASM_BASE);
 
     // Si cambió el tipo de task, liberamos las anteriores.
@@ -195,10 +219,11 @@ export class BrowserVisionEngine {
         }
       } else {
         if (!this.face) {
-          this.face = await FaceDetector.createFromOptions(fileset, {
-            baseOptions: { modelAssetPath: FACE_MODEL, delegate },
+          this.face = await FaceLandmarker.createFromOptions(fileset, {
+            baseOptions: { modelAssetPath: FACE_LANDMARKER_MODEL, delegate },
             runningMode: mode,
-            minDetectionConfidence: 0.4,
+            numFaces: 3,
+            outputFaceBlendshapes: true, // 52 acciones faciales por rostro
           });
         } else if (this.runningMode !== mode) {
           await this.face.setOptions({ runningMode: mode });
@@ -242,7 +267,10 @@ export class BrowserVisionEngine {
       const res = isVideo
         ? this.face.detectForVideo(media, tsMs)
         : this.face.detect(media);
-      return this.facePredictions(res.detections ?? [], w, h);
+      return this.facePredictions(
+        res.faceLandmarks ?? [],
+        res.faceBlendshapes ?? []
+      );
     }
 
     return [];
@@ -350,38 +378,56 @@ export class BrowserVisionEngine {
     return out;
   }
 
-  // ── FaceDetector → Prediction ──
+  // ── FaceLandmarker → Prediction (malla 478 pts + acciones faciales) ──
   private facePredictions(
-    detections: Array<{
-      categories?: Array<{ score: number }>;
-      boundingBox?: { originX: number; originY: number; width: number; height: number };
-    }>,
-    w: number,
-    h: number
+    faceLandmarks: NormalizedLandmark[][],
+    faceBlendshapes: Array<{
+      categories: Array<{ categoryName?: string; displayName?: string; score: number }>;
+    }>
   ): Prediction[] {
-    const out: Prediction[] = [];
-    const raw: Array<{ conf: number; bbox: Prediction["bbox"]; cx: number; cy: number }> = [];
-    for (const d of detections) {
-      const bb = d.boundingBox;
-      if (!bb) continue;
-      const bbox = {
-        x: bb.originX / w,
-        y: bb.originY / h,
-        width: bb.width / w,
-        height: bb.height / h,
+    // Centros para tracking estable entre frames.
+    const centers = faceLandmarks.map((lm) => {
+      const xs = lm.map((p) => p.x);
+      const ys = lm.map((p) => p.y);
+      return {
+        cx: (Math.min(...xs) + Math.max(...xs)) / 2,
+        cy: (Math.min(...ys) + Math.max(...ys)) / 2,
       };
-      raw.push({
-        conf: d.categories?.[0]?.score ?? 0.9,
-        bbox,
-        cx: bbox.x + bbox.width / 2,
-        cy: bbox.y + bbox.height / 2,
-      });
-    }
-    const ids = this.tracker.assign(raw.map((r) => ({ cx: r.cx, cy: r.cy })));
-    raw.forEach((r, i) => {
-      out.push({ label: "face", confidence: r.conf, bbox: r.bbox, trackId: ids[i] });
     });
-    return out;
+    const ids = this.tracker.assign(centers);
+
+    return faceLandmarks.map((lm, i) => {
+      const xs = lm.map((p) => p.x);
+      const ys = lm.map((p) => p.y);
+      const minX = Math.min(...xs);
+      const minY = Math.min(...ys);
+      const maxX = Math.max(...xs);
+      const maxY = Math.max(...ys);
+
+      // Malla completa como [x,y] normalizados (lo que dibuja el canvas).
+      const faceMesh = lm.map((p) => [p.x, p.y] as [number, number]);
+
+      // Acciones faciales (blendshapes) → agregadas, traducidas y ordenadas.
+      const cats = faceBlendshapes[i]?.categories ?? [];
+      const scoreByName = new Map<string, number>();
+      for (const c of cats) {
+        if (c.categoryName) scoreByName.set(c.categoryName, c.score);
+      }
+      const blendshapes = aggregateBlendshapes(scoreByName);
+      const emotions = scoreEmotions(scoreByName);
+      const expression = summarizeExpression(scoreByName, emotions);
+
+      return {
+        label: "rostro",
+        confidence: 0.97,
+        bbox: { x: minX, y: minY, width: maxX - minX, height: maxY - minY },
+        trackId: ids[i],
+        faceMesh,
+        blendshapes,
+        emotions,
+        expression,
+      };
+    });
   }
 
   dispose() {
@@ -415,6 +461,96 @@ function avgVisibility(lm: NormalizedLandmark[]): number {
   const vis = lm.map((p) => p.visibility ?? 0.9);
   const v = vis.reduce((s, x) => s + x, 0) / vis.length;
   return Math.max(0.6, Math.min(0.99, v));
+}
+
+// ─────────────────────────── Acciones faciales (blendshapes) ───────────────────────────
+
+/**
+ * Reglas de agregación: combinan los 52 blendshapes crudos de MediaPipe en
+ * acciones faciales legibles en español. Cada acción promedia las variantes
+ * izquierda/derecha para una lectura más limpia.
+ */
+const BLENDSHAPE_GROUPS: Array<{ label: string; keys: string[] }> = [
+  { label: "Sonrisa", keys: ["mouthSmileLeft", "mouthSmileRight"] },
+  { label: "Mandíbula abierta", keys: ["jawOpen"] },
+  { label: "Ojos cerrados", keys: ["eyeBlinkLeft", "eyeBlinkRight"] },
+  { label: "Ojos muy abiertos", keys: ["eyeWideLeft", "eyeWideRight"] },
+  { label: "Ojos entrecerrados", keys: ["eyeSquintLeft", "eyeSquintRight"] },
+  { label: "Cejas arriba (sorpresa)", keys: ["browInnerUp", "browOuterUpLeft", "browOuterUpRight"] },
+  { label: "Ceño fruncido", keys: ["browDownLeft", "browDownRight"] },
+  { label: "Boca hacia abajo", keys: ["mouthFrownLeft", "mouthFrownRight"] },
+  { label: "Labios fruncidos", keys: ["mouthPucker"] },
+  { label: "Boca en O", keys: ["mouthFunnel"] },
+  { label: "Mejillas infladas", keys: ["cheekPuff"] },
+  { label: "Nariz arrugada", keys: ["noseSneerLeft", "noseSneerRight"] },
+  { label: "Boca a un lado", keys: ["mouthLeft", "mouthRight"] },
+  { label: "Mandíbula adelantada", keys: ["jawForward"] },
+];
+
+function groupScore(map: Map<string, number>, keys: string[]): number {
+  let sum = 0;
+  for (const k of keys) sum += map.get(k) ?? 0;
+  return sum / keys.length;
+}
+
+/** Devuelve las acciones faciales agregadas con score > 0, ordenadas desc. */
+function aggregateBlendshapes(
+  map: Map<string, number>
+): Array<{ name: string; score: number }> {
+  return BLENDSHAPE_GROUPS.map((g) => ({ name: g.label, score: groupScore(map, g.keys) }))
+    .filter((b) => b.score > 0.04)
+    .sort((a, b) => b.score - a.score);
+}
+
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+
+/**
+ * Estima emociones básicas a partir de los 52 blendshapes de FaceLandmarker.
+ * No es un clasificador entrenado de emociones — son heurísticas sobre la
+ * "firma" facial de cada emoción (FACS aproximado). Devuelve scores 0..1.
+ */
+function scoreEmotions(map: Map<string, number>): Array<{ name: string; score: number }> {
+  const smile = groupScore(map, ["mouthSmileLeft", "mouthSmileRight"]);
+  const cheek = groupScore(map, ["cheekSquintLeft", "cheekSquintRight"]);
+  const frown = groupScore(map, ["mouthFrownLeft", "mouthFrownRight"]);
+  const browInner = map.get("browInnerUp") ?? 0;
+  const browOuter = groupScore(map, ["browOuterUpLeft", "browOuterUpRight"]);
+  const browUp = (browInner + browOuter) / 2;
+  const browDown = groupScore(map, ["browDownLeft", "browDownRight"]);
+  const eyeWide = groupScore(map, ["eyeWideLeft", "eyeWideRight"]);
+  const eyeSquint = groupScore(map, ["eyeSquintLeft", "eyeSquintRight"]);
+  const jaw = map.get("jawOpen") ?? 0;
+  const noseSneer = groupScore(map, ["noseSneerLeft", "noseSneerRight"]);
+  const mouthUpper = groupScore(map, ["mouthUpperUpLeft", "mouthUpperUpRight"]);
+  const mouthPress = groupScore(map, ["mouthPressLeft", "mouthPressRight"]);
+
+  const emotions = [
+    { name: "Feliz", score: clamp01(smile * 1.05 + cheek * 0.3 - frown * 0.6) },
+    { name: "Triste", score: clamp01(frown * 0.85 + browInner * 0.6 - smile * 0.8) },
+    { name: "Enojado", score: clamp01(browDown * 0.95 + eyeSquint * 0.3 + mouthPress * 0.3 - browInner * 0.5 - smile * 0.6) },
+    { name: "Sorprendido", score: clamp01(eyeWide * 0.45 + browUp * 0.5 + jaw * 0.35 - smile * 0.4) },
+    { name: "Disgustado", score: clamp01(noseSneer * 0.7 + mouthUpper * 0.5 - smile * 0.4) },
+  ];
+
+  return emotions.sort((a, b) => b.score - a.score);
+}
+
+/** Expresión/emoción dominante. Cae a estados (hablando, ojos cerrados, neutral). */
+function summarizeExpression(
+  map: Map<string, number>,
+  emotions: Array<{ name: string; score: number }>
+): string {
+  const top = emotions[0];
+  if (top && top.score >= 0.35) {
+    // "Feliz" + boca muy abierta = "Riendo".
+    if (top.name === "Feliz" && (map.get("jawOpen") ?? 0) > 0.4) return "Riendo";
+    return top.name;
+  }
+  const jaw = map.get("jawOpen") ?? 0;
+  const blink = groupScore(map, ["eyeBlinkLeft", "eyeBlinkRight"]);
+  if (jaw > 0.4) return "Hablando";
+  if (blink > 0.6) return "Ojos cerrados";
+  return "Neutral";
 }
 
 // ─────────────────────────── React hook ───────────────────────────

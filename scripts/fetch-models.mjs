@@ -30,6 +30,21 @@ const TESS_WORKER_SRC = join(ROOT, "node_modules/tesseract.js/dist/worker.min.js
 const TESS_CORE_SRC = join(ROOT, "node_modules/tesseract.js-core");
 const ORT_SRC = join(ROOT, "node_modules/onnxruntime-web/dist");
 const ORT_DST = join(ROOT, "public/ort");
+const PLATE_DST = join(ROOT, "public/models/plate");
+
+// Modelos de LPR (placas), license-clean y públicos en GitHub releases:
+//  - detector de placa: open-image-models YOLOv9-t (MIT)
+//  - OCR de placa: fast-plate-ocr CCT global (permisivo)
+const PLATE_MODELS = [
+  {
+    name: "yolo-v9-t-512-plate.onnx",
+    url: "https://github.com/ankandrew/open-image-models/releases/download/assets/yolo-v9-t-512-license-plates-end2end.onnx",
+  },
+  {
+    name: "cct_s_v2_global.onnx",
+    url: "https://github.com/ankandrew/cnn-ocr-lp/releases/download/arg-plates/cct_s_v2_global.onnx",
+  },
+];
 
 const MP_MODELS = [
   {
@@ -43,6 +58,11 @@ const MP_MODELS = [
   {
     name: "blaze_face_short_range.tflite",
     url: "https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite",
+  },
+  {
+    // Malla facial 478 puntos + 52 blendshapes (acciones faciales).
+    name: "face_landmarker.task",
+    url: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
   },
 ];
 
@@ -143,7 +163,12 @@ async function main() {
     console.warn("  ⚠ no se encontró onnxruntime-web/dist (¿npm install?)");
   }
 
-  // 6) Modelos vigias (EPP/armas): NO se pueden auto-descargar (server privado).
+  // 6) Modelos de LPR (placas): públicos en GitHub releases → se descargan.
+  for (const m of PLATE_MODELS) {
+    await download(m.url, join(PLATE_DST, m.name));
+  }
+
+  // 7) Modelos vigias (EPP/armas): NO se pueden auto-descargar (server privado).
   //    Solo dejamos la carpeta + aviso de dónde colocarlos.
   const VIGIAS_DST = join(ROOT, "public/models/vigias");
   await mkdir(VIGIAS_DST, { recursive: true });
@@ -155,7 +180,9 @@ async function main() {
     console.warn("     Son privados (server vigias) → copialos a mano. Ver public/models/vigias/README.txt");
   }
 
-  console.log("[fetch-models] listo. Modelos locales en /public/mediapipe, /public/tesseract, /public/ort.");
+  console.log(
+    "[fetch-models] listo. Modelos locales en /public/mediapipe, /public/tesseract, /public/ort, /public/models/plate."
+  );
 }
 
 main().catch((e) => {

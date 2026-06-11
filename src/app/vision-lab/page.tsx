@@ -7,7 +7,9 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileMenu } from "@/components/MobileMenu";
 import { VisionCanvas } from "@/components/vision-lab/VisionCanvas";
 import {
+  CountingPanel,
   EventsPanel,
+  FaceAnalysisPanel,
   JSONViewer,
   ModelInfoCard,
   ModelSelector,
@@ -23,6 +25,14 @@ import {
   type Rules,
 } from "@/lib/vision-mock";
 import { browserInferenceSupported, useBrowserVision } from "@/lib/vision-browser";
+import {
+  accumulate,
+  countNoun,
+  countingCapable,
+  createAccumulator,
+  emptyStats,
+  type DetectionStats,
+} from "@/lib/detection-stats";
 
 /**
  * /vision-lab — Playground técnico para modelos de visión.
@@ -46,6 +56,11 @@ export default function VisionLabPage() {
 
   const [result, setResult] = useState<PredictResponse | null>(null);
   const [eventsHistory, setEventsHistory] = useState<Event[]>([]);
+
+  // Conteo acumulado: cuántas personas/objetos DIFERENTES se vieron en esta sesión.
+  // El acumulador (mutable) vive en un ref; `stats` es el snapshot para la UI.
+  const statsAccRef = useRef(createAccumulator());
+  const [stats, setStats] = useState<DetectionStats>(emptyStats);
 
   // Motor: "real" = inferencia en el navegador (MediaPipe) · "demo" = simulado.
   const [engineMode, setEngineMode] = useState<"real" | "demo">("real");
@@ -71,12 +86,23 @@ export default function VisionLabPage() {
   const browserSupported = browserInferenceSupported(selected.id);
   const useBrowser = engineMode === "real" && browserSupported && hasSource;
 
-  // Handler único: publica el resultado y acumula eventos (compartido mock/real).
+  // Sustantivo para el conteo según el modelo (personas / vehículos / rostros…).
+  const noun = countNoun(selected);
+  const showCounting = countingCapable(selected.id);
+
+  // Handler único: publica el resultado, acumula eventos y conteo (mock/real).
   function pushResult(r: PredictResponse) {
     setResult(r);
     if (r.events.length > 0) {
       setEventsHistory((prev) => [...r.events, ...prev].slice(0, 50));
     }
+    setStats(accumulate(statsAccRef.current, r));
+  }
+
+  // Reinicia el conteo (botón manual y cambio de fuente/modelo).
+  function resetStats() {
+    statsAccRef.current = createAccumulator();
+    setStats(emptyStats);
   }
 
   // Motor real en navegador (MediaPipe). Inactivo si useBrowser es false.
@@ -97,6 +123,13 @@ export default function VisionLabPage() {
       setSource(selected.sources[0]);
     }
   }, [selected, source]);
+
+  // Reiniciar el conteo acumulado al cambiar de modelo o de fuente (nuevo video,
+  // nueva imagen, on/off de cámara) — cada sesión cuenta desde cero.
+  useEffect(() => {
+    statsAccRef.current = createAccumulator();
+    setStats(emptyStats);
+  }, [selectedId, source, videoUrl, imgUrl, webcamOn]);
 
   // Webcam start/stop
   useEffect(() => {
@@ -413,8 +446,18 @@ export default function VisionLabPage() {
                   </div>
                 )}
               </div>
-              <div className="border border-border/40 bg-deep/70 px-3 py-1.5 backdrop-blur">
-                {result?.predictions.length ?? 0} pred · {result?.events.length ?? 0} ev
+              <div className="flex items-center gap-2">
+                {showCounting && (
+                  <div
+                    className="border border-accent/50 bg-deep/70 px-3 py-1.5 text-accent backdrop-blur"
+                    title={`${stats.uniqueTotal} ${noun.plural} distintas a lo largo de la sesión · pico simultáneo ${stats.peak}`}
+                  >
+                    Σ {stats.uniqueTotal} {noun.plural} · pico {stats.peak}
+                  </div>
+                )}
+                <div className="border border-border/40 bg-deep/70 px-3 py-1.5 backdrop-blur">
+                  {result?.predictions.length ?? 0} pred · {result?.events.length ?? 0} ev
+                </div>
               </div>
             </div>
 
@@ -482,8 +525,17 @@ export default function VisionLabPage() {
           <JSONViewer data={result} />
         </section>
 
-        {/* RIGHT — Rules + Events */}
+        {/* RIGHT — Counting + Rules + Events */}
         <aside className="space-y-3">
+          {showCounting && (
+            <CountingPanel
+              stats={stats}
+              model={selected}
+              isLive={useBrowser}
+              onReset={resetStats}
+            />
+          )}
+
           <div className="border border-border/50 bg-background/40 p-4 backdrop-blur">
             <h2 className="mb-3 font-heading text-sm font-bold uppercase tracking-tight">
               Reglas
@@ -503,6 +555,15 @@ export default function VisionLabPage() {
               onClearLine={() => setRules({ ...rules, line: undefined })}
             />
           </div>
+
+          {selected.id === "face_detection" && (
+            <div className="border border-[rgb(34,211,238)]/40 bg-background/40 p-4 backdrop-blur">
+              <h2 className="mb-3 font-heading text-sm font-bold uppercase tracking-tight">
+                Análisis facial
+              </h2>
+              <FaceAnalysisPanel result={result} />
+            </div>
+          )}
 
           <div className="border border-border/50 bg-background/40 p-4 backdrop-blur">
             <h2 className="mb-3 font-heading text-sm font-bold uppercase tracking-tight">

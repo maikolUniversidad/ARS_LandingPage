@@ -14,12 +14,12 @@
 
 import type { Prediction } from "@/lib/vision-mock";
 import type { Worker } from "tesseract.js";
+import { consensus, normalizePlate } from "@/lib/plate-postprocess";
 
 const THROTTLE_MS = 700; // más rápido → junta votos antes
 const PRUNE_MS = 6000;
 const MIN_READS = 3; // lecturas válidas para confirmar
 const KEEP_READS = 14; // historial por track para el voto
-const PLATE_LEN = 6;
 
 type Entry = { reads: string[]; ts: number };
 type Raw = { raw: string; ts: number };
@@ -170,27 +170,6 @@ export class PlateOcrController {
   }
 }
 
-// ─────────────── Voto por carácter ───────────────
-
-/** Consenso por posición sobre lecturas válidas (6 chars). Devuelve texto + % de acuerdo. */
-function consensus(reads: string[]): { text: string; confidence: number } | null {
-  const valid = reads.filter((r) => r.length === PLATE_LEN);
-  if (!valid.length) return null;
-  let text = "";
-  let agree = 0;
-  for (let i = 0; i < PLATE_LEN; i++) {
-    const tally: Record<string, number> = {};
-    for (const r of valid) tally[r[i]] = (tally[r[i]] ?? 0) + 1;
-    let best = "";
-    let bestC = 0;
-    for (const ch in tally) if (tally[ch] > bestC) [best, bestC] = [ch, tally[ch]];
-    text += best;
-    agree += bestC;
-  }
-  const confidence = Math.round((agree / (valid.length * PLATE_LEN)) * 100);
-  return { text, confidence };
-}
-
 // ─────────────── Preproceso del recorte ───────────────
 
 /** Recorta una región normalizada [0..1] del video, escala y binariza (Otsu). */
@@ -278,26 +257,4 @@ function cropAndEnhance(
   }
   ctx.putImageData(img, 0, 0);
   return canvas;
-}
-
-// ─────────────── Validación de patrón ───────────────
-
-const TO_LETTER: Record<string, string> = { "0": "O", "1": "I", "5": "S", "8": "B", "2": "Z", "6": "G" };
-const TO_DIGIT: Record<string, string> = {
-  O: "0", Q: "0", D: "0", I: "1", L: "1", S: "5", B: "8", Z: "2", G: "6", A: "4",
-};
-const L = (c: string) => TO_LETTER[c] ?? c;
-const N = (c: string) => TO_DIGIT[c] ?? c;
-
-/** Encaja el texto OCR en un patrón de placa de Colombia (carro LLL DDD / moto LLL DD L). */
-function normalizePlate(cleaned: string): string | null {
-  const c = cleaned.toUpperCase().replace(/[^A-Z0-9]/g, "");
-  for (let i = 0; i + 6 <= c.length; i++) {
-    const w = c.slice(i, i + 6);
-    const car = L(w[0]) + L(w[1]) + L(w[2]) + N(w[3]) + N(w[4]) + N(w[5]);
-    if (/^[A-Z]{3}[0-9]{3}$/.test(car)) return car;
-    const moto = L(w[0]) + L(w[1]) + L(w[2]) + N(w[3]) + N(w[4]) + L(w[5]);
-    if (/^[A-Z]{3}[0-9]{2}[A-Z]$/.test(moto)) return moto;
-  }
-  return null;
 }

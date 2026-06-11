@@ -143,27 +143,40 @@ en [LiveAIOverlay.tsx](../../src/components/LiveAIOverlay.tsx), tipo `Prediction
 
 ---
 
-## 7. Estado — ✅ IMPLEMENTADO (versión license-clean)
+## 7. Estado — ✅ IMPLEMENTADO (stack dedicado, license-clean) — jun-2026 (v2)
 
-Implementado con un stack **Apache-2.0** para evitar el AGPL del detector YOLO:
+El AGPL del detector quedó resuelto: hoy existe un detector de placa **MIT**. Se
+implementó el **pipeline ANPR completo de 3 etapas, 100% en navegador**, con
+fallback automático a tesseract. La pieza que faltaba (§1.1: localizar la placa)
+ya está — antes el OCR recibía "medio auto" y leía mal; ahora recibe el recorte
+ajustado de la placa.
 
-- **OCR:** [`tesseract.js`](../../src/lib/plate-ocr.ts) **7.0.0 (Apache-2.0)** — corre 100% en
-  el navegador en su propio worker; descarga sus modelos del CDN la primera vez (cacheados).
-- **Sin detector de placa dedicado** (así se evita el AGPL): se usa el bbox del **auto** que
-  ya detecta MediaPipe, se recorta la región inferior, se preprocesa (gris + contraste +
-  umbral) y se pasa a tesseract con whitelist `A-Z0-9` + modo línea única.
-- **Validación:** solo se muestra si encaja en patrón **Colombia** (carro `LLL DDD` / moto
-  `LLL DD L`), con corrección de confusiones (O↔0, I↔1…) y **voto temporal** por `trackId`
-  (≥2 lecturas coincidentes). Si no logra leer, **no muestra nada** (no inventa).
-- **Liviano:** máx. 1 OCR cada 1.5 s por vehículo, una sola inferencia en vuelo, en worker.
-- **Dónde:** demo `lpr` ("Reconocimiento de placas") en [LiveAIOverlay](../../src/components/LiveAIOverlay.tsx),
-  activo tanto en **cámara** como en **video subido** ([VideoUpload](../../src/components/VideoUpload.tsx)).
+- **Etapa 1 — auto:** MediaPipe `ObjectDetector` (ya existía), para las cajas de vehículo.
+- **Etapa 2 — detección de placa:** [`PlateDetector`](../../src/lib/plate-detector.ts) —
+  `open-image-models` **YOLOv9-t 512 end2end (MIT)** vía `onnxruntime-web` (WebGPU→WASM).
+  Auto-hospedado en `public/models/plate/` (7.4 MB). Localiza la placa y la recorta a
+  resolución plena.
+- **Etapa 3 — OCR:** [`FastPlateOcr`](../../src/lib/fast-plate-ocr.ts) — `fast-plate-ocr`
+  **CCT `cct-s-v2-global`** (+65 países Latín, ONNX, 5 MB). Input **uint8 NHWC RGB 64×128**
+  (normalización dentro del grafo), salida `[10,37]` **ya softmax** → argmax por slot.
+- **Orquestación:** [`PlateLprController`](../../src/lib/plate-lpr.ts) — throttled (~0.45 s),
+  una inferencia en vuelo, asocia cada placa a su vehículo (`trackId`), normaliza a patrón
+  **Colombia** (carro `LLL DDD` / moto `LLL DD L`) con corrección de confusiones, y **vota**
+  por carácter (≥2 lecturas). Si los ONNX no cargan o una op no corre en ORT-web (hay
+  **self-test** de inferencia al iniciar), cae al motor **tesseract** de
+  [`plate-ocr.ts`](../../src/lib/plate-ocr.ts) — misma API, el overlay no cambia.
+- **Peso incremental:** ~12 MB one-time, cacheado (auto-descarga en `postinstall`,
+  [fetch-models.mjs](../../scripts/fetch-models.mjs)). Sin npm nuevos (reusa el
+  `onnxruntime-web` del detector YOLOX).
+- **Validado end-to-end** (onnxruntime, imágenes reales del repo): el detector localiza la
+  placa y el OCR la lee con confianza ~1.0 en recortes nítidos. Decodificación, layout
+  (NHWC uint8) y alfabeto confirmados contra el `.onnx`.
 
-**Expectativa realista (lo de §6 sigue valiendo):** funciona con la placa **cercana, de
-frente y nítida**; con autos lejanos/borrosos/oblicuos puede no leer (mostrará nada antes que
-inventar). tesseract es el camino license-clean de **menor riesgo**, no el de máxima precisión.
-Si se necesita más calidad, el upgrade es PP-OCR/RapidOCR (también Apache-2.0) vía
-onnxruntime-web — documentado arriba como Plan B.
+**Expectativa realista (lo de §6 sigue valiendo):** mucho mejor que el tesseract anterior
+porque ya localiza la placa, pero **la resolución manda**: placa cercana/frontal/nítida lee
+muy bien; lejana/borrosa/oblicua puede no leer (muestra nada antes que inventar). El modelo
+es "global" Latín — Colombia entra por el normalizador de patrón, no por una cabeza de país
+(la lista de regiones del modelo no incluye Colombia, por eso se ignora el output `region`).
 
 ### Fuentes
 fast-plate-ocr (github.com/ankandrew/fast-plate-ocr) · onnxruntime-web (npm, WebGPU EP docs) ·

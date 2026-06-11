@@ -9,6 +9,7 @@ import {
   type SourceType,
 } from "@/data/vision-models";
 import type { Event, PredictResponse, Rules } from "@/lib/vision-mock";
+import { countNoun, type DetectionStats } from "@/lib/detection-stats";
 
 // ─────────────────────────── ModelSelector ───────────────────────────
 
@@ -355,6 +356,114 @@ function Toggle({
   );
 }
 
+// ─────────────────────────── CountingPanel (conteo acumulado) ───────────────────────────
+
+const CLASS_LABELS: Record<string, string> = {
+  person: "Personas",
+  car: "Autos",
+  truck: "Camiones",
+  bus: "Buses",
+  motorcycle: "Motos",
+  bicycle: "Bicicletas",
+  rostro: "Rostros",
+  plate: "Placas",
+  backpack: "Mochilas",
+};
+
+function prettyClass(label: string): string {
+  return CLASS_LABELS[label] ?? label.charAt(0).toUpperCase() + label.slice(1);
+}
+
+/**
+ * Conteo acumulado: cuántas personas/objetos DIFERENTES vio el modelo a lo largo
+ * del video, además del pico simultáneo y el desglose por clase. Cada objeto cuenta
+ * una sola vez por su track ID (las reapariciones no inflan el total).
+ */
+export function CountingPanel({
+  stats,
+  model,
+  isLive,
+  onReset,
+}: {
+  stats: DetectionStats;
+  model: VisionModel;
+  isLive: boolean;
+  onReset: () => void;
+}) {
+  const noun = countNoun(model);
+  const word = stats.uniqueTotal === 1 ? noun.singular : noun.plural;
+  const adj = `únic${noun.fem ? "a" : "o"}${stats.uniqueTotal === 1 ? "" : "s"}`;
+
+  return (
+    <div className="border border-accent/40 bg-background/40 p-4 backdrop-blur">
+      <div className="mb-3 flex items-center justify-between">
+        <h2 className="font-heading text-sm font-bold uppercase tracking-tight">
+          Conteo acumulado
+        </h2>
+        <button
+          type="button"
+          onClick={onReset}
+          disabled={stats.frames === 0}
+          className="border border-border/50 bg-background/40 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.22em] text-foreground/55 transition-colors hover:border-accent hover:text-foreground disabled:opacity-30"
+        >
+          ↺ Reiniciar
+        </button>
+      </div>
+
+      {/* Titular — total de únicos a lo largo de la sesión */}
+      <div className="flex items-baseline gap-2 border border-accent/30 bg-accent/10 px-4 py-3">
+        <span className="font-heading text-4xl font-bold leading-none text-accent tabular-nums">
+          {stats.uniqueTotal}
+        </span>
+        <span className="font-mono text-[11px] uppercase leading-tight tracking-[0.18em] text-foreground/70">
+          {word} {adj}
+        </span>
+      </div>
+
+      {/* Métricas secundarias */}
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        <StatCell label="En pantalla" value={stats.onScreen} />
+        <StatCell label="Pico" value={stats.peak} />
+        <StatCell label="Frames" value={stats.frames} />
+      </div>
+
+      {/* Desglose por clase — sólo cuando hay más de una (p.ej. autos vs camiones) */}
+      {stats.byClass.length > 1 && (
+        <ul className="mt-3 space-y-1.5 border-t border-border/40 pt-3">
+          {stats.byClass.map((c) => (
+            <li
+              key={c.label}
+              className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/70"
+            >
+              <span>{prettyClass(c.label)}</span>
+              <span className="text-accent tabular-nums">{c.count}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <p className="mt-3 font-mono text-[9px] uppercase leading-relaxed tracking-[0.2em] text-foreground/40">
+        {isLive
+          ? "Conteo en vivo · cada objeto cuenta una vez por su track ID"
+          : "Demo simulado · activá «IA real» sobre un video para conteo verídico"}
+      </p>
+    </div>
+  );
+}
+
+function StatCell({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="border border-border/40 bg-background/40 px-2 py-2 text-center">
+      <div className="font-heading text-lg font-bold leading-none text-foreground tabular-nums">
+        {value}
+      </div>
+      <div className="mt-1 font-mono text-[8px] uppercase tracking-[0.18em] text-foreground/45">
+        {label}
+      </div>
+    </div>
+  );
+}
+
 // ─────────────────────────── EventsPanel ───────────────────────────
 
 const SEVERITY_COLORS: Record<Event["severity"], string> = {
@@ -430,6 +539,107 @@ export function EventsPanel({
     </div>
   );
 }
+
+// ─────────────────────────── FaceAnalysisPanel (acciones faciales) ───────────────────────────
+
+export function FaceAnalysisPanel({ result }: { result: PredictResponse | null }) {
+  const faces = (result?.predictions ?? []).filter(
+    (p) => p.faceMesh && p.faceMesh.length > 0
+  );
+  const primary = faces[0];
+
+  return (
+    <div>
+      <div className="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-foreground/55">
+        <span>Acciones faciales</span>
+        <span className={faces.length ? "text-accent" : "text-foreground/30"}>
+          {faces.length} {faces.length === 1 ? "rostro" : "rostros"}
+        </span>
+      </div>
+
+      {!primary ? (
+        <div className="border border-dashed border-border/40 p-4 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/35">
+          Activá la cámara o subí una imagen con un rostro
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {/* Emoción / expresión dominante */}
+          <div className="flex items-center gap-3 border border-accent/40 bg-accent/10 px-3 py-3">
+            <span className="text-3xl leading-none">
+              {EMOTION_EMOJI[primary.expression ?? ""] ?? "🙂"}
+            </span>
+            <div>
+              <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/55">
+                Emoción detectada
+              </div>
+              <div className="font-heading text-base font-bold uppercase tracking-tight text-[rgb(34,211,238)]">
+                {primary.expression ?? "—"}
+              </div>
+            </div>
+          </div>
+
+          {/* Desglose de emociones básicas */}
+          <div>
+            <div className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/45">
+              Emociones básicas
+            </div>
+            <ul className="space-y-1.5">
+              {(primary.emotions ?? []).map((e) => (
+                <li key={e.name}>
+                  <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/70">
+                    <span>{EMOTION_EMOJI[e.name] ?? "•"} {e.name}</span>
+                    <span className="text-foreground/45">{(e.score * 100).toFixed(0)}%</span>
+                  </div>
+                  <div className="mt-1 h-1.5 w-full bg-background/60">
+                    <div
+                      className="h-full bg-[rgb(34,211,238)] transition-[width] duration-150"
+                      style={{ width: `${Math.min(100, e.score * 100)}%` }}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Señales faciales (blendshapes) — la evidencia detrás de la emoción */}
+          {(primary.blendshapes ?? []).length > 0 && (
+            <div className="border-t border-border/40 pt-3">
+              <div className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/45">
+                Señales faciales
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {(primary.blendshapes ?? []).slice(0, 4).map((b) => (
+                  <span
+                    key={b.name}
+                    className="border border-border/50 bg-background/40 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-foreground/65"
+                  >
+                    {b.name} {(b.score * 100).toFixed(0)}%
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <p className="font-mono text-[9px] uppercase leading-relaxed tracking-[0.22em] text-foreground/35">
+            478 puntos de malla · 52 blendshapes · 100% local en tu navegador
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const EMOTION_EMOJI: Record<string, string> = {
+  Feliz: "😀",
+  Riendo: "😄",
+  Triste: "😢",
+  Enojado: "😠",
+  Sorprendido: "😮",
+  Disgustado: "🤢",
+  Hablando: "🗣️",
+  "Ojos cerrados": "😑",
+  Neutral: "😐",
+};
 
 // ─────────────────────────── JSONViewer ───────────────────────────
 

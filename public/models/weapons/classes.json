@@ -1,0 +1,9 @@
+{
+  "classes": ["pistol", "rifle"],
+  "num_classes": 2,
+  "canon": [
+    { "old_id": 1, "new_id": 0, "name": "pistol" },
+    { "old_id": 2, "new_id": 1, "name": "rifle" }
+  ],
+  "source": "roboflow:pistolrifle/pistol-rifle-knife/2 (YOLOX-S, decode_in_inference)"
+}

@@ -26,38 +26,77 @@ export type YoloxConfig = {
   perClass?: Record<string, number>;
   /** Índices de clases que son "violación"/peligro → caja roja + alarma. */
   alarmClasses?: number[];
-  alarmKind?: "violation" | "weapon";
+  alarmKind?: "violation" | "weapon" | "fire";
+  /**
+   * Filtro anti-ruido: descarta cajas demasiado grandes (área relativa al frame
+   * > maxRelArea, o un lado > maxRelSide). Un objeto chico como un arma NUNCA
+   * ocupa casi todo el frame → las cajas gigantes son falsos positivos del modelo.
+   */
+  maxRelArea?: number;
+  maxRelSide?: number;
 };
 
 const VIGIAS = "/models/vigias";
 
 export const EPP_CONFIG: YoloxConfig = {
-  // FP32 (más compatible en navegador). Alternativa liviana: epp_detector_int8.onnx (QDQ).
-  modelUrl: `${VIGIAS}/epp_detector.onnx`,
+  // YOLOX-S fine-tuneado por nosotros (notebook EPP_YOLOX_DFINE_training). 34MB, FP32.
+  // Auto-hospedado en /public/models/epp. Export con --decode_in_inference.
+  modelUrl: `/models/epp/yolox_s_ppe.onnx`,
   inputSize: 640,
-  classes: ["Hardhat", "NO-Hardhat", "Safety Vest", "NO-Safety Vest", "Person"],
+  // ⚠️ ORDEN EXACTO del modelo (Export/classes.json del entrenamiento). NO reordenar.
+  //   0:Hardhat 1:Mask 2:NO-Hardhat 3:NO-Mask 4:NO-Safety Vest 5:Safety Vest
+  classes: ["Hardhat", "Mask", "NO-Hardhat", "NO-Mask", "NO-Safety Vest", "Safety Vest"],
+  // Piso (prefiltro de objectness). El umbral final por clase está en perClass.
   confThreshold: 0.3,
   iouThreshold: 0.45,
   perClass: {
-    Hardhat: 0.35,
-    "NO-Hardhat": 0.25,
-    "Safety Vest": 0.35,
-    "NO-Safety Vest": 0.25,
-    Person: 0.4,
+    // Presencia: más estrictas (evita falsos positivos).
+    Hardhat: 0.4,
+    Mask: 0.4,
+    "Safety Vest": 0.4,
+    // Violaciones: algo más bajas para que afloren (son la señal de valor del demo).
+    "NO-Hardhat": 0.35,
+    "NO-Mask": 0.4, // NO-Mask es la más ruidosa (AP baja) → no la bajamos tanto
+    "NO-Safety Vest": 0.35,
   },
-  alarmClasses: [1, 3], // NO-Hardhat, NO-Safety Vest
+  alarmClasses: [2, 3, 4], // NO-Hardhat, NO-Mask, NO-Safety Vest = violaciones → caja roja
   alarmKind: "violation",
 };
 
 export const WEAPONS_CONFIG: YoloxConfig = {
-  modelUrl: `${VIGIAS}/weapon_detector.onnx`,
+  // YOLOX-S fine-tuneado por nosotros (mismo pipeline que EPP-S, ver weapon_config.yaml).
+  // 34MB, FP32, export con --decode_in_inference. Auto-hospedado en /public/models/weapons.
+  modelUrl: `/models/weapons/yolox_s_weapons.onnx`,
   inputSize: 640,
-  classes: ["pistol", "knife", "rifle", "person"],
-  confThreshold: 0.25,
+  // Modelo emite 2 CLASES (output [1,8400,7] = 5+2): 0:pistol 1:rifle.
+  // Roboflow "pistolrifle/pistol-rifle-knife" v2.
+  classes: ["pistol", "rifle"],
+  // El modelo se entrenó head-only (backbone congelado) → ruidoso. Umbrales
+  // altos + filtro de tamaño para frenar los falsos positivos de caja gigante.
+  confThreshold: 0.45,
   iouThreshold: 0.45,
-  perClass: { pistol: 0.3, knife: 0.3, rifle: 0.25, person: 0.4 },
-  alarmClasses: [0, 1, 2], // cualquier arma
+  perClass: { pistol: 0.6, rifle: 0.6 },
+  maxRelArea: 0.45, // un arma no ocupa >45% del frame
+  maxRelSide: 0.85, // ni ~todo el ancho/alto
+  alarmClasses: [0, 1], // ambas son armas → caja roja + alarma
   alarmKind: "weapon",
+};
+
+export const FIRE_CONFIG: YoloxConfig = {
+  // YOLOX-S de fuego/humo (ARS). 34MB, FP32, output [1,8400,7] = 5+2.
+  // Auto-hospedado en /public/models/fire. Orden de clases del classes.json: 0:Fire 1:Smoke.
+  modelUrl: `/models/fire/yolox_s_fire.onnx`,
+  inputSize: 640,
+  classes: ["fire", "smoke"],
+  confThreshold: 0.35,
+  iouThreshold: 0.45,
+  // Humo = clase ruidosa (niebla, vapor, fondos claros lo disparan). Igual que en
+  // armas, subimos su umbral para frenar falsos positivos. Sin filtro de tamaño
+  // (a diferencia de armas) porque el humo sí puede ocupar gran parte del cuadro.
+  perClass: { fire: 0.45, smoke: 0.6 },
+  // Fuego y humo pueden ocupar buena parte del cuadro → SIN filtro de tamaño.
+  alarmClasses: [0, 1], // ambas disparan alarma de fuego
+  alarmKind: "fire",
 };
 
 type OrtModule = typeof import("onnxruntime-web/webgpu");
@@ -129,17 +168,17 @@ export class YoloxDetector {
       const size = this.cfg.inputSize;
       const vw = video.videoWidth;
       const vh = video.videoHeight;
+      // YOLOX letterbox: ratio único + imagen pegada ARRIBA-IZQUIERDA, padding 114
+      // abajo-derecha (igual que el server: padded[:nh,:nw] = resized).
       const scale = Math.min(size / vw, size / vh);
-      const newW = Math.round(vw * scale);
-      const newH = Math.round(vh * scale);
-      const padX = Math.floor((size - newW) / 2);
-      const padY = Math.floor((size - newH) / 2);
+      const newW = Math.floor(vw * scale);
+      const newH = Math.floor(vh * scale);
 
       const ctx = this.canvas.getContext("2d", { willReadFrequently: true });
       if (!ctx) return null;
       ctx.fillStyle = "rgb(114,114,114)";
       ctx.fillRect(0, 0, size, size);
-      ctx.drawImage(video, 0, 0, vw, vh, padX, padY, newW, newH);
+      ctx.drawImage(video, 0, 0, vw, vh, 0, 0, newW, newH); // top-left
       const img = ctx.getImageData(0, 0, size, size).data;
 
       // NCHW, orden BGR, píxel crudo 0–255 (sin normalizar).
@@ -157,8 +196,6 @@ export class YoloxDetector {
       const o = out[this.session.outputNames[0]];
       const preds = this.decode(o.data as Float32Array, o.dims as number[], {
         scale,
-        padX,
-        padY,
         vw,
         vh,
       });
@@ -174,7 +211,7 @@ export class YoloxDetector {
   private decode(
     d: Float32Array,
     dims: number[],
-    geo: { scale: number; padX: number; padY: number; vw: number; vh: number }
+    geo: { scale: number; vw: number; vh: number }
   ): Prediction[] {
     const nc = this.cfg.classes.length;
     const attrs = 5 + nc;
@@ -194,13 +231,15 @@ export class YoloxDetector {
     }
     const at = (i: number, a: number) => (transposed ? d[a * N + i] : d[i * attrs + a]);
 
-    const { scale, padX, padY, vw, vh } = geo;
+    const { scale, vw, vh } = geo;
+    const conf = this.cfg.confThreshold; // piso (prefiltro de objectness)
+    const perClass = this.cfg.perClass;
     type Box = { x1: number; y1: number; x2: number; y2: number; score: number; cls: number };
     const boxes: Box[] = [];
 
     for (let i = 0; i < N; i++) {
       const obj = at(i, 4);
-      if (obj < 0.05) continue;
+      if (obj <= conf) continue; // pre-filtro por objectness (server: obj > conf)
       let bestC = 0;
       let bestS = 0;
       for (let c = 0; c < nc; c++) {
@@ -211,42 +250,46 @@ export class YoloxDetector {
         }
       }
       const score = obj * bestS;
-      const thr = this.cfg.perClass?.[this.cfg.classes[bestC]] ?? this.cfg.confThreshold;
-      if (score < thr) continue;
+      // Umbral final por clase (cae a confThreshold si la clase no está en perClass).
+      const thr = perClass?.[this.cfg.classes[bestC]] ?? conf;
+      if (score <= thr) continue;
 
       const cx = at(i, 0);
       const cy = at(i, 1);
       const w = at(i, 2);
       const h = at(i, 3);
-      // 640-input px → frame original px (deshacer letterbox)
-      const x1 = (cx - w / 2 - padX) / scale;
-      const y1 = (cy - h / 2 - padY) / scale;
-      const x2 = (cx + w / 2 - padX) / scale;
-      const y2 = (cy + h / 2 - padY) / scale;
+      // 640-input px → frame original px: solo /scale (letterbox arriba-izquierda)
+      const x1 = (cx - w / 2) / scale;
+      const y1 = (cy - h / 2) / scale;
+      const x2 = (cx + w / 2) / scale;
+      const y2 = (cy + h / 2) / scale;
       boxes.push({ x1, y1, x2, y2, score, cls: bestC });
     }
 
     const kept = nms(boxes, this.cfg.iouThreshold);
 
-    return kept.map((b) => {
+    const maxArea = this.cfg.maxRelArea ?? 1;
+    const maxSide = this.cfg.maxRelSide ?? 1;
+    const out: Prediction[] = [];
+    for (const b of kept) {
       const x1 = Math.max(0, Math.min(vw, b.x1));
       const y1 = Math.max(0, Math.min(vh, b.y1));
       const x2 = Math.max(0, Math.min(vw, b.x2));
       const y2 = Math.max(0, Math.min(vh, b.y2));
+      const relW = (x2 - x1) / vw;
+      const relH = (y2 - y1) / vh;
+      // Anti-ruido: cajas inverosímilmente grandes = falsos positivos del modelo.
+      if (relW * relH > maxArea || relW > maxSide || relH > maxSide) continue;
       const isAlarm = this.cfg.alarmClasses?.includes(b.cls);
       const pred: Prediction = {
         label: this.cfg.classes[b.cls],
         confidence: b.score,
-        bbox: {
-          x: x1 / vw,
-          y: y1 / vh,
-          width: (x2 - x1) / vw,
-          height: (y2 - y1) / vh,
-        },
+        bbox: { x: x1 / vw, y: y1 / vh, width: relW, height: relH },
       };
       if (isAlarm) pred.alarm = this.cfg.alarmKind;
-      return pred;
-    });
+      out.push(pred);
+    }
+    return out;
   }
 
   dispose() {

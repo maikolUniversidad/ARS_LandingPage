@@ -27,10 +27,18 @@ export type Prediction = {
   angle?: number;
   /** Para PPE, qué item está faltando. */
   missing?: string[];
-  /** Alarma activa para esta caja (heurística de comportamiento o detector EPP/armas). */
-  alarm?: "arms" | "fight" | "violation" | "weapon";
+  /** Alarma activa para esta caja (heurística de comportamiento o detector EPP/armas/fuego). */
+  alarm?: "arms" | "fight" | "violation" | "weapon" | "fire";
   /** Nota efímera sobre la caja (p.ej. cuenta regresiva de brazos arriba). */
   note?: string;
+  /** Malla facial (FaceLandmarker): 478 puntos normalizados [x,y] en [0..1]. */
+  faceMesh?: Array<[number, number]>;
+  /** Acciones faciales (blendshapes) ordenadas por score desc. */
+  blendshapes?: Array<{ name: string; score: number }>;
+  /** Emociones básicas estimadas (Feliz, Triste, Enojado…) ordenadas desc. */
+  emotions?: Array<{ name: string; score: number }>;
+  /** Resumen de la expresión/emoción dominante. */
+  expression?: string;
 };
 
 export type Event = {
@@ -102,13 +110,16 @@ export function mockPredict(
   switch (model.id) {
     case "people_detection": {
       const n = 2 + Math.floor(r() * 3);
+      // Cohorte que avanza con el tiempo → IDs nuevos aparecen gradualmente
+      // (personas que entran/salen), así el conteo acumulado crece en demo.
+      const cohort = Math.floor(tick / 12);
       for (let i = 0; i < n; i++) {
         const x = 0.1 + i * 0.22 + r() * 0.05;
         predictions.push({
           label: "person",
           confidence: 0.78 + r() * 0.2,
           bbox: { x, y: 0.3 + r() * 0.1, width: 0.12, height: 0.45 },
-          trackId: `T-${1000 + i}`,
+          trackId: `T-${1000 + cohort + i}`,
         });
       }
       break;
@@ -116,12 +127,13 @@ export function mockPredict(
     case "vehicle_detection": {
       const types = ["car", "motorcycle", "truck", "bus"];
       const n = 1 + Math.floor(r() * 2);
+      const cohort = Math.floor(tick / 16);
       for (let i = 0; i < n; i++) {
         predictions.push({
           label: types[Math.floor(r() * types.length)],
           confidence: 0.82 + r() * 0.15,
           bbox: { x: 0.1 + i * 0.4 + r() * 0.05, y: 0.45 + r() * 0.1, width: 0.25, height: 0.22 },
-          trackId: `V-${1000 + i}`,
+          trackId: `V-${1000 + cohort + i}`,
         });
       }
       break;
@@ -219,12 +231,13 @@ export function mockPredict(
       // de personas/vehículos. Para el demo, generamos personas y dejamos que las
       // reglas (ROI, line, loitering) se evalúen sobre ellas.
       const n = 2;
+      const cohort = Math.floor(tick / 12);
       for (let i = 0; i < n; i++) {
         predictions.push({
           label: "person",
           confidence: 0.86 + r() * 0.1,
           bbox: { x: 0.2 + i * 0.3 + (tick % 8) * 0.04, y: 0.4, width: 0.1, height: 0.4 },
-          trackId: `T-${1001 + i}`,
+          trackId: `T-${1001 + cohort + i}`,
         });
       }
       break;
