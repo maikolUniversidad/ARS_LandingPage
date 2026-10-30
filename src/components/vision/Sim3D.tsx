@@ -11,22 +11,40 @@ type Props = {
   pip?: boolean;
   className?: string;
   title?: string;
-  /** Avisa cada cambio de estado de la simulación (vigila → detecta → alerta → ok). */
-  onFase?: (fase: EstadoSim) => void;
+  /**
+   * Avisa cada cambio de fase de la simulación: el estado (vigila → detecta →
+   * alerta → ok) y el índice del paso dentro de `fases` (-1 al reiniciar el ciclo).
+   */
+  onFase?: (fase: EstadoSim, idx: number, id: string) => void;
+  /** Avisa cuando el motor 3D terminó de cargar (una sola vez por iframe). */
+  onListo?: () => void;
   /** Cargar recién cuando entra en pantalla (por defecto sí). */
   lazy?: boolean;
+};
+
+type Mensaje = {
+  tipo?: string;
+  id?: string;
+  fase?: EstadoSim;
+  idx?: number;
+  listo?: boolean;
+  montado?: boolean;
+  error?: string;
 };
 
 /**
  * Simulación 3D de una analítica, embebida desde public/analiticas-3d/sim.html.
  *
- * El motor (three.js) vive en la página embebida; acá solo se escucha su
- * postMessage para saber si cargó, si falló y en qué estado va. El contenedor
- * debe tener tamaño propio (p. ej. `aspect-[4/3]`). Para cambiar de analítica,
- * remontar con `key={id}` (así se reinicia el estado de error).
+ * El iframe se crea UNA vez: al cambiar `id` se le pide por postMessage que
+ * monte otra escena, sin recargar el motor three.js ni el modelo de la persona
+ * (~4 MB). El contenedor debe tener tamaño propio (p. ej. `aspect-[16/10]`).
  */
-export function Sim3D({ id, pip = true, className, title, onFase, lazy = true }: Props) {
+export function Sim3D({ id, pip = true, className, title, onFase, onListo, lazy = true }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const listoRef = useRef(false);
+  const pedidoRef = useRef({ id, pip });
+  const [src] = useState(() => simUrl(id, { pip }));
   const [visible, setVisible] = useState(!lazy);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,26 +65,44 @@ export function Sim3D({ id, pip = true, className, title, onFase, lazy = true }:
     return () => io.disconnect();
   }, [lazy, visible]);
 
+  // Mensajes del iframe (solo los de ESTE iframe, por ev.source).
   useEffect(() => {
     const onMsg = (ev: MessageEvent) => {
-      const d = ev.data as { tipo?: string; id?: string; fase?: EstadoSim; error?: string } | null;
-      if (!d || d.tipo !== "vigias-sim" || d.id !== id) return;
-      if (d.error) setError(d.error);
-      if (d.fase && onFase) onFase(d.fase);
+      const w = iframeRef.current?.contentWindow;
+      if (!w || ev.source !== w) return;
+      const d = ev.data as Mensaje | null;
+      if (!d || d.tipo !== "vigias-sim") return;
+      if (d.error === "sin-webgl") {
+        setError(d.error);
+        return;
+      }
+      if (d.listo) {
+        listoRef.current = true;
+        const p = pedidoRef.current;
+        if (d.id !== p.id) w.postMessage({ tipo: "vigias-sim-ir", id: p.id, pip: p.pip }, "*");
+        onListo?.();
+      }
+      if (d.fase && d.id === pedidoRef.current.id) onFase?.(d.fase, d.idx ?? -1, d.id);
     };
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
-  }, [id, onFase]);
+  }, [onFase, onListo]);
+
+  // Cambio de analítica: se lo pedimos al motor ya cargado.
+  useEffect(() => {
+    pedidoRef.current = { id, pip };
+    const w = iframeRef.current?.contentWindow;
+    if (listoRef.current && w) w.postMessage({ tipo: "vigias-sim-ir", id, pip }, "*");
+  }, [id, pip]);
 
   return (
     <div ref={ref} className={cn("relative overflow-hidden bg-[#DDE3EE]", className)}>
       {visible && !error && (
         <iframe
-          key={`${id}-${pip ? 1 : 0}`}
-          src={simUrl(id, { pip })}
-          title={title ?? `Simulación 3D: ${id}`}
+          ref={iframeRef}
+          src={src}
+          title={title ?? "Simulación 3D"}
           className="absolute inset-0 h-full w-full border-0"
-          loading="lazy"
           allow="fullscreen"
         />
       )}

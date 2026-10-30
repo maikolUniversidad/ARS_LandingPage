@@ -102,17 +102,27 @@ html,body{margin:0;height:100%;background:#DDE3EE;font-family:"Archivo","Helveti
 <script>
 (function(){
   "use strict";
+  // Protocolo con la página que embebe (postMessage, origen "*", solo datos sin secretos):
+  //   padre → iframe  {tipo:"vigias-sim-ir", id, pip?}   cambia de analítica SIN recargar el motor.
+  //   iframe → padre  {tipo:"vigias-sim", id, listo|montado|fase+idx|error}
   var q=new URLSearchParams(location.search),id=q.get("id")||"calor",sinPip=q.get("pip")==="0";
   var raiz=document.getElementById("escena"),reposo=raiz.querySelector(".reposo");
-  if(sinPip)raiz.classList.add("sinpip");
+  var ES=window.ESCENAS||[],porId={};ES.forEach(function(s){porId[s.id]=s});
   function avisar(m){try{if(parent&&parent!==window)parent.postMessage(Object.assign({tipo:"vigias-sim",id:id},m),"*")}catch(e){}}
   if(!window.THREE||!THREE.GLTFLoader||!THREE.SkeletonUtils||!window.MOTOR){reposo.textContent="No se pudo cargar la vista 3D. Revise la conexión y recargue.";avisar({error:"sin-webgl"});return}
-  var def=(window.ESCENAS||[]).filter(function(s){return s.id===id})[0];
+  function defDe(i){var d=porId[i];if(!d)return null;return sinPip?Object.assign({},d,{sinPip:true}):d}
+  var def=defDe(id);
   if(!def){reposo.textContent="No existe la simulación «"+id+"».";avisar({error:"sin-escena"});return}
-  if(sinPip)def=Object.assign({},def,{sinPip:true});
-  new MutationObserver(function(){avisar({fase:raiz.dataset.fase||"vigila"})}).observe(raiz,{attributes:true,attributeFilter:["data-fase"]});
-  MOTOR.arrancar(function(){MOTOR.montar(raiz,def);avisar({listo:true});window.addEventListener("resize",function(){MOTOR.tamano()})});
-  document.addEventListener("visibilitychange",function(){if(document.hidden)MOTOR.detener();else if(MOTOR.listo)MOTOR.montar(raiz,def)});
+  // El motor escribe data-fase="" al montar (y al reiniciar el ciclo) y luego el estado en cada cambio de fase.
+  var idx=-1;
+  new MutationObserver(function(){var f=raiz.dataset.fase||"";if(f===""){idx=-1;avisar({fase:"vigila",idx:-1,reinicio:true})}else{idx++;avisar({fase:f,idx:idx})}}).observe(raiz,{attributes:true,attributeFilter:["data-fase"]});
+  function montar(){raiz.classList.toggle("sinpip",!!def.sinPip);MOTOR.montar(raiz,def)}
+  window.addEventListener("message",function(ev){var d=ev.data;if(!d||d.tipo!=="vigias-sim-ir")return;
+    if(typeof d.pip==="boolean")sinPip=!d.pip;
+    var nd=defDe(d.id||id);if(!nd){avisar({error:"sin-escena",pedido:String(d.id)});return}
+    id=nd.id;def=nd;if(MOTOR.listo){montar();avisar({montado:true})}});
+  MOTOR.arrancar(function(){montar();avisar({listo:true});window.addEventListener("resize",function(){MOTOR.tamano()})});
+  document.addEventListener("visibilitychange",function(){if(document.hidden)MOTOR.detener();else if(MOTOR.listo)montar()});
 })();
 </script>
 </body>

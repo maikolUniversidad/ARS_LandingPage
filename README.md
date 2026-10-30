@@ -38,10 +38,16 @@ En runtime la IA carga **100 % local, sin CDNs externos**.
 
 ## Módulo de Visión: `/vision` (analíticas de video)
 
-Página comercial con las 45 analíticas del portafolio «Analíticas en 3D · Vigías»:
-simulación 3D por analítica (motor three.js de la presentación), pasos de activación
-iluminados al ritmo de la simulación y, en 15 de ellas, el video real procesado por
-los modelos (MEVA CC BY 4.0, Pexels, Mixkit, laboratorio propio).
+Página comercial con las 45 analíticas del portafolio «Analíticas en 3D · Vigías»,
+lámina por lámina como en la presentación: la simulación 3D (motor three.js) y la
+prueba real lado a lado, qué hace y los pasos de activación iluminados al ritmo de la
+simulación. 15 traen video real procesado por los modelos (MEVA CC BY 4.0, Pexels,
+Mixkit, laboratorio propio). Se cambia de analítica con un clic, flechas o teclado;
+el enlace directo es `/vision#<id>` (p. ej. `/vision#intrusion`).
+
+El motor 3D se carga UNA vez: `sim.html` recibe `postMessage({tipo:"vigias-sim-ir", id})`
+y monta la escena nueva sin recargar (el modelo de la persona pesa ~4 MB); devuelve
+`{tipo:"vigias-sim", listo|montado|fase+idx|error}`.
 
 - `src/app/vision/` y `src/components/vision/`: la página y sus piezas.
 - `src/data/analiticas.ts`: catálogo generado desde las escenas de la presentación
