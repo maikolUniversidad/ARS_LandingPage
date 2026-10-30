@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Simulación 3D · Vigías</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;800;900&display=swap">
+<style>
+/* Vista embebible de UNA simulación del portafolio (misma maqueta que index.html).
+   Uso: sim.html?id=conteo[&pip=0]. Avisa al padre con postMessage {tipo:"vigias-sim", fase, id}. */
+:root{--oro:#D6AB4C;--claro:#F1F3F8;--tinta:#0A1330;--tenue:#5F6883;--tenue-o:rgba(241,243,248,.66);
+  --vigila:#5BA4FF;--detecta:#F5A524;--alerta:#E5484D;--ok:#30A46C;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#DDE3EE;font-family:"Archivo","Helvetica Neue",Arial,sans-serif;overflow:hidden}
+.escena3d{position:absolute;inset:0;border-radius:0;overflow:hidden;background:radial-gradient(120% 90% at 50% 35%,#EEF2F8 0%,#DDE3EE 70%);isolation:isolate;font-size:clamp(9px,1.9vmin,20px);transition:box-shadow .3s}
+.escena3d canvas.gl{position:absolute;inset:0;display:block;touch-action:none;cursor:grab}
+.escena3d canvas.gl:active{cursor:grabbing}
+.escena3d.roja{box-shadow:inset 0 0 0 3px var(--alerta)}
+.escena3d .reposo{position:absolute;inset:0;display:grid;place-items:center;color:var(--tenue);font-size:.7em;font-weight:700;letter-spacing:.12em;text-transform:uppercase;z-index:0;text-align:center;padding:1em}
+.escena3d.viva .reposo{display:none}
+.escena3d .etqs{position:absolute;inset:0;pointer-events:none;z-index:4}
+.chip3d{position:absolute;left:.8em;top:.8em;z-index:5;font-size:.52em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--claro);background:rgba(0,10,32,.6);border:1px solid rgba(241,243,248,.2);border-radius:99em;padding:.45em .9em}
+.estado{position:absolute;right:.8em;top:.8em;z-index:5;display:flex;align-items:center;gap:.5em;font-size:.6em;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(0,10,32,.7);border-radius:99em;padding:.45em .95em .45em .7em;border:1px solid rgba(255,255,255,.16)}
+.estado i{width:.8em;height:.8em;border-radius:99em;background:var(--vigila);box-shadow:0 0 0 .25em rgba(91,164,255,.25)}
+.estado[data-e="detecta"] i{background:var(--detecta);box-shadow:0 0 0 .25em rgba(245,165,36,.3)}
+.estado[data-e="alerta"]{background:var(--alerta);border-color:transparent}
+.estado[data-e="alerta"] i{background:#fff;animation:late .7s infinite}
+.estado[data-e="ok"] i{background:var(--ok);box-shadow:0 0 0 .25em rgba(48,164,108,.3)}
+.tablero{position:absolute;left:.8em;top:2.7em;z-index:5;display:flex;flex-direction:column;gap:.3em}
+.registro{position:absolute;left:.8em;bottom:1.3em;z-index:5;list-style:none;margin:0;padding:0;display:flex;flex-direction:column-reverse;gap:.25em;max-width:52%}
+.registro li{font-size:.5em;font-weight:700;color:#E6ECF8;background:rgba(0,10,32,.72);border-radius:.5em;padding:.35em .6em;border-left:3px solid var(--vigila);animation:entra .4s ease}
+.registro li.alerta{border-left-color:var(--alerta);background:rgba(90,14,20,.85)}
+.registro li.detecta{border-left-color:var(--detecta)}
+.registro time{font-variant-numeric:tabular-nums;color:var(--tenue-o);margin-right:.6em}
+.banner{position:absolute;left:50%;top:.8em;transform:translate(-50%,-160%);z-index:6;display:flex;align-items:center;gap:.6em;background:var(--alerta);color:#fff;border-radius:.7em;padding:.5em 1em;font-size:.62em;box-shadow:0 14px 30px -12px rgba(229,72,77,.8);transition:transform .45s cubic-bezier(.2,1.2,.3,1);max-width:70%}
+.banner span{font-weight:900;letter-spacing:.14em;text-transform:uppercase;font-size:.85em;opacity:.9}
+.banner b{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.banner.ver{transform:translate(-50%,0);animation:fuera 3.4s forwards}
+.pip{position:absolute;z-index:5;border-radius:.5em;box-shadow:0 0 0 2px rgba(255,255,255,.85),0 14px 30px -12px rgba(0,0,0,.7);pointer-events:none}
+.pip canvas{position:absolute;inset:0;width:100%;height:100%}
+.pip .cam{position:absolute;left:.5em;bottom:.4em;font-size:.44em;font-weight:800;letter-spacing:.08em;color:#fff;text-shadow:0 1px 3px #000;font-variant-numeric:tabular-nums}
+.pip .rec{position:absolute;right:.5em;top:.4em;font-size:.42em;font-weight:900;letter-spacing:.1em;color:#fff;display:flex;align-items:center;gap:.4em;text-shadow:0 1px 3px #000}
+.pip .rec::before{content:"";width:.7em;height:.7em;border-radius:99em;background:var(--alerta);animation:late 1.2s infinite}
+.pip .lo{position:absolute;left:0;top:-1.7em;font-size:.44em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta)}
+.escena3d.sinpip .pip{display:none}
+.tiempo{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(10,19,48,.1);z-index:5}
+.tiempo i{display:block;height:100%;background:var(--oro);transform-origin:0 50%;transform:scaleX(0)}
+.ayuda3d{position:absolute;right:.8em;bottom:.9em;z-index:5;font-size:.46em;font-weight:700;color:var(--tenue)}
+.etq{position:absolute;left:0;top:0;white-space:nowrap;font-size:.56em;font-weight:800;padding:.32em .7em;border-radius:99em;background:rgba(0,20,65,.86);color:#fff;border:1px solid rgba(255,255,255,.18);transition:opacity .3s;will-change:transform}
+.etq.id{background:rgba(91,164,255,.92);color:#04122E;border-color:transparent}
+.etq.ok{background:var(--ok);border-color:transparent}
+.etq.oro{background:var(--oro);color:var(--marino);border-color:transparent}
+.etq.amarilla{background:#F2C94C;color:#1a1200;border-color:transparent}
+.etq.celeste{background:#3FC8F0;color:#04122E;border-color:transparent}
+.etq.ambar{background:var(--detecta);color:#1a1200;border-color:transparent}
+.etq.rojo{background:var(--alerta);border-color:transparent;box-shadow:0 0 0 4px rgba(229,72,77,.25)}
+.etq.reloj{background:rgba(0,20,65,.9);color:var(--detecta);font-variant-numeric:tabular-nums}
+.etq.reloj.ok{color:#7CE3A8}
+.etq.reloj.rojo{background:var(--alerta);color:#fff}
+.ct{display:flex;flex-direction:column;background:rgba(0,10,32,.66);border:1px solid rgba(241,243,248,.14);border-radius:.6em;padding:.35em .65em;min-width:7.5em}
+.ct span{font-size:.44em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--tenue-o)}
+.ct b{font-size:.92em;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.tabla3d{position:absolute;right:.8em;bottom:1.3em;z-index:5;background:rgba(0,10,32,.82);border:1px solid rgba(241,243,248,.16);border-radius:.6em;padding:.4em .55em;color:#E6ECF8;font-size:.4em;max-width:56%}
+.tabla3d b{display:block;font-size:.9em;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--oro);margin-bottom:.3em}
+.tabla3d table{border-collapse:collapse;font-variant-numeric:tabular-nums}
+.tabla3d th{font-weight:800;color:var(--tenue-o);text-align:left;padding:.15em .55em .15em 0;font-size:.85em;text-transform:uppercase;letter-spacing:.06em}
+.tabla3d td{padding:.18em .55em .18em 0;font-weight:700;white-space:nowrap}
+.tabla3d tr.ok td{color:#7CE3A8}
+.tabla3d tr.ambar td{color:#F5C46A}
+.tabla3d tr.rojo td{color:#FF8A8E}
+.tabla3d tr.nuevo td{color:#fff;background:rgba(214,171,76,.22)}
+:root{--marino:#001441}
+@keyframes late{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes entra{from{opacity:0;transform:translateY(.4em)}to{opacity:1;transform:none}}
+@keyframes fuera{0%,80%{opacity:1}100%{opacity:0;transform:translate(-50%,-160%)}}
+@media (prefers-reduced-motion:reduce){.estado i,.pip .rec::before{animation:none}}
+</style>
+</head>
+<body>
+<div class="escena3d" id="escena">
+  <span class="reposo">Cargando la simulación 3D…</span>
+  <span class="chip3d">Simulación 3D</span>
+  <div class="estado" data-e="vigila"><i></i><b>Vigilando</b></div>
+  <div class="tablero"></div><div class="etqs"></div><ul class="registro"></ul>
+  <div class="banner" role="status"><span>Alerta</span><b></b></div>
+  <div class="pip"><span class="lo">Lo que ve la cámara</span><canvas></canvas><span class="cam"></span><span class="rec">REC</span></div>
+  <div class="tiempo"><i></i></div>
+  <span class="ayuda3d">Arrastre para girar</span>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/SkeletonUtils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
+<script src="RGBELoader.js"></script>
+<script src="persona.js"></script>
+<script src="motor.js"></script>
+<script src="escenas.js"></script>
+<script src="escenas2.js"></script>
+<script>
+(function(){
+  "use strict";
+  var q=new URLSearchParams(location.search),id=q.get("id")||"calor",sinPip=q.get("pip")==="0";
+  var raiz=document.getElementById("escena"),reposo=raiz.querySelector(".reposo");
+  if(sinPip)raiz.classList.add("sinpip");
+  function avisar(m){try{if(parent&&parent!==window)parent.postMessage(Object.assign({tipo:"vigias-sim",id:id},m),"*")}catch(e){}}
+  if(!window.THREE||!THREE.GLTFLoader||!THREE.SkeletonUtils||!window.MOTOR){reposo.textContent="No se pudo cargar la vista 3D. Revise la conexión y recargue.";avisar({error:"sin-webgl"});return}
+  var def=(window.ESCENAS||[]).filter(function(s){return s.id===id})[0];
+  if(!def){reposo.textContent="No existe la simulación «"+id+"».";avisar({error:"sin-escena"});return}
+  if(sinPip)def=Object.assign({},def,{sinPip:true});
+  new MutationObserver(function(){avisar({fase:raiz.dataset.fase||"vigila"})}).observe(raiz,{attributes:true,attributeFilter:["data-fase"]});
+  MOTOR.arrancar(function(){MOTOR.montar(raiz,def);avisar({listo:true});window.addEventListener("resize",function(){MOTOR.tamano()})});
+  document.addEventListener("visibilitychange",function(){if(document.hidden)MOTOR.detener();else if(MOTOR.listo)MOTOR.montar(raiz,def)});
+})();
+</script>
+</body>
+</html>
