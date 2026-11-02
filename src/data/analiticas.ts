@@ -370,7 +370,11 @@ export const analiticas: Analitica[] = [
         "texto": "Aforo completo: aviso para frenar el ingreso"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/aforo.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/aforo-poster.jpg",
+      "chapa": "CCTV real · modelo real"
+    }
   },
   {
     "id": "placas",
@@ -407,7 +411,11 @@ export const analiticas: Analitica[] = [
         "texto": "Entra una moto al cajón de motos: se suma al registro"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/placas.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/placas-poster.jpg",
+      "chapa": "video público · modelo real"
+    }
   },
   {
     "id": "staff",
@@ -497,7 +505,11 @@ export const analiticas: Analitica[] = [
         "texto": "Otra persona se sienta con la sesión abierta: aviso de relevo"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/guardian.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/guardian-poster.jpg",
+      "chapa": "CCTV real · modelo real"
+    }
   },
   {
     "id": "negras",
