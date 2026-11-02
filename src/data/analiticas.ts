@@ -644,7 +644,7 @@ export const analiticas: Analitica[] = [
     "video": {
       "src": "/analiticas-3d/evidencia-publica/aglomeracion.mp4",
       "poster": "/analiticas-3d/evidencia-publica/aglomeracion-poster.jpg",
-      "chapa": "video público · modelo real"
+      "chapa": "CCTV real · modelo real"
     }
   },
   {
