@@ -1258,7 +1258,11 @@ export const analiticas: Analitica[] = [
         "texto": "La retiran y el evento se cierra solo"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/pasillos.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/pasillos-poster.jpg",
+      "chapa": "video público · modelo real"
+    }
   },
   {
     "id": "exhibicion",
