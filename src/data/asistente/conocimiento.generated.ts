@@ -57,6 +57,7 @@ Además hay demos interactivas: \`/laboratorio\` (modelos de IA en acción, con 
 
 ## Contacto
 
+- Diagnóstico de la empresa con IA (llamado principal del menú): \`/diagnostico\`.
 - Solicitar demo: formulario y botones en la sección \`#contacto\` de la portada (\`/#contacto\`), de \`/plataforma#cierre\` y de \`/vision#cierre\`.
 - WhatsApp de la gerencia comercial: +57 318 0005654.
 - Correo: gerencia.comercial@vigiasdecolombia.com (asunto sugerido «Solicitud de demo - ARS Intelligence»).
@@ -68,7 +69,7 @@ Precios, planes, licencias y condiciones contractuales no están publicados en e
     id: "mapa-del-sitio",
     titulo: "Mapa del sitio y a dónde llevar al visitante",
     orden: 10,
-    rutas: ["/","/plataforma","/vision","/servicios","/proyectos","/laboratorio","/vision-lab"],
+    rutas: ["/","/diagnostico","/plataforma","/vision","/servicios","/proyectos","/laboratorio","/vision-lab"],
     contenido: `Usa siempre rutas relativas del sitio (por ejemplo \`/vision#intrusion\`). Solo existen las rutas y anclas listadas aquí; no inventes otras.
 
 ## \`/\` — Portada (las capas de la seguridad unidas en una traza)
@@ -87,15 +88,24 @@ Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y 
 
 Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas o contactar. Para pedir demo, \`/#contacto\`.
 
+## \`/diagnostico\` — Diagnóstico de tu empresa
+
+«¿Cómo se vería tu empresa con ARS?» Entrevista de unos 5 minutos con Ars: mientras la persona cuenta cómo opera, se van marcando las áreas de ARS que le sirven; al final los agentes por área arman el diagnóstico, una historia 3D de su operación y un reporte para compartir o descargar. \`/diagnostico?ejemplo=1\` muestra un diagnóstico de ejemplo. No tiene anclas.
+
+Enviar aquí: quien quiere saber qué le sirve de ARS a su empresa, un plan o un punto de partida antes de hablar con ventas. Es el llamado principal del sitio (botón «Diagnóstico» del menú).
+
 ## \`/plataforma\` — Seguridad integral en una sola plataforma
 
-La plataforma de operación (ERP operativo de seguridad). Orden de secciones: hero, ciclo operativo de 8 pasos, capturas del producto, funcionalidades (A–N), arquitectura operativa por niveles, flujo de integración (del turno al reporte), casos de uso, comparativa antes/con ARS, testimonios del equipo, logos de entidades y empresas, cierre con demo.
+La plataforma de operación (ERP operativo de seguridad), mostrada en movimiento. Orden de secciones: hero 3D con un muro de capturas reales, «En movimiento» (clips y recorridos con capturas reales), recorrido por los módulos de cada área de campo, Arquitecto IA (arma la plataforma a la medida de la empresa), ciclo operativo, pilares, comparativa antes/con ARS, logos de entidades y empresas, cierre con demo.
 
 Anclas:
-- \`#funcionalidades\` — las 14 funcionalidades agrupadas en Operación, Monitoreo, Inteligencia y Reportes. Cada tarjeta tiene además su ancla \`#feature-<id>\`: \`turnos\`, \`personal\`, \`rondas\`, \`tareas\`, \`formularios\`, \`mapa\`, \`ptt\`, \`pot\`, \`central\`, \`ia\`, \`alertas\`, \`evidencia\`, \`reportes\`, \`multisite\` (p. ej. \`/plataforma#feature-rondas\`).
-- \`#capturas\` — capturas: central de monitoreo, IA por cámara, reconocimiento facial, LPR, intrusión/ROI, EPP, alertas con evidencia.
-- \`#casos\` — casos de uso: conjunto residencial, universidad o campus, centro logístico, empresa de seguridad.
+- \`#en-movimiento\` — clips y recorridos de la plataforma con capturas reales.
+- \`#recorrido\` — recorrido por los módulos de cada área (operación en campo, centro de operaciones, comunicación, monitoreo…), con enlace a cada área en \`/servicios/<área>\`.
+- \`#arquitecto-ia\` — la persona describe su operación y la IA propone los módulos y una ruta de implementación.
+- \`#pilares\` — pilares de la plataforma.
 - \`#cierre\` — Solicitar demo / Hablar con un asesor (WhatsApp).
+
+Las funcionalidades A–N (turnos, rondas, PTT, central, alertas…) no tienen ancla propia: para una funcionalidad concreta usa \`/plataforma#recorrido\` o el módulo equivalente en \`/servicios/<área>#<módulo>\`.
 
 Enviar aquí: preguntas sobre turnos, rondas, guardas, central, reportes, multisede, software de gestión u operación.
 
@@ -147,13 +157,14 @@ Enviar aquí: cualquier pregunta por un servicio o módulo concreto (mostrar_ser
 
 ## \`/vision-lab\` — Playground técnico
 
-Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), motor «IA real» en el navegador o «Demo» simulado, reglas (dibujar ROI o línea), panel de eventos, conteo, análisis facial y visor JSON de la respuesta. No tiene anclas. Pensado para perfiles técnicos o integradores.
+Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), motor «IA real» en el navegador o «Demo» simulado, reglas (dibujar ROI o línea), panel de eventos, conteo, análisis facial y visor JSON de la respuesta. No tiene anclas y no aparece en el menú: solo para perfiles técnicos o integradores; para visitantes, la demo es \`/laboratorio\`.
 
 ## Reglas de navegación
 
 - Pedir demo o hablar con alguien → \`/#contacto\` (formulario) o WhatsApp +57 318 0005654.
+- Saber qué le sirve de ARS a su empresa / un plan → \`/diagnostico\`.
 - Una analítica concreta → \`/vision#<id>\` usando el id exacto del catálogo.
-- Una funcionalidad de la plataforma → \`/plataforma#feature-<id>\` o \`/plataforma#funcionalidades\`.
+- Una funcionalidad de la plataforma → \`/plataforma#recorrido\`, o \`/plataforma#arquitecto-ia\` para armarla a la medida.
 - Ver IA en vivo con su cámara → \`/laboratorio#demo-stage\`.
 - Un servicio o módulo de ARS → \`/servicios/<área>#<módulo>\` con la herramienta mostrar_servicio (ids exactos del catálogo de servicios).
 - Existe una ruta \`/admin\` interna (edición de datos del mapa); no es para visitantes, no la recomiendes.`,
@@ -165,7 +176,7 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
     rutas: ["/plataforma"],
     contenido: `«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: \`/plataforma\`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
 
-## Funcionalidades (A–N) · ancla \`/plataforma#feature-<id>\`
+## Funcionalidades (A–N) · se recorren en \`/plataforma#recorrido\`
 
 Grupos: **Operación** (gestión humana, programación y ejecución en campo), **Monitoreo** (visualización, central y trazabilidad), **Inteligencia** (IA y alertas con contexto), **Reportes** (indicadores, multisede y arquitectura).
 
@@ -184,7 +195,7 @@ Grupos: **Operación** (gestión humana, programación y ejecución en campo), *
 - **M · Reportes e indicadores** (\`reportes\`, Reportes): cumplimiento de turnos, rondas completadas y fallidas, tiempo de respuesta, novedades por sede, alertas por tipo, eventos por cámara, actividad por guarda, cobertura por cliente, evidencia generada, riesgos recurrentes, reportes por periodo.
 - **N · Multi-cliente · multi-sede · multi-zona** (\`multisite\`, Reportes): Organización → Cliente → Sede/Zona; Puesto → Cámara → Guarda; Turno → Ronda → Tarea; Evento → Evidencia → Reporte.
 
-## Capturas del producto (\`/plataforma#capturas\`)
+## Capturas del producto (\`/plataforma#en-movimiento\`)
 
 - Central de monitoreo: tablero único con cámaras, alertas y mapa en vivo; vista multipantalla configurable; priorización automática; asignación de operadores por turno.
 - IA por cámara: activar modelos por cámara sin reemplazar hardware; reglas por cámara; varios modelos sobre la misma fuente; edge + cloud según la latencia requerida.
@@ -204,7 +215,7 @@ Raíz: ARS Intelligence (plataforma) → L1 Clientes (empresas y organizaciones)
 
 Resultado: «Cero desconexión entre operación humana, IA y supervisión».
 
-## Casos de uso (\`/plataforma#casos\`)
+## Casos de uso (para armar el tuyo: \`/plataforma#arquitecto-ia\`)
 
 - **Conjunto residencial**: porterías, rondas perimetrales, novedades, cámaras por torre o zona, alertas por intrusión, reportes al administrador.
 - **Universidad o campus**: múltiples entradas, cámaras por edificio, estudiantes, visitantes y zonas críticas, permanencia o cruce de línea, eventos y reportes.
@@ -380,7 +391,7 @@ Todas las analíticas del portafolio están disponibles. Algunas muestran ademá
 
 1. Sector y tipo de instalación. 2. Número aproximado de sedes y cámaras. 3. Si ya tiene NVR/grabadores y vigilancia física. 4. El problema principal (pérdidas, filas, intrusión, EPP, control de guardas, reportes). 5. Si necesita gestión de turnos y rondas o solo analíticas de video.
 
-Con esas respuestas propone una ruta: analíticas concretas en \`/vision#<id>\`, funcionalidades en \`/plataforma#feature-<id>\` y cierre con demo en \`/#contacto\`.`,
+Con esas respuestas propone una ruta: analíticas concretas en \`/vision#<id>\`, la plataforma en \`/plataforma#recorrido\` (o a su medida en \`/plataforma#arquitecto-ia\`), el diagnóstico completo en \`/diagnostico\` y cierre con demo en \`/#contacto\`.`,
   },
   {
     id: "proyectos",
@@ -519,7 +530,7 @@ Personas, vehículos y placas, rostros contra listas, intrusión y cruce de lín
 Todas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.
 
 **¿Sirve para empresas de seguridad con muchos clientes?**
-Sí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver \`/plataforma#casos\`.
+Sí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver \`/plataforma#arquitecto-ia\`.
 
 **¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**
 El sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT. Integraciones específicas con terceros: a confirmar con el equipo comercial.
@@ -528,10 +539,11 @@ El sitio menciona integración con barreras en LPR y fichas de proyectos con con
 Colombia y Perú, según el sitio. Ver \`/proyectos\`.
 
 **¿Puedo ver una demo?**
-Sí, tres opciones:
+Sí, cuatro opciones:
 1. Probar ya la IA con tu cámara o un video: \`/laboratorio#demo-stage\`.
 2. Ver cada analítica funcionando: \`/vision#visor\`.
-3. Demo guiada con el equipo: formulario en \`/#contacto\`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.
+3. Un diagnóstico de tu empresa con IA (5 minutos): \`/diagnostico\`.
+4. Demo guiada con el equipo: formulario en \`/#contacto\`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.
 
 **¿Hay versión en inglés?**
 El sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de \`/vision\` se presenta en español.

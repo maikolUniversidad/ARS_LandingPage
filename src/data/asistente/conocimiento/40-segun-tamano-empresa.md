@@ -39,4 +39,4 @@ rutas: ["/plataforma", "/vision", "/proyectos"]
 
 1. Sector y tipo de instalación. 2. Número aproximado de sedes y cámaras. 3. Si ya tiene NVR/grabadores y vigilancia física. 4. El problema principal (pérdidas, filas, intrusión, EPP, control de guardas, reportes). 5. Si necesita gestión de turnos y rondas o solo analíticas de video.
 
-Con esas respuestas propone una ruta: analíticas concretas en `/vision#<id>`, funcionalidades en `/plataforma#feature-<id>` y cierre con demo en `/#contacto`.
+Con esas respuestas propone una ruta: analíticas concretas en `/vision#<id>`, la plataforma en `/plataforma#recorrido` (o a su medida en `/plataforma#arquitecto-ia`), el diagnóstico completo en `/diagnostico` y cierre con demo en `/#contacto`.

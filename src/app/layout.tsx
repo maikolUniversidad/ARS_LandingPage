@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
-  alternates: { canonical: "/" },
+  // Sin canonical global: cada página declara la suya (si no, todas heredarían "/").
   openGraph: {
     type: "website",
     locale: "es_CO",

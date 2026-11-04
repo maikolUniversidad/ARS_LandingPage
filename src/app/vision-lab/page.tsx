@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { SiteNav } from "@/components/SiteNav";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { MobileMenu } from "@/components/MobileMenu";
 import { VisionCanvas } from "@/components/vision-lab/VisionCanvas";
 import {
   CountingPanel,
@@ -261,8 +260,8 @@ export default function VisionLabPage() {
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur">
         <div className="flex items-center justify-between gap-3 px-6 py-3 md:px-10">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-4">
+            <Link href="/" aria-label="ARS Intelligence — inicio" className="flex shrink-0 items-center gap-2">
               <Image
                 src="/images/logos/horizontal-blanco.png"
                 alt="ARS Intelligence"
@@ -278,41 +277,7 @@ export default function VisionLabPage() {
               Vision Lab · Playground técnico
             </span>
           </div>
-          <nav className="flex items-center gap-2">
-            <LanguageSwitcher />
-            <Link
-              href="/servicios"
-              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground lg:flex"
-            >
-              <span className="text-accent">✦</span> Servicios
-            </Link>
-            <Link
-              href="/plataforma"
-              className="bevel-btn group hidden items-center gap-2 border border-accent/60 bg-accent/15 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-accent/25 sm:flex"
-            >
-              <span className="text-accent">◇</span> Plataforma
-            </Link>
-            <Link
-              href="/laboratorio"
-              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/80 transition-colors hover:bg-background/70 md:flex"
-            >
-              Laboratorio
-            </Link>
-            <Link
-              href="/"
-              className="bevel-btn group flex items-center gap-2 border border-border bg-background/40 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/80 transition-colors hover:bg-background/70"
-            >
-              <span className="text-accent">◀</span> Inicio
-            </Link>
-            <MobileMenu
-              links={[
-                { label: "Servicios", href: "/servicios" },
-                { label: "Plataforma", href: "/plataforma" },
-                { label: "Laboratorio", href: "/laboratorio" },
-                { label: "Inicio", href: "/" },
-              ]}
-            />
-          </nav>
+          <SiteNav idioma />
         </div>
       </header>
 

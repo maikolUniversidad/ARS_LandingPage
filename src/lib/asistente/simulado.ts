@@ -80,7 +80,7 @@ function guion(p: PeticionChat): Guion {
   if (/central|monitoreo|alertas|inicio|home/.test(q)) {
     return {
       texto: en ? "Sure, I'll take you to the control room." : "Claro, te llevo a la central de monitoreo.",
-      herramienta: { nombre: "ir_a", entrada: { ruta: "/", ancla: "monitoreo" } },
+      herramienta: { nombre: "ir_a", entrada: { ruta: "/", ancla: "central" } },
       despues: en
         ? "Scroll at your pace: I'll stay on the side and offer to explain each section."
         : "Desplázate a tu ritmo: me quedo a un lado y te ofrezco explicarte cada sección.",
@@ -91,9 +91,9 @@ function guion(p: PeticionChat): Guion {
   }
   if (/plataforma|erp|turno|ronda/.test(q)) {
     return {
-      texto: "La **plataforma ARS** conecta turnos, rondas, cámaras, IA, alertas y reportes en un solo lugar. Te llevo a sus funcionalidades.",
-      herramienta: { nombre: "ir_a", entrada: { ruta: "/plataforma", ancla: "funcionalidades" } },
-      despues: "Ahí ves las 14 funcionalidades agrupadas en Operación, Monitoreo, Inteligencia y Reportes.",
+      texto: "La **plataforma ARS** conecta turnos, rondas, cámaras, IA, alertas y reportes en un solo lugar. Te llevo al recorrido por sus módulos.",
+      herramienta: { nombre: "ir_a", entrada: { ruta: "/plataforma", ancla: "recorrido" } },
+      despues: "Ahí recorres los módulos de cada área con capturas reales de la plataforma.",
     };
   }
   if (/mediana|pequena|grande|tamano/.test(q)) {
@@ -104,7 +104,7 @@ function guion(p: PeticionChat): Guion {
         { nombre: "sugerir", entrada: { opciones: ["Tengo 3 sedes y 40 cámaras", "Es una cadena de tiendas", "Quiero una demo"] } },
       ],
       texto: "Para una empresa mediana (orientativo): plataforma operativa con turnos, rondas y central de monitoreo, más analíticas según tu negocio:\n- Retail: filas, aforo, hurto\n- Logística: placas, EPP, pasillos\n\nEl alcance final se define con el equipo.",
-      herramienta: { nombre: "recomendar", entrada: { analiticas: ["filas", "aforo", "epp"], paginas: [{ ruta: "/plataforma", ancla: "casos" }] } },
+      herramienta: { nombre: "recomendar", entrada: { analiticas: ["filas", "aforo", "epp"], paginas: [{ ruta: "/plataforma", ancla: "arquitecto-ia" }] } },
     };
   }
   const sedes = /(\d+)\s*sedes?/.exec(q);

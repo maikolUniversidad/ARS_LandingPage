@@ -107,7 +107,7 @@ export type TarjetaEstimacion = {
   resumen: string;
   /** Unidades que el equipo comercial usaría para cotizar (sedes, cámaras con IA…). */
   unidades: { concepto: string; cantidad: string }[];
-  /** Funcionalidades de /plataforma (id de `#feature-<id>`). */
+  /** Funcionalidades de la plataforma (ids de `@/data/integral-security`; se muestran en /plataforma#recorrido). */
   modulos: { id: string; titulo: string }[];
   analiticas: { id: string; nombre: string; motivo: string }[];
   etapas: string[];

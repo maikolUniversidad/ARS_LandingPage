@@ -194,8 +194,8 @@ async function trozosDatos() {
       fuente: "funcionalidad",
       titulo: `Funcionalidad ${f.letter} · ${f.title} (grupo ${featureGroups.es[f.group].label})`,
       ruta: "/plataforma",
-      ancla: `feature-${f.id}`,
-      texto: `${f.description}\nIncluye: ${items}.\nEnlace: /plataforma#feature-${f.id}`,
+      ancla: "recorrido",
+      texto: `${f.description}\nIncluye: ${items}.\nEnlace: /plataforma#recorrido`,
     });
   }
   for (const u of useCases.es) {
@@ -204,8 +204,8 @@ async function trozosDatos() {
       fuente: "funcionalidad",
       titulo: `Caso de uso: ${u.title} (${u.industry})`,
       ruta: "/plataforma",
-      ancla: "casos",
-      texto: `${u.bullets.join(", ")}.\nEnlace: /plataforma#casos`,
+      ancla: "arquitecto-ia",
+      texto: `${u.bullets.join(", ")}.\nPara armar el suyo: /plataforma#arquitecto-ia`,
     });
   }
   out.push({

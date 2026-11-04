@@ -128,7 +128,7 @@ function Estimacion({ t, ejecutar, alEnviar }: { t: TarjetaEstimacion; ejecutar:
       <p className={`${etiqueta} mt-3`}>{tx.modulos}</p>
       <div className="mt-1 flex flex-wrap gap-1.5">
         {t.modulos.map((m) => (
-          <button key={m.id} type="button" className={chip} onClick={() => ejecutar({ tipo: "ir_a", ruta: "/plataforma", ancla: `feature-${m.id}` })}>
+          <button key={m.id} type="button" className={chip} onClick={() => ejecutar({ tipo: "ir_a", ruta: "/plataforma", ancla: "recorrido" })}>
             {m.titulo}
           </button>
         ))}

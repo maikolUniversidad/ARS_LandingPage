@@ -54,6 +54,7 @@ Además hay demos interactivas: `/laboratorio` (modelos de IA en acción, con c�
 
 ## Contacto
 
+- Diagnóstico de la empresa con IA (llamado principal del menú): `/diagnostico`.
 - Solicitar demo: formulario y botones en la sección `#contacto` de la portada (`/#contacto`), de `/plataforma#cierre` y de `/vision#cierre`.
 - WhatsApp de la gerencia comercial: +57 318 0005654.
 - Correo: gerencia.comercial@vigiasdecolombia.com (asunto sugerido «Solicitud de demo - ARS Intelligence»).

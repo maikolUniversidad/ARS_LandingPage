@@ -3,19 +3,27 @@ import { AREAS } from "@/data/servicios";
 
 const SITE_URL = "https://arsintelligence.com";
 
+/**
+ * Rutas públicas e indexables. Fuera: /vision-lab (playground técnico, noindex),
+ * /admin (interna, noindex + robots) y /api. Las áreas salen del catálogo.
+ */
+const RUTAS: { path: string; priority: number }[] = [
+  { path: "", priority: 1 },
+  { path: "/servicios", priority: 0.9 },
+  { path: "/diagnostico", priority: 0.9 },
+  { path: "/plataforma", priority: 0.8 },
+  { path: "/vision", priority: 0.8 },
+  { path: "/laboratorio", priority: 0.6 },
+  { path: "/proyectos", priority: 0.7 },
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/servicios", "/plataforma", "/vision", "/laboratorio", "/proyectos", "/vision-lab"];
-  const servicios = AREAS.map((a) => `/servicios/${a.id}`);
   return [
-    ...routes.map((path) => ({
-      url: `${SITE_URL}${path}`,
-      changeFrequency: "weekly" as const,
-      priority: path === "" ? 1 : path === "/servicios" ? 0.9 : 0.8,
-    })),
-    ...servicios.map((path) => ({
-      url: `${SITE_URL}${path}`,
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    })),
-  ];
+    ...RUTAS,
+    ...AREAS.map((a) => ({ path: `/servicios/${a.id}`, priority: 0.8 })),
+  ].map(({ path, priority }) => ({
+    url: `${SITE_URL}${path}`,
+    changeFrequency: "weekly" as const,
+    priority,
+  }));
 }
