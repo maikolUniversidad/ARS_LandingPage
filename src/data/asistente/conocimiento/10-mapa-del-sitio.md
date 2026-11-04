@@ -7,21 +7,21 @@ rutas: ["/", "/plataforma", "/vision", "/servicios", "/proyectos", "/laboratorio
 
 Usa siempre rutas relativas del sitio (por ejemplo `/vision#intrusion`). Solo existen las rutas y anclas listadas aquí; no inventes otras.
 
-## `/` — Portada (narrativa cinematográfica)
+## `/` — Portada (las capas de la seguridad unidas en una traza)
 
-Recorrido con scroll en 8 escenas más un cierre. Anclas:
+Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y caen hasta volverse una sola plataforma; luego cada capa se enciende y un mismo evento las recorre dejando una traza de luz hasta el tablero de gerencia. Anclas:
 
-- `#integral` — 01 Seguridad integral conectada en tiempo real.
-- `#terreno` — 02 Operación en campo: guardas, rondas, accesos, zonas críticas, novedades.
-- `#monitoreo` — 03 Central de monitoreo que prioriza, interpreta y coordina.
-- `#ia` — 04 IA para detectar, priorizar y actuar (personas, vehículos, placas, rostros autorizados o restringidos, ROI, cruce de línea, permanencia, EPP, eventos críticos).
-- `#alertas` — 05 Alertas con contexto: snapshot, clip, historial.
-- `#respuesta` — 06 Respuesta coordinada: de la alerta a la acción.
-- `#control` — 07 Una plataforma para múltiples clientes, sedes y zonas.
-- `#decisiones` — 08 Reportes, indicadores y confianza.
-- `#cierre` — «Una sola plataforma. Toda tu seguridad.»: botón Solicitar demo (correo), formulario de contacto (nombre, empresa, correo, teléfono, mensaje) e indicadores (< 48h, 24/7, LATAM, 12+ modelos IA).
+- `#hero` — «Todas las capas de la seguridad. Una sola traza.»
+- `#fisica` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.
+- `#vision` — Capa 02 · Visión con IA sobre las cámaras. En operación.
+- `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). Piloto.
+- `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). Laboratorio, en desarrollo.
+- `#central` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.
+- `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.
+- `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma, cifras del catálogo y botones a demo y a `/servicios`.
+- `#contacto` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. `/#cierre` también lleva aquí.
 
-Enviar aquí: visitante que quiere la visión general o contactar. Para pedir demo, `/#cierre`.
+Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas o contactar. Para pedir demo, `/#contacto`.
 
 ## `/plataforma` — Seguridad integral en una sola plataforma
 
@@ -45,7 +45,7 @@ Anclas:
 - `#cierre` — «45 analíticas. Las mismas cámaras.»: correo de demo, WhatsApp, presentación y PowerPoint.
 - `#<id-analítica>` — abre esa analítica directamente en el visor, p. ej. `/vision#intrusion`, `/vision#aforo`, `/vision#huecos`. Si el id no existe se abre la analítica por defecto (Mapa de calor).
 
-Nota técnica: existe una analítica con id `cierre` («Cierre de puerta sin autorización»), por eso `/vision#cierre` también selecciona esa analítica en el visor además de llevar a la sección de cierre. Para contacto en esta página es preferible decir «baja hasta el final de la página» o usar `/#cierre`.
+Nota técnica: existe una analítica con id `cierre` («Cierre de puerta sin autorización»), por eso `/vision#cierre` también selecciona esa analítica en el visor además de llevar a la sección de cierre. Para contacto en esta página es preferible decir «baja hasta el final de la página» o usar `/#contacto`.
 
 Enviar aquí: preguntas sobre qué detectan las cámaras, analíticas para retail, prevención, operación, modelos de bajo costo.
 
@@ -87,7 +87,7 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
 
 ## Reglas de navegación
 
-- Pedir demo o hablar con alguien → `/#cierre` (formulario) o WhatsApp +57 318 0005654.
+- Pedir demo o hablar con alguien → `/#contacto` (formulario) o WhatsApp +57 318 0005654.
 - Una analítica concreta → `/vision#<id>` usando el id exacto del catálogo.
 - Una funcionalidad de la plataforma → `/plataforma#feature-<id>` o `/plataforma#funcionalidades`.
 - Ver IA en vivo con su cámara → `/laboratorio#demo-stage`.

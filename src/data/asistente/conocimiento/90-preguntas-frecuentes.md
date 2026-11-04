@@ -45,7 +45,7 @@ Colombia y Perú, según el sitio. Ver `/proyectos`.
 Sí, tres opciones:
 1. Probar ya la IA con tu cámara o un video: `/laboratorio#demo-stage`.
 2. Ver cada analítica funcionando: `/vision#visor`.
-3. Demo guiada con el equipo: formulario en `/#cierre`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.
+3. Demo guiada con el equipo: formulario en `/#contacto`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.
 
 **¿Hay versión en inglés?**
 El sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de `/vision` se presenta en español.

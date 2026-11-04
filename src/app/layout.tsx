@@ -29,9 +29,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 const SITE_URL = "https://arsintelligence.com";
 const SITE_NAME = "ARS Intelligence";
-const TITLE = "ARS Intelligence — La forma simple de hacer que todo funcione";
+const TITLE = "ARS Intelligence — Todas las capas de la seguridad, una sola traza";
 const DESCRIPTION =
-  "Plataforma de monitoreo inteligente con IA: video analítica, reconocimiento facial, LPR, detección de personas y EPP, y alertas en tiempo real.";
+  "Laboratorio de tecnología para la seguridad privada: vigilancia física, cámaras con IA, IoT y central de operaciones en una sola plataforma, con traza de punta a punta.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -45,10 +45,12 @@ export const metadata: Metadata = {
     "monitoreo inteligente",
     "video analítica",
     "inteligencia artificial",
-    "reconocimiento facial",
-    "LPR",
-    "detección de personas",
-    "EPP",
+    "seguridad privada",
+    "empresas de seguridad",
+    "rondas con QR",
+    "central de operaciones",
+    "IoT",
+    "trazabilidad",
     "seguridad integral",
     "CCTV",
     "alertas en tiempo real",
