@@ -1,5 +1,6 @@
 "use client";
 
+import { useSugerenciaProactiva } from "./extra";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { analiticas } from "@/data/analiticas";
@@ -64,6 +65,8 @@ export function Asistente() {
   const [faseVoz, setFaseVoz] = useState<FaseVoz>("inactivo");
   const [subtitulo, setSubtitulo] = useState<Subtitulo | null>(null);
   const [burbuja, setBurbuja] = useState<string | null>(null);
+  // Sugerencia proactiva (una por sesión) cuando no hay otra burbuja.
+  const proactiva = useSugerenciaProactiva(abierto);
   const [anuncio, setAnuncio] = useState("");
   const [ancla, setAncla] = useState("");
   /** Modo guía: Ars se corre a un lado (columna en escritorio, hoja en móvil). */
@@ -842,11 +845,11 @@ export function Asistente() {
       <BotonFlotante
         abierto={abierto}
         alAbrir={abrir}
-        burbuja={burbuja}
-        alCerrarBurbuja={() => setBurbuja(null)}
+        burbuja={burbuja ?? proactiva.sugerencia?.texto ?? null}
+        alCerrarBurbuja={burbuja ? () => setBurbuja(null) : proactiva.cerrar}
+        alAbrirBurbuja={burbuja ? undefined : proactiva.aceptar}
         vozActiva={modoVoz !== "apagado"}
         faseVoz={faseVoz}
-        nivel={nivelVoz}
       />
       <EstilosGuia acopladoEscritorio={abierto && acoplado && !movil} />
       {hoja && (

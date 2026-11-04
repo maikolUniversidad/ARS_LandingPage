@@ -28,6 +28,7 @@ import { useTextosAsistente } from "@/lib/asistente/i18n";
 import type { Perfil } from "@/lib/asistente/memoria";
 import type { Accion, ClavePerfil, EstadoServicios, MensajeChat } from "@/lib/asistente/tipos";
 import { LIMITES } from "@/lib/asistente/tipos";
+import { AvatarMini } from "./AvatarArs";
 import { OrbeVoz, type FaseVoz } from "./OrbeVoz";
 import { Citas, Tarjetas } from "./Tarjetas";
 import { TextoRico } from "./TextoRico";
@@ -246,7 +247,7 @@ export function PanelAsistente(p: Props) {
         }}
         className="relative flex items-center gap-2 border-b border-white/10 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] md:pt-3"
       >
-        <OrbeVoz fase={vozOn ? p.faseVoz : "inactivo"} nivel={p.nivelVoz} tamano={36} />
+        <AvatarMini fase={vozOn ? p.faseVoz : "inactivo"} tamano={36} />
         <div className="min-w-0 flex-1">
           <h2 id={tituloId} className="font-heading text-base font-black uppercase leading-none tracking-tight">
             {t("asistente.nombre")}

@@ -5,6 +5,7 @@ import { ArrowUpRight, ChevronDown, FileText, ScanEye } from "lucide-react";
 import { useTextosAsistente } from "@/lib/asistente/i18n";
 import type { Accion, Cita, Tarjeta } from "@/lib/asistente/tipos";
 import { FormularioContacto } from "./FormularioContacto";
+import { TarjetasExtra, esTarjetaExtra } from "./extra";
 
 type Props = {
   tarjetas: Tarjeta[];
@@ -29,10 +30,11 @@ export function Tarjetas({ tarjetas, ejecutar, alEnviar }: Props) {
     return true;
   });
   const sugerencias = unicas.filter((x): x is Extract<Tarjeta, { tipo: "sugerencias" }> => x.tipo === "sugerencias");
-  const resto = unicas.filter((x) => x.tipo !== "sugerencias");
+  const resto = unicas.filter((x) => x.tipo !== "sugerencias" && !esTarjetaExtra(x));
 
   return (
     <>
+      <TarjetasExtra tarjetas={unicas} ejecutar={ejecutar} alEnviar={alEnviar} />
       {resto.length > 0 && (
         <ul className="mt-2 space-y-2" aria-label={t("asistente.sugerencias")}>
           {resto.map((x, i) => (
