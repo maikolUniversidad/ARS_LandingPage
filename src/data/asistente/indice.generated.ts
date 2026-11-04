@@ -159,11 +159,10 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
   {
    "id": "kb:mapa-del-sitio:5",
    "fuente": "kb",
-   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/proyectos` — Mapa de proyectos en Latinoamérica",
+   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/proyectos` — Proyectos por sector y ciudad",
    "ruta": "/",
-   "texto": "«Una red que ya está operando.» Mapa interactivo (scroll para zoom, arrastrar para mover, clic para ver detalles). Lista «Presencia ARS» con filtros por país, departamento/región y ciudad; cada proyecto abre una ficha con vertical, descripción, integraciones y métricas, y botón «Solicitar información». No tiene anclas.\n\nEnviar aquí: preguntas sobre experiencia, ciudades, países, sectores.",
-   "h": "5e0f500aa79a0c99",
-   "v": "zQEgHdwI1hfq6NX3EdUCEdrvAyEq+7MTDOfSMvr49ssJJPP3EQQZAhQfGhT4Ab7zHyvy7wT+CfADCevyBQcgEu8ryQ/5EfAWBer16M0d6dDb/N3P5OAO3RcD4PzvKiMS/xsaPji1C7Xq/zH/I8YDACM3DgninzbX9e0CDtrG+QXg5QD6LN/cAt/lzRUi3AAS0fQCMSkGFhrf+d785QDl2/z+/e7xD9jasAe8qvEj6/Xu8xz74QgK3eH6/RnQEOQoTjHs6dsf5Oi7HjQC4PsZBRbuWAsCIREKyzH98OPk4/cDPheqC/0oLBgUGOkh2/X9DAIs9S8I98g2HikgIOwnAdTh97gLHvD4CNH1GwHk+O8QDPUzLt0D1wHs1hfrGw4G2iFB+Qz68xEx1QT+Fvca3Pk6CPIa8e0QE/bY3CvnB/PUAfDT1tQKI+DVUAAYLQjs/Qr+Lv3jEAMiCR3eAwL15d8gzAf68uwD6u4M+xXw5gUhsQi5EOr43BkP/xLz+NfcBPYWCe74DfUq0EX+MuYP1/fezf3pLQkE/+fvgQkU6AcO+QfgMkgX+/gqNhPx1ekdHQ3WIQsB/v/kEN4eAM43E+va/BUNKeQcJQ4GGhMa5S8v7s4DMP8yId8NzP3g1dTiF93bByQ53SX7LPQx/fUC2cnd5ucH59flIf/y4gH14/Q="
+   "texto": "«La plataforma, operando en terreno.» Mapa de Colombia y Perú con un marcador por ciudad, filtros por estado (En operación, Piloto, En desarrollo), país y área de servicio, y tarjetas que abren la ficha de cada proyecto con los módulos del catálogo que usa (enlazados a `/servicios/<area>#<modulo>`) y CTA al diagnóstico. Cada ficha tiene enlace propio `/proyectos#<id>`.\n\nAnclas:\n- `#mapa` — mapa, filtros y tarjetas.\n- `#como-empieza` — diagnóstico → piloto → operación.\n- `#cierre` — contacto.\n\nEnviar aquí: preguntas sobre experiencia, ciudades, países, sectores.",
+   "h": "699ae3850cb03f0c"
   },
   {
    "id": "kb:mapa-del-sitio:6",
@@ -438,9 +437,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Cómo opera ARS según el tamaño de la empresa (orientativo)",
    "ruta": "/plataforma",
-   "texto": "**Importante**: el sitio no publica planes ni paquetes por tamaño de empresa. Lo que sigue es una orientación derivada de lo que sí muestra el sitio (casos de uso, familia de modelos lite, arquitectura multisede y escala de los proyectos del mapa). Preséntalo siempre como orientativo y aclara que el alcance, los módulos incluidos y el costo de cada caso son a confirmar con el equipo comercial.",
-   "h": "bf7b84bdbbac9a22",
-   "v": "1/dAB+0fx/7r/dXZEdcZKOW/yOMbHszfJQnRCCLX9tML9eAIJyY/9w8k9/gAE98CBQfP8R0BCOIGByIIItEj89wdwzr0BOM/BO4k9/QdIvvu/PX0JLnf6uAB8vzxAjAFDAggHCvdHenu7B74AAke/h5A///tAx3rDPHmFRT56Bf23/wPKPP/2ucC7fkPCc4UtvwKEg4mEO7p9gr768r/2RUD2/jrGNIDmRK88QzPC+X+1CwG/h/u0vkC1QD++hv7Mx4F8eYR4Qfz71sX5eYR9wv4UQ0JL/vgvP7+9/Hr3OXmPAi8JrwLBPsa+/v/6u/lAwYR4yT6AM0fGBMwBx3s8OIZB8j9MA/pA/gFGAz9GCH++wMIGwvn/e/e7hohAx/o8P89DAHV/vAN0PoNBRIN2/kY9xcEA+4Z++Df1AzpGe4f4PHp0/cR5QvQGfYLDRf0+B8i8vbc4vL/2/XeNRcW5eUXA/8j29oHxPMN+QAF7yYhyD7d3NrrwPoR/PICEd7g+9LuMQrh8ygo1xcJOe8Ny//70+TfJQoM2w8xryz/8PQfBPDzENcM9ggUGj2jBvkiD+nLI/ToEAwEDPT90u8B7NvO3R3TL+v1ReMXNR4Z9w8b9/z3Ag8cDwMB+A/uyPD+IOL8IAh/BykIN/ceDfX7DPfZwvUR7CD1H/7k7hD15Q4="
+   "texto": "**Importante**: el sitio no publica planes ni paquetes por tamaño de empresa. Lo que sigue es una orientación derivada de lo que sí muestra el sitio (casos de uso, familia de modelos lite, arquitectura multisede y proyectos de referencia por sector). Preséntalo siempre como orientativo y aclara que el alcance, los módulos incluidos y el costo de cada caso son a confirmar con el equipo comercial.",
+   "h": "56b0207712a1150c"
   },
   {
    "id": "kb:segun-tamano-empresa:1",
@@ -474,9 +472,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Cómo opera ARS según el tamaño de la empresa (orientativo) › Empresa grande / multi-cliente — orientativo",
    "ruta": "/plataforma",
-   "texto": "- Arquitectura **multi-cliente · multi-sede · multi-zona** completa, central de monitoreo con video wall, priorización de riesgos y operadores por turno.\n- Empresas de seguridad que gestionan muchos clientes: programación de turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento.\n- Analíticas de prevención y riesgo de alto valor: `negras`, `armas`, `aglomeracion`, `caidas`, `fuego`, `abandono`, reconocimiento facial con listas y LPR en accesos.\n- Escala de referencia en el mapa de `/proyectos`: despliegues de decenas a cientos de cámaras por sitio (aeropuertos, puertos, metro, centros comerciales, torres corporativas). Son datos ilustrativos del mapa; no los presentes como cifras contractuales.",
-   "h": "31381727d699d6a0",
-   "v": "6xdlCugm2O7Z+MndIcQhCsvRwMMDLsrKEvbJBiP1Js8AA8sADCgnAEEbztb07bv1BzK7CA8m/eP7+CnlLMlCENwHw1Hy7Po/JPEeBdsL7fzq7dsiMMLD0+b/ASkbEB8MPPMfEh3mFNnTxSIYKOYn3xdPHfr+/zXULAH0ChYK8hXluvvbEtIL+AcA0f8ABA8jpwfDMCkR9wHP/xEH6vf/zwsZ0RjnELoGoxi6A/TgEb0EFA3eyCAM3Q3kzQjtLvoiMi8p4Owf2eH/7X8K8NoU7/79XyMgIur6w/oG/+DqzfTGYDa7TJj+KggLCOwd7enXCxIjvwQN+t4YEAQdFgrsBNjQ1MsiNNbn+OABFgMc+jQE9vomUdvgB97vFSgq/gHI6hQ6A+zH+dsK9uD8Dz/10PEz7C3qyOkRAtyyvC7JR9Idr/O+2PEOCBKyNfYtK/yu7iolwATX5AEo6QvXWy8F1KIT4gQL0L0SyPwd+SYU100x1T703uf/xBcs/gDfH+bs8f3HOOS5BBoZ4O30VvT/7P7mwwnkRBYY8x03pzc39P4QCNj6H/EAG+1C3gbG5js3Nfi9OAbqyxrw/+we1+/uFdPn/SPCWtPpW+nzJgEU+Qw57O3uDwYnOfv76O/8yxMPM8D3DSdn81o3PdsiNfAV+deszPQf3trfGw359SPP5hg="
+   "texto": "- Arquitectura **multi-cliente · multi-sede · multi-zona** completa, central de monitoreo con video wall, priorización de riesgos y operadores por turno.\n- Empresas de seguridad que gestionan muchos clientes: programación de turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento.\n- Analíticas de prevención y riesgo de alto valor: `negras`, `armas`, `aglomeracion`, `caidas`, `fuego`, `abandono`, reconocimiento facial con listas y LPR en accesos.\n- Proyectos de referencia en `/proyectos`: redes de sedes públicas, transporte masivo, energía, recintos de eventos y back-office de empresas de seguridad. Son casos de referencia sin cifras; no inventes escalas ni cantidades.",
+   "h": "084a1524e8b46ad9"
   },
   {
    "id": "kb:segun-tamano-empresa:5",
@@ -489,47 +486,34 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
   {
    "id": "kb:proyectos:0",
    "fuente": "kb",
-   "titulo": "Proyectos, ciudades y verticales",
+   "titulo": "Proyectos por sector y ciudad",
    "ruta": "/proyectos",
-   "texto": "Página `/proyectos`: «Una red que ya está operando». Texto de la página: ARS Intelligence opera centrales inteligentes en Colombia y Perú, conectando cámaras y sensores en una sola red de decisión.",
-   "h": "424a015f2c39bfb6",
-   "v": "5uogAOg66ALy5s8G68oj+doJERsQ3+kF8ejsSvwFEcj59wL6+AQuLBP/Bu4b9vIRKDT70xb89ffbBvgE3Bc8Muj90xP/A+MUAuPVA9cyCNv3C9Tq/9Py0wMZ3f3q/QQnHiYKSBjSBe/J9isZLs380BojLuQZs1TuBPry9MnhAADx5gX+/vfz9AnW8gIJsAAdvvzaFSEQ3Sf1GOj9AA0Ewvff8evyBunxmAzL3/oa6uvYDPzk7Sr44Qr02DbcLcUjLzsS/LsH+eHTFSIL7NL2AvjdOBkdFwbv4CYZ//XyAP0LW/KsKtUh8BD62Aon5uvi//swHgUi5+UpKhpZ+Qsg+8fO8sQRIt/dEuYGIiPaGwUuAOovIv3q/+Pw8yf+K/AH2wouERAKJxYh1BfwPAYm7eIk4wb8u9ntHdTJvyzsEunv2f/Dt+0TJg/iQQMgG+nQATLm8hLa2gk6ERndLCIR0/H4zA32H9cO2gQ+EjD43xUnygjTGw/w2/4i4CvkI7vQAv0BJt31FAQW+iPRLcQMAAzmri7vGCP6C/bbgSkN0uMG5v0DPSUOB/w5MwH2vAQIQTvlBPMe8Q3EFes207oYH9/d+BoKRMgYafnpJ+4+6hocBP4RKu4VLNgU6hH8+PrhFqXmCw9W2CwNEO4VEfMC2LfG0ekWCMDjEP768hHUGQU="
+   "texto": "Página `/proyectos`: «La plataforma, operando en terreno». Muestra cómo se combina el catálogo de servicios según el tipo de cliente, con un mapa de Colombia y Perú, filtros y una ficha por proyecto. Los datos viven en `src/data/proyectos`.",
+   "h": "7de32559a7e1ad28"
   },
   {
    "id": "kb:proyectos:1",
    "fuente": "kb",
-   "titulo": "Proyectos, ciudades y verticales › Cómo se usa el mapa",
+   "titulo": "Proyectos por sector y ciudad › Cómo se usa",
    "ruta": "/proyectos",
-   "texto": "Botón «Entrar al mapa». Scroll para acercar y alejar, arrastrar para mover, clic en un marcador para ver los proyectos de la ciudad y su ficha. Filtros por país, departamento/región y ciudad; lista «Presencia ARS · Ciudades operativas en Latinoamérica». Cada ficha muestra vertical, descripción, integraciones (facial, LPR, EPP, intrusión, comportamiento, conteo, térmica, guardias, acceso, perímetro, alarmas, IoT), métricas y botón «Solicitar información».",
-   "h": "feb65a946b691fcc",
-   "v": "zQgwEsb71Qb0CLsEFdoN9bLm7B0HA7gO5/DlM/oT7cIAIAXrFgkWCAIXBBzs5uPt9EL68BEbLQz18Q78AxQfOPIqzRQFCf8K/N/wBt0Yye/z9NzX8M0G7iba6QXvCyFL9vsgYTfFG8HU3BgIN+wV6AQ4G/n3wkzL+fIKAei16fXr6tn2MOHnGPEM/x8P1hIPpeICLikTECD85O4J/APw7PIHENvhCMvuqQrCwhHp3ObvJ/zZ1QAK3/YS/jLDIts0MzjsC8cl/tW6Gzfi5wP6BB4NSQMR9Ag32C0g/Ovz5/D4PzKiL/IMGCMPFuAzyuwI/ANc8CIZB9ksDgglGAUjJroL6rw1F+DQ+87zEwnG/QYTAPU1O83+5gnuBw3uHwHn7Qk6C//48Sgy1+4ABAT50ANRAuoS5Mv4Ku/SzzsNEuXw+enGz9HsNuupUgoPCQLh+goKFRXjBhQk8hu9+uzj4ccTvg/j4vID9egb+Cfv2v/10BOjDvDm3RYbDv3qAuXhC9kTBPAJEfs34QfvU9gE5u/P1ADgJxbuA+/6gRT73h4N6PHzMioUBgMvLiTztgobKiW75PL4+yfb5f087cA9A/HzECz6SeoeM9gKCPQ15UQeGNECUxIQNvsr2PDq4MbsF8jSAitNxyIBJu0QD/chp8u8/fr+7swGGSMh0hD35vI="
+   "texto": "- **Mapa** (`#mapa`): un marcador por ciudad con su número de proyectos; tocar una ciudad filtra los casos y volver a tocarla quita el filtro.\n- **Filtros**: estado (En operación, Piloto, En desarrollo), país (Colombia, Perú) y área de servicio (las 10 áreas del catálogo).\n- **Ficha**: se abre desde cada tarjeta y tiene enlace propio (`/proyectos#<id>`). Muestra cliente (tipo, sin nombre), sector, ciudad, escala, el reto, cómo se resolvió, lo que cambia y la lista de **módulos del catálogo**, cada uno enlazado a `/servicios/<area>#<modulo>`. Cierra con «Hacer el diagnóstico» (`/diagnostico`), «Quiero algo así» (WhatsApp) y «Ver la plataforma» (`/plataforma`).\n- **Cómo empieza un proyecto** (`#como-empieza`): diagnóstico → piloto en una sede → operación y escala.",
+   "h": "d7977772ed5b6d4e"
   },
   {
    "id": "kb:proyectos:2",
    "fuente": "kb",
-   "titulo": "Proyectos, ciudades y verticales › Ciudades en el mapa",
+   "titulo": "Proyectos por sector y ciudad › Los proyectos",
    "ruta": "/proyectos",
-   "texto": "- **Colombia (8)**: Bogotá D.C., Medellín, Cali, Barranquilla (principales); Cartagena, Bucaramanga, Pereira, Cúcuta.\n- **Perú (1)**: Lima (incluye Callao y San Isidro/Surco).\n\nEn total el mapa muestra 21 proyectos: Bogotá 4, Lima 4, Medellín 3, Cali 3, Barranquilla 2, Cartagena 2, Bucaramanga 1, Pereira 1, Cúcuta 1.",
-   "h": "3454c06797f7a7b9",
-   "v": "+uh/LaY8+/YX7dcbCMlN/I/VLzQW+eIpF+73Ze8oC+DtAPAC+islA/33BboFIszZEVICD1LRHibs5A237hMiH/A128s4BsZJEwTxH/vq2fPjFAbR7OLtIyUkwIjwDvULLiALeSr8884BGxYfJu4UCR4xQ/L72AvQ+fIVGsIIFvsp/vEdC+4XFszU9g8Zlw9C1vnQMjjnDTsICsnezTEf+8nt/fT8yMLzytbytgHDG/z8HuIKAwIa2SA5FxvPThEMIn2i+Lgd9bmlDhQC6b71+i4eDhPyOSsFuC4LFRv43yFDN+nOCd0wAFz+7MpI+x3p9gUyQfAw6RD6JBxA/A4S/9HqwrIRLNrt1Pf3ISelIRAe7g8IFdbwyRsi5jrtFfkYtBBqK+LbDQsDwxkhCuEI4fwp6eO37d3iSgPfnvf0Byv16/Lqtsf1HBIFLUcWM+3/DwgGCTQEHuY5BBzx/svi5/cpugzOD8Yg7vULHkT749kS/SDd9xUW+A4mChC4++wMGPQZAs4LLS1GCPrZRN3z/A+15NnwAQnfIQugkPX7zycFEQHyTmMVBxAuJgPitfv+Skfort412TPB8P4f68sVGB8F8jYAUOoVK9j+4uw+5w0HD+ENUgMz/u4lIenNCvkENqvVEwDo5yH8H9wbIfzcqa3sytcqz9SrYfUE3f/sIN0="
+   "texto": "- `campus-universitario` · Universidad privada · Bogotá · En operación: rondas con QR, asistencia y relevos, visitantes y bicicletas, visión artificial, Sala de Control, botón de pánico.\n- `red-de-sedes-publicas` · Entidad pública del orden nacional · Bogotá · En operación: programación, acceso inteligente, reporte por sede, portal documental para el cliente, auditoría.\n- `instalaciones-industriales` · Compañía del sector energético · Medellín · En operación: recorridos y tiempo en el puesto, zonas y salida de zona, radio PTT, botón de pánico, recursos operativos.\n- `estaciones-de-transporte` · Sistema de transporte masivo · Bogotá · En operación: sala del coordinador, cumplimiento, radio PTT, consola de radio, visión artificial (conteo y aforo), notificaciones.\n- `recinto-de-eventos` · Recinto ferial y de eventos · Bogotá · En operación: programación, visitantes, visión artificial (aforo y mapa de calor), chat corporativo, reportes con foto.\n- `oficinas-corporativas` · Grupo corporativo · Lima · En operación: puertas con reconocimiento facial, acceso inteligente, IoT, Sala de Control, app de escritorio.\n- `back-office-conectado` · Empresa de seguridad privada · Cali · **Piloto** (incluye Facturas DIAN y RADIAN, en piloto): nómina, Agente interoperador de datos, contabilidad conectada, auditoría de Gestión Humana.\n- `formacion-del-personal` · Empresa de seguridad privada · Barranquilla · En operación: capacitación virtual con certificados QR, diseñador de cursos con IA, evaluaciones, Central Viva en VR.\n- `verificacion-con-robot` · Laboratorio ARS · Bogotá · **En desarrollo**: perros robot que verifican con las mismas analíticas y envían video a la central. No es un producto: no des fechas, modelos ni marcas.",
+   "h": "ae668abb4196ac29"
   },
   {
    "id": "kb:proyectos:3",
    "fuente": "kb",
-   "titulo": "Proyectos, ciudades y verticales › Verticales representadas",
+   "titulo": "Proyectos por sector y ciudad › Cautela",
    "ruta": "/proyectos",
-   "texto": "Aeroportuario y movilidad; transporte público (metro); retail y centros comerciales; hospitalidad y hotelería; logística e industrial; puertos y carga; frontera; corporativo y control de acceso; educación (campus); salud (hospital); espacios públicos (malecón).\n\nPatrones típicos por vertical que muestran las fichas:\n- Aeropuertos: reconocimiento facial en zonas restringidas, LPR en accesos, conteo en filas.\n- Retail: aforo, mapas de calor, comportamiento/hurto, LPR en parqueaderos.\n- Puertos y logística: LPR de tracto-camiones, perímetro, ROI en patios, térmica nocturna, EPP.\n- Industrial: EPP, zonas peligrosas, perímetro, apoyo a cambios de turno.\n- Salud: pasillos críticos, detección de caídas.\n- Corporativo/educación: control de acceso facial, LPR en parqueaderos.",
-   "h": "4a0d2e58fe42618b",
-   "v": "7y1f6esOv/bMFcgOMOQOC/oR7QcJHeXnvOIuORM1Ks4G/u/4rzsYAi8LzcHI/EHK/GDT/RQWExHY1EwDPuVLPh8fgR76518PDffv5wcR0+kJ//f7CfW71tzr0S3YEB4p8sMRSyDeCef0tQQTC9w7wRVTWAcZwk3i+gL/5ebT9gfXyt/Y7tYJ8kAD2ekQ/FcorQr6SDd0Cy0EGqeoIeEC0O/PyjAi0tX0sSby4R7K7gnvIfKzyS7U0y7zxR7jSPowJzYJ0s8Z9qDE8EflA/01DwbvN/hD3bRR9zhIRhUPD/IlQja2BJbyDxro6PgW3eznIUAqGwAo1OgvAywb2yn5Ksbq5uMhGtsgEbTxHP4cIgYmI9noFNLm9NA4PRvmUeb3mTA0+NTaTjAI4vTtEwQG6tYZODXi0JvQCcOHqjUMPKjeATLdBPrzKjuiMhIAGA7nAlblCO3O8RdE9CDvPxDH97gjzCYJ0bwS3/oiE1EBuBgYwxDJDwMA2xQ0GRznLvYCJwP98McL7RUFHu3PfQQDDtGl9SHh/BX8GRIhixkK+Rck9gATIDrAI99RHQfEjQ7uXyGb5AQj7hPa5QdK/8bjEgjzIWboT7rcVu/Z9gxMBzo9L+PIcQj1RDME9frms/HlK9XH8Fha9D72LOEKOe/42NzM7/tf19DyNx343jjODvo="
-  },
-  {
-   "id": "kb:proyectos:4",
-   "fuente": "kb",
-   "titulo": "Proyectos, ciudades y verticales › Cautela con las cifras",
-   "ruta": "/proyectos",
-   "texto": "El archivo de datos del mapa indica que verticales, direcciones, número de cámaras y métricas son **datos de referencia (placeholder) basados en operaciones típicas de ARS**. Por eso:\n- Habla de ciudades, países y verticales, que es lo que la página comunica.\n- Si preguntan cifras de un proyecto concreto (cámaras, eventos por día, disponibilidad, tiempo de respuesta) o si un aeropuerto, puerto o empresa nombrada es cliente, responde que el detalle es a confirmar con el equipo comercial e invita a ver la ficha en `/proyectos` o a pedir información.\n- Como orden de magnitud orientativo, las fichas muestran sitios de entre unas 60 y unas 420 cámaras.",
-   "h": "56530e4c56329ce6",
-   "v": "+BtT/NoWzv/y+/L4ALkGQbTZ3A8J7szm/OnpFTcn+MgY/9bh+BYx3w8f8+ft3dbnEUPf8B4nQg0G+i3sHvUxC94x0VwiIu44D/7s6/wM47z+KLDl/eX8zPI0vx0CIxkKAwwsGBPzBr3a/Sj0JM9G8vlCIS7K6hr5/uImFwvTDBzzwvLNMdjn3vUJ1goaBCM1wBLVSDUW5T/j6+UGJ+TX0PLm+xbqGcPHpAfP+STK3+oN7hrP0xkP5P4O7zHrGcoFOkTq+LICCv2zBlgR+ccwBtoDRzIXMsk9sxrx+ewx1ejTPD3MGLoSGRz57fop6uQOJAYADgQu3L00OEsQ0On9BZ4KBOE3GqnYBOvjJwnZ/S0hBPYoC+3V19n39E0KGScq8vVV5hkGDA0519Dm6OUE2NczCju19NEj6d/Nz0PoIe7dwN/k1PPlKRLFLyMGD/3V1B7/2xzc+RZL8kDPUwPg8+I01CX0A6/11Ns78jcO1icOzfPBBc79uiMzFPTdAc28GM4FBs3k7jEjxicheN8a6QPmtBf3HxHTCBEPgTDx2/gpFuj7EwLXJPsyAS7cuuURNhXXAfj0BwXd5dsu6cBIDQ3c3EXKMsAdUuwM9OdC3jlV38kXNPAN9RcB9fbawvgKIqvHDidf7CE5J8YJO+4T+6LF2/89zujpEx/r09jPEQo="
+   "texto": "- Todas las fichas están marcadas como **«Caso de referencia»**: describen operaciones reales de la plataforma, pero el cliente, la ciudad y la escala están pendientes de validación. No nombres clientes ni digas que una entidad concreta es cliente.\n- No hay cifras de proyectos (cámaras, sedes, vigilantes, disponibilidad). Si las piden, di que el detalle se confirma con el equipo comercial e invita al diagnóstico o a una demo.\n- Si preguntan por su sector, recomienda la ficha más parecida con su enlace (`/proyectos#<id>`) y 2–4 módulos del catálogo.",
+   "h": "3fe4564a3b606bb1"
   },
   {
    "id": "kb:laboratorio:0",

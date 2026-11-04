@@ -1,4 +1,10 @@
 /**
+ * ⚠️ LEGADO: solo lo usan el panel /admin y `src/lib/data-store.tsx`.
+ * La página /proyectos ya NO lee este archivo: usa `src/data/proyectos`
+ * (proyectos vinculados a los módulos reales de `src/data/servicios`).
+ * Estos datos son de relleno (y mencionan analíticas que el catálogo no
+ * ofrece, como LPR, EPP o térmica): no reutilizar en páginas públicas.
+ *
  * ARS Intelligence — operations across Latin America.
  *
  * Two-level data model:
@@ -7,7 +13,7 @@
  *     coordinates, gallery, stats and integrations.
  *
  * Coordinates are WGS84 (lat/lng). The map projects them with d3-geo
- * (Mercator) — see `src/components/LatamMap.tsx`.
+ * (Mercator).
  *
  * Verticals, addresses, camera counts and stats are placeholder data based
  * on typical ARS operations. Replace with real values when available.

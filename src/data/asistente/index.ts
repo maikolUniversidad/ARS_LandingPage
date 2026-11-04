@@ -108,8 +108,12 @@ export const RUTAS_SITIO: RutaSitio[] = [
     ruta: "/proyectos",
     titulo: "Proyectos",
     descripcion:
-      "Mapa interactivo de ciudades y proyectos en Colombia y Perú, con filtros y ficha por proyecto.",
-    anclas: [],
+      "Proyectos por sector y ciudad en Colombia y Perú: mapa, filtros por estado, país y área, y ficha por proyecto con los módulos que usa (enlace /proyectos#<id>).",
+    anclas: [
+      { id: "mapa", descripcion: "Mapa, filtros y tarjetas de proyectos" },
+      { id: "como-empieza", descripcion: "Cómo empieza un proyecto: diagnóstico, piloto y operación" },
+      { id: "cierre", descripcion: "Contacto para conversar sobre su operación" },
+    ],
   },
   {
     ruta: "/laboratorio",
