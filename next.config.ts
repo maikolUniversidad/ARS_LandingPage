@@ -3,6 +3,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   output: "standalone",
+  // La presentación 3D completa vive como estáticos en public/analiticas-3d.
+  // Redirección (no rewrite): sus scripts son rutas relativas y necesitan la
+  // URL con la carpeta para resolverse.
+  async redirects() {
+    return [{ source: "/analiticas-3d", destination: "/analiticas-3d/index.html", permanent: false }];
+  },
   images: {
     // AVIF primero (mejor compresión); webp como fallback. next/image sirve
     // las imágenes redimensionadas y en formato moderno automáticamente.

@@ -172,6 +172,13 @@ export default function Home() {
               <Scramble text="Plataforma" trigger={locale} />
             </Link>
             <Link
+              href="/vision"
+              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground sm:flex"
+            >
+              <span className="text-accent">◉</span>{" "}
+              <Scramble text="Visión" trigger={locale} />
+            </Link>
+            <Link
               href="/laboratorio"
               className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground md:flex"
             >
@@ -195,6 +202,7 @@ export default function Home() {
             <MobileMenu
               links={[
                 { label: "Plataforma", href: "/plataforma" },
+                { label: "Visión", href: "/vision" },
                 { label: "Laboratorio", href: "/laboratorio" },
                 { label: t.nav.projects, href: "/proyectos" },
                 { label: t.closing.ctaPrimary, href: "#cierre", primary: true },

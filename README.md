@@ -36,6 +36,43 @@ En runtime la IA carga **100 % local, sin CDNs externos**.
   navegador real (Chrome/Edge/Safari) — no el navegador embebido de algunos editores.
 - Los modelos (~22 MB) están en `.gitignore` (no se commitean; se generan en install).
 
+## Módulo de Visión: `/vision` (analíticas de video)
+
+Página comercial con las 45 analíticas del portafolio «Analíticas en 3D · Vigías»,
+lámina por lámina como en la presentación: la simulación 3D (motor three.js) y la
+prueba real lado a lado, qué hace y los pasos de activación iluminados al ritmo de la
+simulación. 15 traen video real procesado por los modelos (MEVA CC BY 4.0, Pexels,
+Mixkit, laboratorio propio). Se cambia de analítica con un clic, flechas o teclado;
+el enlace directo es `/vision#<id>` (p. ej. `/vision#intrusion`).
+
+El motor 3D se carga UNA vez: `sim.html` recibe `postMessage({tipo:"vigias-sim-ir", id})`
+y monta la escena nueva sin recargar (el modelo de la persona pesa ~4 MB); devuelve
+`{tipo:"vigias-sim", listo|montado|fase+idx|error}`.
+
+- `src/app/vision/` y `src/components/vision/`: la página y sus piezas.
+- `src/data/analiticas.ts`: catálogo generado desde las escenas de la presentación
+  (`node scripts/generar-analiticas.cjs public/analiticas-3d salida.json`).
+- `public/analiticas-3d/`: la presentación completa (`index.html`), la vista embebible
+  de una sola simulación (`sim.html?id=<analitica>`), motor, escenas, texturas, videos
+  de evidencia y el PowerPoint. Se sirve tal cual; `/analiticas-3d` redirige al índice.
+
+### Build en x64 (servidor) sin romper por el lockfile
+
+El `package-lock.json` viene de una Mac ARM y `inferencejs` declara el binario
+`@rollup/rollup-linux-arm64-gnu` como dependencia dura, así que `npm ci` falla en x64
+con `EBADPLATFORM`. Receta que funciona (dentro de `node:24.14.1-slim`):
+
+```bash
+npm ci --no-audit --no-fund --ignore-scripts --force   # --force salta el chequeo de plataforma
+node scripts/fetch-models.mjs                          # modelos auto-hospedados en public/
+# copiar a mano public/models/vigias/{epp,weapon}_detector.onnx (privados, ver README.txt)
+npm run build
+docker build --provenance=false --sbom=false -f Dockerfile.deploy -t <img>:<tag> .
+```
+
+`Dockerfile.deploy` solo empaqueta `.next/standalone`, `.next/static` y `public`
+ya construidos (mismo runtime que el `Dockerfile` original).
+
 ## Demos de IA (dónde verlas)
 
 | Ruta | Qué hace |

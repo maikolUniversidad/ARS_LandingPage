@@ -1,0 +1,6 @@
+# Contexto para Dockerfile.deploy: solo los artefactos del build y public.
+*
+!.next/standalone
+!.next/static
+!public
+.next/standalone/node_modules/.cache

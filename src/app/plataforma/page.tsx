@@ -29,6 +29,7 @@ export default function PlataformaPage() {
     locale === "en"
       ? {
           navLab: "Lab",
+          navVision: "Vision",
           navProjects: "Projects",
           navHome: "Home",
           requestDemo: "Request a demo",
@@ -41,6 +42,7 @@ export default function PlataformaPage() {
         }
       : {
           navLab: "Laboratorio",
+          navVision: "Visión",
           navProjects: "Proyectos",
           navHome: "Inicio",
           requestDemo: "Solicitar demo",
@@ -82,6 +84,12 @@ export default function PlataformaPage() {
           <nav className="flex items-center gap-3">
             <LanguageSwitcher />
             <Link
+              href="/vision"
+              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground sm:flex"
+            >
+              <span className="text-accent">◉</span> {c.navVision}
+            </Link>
+            <Link
               href="/laboratorio"
               className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground md:flex"
             >
@@ -107,6 +115,7 @@ export default function PlataformaPage() {
             </a>
             <MobileMenu
               links={[
+                { label: c.navVision, href: "/vision" },
                 { label: c.navLab, href: "/laboratorio" },
                 { label: c.navProjects, href: "/proyectos" },
                 { label: c.navHome, href: "/" },
