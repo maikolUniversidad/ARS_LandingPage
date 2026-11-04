@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import type { ChapterStore } from "./chapter-store";
-import type { BoardStrings } from "./models";
-import { LAYER_TINT } from "./story";
+import type { BoardStrings, ErpStrings } from "./models";
+import { ERP_TINT, LAYER_TINT } from "./story";
 import { ANCHOR_IDS, UnifiedScene, type Anchor, type AnchorId } from "./UnifiedScene";
 
 /** Color de la etiqueta de cada ancla (capa a la que pertenece). */
@@ -19,6 +19,7 @@ const ANCHOR_TINT: Record<AnchorId, string> = {
   robot: LAYER_TINT[3],
   central: LAYER_TINT[4],
   board: "#35e0a1",
+  erp: ERP_TINT,
 };
 
 export type CanvasLabel = { text: string; meta?: string };
@@ -35,6 +36,7 @@ export default function HomeCanvas({
   active,
   labels,
   board,
+  erp,
   onFail,
 }: {
   store: ChapterStore;
@@ -44,6 +46,7 @@ export default function HomeCanvas({
   active: boolean;
   labels: Record<AnchorId, CanvasLabel>;
   board: BoardStrings;
+  erp: ErpStrings;
   onFail: () => void;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -58,10 +61,12 @@ export default function HomeCanvas({
     onFailRef.current = onFail;
   }, [onFail]);
 
-  const boardKey = JSON.stringify(board);
+  const erpRef = useRef(erp);
+  const boardKey = JSON.stringify([board, erp]);
   useEffect(() => {
     boardRef.current = board;
-  }, [board]);
+    erpRef.current = erp;
+  }, [board, erp]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -87,6 +92,7 @@ export default function HomeCanvas({
         lowPower,
         reducedMotion,
         board: boardRef.current,
+        erp: erpRef.current,
         // El contexto se perdió y no volvió en ~3 s (si vuelve antes, la escena sigue sola).
         onFatal: () => onFailRef.current(),
         onAnchors: (anchors) => {
@@ -122,7 +128,7 @@ export default function HomeCanvas({
       scene.dispose();
       sceneRef.current = null;
     };
-    // boardKey: recrea la escena si cambia el idioma del tablero.
+    // boardKey: recrea la escena si cambia el idioma del tablero o del cimiento ERP.
   }, [store, reducedMotion, lowPower, boardKey]);
 
   useEffect(() => {

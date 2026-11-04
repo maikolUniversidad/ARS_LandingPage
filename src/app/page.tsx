@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { HomeExperience, type HomeCounts } from "@/components/home/HomeExperience";
+import { buildErpGroups } from "@/components/home/erp-groups";
 import { AREAS } from "@/data/servicios/catalogo";
 
-const TITLE = "ARS Intelligence · Todas las capas de seguridad, una traza";
+const TITLE = "ARS Intelligence · Operación y ERP de seguridad, una traza";
 const DESCRIPTION =
-  "Laboratorio de tecnología para la seguridad privada: vigilancia, cámaras con IA, IoT y central en una sola plataforma con traza de punta a punta.";
+  "Laboratorio de tecnología para la seguridad privada: vigilancia, cámaras con IA, IoT y central sobre un ERP propio de gestión, en una sola plataforma.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -31,6 +32,9 @@ const COUNTS: HomeCounts = {
   analytics: 8,
 };
 
+/** Módulos del ERP de gestión con su estado real del catálogo. */
+const ERP_GROUPS = buildErpGroups();
+
 export default function Home() {
-  return <HomeExperience counts={COUNTS} />;
+  return <HomeExperience counts={COUNTS} erpGroups={ERP_GROUPS} />;
 }

@@ -5,6 +5,8 @@ orden: 20
 rutas: ["/plataforma"]
 ---
 
+**Relación con el ERP de gestión.** La portada (`/#erp`, `/#la-base`) presenta a ARS como operación encima + ERP de gestión propio debajo: contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría, todo alimentado por las capas operativas. Los módulos de gestión y su estado real están en `/servicios` (`gestion-humana`, `formacion`, `finanzas-y-erp`, `productividad-e-ia`, `gobierno-y-seguridad`). Con un ERP existente, el Agente interoperador de datos (`/servicios/finanzas-y-erp#agente-interoperador-de-datos`) lo conecta, completo o por partes; «Su ERP dentro de ARS» lo opera desde ARS sin duplicar datos.
+
 «Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
 
 ## Funcionalidades (A–N) · se recorren en `/plataforma#recorrido`

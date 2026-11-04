@@ -7,9 +7,9 @@ rutas: ["/", "/diagnostico", "/plataforma", "/vision", "/servicios", "/proyectos
 
 Usa siempre rutas relativas del sitio (por ejemplo `/vision#intrusion`). Solo existen las rutas y anclas listadas aquí; no inventes otras.
 
-## `/` — Portada (las capas de la seguridad unidas en una traza)
+## `/` — Portada (las capas de la seguridad unidas en una traza, sobre un ERP de gestión)
 
-Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y caen hasta volverse una sola plataforma; luego cada capa se enciende y un mismo evento las recorre dejando una traza de luz hasta el tablero de gerencia. Anclas:
+Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y caen hasta volverse una sola plataforma; luego cada capa se enciende y un mismo evento las recorre dejando una traza de luz hasta el tablero de gerencia. Después la cámara baja al cimiento: el ERP de gestión de ARS, la base que sostiene la operación. Anclas:
 
 - `#hero` — «Todas las capas de la seguridad. Una sola traza.»
 - `#fisica` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.
@@ -17,11 +17,13 @@ Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y 
 - `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). En operación.
 - `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). En desarrollo.
 - `#central` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.
+- `#erp` — «Debajo de todo, un ERP hecho para la seguridad.»: el suelo se abre y se ve el ERP de gestión (contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría) alimentado por las cinco capas; un turno cumplido llega a la nómina, la ronda y el evento al informe del cliente, el servicio prestado a la prefactura y todo a la contabilidad.
 - `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.
-- `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma, cifras del catálogo y botones a demo y a `/servicios`.
+- `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma (la operación encima, el ERP de gestión debajo), cifras del catálogo y botones a demo y a `/servicios`.
+- `#la-base` — sección «La base: un ERP hecho para la seguridad»: dos niveles (Operación arriba, Gestión abajo) con los módulos reales del catálogo y su estado, cada uno enlazado a `/servicios/<área>#<módulo>`, y el botón «Ver la arquitectura completa» (`/arquitectura`).
 - `#contacto` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. `/#cierre` también lleva aquí.
 
-Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas o contactar. Para pedir demo, `/#contacto`.
+Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas (y cómo la operación alimenta el ERP de gestión: `/#la-base`) o contactar. Para pedir demo, `/#contacto`.
 
 ## `/diagnostico` — Diagnóstico de tu empresa
 

@@ -15,7 +15,8 @@ import { cn } from "@/lib/utils";
 import { createChapterStore } from "./chapter-store";
 import type { CanvasLabel } from "./HomeCanvas";
 import { StaticBackdrop } from "./StaticBackdrop";
-import { CHAPTERS, CHAPTER_LAYER, LAYER_TINT, TRACE_STEPS, traceStep, type ChapterId } from "./story";
+import type { ErpGroup } from "./erp-groups";
+import { CHAPTERS, CHAPTER_LAYER, ERP_LAYER, ERP_TINT, LAYER_TINT, TRACE_STEPS, erpStep, traceStep, type ChapterId } from "./story";
 import type { AnchorId } from "./UnifiedScene";
 
 const HomeCanvas = dynamic(() => import("./HomeCanvas"), { ssr: false });
@@ -28,6 +29,7 @@ const CHAPTER_HEIGHT: Record<ChapterId, string> = {
   iot: "h-[170vh]",
   robotica: "h-[180vh]",
   central: "h-[190vh]",
+  erp: "h-[210vh]",
   traza: "h-[200vh]",
   escala: "h-[190vh]",
 };
@@ -46,6 +48,15 @@ const STATUS_STYLE: Record<HomeDict["layers"][number]["status"], string> = {
   pilot: "border-[#ffb547]/50 text-[#ffd391]",
   lab: "border-dashed border-[#a88bff]/60 text-[#cdbbff]",
 };
+/** Color de cada estado del catálogo (mismo código que /servicios). */
+const CATALOG_STATUS_COLOR: Record<ErpGroup["modules"][number]["estado"], string> = {
+  vivo: "#35e0a1",
+  piloto: "#ffb547",
+  proximamente: "#6b8aff",
+  "hoja-de-ruta": "#9eb0c0",
+};
+/** Tinte de cada bloque del ERP (mismo orden que las baldosas del cimiento 3D). */
+const ERP_GROUP_TINT = ["#5fd8ff", "#6b8aff", "#a88bff", "#35e0a1", "#ffb547", "#4fd1c5", "#d5e0ff"];
 
 export type HomeCounts = { areas: number; modules: number; live: number; analytics: number };
 
@@ -66,7 +77,7 @@ function useMediaQuery(query: string) {
 
 // ───────────────────────── Componente principal ─────────────────────────
 
-export function HomeExperience({ counts }: { counts: HomeCounts }) {
+export function HomeExperience({ counts, erpGroups }: { counts: HomeCounts; erpGroups: ErpGroup[] }) {
   const { t } = useI18n();
   const h = t.home;
   const store = useMemo(() => createChapterStore(0), []);
@@ -84,6 +95,7 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
   const failed = failures >= 2;
   const [chapterIdx, setChapterIdx] = useState(0);
   const [step, setStep] = useState(-1);
+  const [erpIdx, setErpIdx] = useState(-1);
   const [storyVisible, setStoryVisible] = useState(true);
   const [inStory, setInStory] = useState(true);
 
@@ -121,6 +133,7 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
       store.set(c);
       setChapterIdx(Math.round(c));
       setStep(traceStep(c));
+      setErpIdx(erpStep(c));
       setInStory(y + window.innerHeight * 0.6 < storyEnd);
     };
     // Cálculo directo (barato): no depende de rAF, que el navegador pausa en pestañas ocultas.
@@ -170,6 +183,7 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
       robot: { text: h.labels.robot, meta: s[3].time },
       central: { text: h.labels.central, meta: s[4].time },
       board: { text: h.labels.board, meta: s[5].time },
+      erp: { text: h.labels.erp, meta: h.erp.tag },
     };
   }, [h]);
 
@@ -184,6 +198,8 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
     }),
     [h]
   );
+
+  const erpScene = useMemo(() => ({ title: h.erp.sceneTitle, subtitle: h.erp.sceneSubtitle, modules: h.erp.modules }), [h]);
 
   return (
     <div className="relative text-foreground">
@@ -206,6 +222,7 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
             active={storyVisible}
             labels={labels}
             board={board}
+            erp={erpScene}
             onFail={onFail}
           />
         )}
@@ -231,12 +248,13 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
               className={cn("relative", CHAPTER_HEIGHT[id])}
             >
               <div className="sticky top-0 flex h-[100svh] items-end px-4 pb-6 pt-32 md:items-center md:px-10 md:pb-0 lg:px-16">
-                <ChapterContent id={id} h={h} counts={counts} />
+                <ChapterContent id={id} h={h} counts={counts} erpIdx={erpIdx} />
               </div>
             </section>
           ))}
         </div>
 
+        <ErpBase h={h} groups={erpGroups} />
         <Recap h={h} />
         <Contact h={h} />
         <Footer tagline={t.footer.tagline} />
@@ -295,7 +313,7 @@ function LayerRail({ h, active, visible }: { h: HomeDict; active: number; visibl
     >
       <ol className="flex flex-col gap-4">
         {h.layers.map((layer, i) => {
-          const on = active === i || active === 5;
+          const on = active === i || active >= 5;
           const current = active === i;
           const tint = LAYER_TINT[i];
           return (
@@ -317,6 +335,19 @@ function LayerRail({ h, active, visible }: { h: HomeDict; active: number; visibl
       {/* La traza une todas las capas */}
       <div className={cn("mr-px mt-4 flex justify-end transition-opacity duration-500", active === 5 ? "opacity-100" : "opacity-0")}>
         <span className="h-10 w-[3px] bg-gradient-to-b from-[#d5e0ff] to-[#35e0a1]" />
+      </div>
+      {/* La base: el ERP de gestión, debajo de las cinco capas */}
+      <div className="mt-4 flex items-center justify-end gap-3 border-t border-white/10 pt-4 text-right">
+        <div className={cn("transition-all duration-500", active >= 5 ? "opacity-100" : "opacity-35")}>
+          <div className="font-mono text-[9px] uppercase tracking-[0.3em]" style={{ color: ERP_TINT }}>
+            {h.erp.tag}
+          </div>
+          <div className="mt-0.5 text-sm font-bold text-white">{h.erp.name}</div>
+        </div>
+        <span
+          className="block w-[3px] transition-all duration-500"
+          style={{ height: active === ERP_LAYER ? 40 : 18, background: active >= 5 ? ERP_TINT : "rgba(213,224,255,0.25)" }}
+        />
       </div>
     </aside>
   );
@@ -455,7 +486,7 @@ function CtaLink({ href, children, primary = false }: { href: string; children: 
   );
 }
 
-function ChapterContent({ id, h, counts }: { id: ChapterId; h: HomeDict; counts: HomeCounts }) {
+function ChapterContent({ id, h, counts, erpIdx }: { id: ChapterId; h: HomeDict; counts: HomeCounts; erpIdx: number }) {
   if (id === "hero") {
     return (
       <div className="w-full max-w-3xl">
@@ -480,6 +511,14 @@ function ChapterContent({ id, h, counts }: { id: ChapterId; h: HomeDict; counts:
               {l.name}
             </li>
           ))}
+          {/* La base: el ERP de gestión sostiene las cinco capas */}
+          <li
+            className="flex items-center gap-1.5 border px-2 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-white md:text-[10px]"
+            style={{ borderColor: `${ERP_TINT}99`, background: `${ERP_TINT}1f` }}
+          >
+            <span className="inline-block h-1.5 w-3" style={{ background: ERP_TINT }} />
+            {h.erp.tag} · {h.erp.name}
+          </li>
         </ol>
         <div className="mt-6 flex flex-wrap gap-3 md:mt-9">
           <CtaLink href="#contacto" primary>
@@ -524,6 +563,42 @@ function ChapterContent({ id, h, counts }: { id: ChapterId; h: HomeDict; counts:
             <CtaLink href={LAYER_LINKS[layerIdx]}>{id === "vision" ? h.ctas.vision : h.ctas.lab}</CtaLink>
           </div>
         )}
+      </Panel>
+    );
+  }
+
+  if (id === "erp") {
+    return (
+      <Panel wide>
+        <Eyebrow tint={ERP_TINT}>{c.eyebrow}</Eyebrow>
+        <Title id={id}>{c.title}</Title>
+        <p className="mt-3 hidden text-sm leading-relaxed text-[#c5d2ee] sm:block md:mt-5 md:text-lg">{c.body}</p>
+        <div className="mt-4 font-mono text-[9.5px] uppercase tracking-[0.22em] text-[#9eb0c0] md:mt-6 md:text-[10.5px]">{h.erp.flowLabel}</div>
+        <ol className="mt-2 grid gap-1.5 md:gap-2">
+          {h.erp.flow.map((f, i) => {
+            const on = erpIdx >= i;
+            return (
+              <li
+                key={f.to}
+                className={cn(
+                  "border px-3 py-2 transition-colors duration-500 md:px-4 md:py-2.5",
+                  on ? "border-[#6b8aff]/60 bg-[#6b8aff]/10" : "border-white/10 bg-[#020a18]/50"
+                )}
+              >
+                <div className="flex flex-wrap items-center gap-x-2 font-mono text-[9.5px] uppercase tracking-[0.14em] md:text-[10.5px]">
+                  <span className={on ? "text-white/80" : "text-white/40"}>{f.from}</span>
+                  <span style={{ color: on ? ERP_TINT : "rgba(255,255,255,0.3)" }}>→</span>
+                  <span className={cn("font-bold", on ? "text-white" : "text-white/45")}>{f.to}</span>
+                </div>
+                <p className={cn("mt-0.5 hidden text-[13px] leading-snug md:block", on ? "text-[#c5d2ee]" : "text-[#c5d2ee]/50")}>{f.text}</p>
+              </li>
+            );
+          })}
+        </ol>
+        <p className="mt-3 hidden font-mono text-[9.5px] uppercase leading-relaxed tracking-[0.16em] text-white/45 md:block">{h.erp.note}</p>
+        <div className="mt-4 hidden md:mt-6 md:block">
+          <CtaLink href="#la-base">{h.erpSection.title.split(":")[0]}</CtaLink>
+        </div>
       </Panel>
     );
   }
@@ -583,6 +658,138 @@ function ChapterContent({ id, h, counts }: { id: ChapterId; h: HomeDict; counts:
 }
 
 // ───────────────────────── Después de la historia ─────────────────────────
+
+function ErpBase({ h, groups }: { h: HomeDict; groups: ErpGroup[] }) {
+  const s = h.erpSection;
+  return (
+    <section id="la-base" aria-labelledby="la-base-title" className="relative scroll-mt-20 border-t border-white/10 bg-[#020a18] py-20 md:py-28">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,rgba(107,138,255,0.14),transparent_60%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 md:px-10">
+        <Eyebrow tint={ERP_TINT}>{s.eyebrow}</Eyebrow>
+        <h2 id="la-base-title" className="max-w-3xl text-balance font-heading text-3xl font-black leading-tight tracking-tight text-white md:text-5xl">
+          {s.title}
+        </h2>
+        <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#c5d2ee] md:text-lg">{s.body}</p>
+
+        {/* Nivel 1 · Operación (arriba) */}
+        <div className="mt-10 border border-white/10 bg-white/[0.02] p-4 md:mt-14 md:p-6">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#9eb0c0]">{s.opsTag}</div>
+              <h3 className="mt-1 text-lg font-black text-white md:text-xl">{s.opsTitle}</h3>
+            </div>
+          </div>
+          <ol className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+            {h.layers.map((l, i) => (
+              <li key={l.tag}>
+                <Link
+                  href={LAYER_LINKS[i]}
+                  className="flex h-full flex-col gap-2 border border-white/10 bg-[#020a18]/70 p-3 transition-colors hover:border-white/25 hover:bg-white/[0.05]"
+                >
+                  <span className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.24em]" style={{ color: LAYER_TINT[i] }}>
+                      {l.tag}
+                    </span>
+                    <StatusChip h={h} status={l.status} />
+                  </span>
+                  <span className="text-sm font-bold text-white">{l.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* Flujo: la operación alimenta la gestión */}
+        <div className="flex items-center justify-center gap-3 py-4 md:py-5" aria-hidden="false">
+          <span className="h-8 w-px bg-gradient-to-b from-white/30 to-[#6b8aff]" />
+          <span className="font-mono text-[9.5px] uppercase tracking-[0.24em] text-[#c5d2ee] md:text-[10.5px]">
+            <span className="text-[#6b8aff]">↓</span> {s.feeds} <span className="text-[#6b8aff]">↓</span>
+          </span>
+          <span className="h-8 w-px bg-gradient-to-b from-white/30 to-[#6b8aff]" />
+        </div>
+
+        {/* Nivel 2 · Gestión (abajo): módulos reales del catálogo */}
+        <div className="border p-4 md:p-6" style={{ borderColor: `${ERP_TINT}55`, background: `${ERP_TINT}0d` }}>
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em]" style={{ color: ERP_TINT }}>
+              {s.mgmtTag}
+            </div>
+            <h3 className="mt-1 text-lg font-black text-white md:text-xl">
+              {s.mgmtTitle} · <span className="text-[#c5d2ee]">{h.erp.name}</span>
+            </h3>
+          </div>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            {groups.map((g, i) => {
+              const tint = ERP_GROUP_TINT[i % ERP_GROUP_TINT.length];
+              return (
+                <li key={h.erp.modules[i]} className="relative border border-white/10 bg-[#020a18]/80 p-4">
+                  <span className="absolute inset-x-0 top-0 h-[2px]" style={{ background: tint }} />
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-mono text-[9px] tracking-[0.2em] text-white/40">{String(i + 1).padStart(2, "0")}</span>
+                    <h4 className="text-base font-black text-white">{h.erp.modules[i]}</h4>
+                  </div>
+                  <ul className="mt-3 space-y-1.5">
+                    {g.modules.map((m) => (
+                      <li key={m.id}>
+                        <Link
+                          href={`/servicios/${m.area}#${m.id}`}
+                          className="group flex items-start gap-2 text-[13px] leading-snug text-[#c5d2ee] transition-colors hover:text-white"
+                          title={m.nota}
+                        >
+                          <span
+                            className="mt-[5px] inline-block size-1.5 shrink-0 rounded-full"
+                            style={{ background: CATALOG_STATUS_COLOR[m.estado] }}
+                            aria-hidden="true"
+                          />
+                          <span>
+                            {m.nombre}
+                            {m.estado !== "vivo" && (
+                              <span
+                                className="ml-1.5 whitespace-nowrap font-mono text-[8.5px] uppercase tracking-[0.16em]"
+                                style={{ color: CATALOG_STATUS_COLOR[m.estado] }}
+                              >
+                                · {s.status[m.estado]}
+                              </span>
+                            )}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            })}
+            {/* ¿Ya tiene un ERP? */}
+            <li className="flex flex-col justify-between gap-4 border border-dashed border-white/20 p-4">
+              <p className="text-[13px] leading-relaxed text-[#c5d2ee]">{s.interop}</p>
+              <Link
+                href="/servicios/finanzas-y-erp#agente-interoperador-de-datos"
+                className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/80 hover:text-white"
+              >
+                <span style={{ color: ERP_TINT }}>▸</span> {h.ctas.services}
+              </Link>
+            </li>
+          </ul>
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[9.5px] uppercase tracking-[0.18em] text-white/55">
+            {(Object.keys(CATALOG_STATUS_COLOR) as Array<keyof typeof CATALOG_STATUS_COLOR>).map((k) => (
+              <span key={k} className="flex items-center gap-1.5">
+                <span className="inline-block size-1.5 rounded-full" style={{ background: CATALOG_STATUS_COLOR[k] }} />
+                {s.status[k]}
+              </span>
+            ))}
+            <span className="normal-case tracking-normal text-white/40">{s.catalogNote}</span>
+          </div>
+        </div>
+
+        <div className="mt-8 flex flex-wrap justify-end gap-3 md:mt-10">
+          <CtaLink href="/arquitectura" primary>
+            {s.cta}
+          </CtaLink>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function Recap({ h }: { h: HomeDict }) {
   return (
@@ -674,6 +881,10 @@ function Contact({ h }: { h: HomeDict }) {
                 {l.name}
               </li>
             ))}
+            <li className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white">
+              <span className="inline-block h-1.5 w-3" style={{ background: ERP_TINT }} />
+              {h.erp.tag} · {h.erp.name}
+            </li>
           </ul>
         </div>
         <div className="border border-white/15 bg-[#020a18]/45 p-5 backdrop-blur md:p-8">

@@ -1,7 +1,18 @@
 import * as THREE from "three";
 import { createSafeRenderer, type SafeRenderer } from "@/lib/three/safe-renderer";
-import { createDashboard, createHumanoid, createQuadruped, type BoardStrings, type Dashboard, type Humanoid, type Quadruped } from "./models";
-import { CHAPTERS, LAYER_COUNT, LAYER_HEX, clamp01, ramp, smooth } from "./story";
+import {
+  createDashboard,
+  createErpFoundation,
+  createHumanoid,
+  createQuadruped,
+  type BoardStrings,
+  type Dashboard,
+  type ErpFoundation,
+  type ErpStrings,
+  type Humanoid,
+  type Quadruped,
+} from "./models";
+import { CHAPTERS, ERP_HEX, LAYER_COUNT, LAYER_HEX, clamp01, erpFocus, erpProgress, ramp, smooth, storyTime } from "./story";
 
 /**
  * Escena 3D del home: una sede donde las cinco capas de la seguridad
@@ -12,12 +23,16 @@ import { CHAPTERS, LAYER_COUNT, LAYER_HEX, clamp01, ramp, smooth } from "./story
  * Apertura: las capas flotan apiladas sobre la sede como planos y caen hasta
  * fundirse con ella (todas las capas → una plataforma).
  *
+ * Debajo de la sede está el cimiento: el ERP de gestión de ARS. En el capítulo
+ * `erp` el suelo se vuelve una retícula transparente, los edificios se
+ * vuelven fantasma y se ve cómo cada capa alimenta los módulos de gestión.
+ *
  * El estado es una función pura del capítulo continuo `chapter` (scroll) + un
  * reloj ambiental. Un solo WebGLRenderer, sin sombras ni post-procesado.
  */
 
 export type Anchor = { x: number; y: number; visible: boolean };
-export const ANCHOR_IDS = ["p0", "p1", "p2", "p3", "p4", "guard", "camera", "sensor", "robot", "central", "board"] as const;
+export const ANCHOR_IDS = ["p0", "p1", "p2", "p3", "p4", "guard", "camera", "sensor", "robot", "central", "board", "erp"] as const;
 export type AnchorId = (typeof ANCHOR_IDS)[number];
 export type Anchors = Record<AnchorId, Anchor>;
 
@@ -25,6 +40,7 @@ export type SceneOptions = {
   lowPower: boolean;
   reducedMotion: boolean;
   board: BoardStrings;
+  erp: ErpStrings;
   onAnchors?: (anchors: Anchors) => void;
   /** El contexto WebGL se perdió y no volvió a tiempo: pasar al respaldo estático. */
   onFatal?: () => void;
@@ -53,6 +69,7 @@ const KEYFRAMES: Array<{ pos: THREE.Vector3; target: THREE.Vector3 }> = [
   { pos: v3(31, 9, 3), target: v3(15.5, 2, -6.5) }, // iot · puerta de la bodega
   { pos: v3(25, 7.5, 7), target: v3(15.5, 1, -3.5) }, // robótica · verificación
   { pos: v3(12, 19, 34), target: v3(-8, 5.5, 5) }, // central · tablero
+  { pos: v3(23, 30, 44), target: v3(-3, -7.5, 0) }, // erp · el cimiento bajo la sede
   { pos: v3(36, 54, 52), target: v3(2, 3, -1) }, // traza completa
   { pos: v3(0, 132, 126), target: v3(0, 0, 0) }, // escala · todas las sedes
 ];
@@ -72,6 +89,16 @@ const CONTROL = v3(-12, 0, 9);
 const BOARD_POS = v3(-12, 8.6, 9);
 const BOARD_YAW = 0.68;
 const PLATE_Y = [5, 10, 15, 20, 25];
+
+// ── Cimiento ERP ──
+const HOLE = new THREE.Vector2(SITE_W + 2, SITE_D + 2);
+const SLAB_Y = -7.5;
+const SLAB_W = 46;
+const SLAB_D = 32;
+/** Recorrido de las conversiones sobre las baldosas (turnos → nómina → clientes → finanzas → gobierno). */
+const ERP_CHAIN = [0, 1, 4, 5, 6];
+/** Baldosa que alimenta cada capa (física, visión, IoT, robótica, central). */
+const ERP_FEED = [0, 4, 2, 6, 5];
 
 /** Tramos de la traza: [inicio, fin] en capítulos (uno por segmento). */
 const TRACE_WINDOWS: Array<[number, number]> = [
@@ -132,6 +159,9 @@ const GROUND_FRAG = /* glsl */ `
   uniform float uTime;
   uniform float uReach;
   uniform float uPlate;
+  uniform float uCut;
+  uniform vec2 uHole;
+  uniform vec3 uErp;
   varying vec3 vWorld;
 
   float gridLine(vec2 p, float s) {
@@ -145,8 +175,18 @@ const GROUND_FRAG = /* glsl */ `
     float d = length(p);
     float fade = exp(-d * uReach);
     vec3 col = uBase;
-    col += uLine * gridLine(p, 2.0) * 0.26 * fade;
-    col += uMajor * gridLine(p, 10.0) * 0.7 * fade;
+    float minor = gridLine(p, 2.0);
+    float major = gridLine(p, 10.0);
+    col += uLine * minor * 0.26 * fade;
+    col += uMajor * major * 0.7 * fade;
+    // Corte hacia el cimiento ERP: dentro del rectángulo solo queda la retícula.
+    vec2 q = abs(p) - uHole * uCut;
+    float edge = max(q.x, q.y);
+    if (uCut > 0.001 && edge < 0.0) {
+      if (max(minor * 0.7, major) < 0.35) discard;
+      col = mix(col, uErp, 0.45);
+    }
+    col += uErp * exp(-abs(edge) * 1.4) * uCut * 0.55;
     float plate = smoothstep(34.0, 6.0, d);
     col += uLine * plate * (0.08 + 0.1 * uPlate);
     float ad = length(p - uAlertPos.xz);
@@ -266,6 +306,17 @@ export class UnifiedScene {
   private readonly nodePos: THREE.Vector3[];
   private readonly resolvedRing: Pulse;
 
+  private readonly buildingMats: THREE.MeshStandardMaterial[] = [];
+  private readonly erp: ErpFoundation;
+  private readonly erpWalls: THREE.MeshBasicMaterial;
+  private readonly erpRim: THREE.LineBasicMaterial;
+  private readonly erpStreams: Stream[] = [];
+  private readonly erpTiles: THREE.Vector3[];
+  private readonly erpChain: THREE.Line<THREE.BufferGeometry, THREE.LineBasicMaterial>;
+  private readonly erpChainCurve: THREE.CatmullRomCurve3;
+  private readonly erpChainCount: number;
+  private readonly erpPulse: THREE.Sprite;
+
   private readonly network = new THREE.Group();
   private readonly networkMats: Array<THREE.MeshBasicMaterial | THREE.LineBasicMaterial | THREE.SpriteMaterial> = [];
   private readonly arcs: Array<{ line: THREE.Line<THREE.BufferGeometry, THREE.LineBasicMaterial>; count: number; delay: number; curve: THREE.QuadraticBezierCurve3; spark: THREE.Sprite }> = [];
@@ -332,6 +383,9 @@ export class UnifiedScene {
       uTime: { value: 0 },
       uReach: { value: 0.022 },
       uPlate: { value: 0 },
+      uCut: { value: 0 },
+      uHole: { value: HOLE.clone() },
+      uErp: { value: new THREE.Color(ERP_HEX) },
     };
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(700, 700),
@@ -492,6 +546,52 @@ export class UnifiedScene {
 
     this.buildNetwork();
 
+    // ── La base · ERP de gestión ──
+    this.erp = createErpFoundation(SLAB_W, SLAB_D, 1.4, opts.erp);
+    this.erp.group.position.y = SLAB_Y;
+    this.scene.add(this.erp.group);
+    this.erpTiles = this.erp.tiles.map((p) => p.clone().setY(SLAB_Y + 0.1));
+    this.erpWalls = new THREE.MeshBasicMaterial({ color: ERP_HEX, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
+    const wallH = -SLAB_Y;
+    const walls: Array<[number, number, number, number]> = [
+      [0, -HOLE.y, HOLE.x * 2, 0],
+      [0, HOLE.y, HOLE.x * 2, 0],
+      [-HOLE.x, 0, HOLE.y * 2, Math.PI / 2],
+      [HOLE.x, 0, HOLE.y * 2, Math.PI / 2],
+    ];
+    for (const [x, z, w, rot] of walls) {
+      const wall = new THREE.Mesh(new THREE.PlaneGeometry(w, wallH), this.erpWalls);
+      wall.position.set(x, -wallH / 2, z);
+      wall.rotation.y = rot;
+      this.scene.add(wall);
+    }
+    const rimPts: THREE.Vector3[] = [];
+    const cornersXZ: Array<[number, number]> = [
+      [-HOLE.x, -HOLE.y],
+      [HOLE.x, -HOLE.y],
+      [HOLE.x, HOLE.y],
+      [-HOLE.x, HOLE.y],
+    ];
+    for (const [x, z] of cornersXZ) rimPts.push(v3(x, 0, z), v3(x, SLAB_Y, z));
+    this.erpRim = new THREE.LineBasicMaterial({ color: ERP_HEX, transparent: true, opacity: 0 });
+    this.scene.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(rimPts), this.erpRim));
+
+    // Cada capa operativa alimenta un módulo de gestión.
+    const epc = opts.lowPower ? 14 : 26;
+    const feedColors = [C_FISICA, C_VISION, C_IOT, C_ROBOT, C_CENTRAL];
+    ERP_FEED.forEach((tile, i) => {
+      const s = new Stream(this.nodePos[i], this.erpTiles[tile], 3, feedColors[i], epc, this.glow, 0.8);
+      this.erpStreams.push(s);
+      this.scene.add(s.points);
+    });
+    this.erpChainCurve = new THREE.CatmullRomCurve3(ERP_CHAIN.map((k) => this.erpTiles[k].clone().setY(SLAB_Y + 0.35)), false, "catmullrom", 0.2);
+    const chainPts = this.erpChainCurve.getPoints(120);
+    this.erpChainCount = chainPts.length;
+    this.erpChain = new THREE.Line(new THREE.BufferGeometry().setFromPoints(chainPts), new THREE.LineBasicMaterial({ color: COLOR.ice, transparent: true, opacity: 0 }));
+    this.scene.add(this.erpChain);
+    this.erpPulse = this.sprite(COLOR.ice, 3.4);
+    this.scene.add(this.erpPulse);
+
     const rand = mulberry32(7);
     const dustCount = opts.lowPower ? 240 : 800;
     const dustPos = new Float32Array(dustCount * 3);
@@ -534,7 +634,10 @@ export class UnifiedScene {
   private addBuilding(x: number, z: number, w: number, h: number, d: number, floors = 0) {
     const group = new THREE.Group();
     const box = new THREE.BoxGeometry(w, h, d);
-    const mesh = new THREE.Mesh(box, new THREE.MeshStandardMaterial({ color: COLOR.building, roughness: 0.85, metalness: 0.15 }));
+    // Transparente (opacidad 1) para poder volverlo fantasma al mirar el cimiento.
+    const mat = new THREE.MeshStandardMaterial({ color: COLOR.building, roughness: 0.85, metalness: 0.15, transparent: true });
+    this.buildingMats.push(mat);
+    const mesh = new THREE.Mesh(box, mat);
     const edges = new THREE.LineSegments(new THREE.EdgesGeometry(box), new THREE.LineBasicMaterial({ color: 0x4a6dff, transparent: true, opacity: 0.9 }));
     group.add(mesh, edges);
     if (floors > 0) {
@@ -813,6 +916,7 @@ export class UnifiedScene {
       m.dispose();
     }
     this.board.dispose();
+    this.erp.dispose();
     this.glow.dispose();
     this.safe.dispose();
   }
@@ -858,14 +962,16 @@ export class UnifiedScene {
   }
 
   private update() {
-    const c = this.chapter;
+    // `cr`: capítulo real (cámara y cimiento). `c`: tiempo de la coreografía operativa.
+    const cr = this.chapter;
+    const c = storyTime(cr);
     const t = this.time;
 
     // ── Cámara ──
     const last = KEYFRAMES.length - 1;
-    const i0 = Math.max(0, Math.min(last, Math.floor(c)));
+    const i0 = Math.max(0, Math.min(last, Math.floor(cr)));
     const i1 = Math.min(last, i0 + 1);
-    const f = smooth(c - i0);
+    const f = smooth(cr - i0);
     const pos = this.tmpA.lerpVectors(KEYFRAMES[i0].pos, KEYFRAMES[i1].pos, f);
     const target = this.tmpB.lerpVectors(KEYFRAMES[i0].target, KEYFRAMES[i1].target, f);
     const offset = this.tmpC.subVectors(pos, target);
@@ -1063,6 +1169,39 @@ export class UnifiedScene {
       arc.spark.visible = k > 0.99;
     }
 
+    // ── La base: ERP de gestión bajo la sede ──
+    const focus = erpFocus(cr);
+    const erpCut = ramp(cr, 5.3, 5.8);
+    this.groundUniforms.uCut.value = erpCut;
+    this.erp.group.visible = erpCut > 0.01;
+    const ghost = 1 - 0.72 * focus;
+    for (const m of this.buildingMats) m.opacity = ghost;
+    const erpOn = erpCut * (0.55 + 0.45 * focus);
+    this.erp.top.opacity = erpOn;
+    this.erp.body.opacity = erpOn * 0.9;
+    this.erp.edges.opacity = erpOn * (0.7 + 0.3 * Math.sin(t * 2));
+    this.erpWalls.opacity = ramp(erpCut, 0.6, 1) * (0.05 + 0.07 * focus);
+    this.erpRim.opacity = ramp(erpCut, 0.6, 1) * (0.25 + 0.5 * focus);
+    const feed = ramp(cr, 5.35, 5.75) * (1 - 0.55 * ramp(cr, 6.4, 6.9)) * (1 - ramp(cr, 7.4, 7.9));
+    this.erpStreams.forEach((s, i) => s.update(t * 0.9 + i * 0.31, feed * 0.85));
+    const prog = erpProgress(cr);
+    const chainK = prog * (1 - ramp(cr, 6.5, 6.9));
+    this.erpChain.geometry.setDrawRange(0, Math.floor(this.erpChainCount * chainK));
+    this.erpChain.material.opacity = 0.9 * focus;
+    const pulseOn = focus > 0.05 && prog > 0.01;
+    this.erpPulse.visible = pulseOn;
+    if (pulseOn) {
+      this.erpChainCurve.getPointAt(prog < 0.999 ? prog : (t * 0.12) % 1, this.erpPulse.position);
+      this.erpPulse.material.opacity = focus;
+    }
+    const reachedTile = prog * (ERP_CHAIN.length - 1);
+    this.erp.tileMats.forEach((m, i) => {
+      const chainIdx = ERP_CHAIN.indexOf(i);
+      const lit = chainIdx >= 0 && chainIdx <= reachedTile + 0.001 ? 1 : 0;
+      const fed = ERP_FEED.includes(i) ? feed : 0;
+      m.opacity = erpCut * (0.04 + 0.1 * fed * (0.6 + 0.4 * Math.sin(t * 3 + i)) + 0.22 * lit * focus);
+    });
+
     this.dust.rotation.y = t * 0.01;
     // Matrices al día antes de proyectar (en render único no hay frame previo).
     this.camera.updateMatrixWorld();
@@ -1077,9 +1216,11 @@ export class UnifiedScene {
 
   private emitAnchors(resolved: number) {
     if (!this.opts.onAnchors) return;
-    const c = this.chapter;
+    const cr = this.chapter;
+    const c = storyTime(cr);
     const hero = c < 0.3;
-    const all = c > 5.6 && c < 6.4 && !this.portrait;
+    const inErp = erpFocus(cr) > 0.3;
+    const all = c > 5.6 && c < 6.4 && !this.portrait && !inErp;
     const a = {} as Anchors;
     this.plates.forEach((p, k) => {
       a[`p${k}` as AnchorId] = this.project(this.tmpA.set(SITE_W + 2, p.group.position.y, -SITE_D - 2), hero);
@@ -1089,7 +1230,8 @@ export class UnifiedScene {
     a.sensor = this.project(this.tmpA.copy(this.nodePos[2]).setY(3.6), (c > 2.6 && c < 3.55) || all);
     a.robot = this.project(this.tmpA.copy(this.robot.group.position).setY(2), (c > 3.55 && c < 4.55) || all);
     a.central = this.project(this.tmpA.set(CONTROL.x, 4.8, CONTROL.z + 2.6), (c > 4.6 && c < 5.5) || all);
-    a.board = this.project(this.tmpA.copy(BOARD_POS).setY(BOARD_POS.y + 3.5), (c > 5.0 && c < 5.6) || (all && resolved > 0.5));
+    a.board = this.project(this.tmpA.copy(BOARD_POS).setY(BOARD_POS.y + 3.5), ((c > 5.0 && c < 5.6) || (all && resolved > 0.5)) && !inErp);
+    a.erp = this.project(this.tmpA.set(SLAB_W / 2 - 7, SLAB_Y + 0.4, SLAB_D / 2), erpFocus(cr) > 0.6);
     this.opts.onAnchors(a);
   }
 }
