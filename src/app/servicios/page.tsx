@@ -78,7 +78,7 @@ export default function ServiciosPage() {
 
   return (
     <div className="relative bg-[#020a18] text-foreground">
-      <ServiciosHeader enHub />
+      <ServiciosHeader />
       <EscuchaFocoHub indiceModulos={indiceModulos} />
 
       <main>

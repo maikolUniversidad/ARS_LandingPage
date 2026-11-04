@@ -17,6 +17,11 @@ export type Dict = {
     home: string;
     projects: string;
     services: string;
+    vision: string;
+    platform: string;
+    lab: string;
+    diagnostic: string;
+    contact: string;
   };
   bottomBar: { sound: string; scroll: string; chat: string };
   sections: {
@@ -108,7 +113,7 @@ export type HomeDict = {
   labels: { guard: string; camera: string; sensor: string; robot: string; central: string; board: string };
   board: { title: string; live: string; done: string; sites: string };
   stats: { areas: string; modules: string; live: string; analytics: string };
-  ctas: { vision: string; platform: string; lab: string; services: string; trace: string };
+  ctas: { vision: string; platform: string; lab: string; services: string; trace: string; diagnostic: string };
   recap: { eyebrow: string; title: string; body: string };
   contact: {
     eyebrow: string;
@@ -131,6 +136,11 @@ export const dictionaries: Record<Locale, Dict> = {
       home: "Inicio",
       projects: "Proyectos",
       services: "Servicios",
+      vision: "Visión IA",
+      platform: "Plataforma",
+      lab: "Laboratorio",
+      diagnostic: "Diagnóstico",
+      contact: "Contacto",
     },
     bottomBar: {
       sound: "Sonido off",
@@ -288,7 +298,7 @@ export const dictionaries: Record<Locale, Dict> = {
       labels: { guard: "Ronda · punto 7", camera: "Cámara 04 · IA", sensor: "Puerta bodega 2", robot: "Robot · en desarrollo", central: "Central de operaciones", board: "Tablero de gerencia" },
       board: { title: "ARS · Operación", live: "En vivo", done: "Evento cerrado", sites: "Sedes" },
       stats: { areas: "áreas de servicio en una plataforma", modules: "módulos en el catálogo", live: "módulos en operación", analytics: "analíticas de video" },
-      ctas: { vision: "Ver Visión IA", platform: "Ver la plataforma", lab: "Ir al laboratorio", services: "Ver todos los servicios", trace: "Ver cómo fluye un evento" },
+      ctas: { vision: "Ver Visión IA", platform: "Ver la plataforma", lab: "Ir al laboratorio", services: "Ver todos los servicios", trace: "Ver cómo fluye un evento", diagnostic: "Hacer mi diagnóstico" },
       recap: {
         eyebrow: "Una plataforma · cinco capas",
         title: "No son cinco programas. Es una sola operación.",
@@ -314,6 +324,11 @@ export const dictionaries: Record<Locale, Dict> = {
       home: "Home",
       projects: "Projects",
       services: "Services",
+      vision: "AI Vision",
+      platform: "Platform",
+      lab: "Lab",
+      diagnostic: "Assessment",
+      contact: "Contact",
     },
     bottomBar: {
       sound: "Sound off",
@@ -471,7 +486,7 @@ export const dictionaries: Record<Locale, Dict> = {
       labels: { guard: "Patrol · checkpoint 7", camera: "Camera 04 · AI", sensor: "Warehouse 2 door", robot: "Robot · in development", central: "Operations center", board: "Management dashboard" },
       board: { title: "ARS · Operations", live: "Live", done: "Event closed", sites: "Sites" },
       stats: { areas: "service areas in one platform", modules: "modules in the catalog", live: "modules live today", analytics: "video analytics" },
-      ctas: { vision: "See AI Vision", platform: "See the platform", lab: "Visit the lab", services: "See all services", trace: "See how an event flows" },
+      ctas: { vision: "See AI Vision", platform: "See the platform", lab: "Visit the lab", services: "See all services", trace: "See how an event flows", diagnostic: "Get my assessment" },
       recap: {
         eyebrow: "One platform · five layers",
         title: "Not five programs. One operation.",

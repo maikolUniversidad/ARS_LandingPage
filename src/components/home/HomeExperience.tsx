@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { ContactForm } from "@/components/ContactForm";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { MobileMenu } from "@/components/MobileMenu";
+import { SiteNav } from "@/components/SiteNav";
+import { RUTA_DIAGNOSTICO } from "@/lib/navegacion";
 import { mailtoUrl, whatsappUrl } from "@/lib/contact";
 import { isModestDevice, noopSubscribe, supportsWebGL } from "@/lib/three/webgl";
 import { useI18n } from "@/lib/i18n/context";
@@ -187,7 +187,7 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
 
   return (
     <div className="relative text-foreground">
-      <Header h={h} />
+      <Header />
 
       {/* Escena fija detrás de la historia */}
       <div
@@ -247,10 +247,7 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
 
 // ───────────────────────── Header ─────────────────────────
 
-function Header({ h }: { h: HomeDict }) {
-  const { t } = useI18n();
-  const link =
-    "hidden items-center gap-2 px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-foreground/70 transition-colors hover:text-white lg:flex";
+function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="flex items-center justify-between gap-4 px-4 py-4 md:px-10">
@@ -265,45 +262,7 @@ function Header({ h }: { h: HomeDict }) {
             className="h-8 w-auto md:h-9"
           />
         </Link>
-        <nav className="flex items-center gap-1 md:gap-2">
-          <Link href="/servicios" className={link}>
-            <span className="text-[#6b8aff]">✦</span>
-            {t.nav.services}
-          </Link>
-          <Link href="/vision" className={link}>
-            <span className="text-[#6b8aff]">◉</span>
-            {h.nav.vision}
-          </Link>
-          <Link href="/plataforma" className={link}>
-            <span className="text-[#6b8aff]">◇</span>
-            {h.nav.platform}
-          </Link>
-          <Link href="/laboratorio" className={link}>
-            <span className="text-[#6b8aff]">◎</span>
-            {h.nav.lab}
-          </Link>
-          <Link href="/proyectos" className={link}>
-            <span className="text-[#6b8aff]">▣</span>
-            {t.nav.projects}
-          </Link>
-          <LanguageSwitcher />
-          <a
-            href="#contacto"
-            className="bevel-btn ml-1 hidden items-center gap-2 bg-white px-5 py-2.5 font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#020a18] transition-colors hover:bg-[#d5e0ff] sm:flex"
-          >
-            ▸ {h.nav.contact}
-          </a>
-          <MobileMenu
-            links={[
-              { label: t.nav.services, href: "/servicios" },
-              { label: h.nav.vision, href: "/vision" },
-              { label: h.nav.platform, href: "/plataforma" },
-              { label: h.nav.lab, href: "/laboratorio" },
-              { label: t.nav.projects, href: "/proyectos" },
-              { label: h.nav.contact, href: "#contacto", primary: true },
-            ]}
-          />
-        </nav>
+        <SiteNav contacto="#contacto" idioma />
       </div>
     </header>
   );
@@ -662,6 +621,9 @@ function Recap({ h }: { h: HomeDict }) {
           })}
         </ol>
         <div className="mt-8 flex flex-wrap justify-end gap-3 md:mt-10">
+          <CtaLink href={RUTA_DIAGNOSTICO} primary>
+            {h.ctas.diagnostic}
+          </CtaLink>
           <CtaLink href="/plataforma">{h.ctas.platform}</CtaLink>
           <CtaLink href="/servicios">{h.ctas.services}</CtaLink>
         </div>
