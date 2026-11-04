@@ -7,14 +7,16 @@ const LINKS = [
   { href: "/servicios", label: "Servicios", marca: "✦" },
   { href: "/vision", label: "Visión IA", marca: "◉" },
   { href: "/plataforma", label: "Plataforma", marca: "◇" },
+  { href: "/arquitectura", label: "Arquitectura", marca: "▤" },
   { href: "/laboratorio", label: "Laboratorio", marca: "◎" },
-  { href: "/proyectos", label: "Proyectos", marca: "▣" },
-] as const;
+  // Desde xl, para que la barra quepa en 1024 px.
+  { href: "/proyectos", label: "Proyectos", marca: "▣", soloXl: true },
+] as const satisfies ReadonlyArray<{ href: string; label: string; marca: string; soloXl?: boolean }>;
 
 /** Cabecera de /servicios y /servicios/[area]. */
 export function ServiciosHeader({ enHub = false }: { enHub?: boolean }) {
   const link =
-    "hidden items-center gap-2 whitespace-nowrap px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-foreground/70 transition-colors hover:text-white lg:flex";
+    "hidden items-center gap-2 whitespace-nowrap px-2.5 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-foreground/70 transition-colors hover:text-white";
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#020a18]/70 backdrop-blur-md">
       <div className="flex items-center justify-between gap-4 px-4 py-3 md:px-10 md:py-4">
@@ -36,7 +38,7 @@ export function ServiciosHeader({ enHub = false }: { enHub?: boolean }) {
               <Link
                 key={l.href}
                 href={l.href}
-                className={cn(link, actual && "text-white")}
+                className={cn(link, "soloXl" in l ? "xl:flex" : "lg:flex", actual && "text-white")}
                 aria-current={actual && enHub ? "page" : undefined}
               >
                 <span className="text-[#6b8aff]" aria-hidden="true">

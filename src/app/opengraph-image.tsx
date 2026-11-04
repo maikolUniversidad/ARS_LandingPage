@@ -69,7 +69,7 @@ export default function OpengraphImage() {
         <div
           style={{
             display: "flex",
-            gap: 40,
+            gap: 32,
             fontSize: 24,
             letterSpacing: 4,
             textTransform: "uppercase",
@@ -83,6 +83,8 @@ export default function OpengraphImage() {
           <span>IoT</span>
           <span>·</span>
           <span>Central</span>
+          <span>·</span>
+          <span style={{ color: "#6b8aff" }}>ERP de gestión</span>
         </div>
       </div>
     ),

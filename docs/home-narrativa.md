@@ -11,6 +11,8 @@ ARS es un **laboratorio de tecnología dedicado solo a la seguridad** (Colombia,
 
 **Idea fuerza:** ARS no es un conjunto de programas. Es una sola plataforma donde todo fluye y todo queda registrado. **Todo es una traza.**
 
+**Actualización (4-nov-2026) · La base ERP.** ARS no es solo la central ni solo lo operativo (que es «lo wow»): por debajo, todo se apoya en un **ERP de gestión propio de ARS** para el proceso base de una empresa de seguridad —contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno multiempresa y auditoría—, alimentado por todas las capas operativas. El laboratorio de tecnología de seguridad está construido sobre esa base. Mensaje: **lo operativo (wow) + ERP integral propio debajo = una sola plataforma.** Ver §6.
+
 ### Guardarraíles (qué SÍ y qué NO se dice)
 
 | Capa | Qué se puede decir | Estado en el catálogo | Qué NO se dice |
@@ -19,6 +21,7 @@ ARS es un **laboratorio de tecnología dedicado solo a la seguridad** (Colombia,
 | IA sobre las cámaras | Intrusión, cruce de línea, merodeo, objetos olvidados, conteo, aforo, mapa de calor, atributos estimados de persona; alerta con evidencia; **el operador decide** | `vivo` (`vision-artificial`) — las analíticas dependen del equipo de cada sede y se activan en piloto | Placas, armas, EPP, térmica, fuego/humo, clasificación vehicular; facial como identificación automática; «tus cámaras» |
 | Domótica e IoT | Sensores, accesos, alarmas, relojes biométricos en un solo panel; alarmas de puerta | `piloto` (`iot-y-domotica`); alarmas de puerta en `acceso-inteligente` (`vivo`) | Puertas con reconocimiento facial (solo «próximamente»); marcas de equipos |
 | Robótica | Línea del laboratorio: perros robot que verifican con las mismas analíticas; plataforma abierta a nuevos dispositivos | **No está en el catálogo.** Solo aparecen «drones y robots simulados» en la demo `sede-inteligente` | Que sea un producto, fechas, modelos o marcas de robots |
+| ERP de gestión (la base) | Contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría, alimentados por la operación; con un ERP existente, el Agente interoperador lo conecta completo o por partes | Mixto, siempre el real del catálogo: `nomina`, `contabilidad-conectada`, `su-erp-dentro-de-ars`, `agente-interoperador-de-datos`, `auditoria-y-trazabilidad` (`vivo`); `evaluaciones-de-conocimiento` (`piloto`); `facturas-dian-y-radian`, `prima-vacaciones-y-liquidacion` (`proximamente`); `cotizador-y-crm-propios` (`hoja-de-ruta`) | Emisión de factura electrónica DIAN como producto vivo (el módulo DIAN es la bandeja de facturas **recibidas** y está «Próximamente»: se habla de «prefactura»); CRM propio como disponible; que reemplaza cualquier ERP |
 | Central y gerencia | Sala de Control con mapa en vivo, despacho por radio, ventana de atención con bitácora, cierre con informe, auditoría con antes y después, reportes por cliente | `vivo` (`sala-de-control`, `boton-de-panico`, `auditoria-y-trazabilidad`, `torre-de-control`) | SLA, porcentajes de disponibilidad, certificaciones, cifras de usuarios o clientes |
 
 Prohibido en todo el copy: «Tus cámaras», nombres de proveedores, ERPs o productos de terceros, la frase literal «revolución en la seguridad», cifras no respaldadas (las del home actual como «< 48 h», «< 1 s», «97 %», «12+» no tienen respaldo en el catálogo y deben salir).
@@ -116,7 +119,8 @@ Se elige la **Propuesta A** con el titular reforzado con la claridad de B:
 |---|---|---|
 | Eyebrow | Laboratorio de tecnología para la seguridad privada | Technology lab for private security |
 | H1 | Todas las capas de la seguridad. Una sola traza. | Every layer of security. One trace. |
-| Subtítulo | Vigilancia física, cámaras con IA, sensores, robótica y central de operaciones en una sola plataforma. Cada evento queda trazado, del puesto a la gerencia. | Guarding, AI on cameras, sensors, robotics and the operations center in one platform. Every event is traced, from the post to management. |
+| Subtítulo | Vigilancia física, cámaras con IA, sensores, robótica y central de operaciones, sobre un ERP propio que gestiona la empresa. Una sola plataforma: cada evento queda trazado, del puesto a la gerencia. | Guarding, AI on cameras, sensors, robotics and the operations center, on top of our own ERP that runs the company. One platform: every event is traced, from the post to management. |
+| Chips | Las cinco capas + «La base · ERP de gestión» | The five layers + "The base · Management ERP" |
 | CTA primario | Solicitar demo | Request a demo |
 | CTA secundario | Ver cómo fluye un evento | See how an event flows |
 | Indicador de scroll | Desliza · mira cómo se encienden las capas | Scroll · watch the layers come alive |
@@ -180,6 +184,18 @@ Etiquetas de estado (ES / EN):
 - **Title EN:** A center that sees everything. Management that knows instantly.
 - **Body EN:** A live map of every site and every person, with radio, chat and panic alerts on the same screen. Management sees in real time what is covered, what is missing and what happened.
 
+#### `erp` · La base — ERP de gestión (nuevo)
+- **Estado:** mixto (cada módulo con su estado real del catálogo en la sección `#la-base`)
+- **Kicker ES:** La base · ERP de gestión
+- **Título ES:** Debajo de todo, un ERP hecho para la seguridad.
+- **Cuerpo ES:** Lo operativo es lo que se ve. Por debajo, el ERP de ARS administra la empresa de seguridad: contratos y turnos, personas y nómina, documentos, formación, clientes, finanzas y gobierno. Cada capa lo alimenta sola.
+- **Conversiones (ES):** Turno cumplido → Nómina · Ronda y evento → Informe al cliente · Servicio prestado → Prefactura · Nómina y facturación → Contabilidad. Nota: «Con el ERP de ARS o con el que ya usa: el Agente interoperador los conecta, completo o por partes.»
+- **Kicker EN:** The base · Management ERP
+- **Title EN:** Underneath it all, an ERP built for security.
+- **Body EN:** Operations is what you see. Underneath, the ARS ERP runs the security company: contracts and shifts, people and payroll, documents, training, clients, finance and governance. Every layer feeds it on its own.
+- **Conversions (EN):** Shift worked → Payroll · Patrol and event → Client report · Service delivered → Pre-invoice · Payroll and billing → Accounting.
+- **3D:** la cámara baja al cimiento; dentro del perímetro de la sede el suelo queda como retícula transparente, los edificios se vuelven fantasma y aparece la losa holográfica del ERP con siete módulos. Cinco flujos de partículas bajan desde los nodos de las capas (ronda, cámara, sensor, robot, central) a sus módulos y un pulso recorre Contratos y turnos → Personas y nómina → Clientes → Finanzas y facturación → Gobierno y auditoría.
+
 #### `traza` · Un evento recorre las capas
 - **Kicker ES:** 02:14 a. m. · Todo es una traza
 - **Título ES:** Un evento. Cinco capas. Ningún cabo suelto.
@@ -189,13 +205,13 @@ Etiquetas de estado (ES / EN):
 - **Body EN:** This is how an alert flows in ARS: each layer adds its evidence to the same timeline, and nothing gets lost between a radio, a chat and a spreadsheet.
 
 #### `escala` · Escala y CTA
-- **Kicker ES:** Una plataforma · todas las sedes
+- **Kicker ES:** Operación + gestión · todas las sedes
 - **Título ES:** La nueva era de la seguridad privada ya opera.
-- **Cuerpo ES:** Cada sede, cada cliente y cada turno en la misma plataforma, con multiagentes de IA que proponen y una persona que decide. Desde Colombia para Latinoamérica y el mundo.
+- **Cuerpo ES:** Cada sede, cada cliente y cada turno en la misma plataforma: la operación encima, el ERP de gestión debajo y multiagentes de IA que proponen mientras una persona decide. Desde Colombia para Latinoamérica y el mundo.
 - **CTA ES:** Solicitar demo · Ver todos los servicios
-- **Kicker EN:** One platform · every site
+- **Kicker EN:** Operations + management · every site
 - **Title EN:** The new era of private security is already running.
-- **Body EN:** Every site, every client and every shift on the same platform, with AI multi-agents that propose and a person who decides. From Colombia to Latin America and the world.
+- **Body EN:** Every site, every client and every shift on the same platform: operations on top, the management ERP underneath, and AI multi-agents that propose while a person decides. From Colombia to Latin America and the world.
 - **CTA EN:** Request a demo · See all services
 
 ### 4.3 Evento de ejemplo (línea de tiempo del capítulo `traza`)
@@ -228,10 +244,10 @@ Pie de la línea de tiempo: ES «Escenario de demostración.» / EN «Demo scena
 
 | Campo | ES | EN |
 |---|---|---|
-| Título (≤ 60) | ARS Intelligence · Todas las capas de seguridad, una traza | ARS Intelligence · Every layer of security, one trace |
-| Descripción (≤ 155) | Laboratorio de tecnología para la seguridad privada: vigilancia, cámaras con IA, IoT y central en una sola plataforma con traza de punta a punta. | Technology lab for private security: guarding, AI on cameras, IoT and an operations center in one platform, traced end to end. |
+| Título (≤ 60) | ARS Intelligence · Operación y ERP de seguridad, una traza | ARS Intelligence · Security operations and ERP, one trace |
+| Descripción (≤ 155) | Laboratorio de tecnología para la seguridad privada: vigilancia, cámaras con IA, IoT y central sobre un ERP propio de gestión, en una sola plataforma. | Technology lab for private security: guarding, AI cameras, IoT and an operations center on top of our own management ERP, in one platform. |
 
-Longitudes: título ES 58, título EN 53, descripción ES 145, descripción EN 126 caracteres. Cuerpos de capítulo: todos entre 27 y 33 palabras.
+Longitudes: título ES 58, descripción ES 150 caracteres. (El sitio publica los metadatos en español.) Cuerpos de capítulo: todos entre 27 y 33 palabras.
 
 ---
 
@@ -242,3 +258,31 @@ Longitudes: título ES 58, título EN 53, descripción ES 145, descripción EN 1
 - **Humano al mando**: en `vision` y `traza` debe verse al operador confirmando; nunca una IA que actúa sola.
 - **Sin marcas ni clientes** en pantallas, rótulos 3D ni videos. Las capturas de `/public/servicios/capturas` ya están revisadas para esto.
 - **Enlaces sugeridos por capa** (en el recap o como enlace bajo cada capítulo): `fisica` → `/servicios/operacion-en-campo`, `vision` → `/vision`, `iot` → `/servicios/monitoreo-inteligente#iot-y-domotica`, `robotica` → `/laboratorio`, `central` → `/servicios/centro-de-operaciones`.
+
+---
+
+## 6. La base: un ERP hecho para la seguridad (4-nov-2026)
+
+**Mensaje:** lo operativo (las cinco capas, «lo wow») + un ERP integral propio debajo = **una sola plataforma**. ARS no es solo la central: la operación alimenta sola la gestión de la empresa.
+
+**Dónde aparece en el home**
+1. **Hero:** el subtítulo menciona el ERP propio y los chips suman «La base · ERP de gestión».
+2. **Capítulo `erp`** (entre `central` y `traza`): la cámara baja al cimiento 3D y se ve cómo un turno, una ronda o un evento se convierten en nómina, informe al cliente, prefactura y contabilidad (§4.2).
+3. **Riel de capas:** debajo de las cinco capas, una fila «La base · ERP de gestión».
+4. **Sección `#la-base`** (después de la historia, antes del recap): «La base: un ERP hecho para la seguridad», con dos niveles —**Arriba · Operación** (las cinco capas con su estado) y **Abajo · Gestión** (siete bloques con los módulos reales de `src/data/servicios`, su estado y enlace a `/servicios/<área>#<módulo>`)— y el CTA «Ver la arquitectura completa» → `/arquitectura`.
+5. **`escala` y recap:** dejan claro operación + ERP.
+6. **Navegación:** «Arquitectura» → `/arquitectura` en el header del home y en el de `/servicios` (escritorio y móvil).
+
+**Bloques del ERP y módulos del catálogo** (definidos en `src/components/home/erp-groups.ts`; nombre y estado se leen del catálogo en build):
+
+| Bloque | Módulos |
+|---|---|
+| Contratos y turnos | `turnos-y-programacion`, `control-de-asistencia-y-relevos`, `ordenes-de-servicio-del-erp` |
+| Personas y nómina | `seleccion-y-contratacion`, `empleados-prestamos-y-contratos`, `nomina`, `prima-vacaciones-y-liquidacion` |
+| Documental | `area-documental-inicio`, `cargue-inteligente-de-documentos`, `expedientes-y-descargas-masivas`, `auditoria-de-gestion-humana` |
+| Formación | `capacitacion-virtual`, `disenador-de-cursos-con-ia`, `evaluaciones-de-conocimiento` |
+| Clientes | `clientes-contratos-y-planes`, `portal-documental-para-el-cliente`, `cotizador-y-crm-propios` |
+| Finanzas y facturación | `contabilidad-conectada`, `asistente-contable-con-ia`, `facturas-dian-y-radian`, `su-erp-dentro-de-ars` |
+| Gobierno y auditoría | `configuracion-multiempresa`, `auditoria-y-trazabilidad`, `torre-de-control`, `agente-interoperador-de-datos` |
+
+**Honestidad:** el catálogo también describe que ARS trabaja junto al ERP que la empresa ya tenga (Agente interoperador, «Su ERP dentro de ARS»). Por eso el copy dice «con el ERP de ARS o con el que ya usa». No se dice «factura electrónica DIAN» como capacidad viva: la conversión se nombra «prefactura» (facturación masiva: calcular líneas, aprobar, prefacturar y validar).

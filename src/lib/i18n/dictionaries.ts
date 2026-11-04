@@ -75,9 +75,15 @@ type HomeChapterDict = {
   points: string[];
 };
 
-/** Home 3D — "Todas las capas de la seguridad. Una sola traza." (claves `home.*`). */
+/** Estado público de un módulo del catálogo (mismas claves que `EstadoModulo`). */
+type CatalogStatusDict = { vivo: string; piloto: string; proximamente: string; "hoja-de-ruta": string };
+
+/**
+ * Home 3D — "Todas las capas de la seguridad. Una sola traza." (claves `home.*`).
+ * Lo operativo (cinco capas) encima y el ERP de gestión de ARS debajo: una sola plataforma.
+ */
 export type HomeDict = {
-  nav: { vision: string; platform: string; lab: string; contact: string };
+  nav: { vision: string; platform: string; lab: string; contact: string; architecture: string };
   hero: {
     eyebrow: string;
     title1: string;
@@ -101,11 +107,39 @@ export type HomeDict = {
     iot: HomeChapterDict;
     robotica: HomeChapterDict;
     central: HomeChapterDict;
+    erp: HomeChapterDict;
     traza: HomeChapterDict;
     escala: HomeChapterDict;
   };
+  /** La base: ERP de gestión (capítulo `erp`, cimiento 3D y sección «La base»). */
+  erp: {
+    tag: string;
+    name: string;
+    /** Módulos del cimiento, en el orden de las baldosas 3D y de los grupos de la sección. */
+    modules: string[];
+    sceneTitle: string;
+    sceneSubtitle: string;
+    flowLabel: string;
+    /** Conversiones de la operación a la gestión (capítulo `erp`). */
+    flow: Array<{ from: string; to: string; text: string }>;
+    note: string;
+  };
+  erpSection: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    opsTag: string;
+    opsTitle: string;
+    mgmtTag: string;
+    mgmtTitle: string;
+    feeds: string;
+    interop: string;
+    cta: string;
+    catalogNote: string;
+    status: CatalogStatusDict;
+  };
   visionNote: string;
-  labels: { guard: string; camera: string; sensor: string; robot: string; central: string; board: string };
+  labels: { guard: string; camera: string; sensor: string; robot: string; central: string; board: string; erp: string };
   board: { title: string; live: string; done: string; sites: string };
   stats: { areas: string; modules: string; live: string; analytics: string };
   ctas: { vision: string; platform: string; lab: string; services: string; trace: string };
@@ -244,12 +278,12 @@ export const dictionaries: Record<Locale, Dict> = {
       },
     },
     home: {
-      nav: { vision: "Visión IA", platform: "Plataforma", lab: "Laboratorio", contact: "Solicitar demo" },
+      nav: { vision: "Visión IA", platform: "Plataforma", lab: "Laboratorio", contact: "Solicitar demo", architecture: "Arquitectura" },
       hero: {
         eyebrow: "Laboratorio de tecnología para la seguridad privada",
         title1: "Todas las capas de la seguridad.",
         title2: "Una sola traza.",
-        body: "Vigilancia física, cámaras con IA, sensores, robótica y central de operaciones en una sola plataforma. Cada evento queda trazado, del puesto a la gerencia.",
+        body: "Vigilancia física, cámaras con IA, sensores, robótica y central de operaciones, sobre un ERP propio que gestiona la empresa. Una sola plataforma: cada evento queda trazado, del puesto a la gerencia.",
         ctaPrimary: "Solicitar demo",
         ctaSecondary: "Ver cómo fluye un evento",
         scroll: "Desliza · mira cómo se encienden las capas",
@@ -281,18 +315,48 @@ export const dictionaries: Record<Locale, Dict> = {
         iot: { eyebrow: "Capa 03 · Sensores e IoT", title: "El edificio también reporta.", body: "Sensores, controles de acceso, alarmas y relojes biométricos de todas las sedes en un solo panel. Una puerta abierta fuera de horario se vuelve un evento más de la misma traza.", points: ["Accesos", "Alarmas", "Relojes biométricos"] },
         robotica: { eyebrow: "Capa 04 · Robótica · Laboratorio", title: "La próxima ronda puede tener cuatro patas.", body: "En nuestro laboratorio desarrollamos perros robot que recorren y verifican con las mismas analíticas de las cámaras. La plataforma está pensada para sumar nuevos dispositivos sin cambiar la forma de operar.", points: ["Mismas analíticas", "Extensible a nuevos dispositivos"] },
         central: { eyebrow: "Capa 05 · Central y gerencia", title: "Una central que ve todo. Una gerencia que lo sabe al instante.", body: "Mapa en vivo de cada sede y cada persona, radio, chat y pánico en la misma pantalla. La gerencia ve en tiempo real qué está cubierto, qué falta y qué pasó.", points: ["Mapa en vivo", "Despacho por radio", "Tablero de gerencia"] },
+        erp: { eyebrow: "La base · ERP de gestión", title: "Debajo de todo, un ERP hecho para la seguridad.", body: "Lo operativo es lo que se ve. Por debajo, el ERP de ARS administra la empresa de seguridad: contratos y turnos, personas y nómina, documentos, formación, clientes, finanzas y gobierno. Cada capa lo alimenta sola.", points: [] },
         traza: { eyebrow: "02:14 a. m. · Todo es una traza", title: "Un evento. Cinco capas. Ningún cabo suelto.", body: "Así fluye una alerta en ARS: cada capa suma su evidencia a la misma línea de tiempo, y nada se pierde entre un radio, un chat y una planilla.", points: [] },
-        escala: { eyebrow: "Una plataforma · todas las sedes", title: "La nueva era de la seguridad privada ya opera.", body: "Cada sede, cada cliente y cada turno en la misma plataforma, con multiagentes de IA que proponen y una persona que decide. Desde Colombia para Latinoamérica y el mundo.", points: [] },
+        escala: { eyebrow: "Operación + gestión · todas las sedes", title: "La nueva era de la seguridad privada ya opera.", body: "Cada sede, cada cliente y cada turno en la misma plataforma: la operación encima, el ERP de gestión debajo y multiagentes de IA que proponen mientras una persona decide. Desde Colombia para Latinoamérica y el mundo.", points: [] },
+      },
+      erp: {
+        tag: "La base",
+        name: "ERP de gestión",
+        modules: ["Contratos y turnos", "Personas y nómina", "Documental", "Formación", "Clientes", "Finanzas y facturación", "Gobierno y auditoría"],
+        sceneTitle: "ARS · ERP de gestión",
+        sceneSubtitle: "La base de toda la operación",
+        flowLabel: "De la operación a la gestión",
+        flow: [
+          { from: "Turno cumplido", to: "Nómina", text: "Lo programado y las marcas reales llegan a la liquidación, sin volver a digitarlos." },
+          { from: "Ronda y evento", to: "Informe al cliente", text: "La evidencia de la operación arma el reporte que recibe cada cliente." },
+          { from: "Servicio prestado", to: "Prefactura", text: "Lo contratado y lo cumplido se convierten en líneas para facturar." },
+          { from: "Nómina y facturación", to: "Contabilidad", text: "Todo se cruza con la contabilidad y queda en la auditoría." },
+        ],
+        note: "Con el ERP de ARS o con el que ya usa: el Agente interoperador los conecta, completo o por partes.",
+      },
+      erpSection: {
+        eyebrow: "La base · una sola plataforma",
+        title: "La base: un ERP hecho para la seguridad.",
+        body: "Lo que impresiona está arriba: vigilancia, cámaras con IA, sensores, robótica y central. Lo que sostiene la empresa está abajo: el ERP de ARS para el proceso base de una compañía de seguridad, alimentado por toda la operación. No son dos sistemas: es la misma plataforma.",
+        opsTag: "Arriba · Operación",
+        opsTitle: "Lo que pasa en cada sede",
+        mgmtTag: "Abajo · Gestión",
+        mgmtTitle: "Lo que administra la empresa",
+        feeds: "Cada turno, ronda y evento alimenta la gestión",
+        interop: "¿Ya tiene un ERP? El Agente interoperador de datos lo conecta con ARS, completo o solo en las partes que necesite.",
+        cta: "Ver la arquitectura completa",
+        catalogNote: "Estados reales del catálogo de servicios.",
+        status: { vivo: "En producción", piloto: "En piloto", proximamente: "Próximamente", "hoja-de-ruta": "Hoja de ruta" },
       },
       visionNote: "Analíticas según el equipo de cada sede",
-      labels: { guard: "Ronda · punto 7", camera: "Cámara 04 · IA", sensor: "Puerta bodega 2", robot: "Robot · laboratorio", central: "Central de operaciones", board: "Tablero de gerencia" },
+      labels: { guard: "Ronda · punto 7", camera: "Cámara 04 · IA", sensor: "Puerta bodega 2", robot: "Robot · laboratorio", central: "Central de operaciones", board: "Tablero de gerencia", erp: "ERP de gestión ARS" },
       board: { title: "ARS · Operación", live: "En vivo", done: "Evento cerrado", sites: "Sedes" },
       stats: { areas: "áreas de servicio en una plataforma", modules: "módulos en el catálogo", live: "módulos en operación", analytics: "analíticas de video" },
       ctas: { vision: "Ver Visión IA", platform: "Ver la plataforma", lab: "Ir al laboratorio", services: "Ver todos los servicios", trace: "Ver cómo fluye un evento" },
       recap: {
-        eyebrow: "Una plataforma · cinco capas",
+        eyebrow: "Una plataforma · cinco capas + la base",
         title: "No son cinco programas. Es una sola operación.",
-        body: "Cada capa trabaja sola y, al mismo tiempo, alimenta la misma traza. Elige por dónde empezar: la plataforma crece con tu operación.",
+        body: "Cada capa trabaja sola y, al mismo tiempo, alimenta la misma traza y el mismo ERP de gestión. Elige por dónde empezar: la plataforma crece con tu operación.",
       },
       contact: {
         eyebrow: "Hablemos de tu operación",
@@ -427,12 +491,12 @@ export const dictionaries: Record<Locale, Dict> = {
       },
     },
     home: {
-      nav: { vision: "AI Vision", platform: "Platform", lab: "Lab", contact: "Request demo" },
+      nav: { vision: "AI Vision", platform: "Platform", lab: "Lab", contact: "Request demo", architecture: "Architecture" },
       hero: {
         eyebrow: "Technology lab for private security",
         title1: "Every layer of security.",
         title2: "One trace.",
-        body: "Guarding, AI on cameras, sensors, robotics and the operations center in one platform. Every event is traced, from the post to management.",
+        body: "Guarding, AI on cameras, sensors, robotics and the operations center, on top of our own ERP that runs the company. One platform: every event is traced, from the post to management.",
         ctaPrimary: "Request a demo",
         ctaSecondary: "See how an event flows",
         scroll: "Scroll · watch the layers come alive",
@@ -464,18 +528,48 @@ export const dictionaries: Record<Locale, Dict> = {
         iot: { eyebrow: "Layer 03 · Sensors and IoT", title: "The building reports too.", body: "Sensors, access controls, alarms and biometric clocks from every site in a single panel. A door opened after hours becomes one more event in the same trace.", points: ["Access", "Alarms", "Biometric clocks"] },
         robotica: { eyebrow: "Layer 04 · Robotics · In the lab", title: "The next patrol may walk on four legs.", body: "In our lab we are developing robot dogs that patrol and verify using the same camera analytics. The platform is built to add new devices without changing the way you operate.", points: ["Same analytics", "Extensible to new devices"] },
         central: { eyebrow: "Layer 05 · Operations and management", title: "A center that sees everything. Management that knows instantly.", body: "A live map of every site and every person, with radio, chat and panic alerts on the same screen. Management sees in real time what is covered, what is missing and what happened.", points: ["Live map", "Radio dispatch", "Management dashboard"] },
+        erp: { eyebrow: "The base · Management ERP", title: "Underneath it all, an ERP built for security.", body: "Operations is what you see. Underneath, the ARS ERP runs the security company: contracts and shifts, people and payroll, documents, training, clients, finance and governance. Every layer feeds it on its own.", points: [] },
         traza: { eyebrow: "2:14 a.m. · Everything is a trace", title: "One event. Five layers. No loose ends.", body: "This is how an alert flows in ARS: each layer adds its evidence to the same timeline, and nothing gets lost between a radio, a chat and a spreadsheet.", points: [] },
-        escala: { eyebrow: "One platform · every site", title: "The new era of private security is already running.", body: "Every site, every client and every shift on the same platform, with AI multi-agents that propose and a person who decides. From Colombia to Latin America and the world.", points: [] },
+        escala: { eyebrow: "Operations + management · every site", title: "The new era of private security is already running.", body: "Every site, every client and every shift on the same platform: operations on top, the management ERP underneath, and AI multi-agents that propose while a person decides. From Colombia to Latin America and the world.", points: [] },
+      },
+      erp: {
+        tag: "The base",
+        name: "Management ERP",
+        modules: ["Contracts and shifts", "People and payroll", "Documents", "Training", "Clients", "Finance and billing", "Governance and audit"],
+        sceneTitle: "ARS · Management ERP",
+        sceneSubtitle: "The base of every operation",
+        flowLabel: "From operations to management",
+        flow: [
+          { from: "Shift worked", to: "Payroll", text: "Scheduled shifts and real clock-ins reach payroll without being typed again." },
+          { from: "Patrol and event", to: "Client report", text: "Evidence from the field builds the report each client receives." },
+          { from: "Service delivered", to: "Pre-invoice", text: "What was contracted and delivered becomes lines ready to bill." },
+          { from: "Payroll and billing", to: "Accounting", text: "Everything is matched against accounting and stays in the audit trail." },
+        ],
+        note: "With the ARS ERP or the one you already use: the data interoperability agent connects them, fully or in parts.",
+      },
+      erpSection: {
+        eyebrow: "The base · one platform",
+        title: "The base: an ERP built for security.",
+        body: "The impressive part is on top: guarding, AI cameras, sensors, robotics and the operations center. What holds the company together is underneath: the ARS ERP for the core processes of a security company, fed by every operation. Not two systems: one platform.",
+        opsTag: "Top · Operations",
+        opsTitle: "What happens at every site",
+        mgmtTag: "Bottom · Management",
+        mgmtTitle: "What runs the company",
+        feeds: "Every shift, patrol and event feeds management",
+        interop: "Already have an ERP? The data interoperability agent connects it to ARS, fully or only in the parts you need.",
+        cta: "See the full architecture",
+        catalogNote: "Real statuses from our service catalog (module names in Spanish).",
+        status: { vivo: "Live", piloto: "Pilot", proximamente: "Coming soon", "hoja-de-ruta": "Roadmap" },
       },
       visionNote: "Analytics depend on each site's equipment",
-      labels: { guard: "Patrol · checkpoint 7", camera: "Camera 04 · AI", sensor: "Warehouse 2 door", robot: "Robot · in the lab", central: "Operations center", board: "Management dashboard" },
+      labels: { guard: "Patrol · checkpoint 7", camera: "Camera 04 · AI", sensor: "Warehouse 2 door", robot: "Robot · in the lab", central: "Operations center", board: "Management dashboard", erp: "ARS management ERP" },
       board: { title: "ARS · Operations", live: "Live", done: "Event closed", sites: "Sites" },
       stats: { areas: "service areas in one platform", modules: "modules in the catalog", live: "modules live today", analytics: "video analytics" },
       ctas: { vision: "See AI Vision", platform: "See the platform", lab: "Visit the lab", services: "See all services", trace: "See how an event flows" },
       recap: {
-        eyebrow: "One platform · five layers",
+        eyebrow: "One platform · five layers + the base",
         title: "Not five programs. One operation.",
-        body: "Each layer works on its own and, at the same time, feeds the same trace. Choose where to start: the platform grows with your operation.",
+        body: "Each layer works on its own and, at the same time, feeds the same trace and the same management ERP. Choose where to start: the platform grows with your operation.",
       },
       contact: {
         eyebrow: "Let's talk about your operation",
