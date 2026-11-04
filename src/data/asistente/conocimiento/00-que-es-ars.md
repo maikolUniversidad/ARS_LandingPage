@@ -7,16 +7,26 @@ rutas: ["/"]
 
 ## En una frase
 
-ARS Intelligence es una plataforma de seguridad integral con IA que conecta la operación completa de seguridad —personas, cámaras, IA, turnos, rondas, alertas, mapas, evidencia y reportes— en una sola plataforma. Lema del sitio: «La forma simple de hacer que todo funcione».
+ARS Intelligence es un **laboratorio de tecnología dedicado solo al desarrollo y la innovación en seguridad**, desde Colombia para Latinoamérica y el mundo. Trabaja para **empresas de seguridad privada** y las lleva a una nueva era en la que toda la operación es inteligente. Titular de la portada: «Todas las capas de la seguridad. Una sola traza.» Lema del sitio: «La forma simple de hacer que todo funcione».
 
-## Propuesta de valor (tal como la comunica el sitio)
+## Posicionamiento: todas las capas, una sola traza
 
-- **Seguridad integral, no solo cámaras**: centraliza cámaras, personal, alertas, evidencia y operación para que cada evento tenga contexto, trazabilidad y respuesta. Conecta vigilancia, tecnología, operadores y clientes.
-- **Sin reemplazar hardware**: se integra con la operación actual; conecta cámaras, guardas, NVRs y sistemas existentes. El sitio comunica un tiempo de despliegue de **menos de 48 horas** y un tablero único para gerencia, supervisión y respuesta. Los plazos reales de cada proyecto: a confirmar con el equipo comercial.
-- **La IA apoya al equipo humano**: detecta y prioriza eventos; la decisión y la respuesta siguen siendo del operador y del personal en campo.
-- **Alertas con evidencia**: cada alerta llega con snapshot, clip, ubicación, cámara, hora, responsable y trazabilidad.
-- **Multi-cliente, multi-sede, multi-zona**: una sola arquitectura para muchas operaciones.
-- Indicadores de confianza mostrados en la web: despliegue «< 48h», operación «24/7», cobertura «LATAM», «12+» modelos de IA.
+ARS no es un conjunto de programas separados: une en una sola plataforma con IA todas las capas de lo que pasa en un lugar de seguridad, y hace que todo fluya como debe.
+
+1. **Vigilancia física** (en operación): el vigilante y sus turnos, relevos, rondas con QR, minuta desde el celular, radio PTT y botón de pánico en el mismo teléfono, y el supervisor visible en campo.
+2. **Visión con IA sobre las cámaras** (en operación): las analíticas de `/vision` sobre las cámaras que la sede ya tiene; cada alerta llega con foto y video y **una persona confirma antes de actuar**. Las analíticas disponibles dependen del equipo de cada sede.
+3. **Sensores, domótica e IoT** (en **piloto**): sensores, controles de acceso, alarmas y relojes biométricos en el mismo panel. Las alarmas de puerta del acceso inteligente sí están en operación; el módulo IoT como tal está en piloto.
+4. **Robótica** (línea del **laboratorio**, en desarrollo, no es un producto comercial): perros robot que recorren y verifican con las mismas analíticas de las cámaras. La plataforma está pensada para sumar nuevos dispositivos. No prometas fechas, modelos ni disponibilidad; si preguntan, di que es una línea en desarrollo del laboratorio y ofrece hablar con el equipo.
+5. **Central de operaciones y gerencia** (en operación): mapa en vivo de cada sede y cada persona, radio, chat y pánico en la misma pantalla; la gerencia ve en tiempo real qué está cubierto, qué falta y qué pasó.
+
+**Todo es una traza**: cada evento queda trazado de punta a punta, del puesto a la gerencia. Ejemplo de la portada (escenario de demostración, ficticio): una ronda reporta una novedad en la cerca norte → la cámara 04 confirma con cruce de línea y el operador valida → el sensor de la puerta de la bodega avisa → el robot del laboratorio verifica → la central despacha al supervisor por radio → el cierre con evidencia, responsable y tiempos llega al tablero de gerencia.
+
+Otras ideas que comunica el sitio:
+- **La IA apoya al equipo humano**: multiagentes de IA que proponen y una persona que decide.
+- **Alertas con evidencia**: foto, video, ubicación, cámara, hora y responsable asociados al evento.
+- **Multi-cliente, multi-sede**: cada sede, cada cliente y cada turno en la misma plataforma.
+- Cifras de la portada (salen del catálogo de `/servicios`): 10 áreas de servicio, los módulos del catálogo y cuántos están en operación, y 8 analíticas de video. No uses otras cifras (no hay respaldo para «< 48 h», «24/7», «12+ modelos» ni porcentajes de precisión).
+- Plazos de despliegue, precios y alcance de cada proyecto: a confirmar con el equipo comercial.
 
 ## Presencia
 
@@ -44,7 +54,7 @@ Además hay demos interactivas: `/laboratorio` (modelos de IA en acción, con c�
 
 ## Contacto
 
-- Solicitar demo: formulario y botones en la sección `#cierre` de la portada (`/#cierre`), de `/plataforma#cierre` y de `/vision#cierre`.
+- Solicitar demo: formulario y botones en la sección `#contacto` de la portada (`/#contacto`), de `/plataforma#cierre` y de `/vision#cierre`.
 - WhatsApp de la gerencia comercial: +57 318 0005654.
 - Correo: gerencia.comercial@vigiasdecolombia.com (asunto sugerido «Solicitud de demo - ARS Intelligence»).
 - Dominio del sitio: arsintelligence.com.

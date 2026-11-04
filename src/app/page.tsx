@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { HomeExperience } from "@/components/home/HomeExperience";
+import { HomeExperience, type HomeCounts } from "@/components/home/HomeExperience";
+import { AREAS } from "@/data/servicios/catalogo";
 
-const TITLE = "ARS Intelligence — Seguridad con IA en tres capas";
+const TITLE = "ARS Intelligence · Todas las capas de seguridad, una traza";
 const DESCRIPTION =
-  "ARS convierte tus cámaras actuales en seguridad inteligente: prevención en campo, detección con IA sobre tu CCTV y respuesta coordinada con evidencia. Despliegue en menos de 48 horas en LATAM.";
+  "Laboratorio de tecnología para la seguridad privada: vigilancia, cámaras con IA, IoT y central en una sola plataforma con traza de punta a punta.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -20,6 +21,16 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
 };
 
+/** Cifras calculadas del catálogo en build, para que nunca queden desactualizadas. */
+const modules = AREAS.flatMap((a) => a.modulos);
+const COUNTS: HomeCounts = {
+  areas: AREAS.length,
+  modules: modules.length,
+  live: modules.filter((m) => m.estado === "vivo").length,
+  // Lista cerrada de analíticas de video del catálogo (ver 25-servicios-ars.md).
+  analytics: 8,
+};
+
 export default function Home() {
-  return <HomeExperience />;
+  return <HomeExperience counts={COUNTS} />;
 }
