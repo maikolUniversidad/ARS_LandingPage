@@ -1,0 +1,112 @@
+/* Animaciones propias de las secciones «En movimiento» y «Recorrido».
+   Todas se congelan con [data-pausa="true"] en un ancestro (fuera de pantalla)
+   y desaparecen con prefers-reduced-motion. */
+
+@keyframes onda {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes toque {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.82);
+  }
+}
+
+@keyframes resalte {
+  0% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes progreso {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes entrada {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes barrido {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.onda {
+  animation: onda 900ms ease-out forwards;
+}
+
+.toque {
+  animation: toque 380ms ease-in-out;
+}
+
+.resalte {
+  animation: resalte 420ms ease-out forwards;
+}
+
+.progreso {
+  transform-origin: left center;
+  animation: progreso var(--dur, 9000ms) linear forwards;
+}
+
+.entrada {
+  animation: entrada 500ms ease-out both;
+}
+
+.barrido {
+  animation: barrido 3.6s linear infinite;
+}
+
+/* .entrada no se pausa: el texto debe aparecer aunque la sección esté a medias en pantalla. */
+[data-pausa="true"] .onda,
+[data-pausa="true"] .toque,
+[data-pausa="true"] .resalte,
+[data-pausa="true"] .progreso,
+[data-pausa="true"] .barrido {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .onda,
+  .toque,
+  .barrido {
+    animation: none;
+  }
+  .resalte,
+  .entrada,
+  .progreso {
+    animation: none;
+    opacity: 1;
+  }
+}
