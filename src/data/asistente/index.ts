@@ -70,6 +70,18 @@ export const RUTAS_SITIO: RutaSitio[] = [
     anclas: [],
   },
   {
+    ruta: "/arquitectura",
+    titulo: "Arquitectura de soluciones ARS · La operación que se ve, el ERP que la sostiene",
+    descripcion:
+      "Vista corporativa completa: canales (web, Android, PWA, escritorio, gafas VR), capa operativa (campo, central, comunicación, monitoreo con IA e IoT, realidad virtual, laboratorio), núcleo de datos e IA y el ERP base propio de ARS (contratos, turnos, gestión humana y nómina, documental, formación, finanzas, facturas DIAN, CRM, gobierno multiempresa), con integraciones externas. Diagrama interactivo con estado real de cada módulo, recorridos «Sigue un dato» y comparación con herramientas sueltas.",
+    anclas: [
+      { id: "diagrama", descripcion: "Diagrama interactivo de la arquitectura por capas (vistas Operativa, Corporativa (ERP) e Integral)" },
+      { id: "sigue-un-dato", descripcion: "Sigue un dato: recorridos de punta a punta (marcación → nómina → contabilidad; alerta de cámara → informe; contrato → mes facturado; factura de proveedor DIAN)" },
+      { id: "por-que-erp", descripcion: "Por qué un ERP propio y tabla ARS frente a herramientas sueltas" },
+      { id: "cierre", descripcion: "Solicitar demo / ver todos los servicios" },
+    ],
+  },
+  {
     ruta: "/plataforma",
     titulo: "Plataforma · Seguridad integral",
     descripcion:
