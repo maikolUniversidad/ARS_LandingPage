@@ -76,7 +76,7 @@ function construir(kit: Kit): Escena {
   kit.polvo(380, 40, 9, 3);
 
   // ── Tableros curvos ──
-  const filas = ["Ronda completada · Sede Norte", "Ingreso visitante · Torre 80", "Alerta de aforo · CC Andino", "Pánico atendido · Bodega Sur", "Cambio de turno · Planta 3", "Puerta forzada · Clínica N", "Reporte OK · Sede Centro"];
+  const filas = ["Ronda completada · Sede Norte", "Ingreso visitante · Torre 80", "Alerta de aforo · CC Norte", "Pánico atendido · Bodega Sur", "Cambio de turno · Planta 3", "Puerta forzada · Clínica N", "Reporte OK · Sede Centro"];
   const colores = ["#35e0a1", "#6b8aff", "#ffb547", "#ff3b5c", "#6b8aff", "#ff3b5c", "#35e0a1"];
   const dibujos: Array<{ th: number; dibujo: Dibujo; anim?: "scrollY" | "scrollX" }> = [
     {

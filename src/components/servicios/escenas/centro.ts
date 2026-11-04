@@ -31,7 +31,7 @@ const SEDES: Array<[number, number]> = [
   [4, -4],
   [3, -3],
 ];
-const ALIAS = ["Sede Centro", "Torre 80", "CC Andino", "Planta 3", "Bodega Sur", "Clínica N"];
+const ALIAS = ["Sede Centro", "Torre 80", "CC Norte", "Planta 3", "Bodega Sur", "Clínica N"];
 const CUMPLIMIENTO = [0.96, 0.88, 0.74, 0.99, 0.62, 0.91, 0.83, 0.47];
 
 type Zona = { pts: Array<[number, number]>; color: number };
