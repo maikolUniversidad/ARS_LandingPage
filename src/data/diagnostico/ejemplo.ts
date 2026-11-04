@@ -190,8 +190,8 @@ export const DIAGNOSTICO_EJEMPLO: Diagnostico = {
       { etiqueta: "Horas extra por facturar", valor: "124 h", tendencia: "sube", bueno: false },
     ],
     destacados: [
-      "Sede Poblado: ronda nocturna atrasada 12 min, resuelta por el supervisor.",
-      "Botón de pánico en Sede Bello a las 2:14 a. m., atendido en 4 min.",
+      "Sede Norte: ronda nocturna atrasada 12 min, resuelta por el supervisor.",
+      "Botón de pánico en Sede Centro a las 2:14 a. m., atendido en 4 min.",
     ],
   },
 };
