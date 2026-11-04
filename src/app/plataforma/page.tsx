@@ -5,15 +5,13 @@ import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileMenu } from "@/components/MobileMenu";
-import { IntegralSecurityHero } from "@/components/integral/IntegralSecurityHero";
+import { HeroPlataforma3D } from "@/components/plataforma/hero/HeroPlataforma3D";
+import { ReelEnMovimiento } from "@/components/plataforma/movimiento/ReelEnMovimiento";
+import { RecorridoModulos } from "@/components/plataforma/movimiento/RecorridoModulos";
+import { ArquitectoPlataformaIA } from "@/components/plataforma/ia/ArquitectoPlataformaIA";
+import { Pilares } from "@/components/plataforma/Pilares";
 import { OperationCycle } from "@/components/integral/OperationCycle";
-import { ScreenshotShowcase } from "@/components/integral/ScreenshotShowcase";
-import { FeatureGrid } from "@/components/integral/FeatureGrid";
-import { OperationalArchitecture } from "@/components/integral/OperationalArchitecture";
-import { IntegrationFlow } from "@/components/integral/IntegrationFlow";
-import { UseCases } from "@/components/integral/UseCases";
 import { BeforeAfterComparison } from "@/components/integral/BeforeAfterComparison";
-import { Testimonials } from "@/components/integral/Testimonials";
 import { ClientLogos } from "@/components/integral/ClientLogos";
 import { FinalCTA } from "@/components/integral/FinalCTA";
 import { RevealOnScroll } from "@/components/integral/RevealOnScroll";
@@ -34,9 +32,9 @@ export default function PlataformaPage() {
           navHome: "Home",
           requestDemo: "Request a demo",
           anchorBadge: "Platform · Integral security",
-          anchorFeatures: "Features",
-          anchorScreens: "Screenshots",
-          anchorCases: "Use cases",
+          anchorFeatures: "Tour",
+          anchorScreens: "In motion",
+          anchorCases: "AI architect",
           anchorDemo: "Request a demo",
           footerTagline: "The simple way to make everything work.",
         }
@@ -47,9 +45,9 @@ export default function PlataformaPage() {
           navHome: "Inicio",
           requestDemo: "Solicitar demo",
           anchorBadge: "Plataforma · Seguridad integral",
-          anchorFeatures: "Funcionalidades",
-          anchorScreens: "Capturas",
-          anchorCases: "Casos",
+          anchorFeatures: "Recorrido",
+          anchorScreens: "En movimiento",
+          anchorCases: "Arquitecto IA",
           anchorDemo: "Solicitar demo",
           footerTagline: "La forma simple de hacer que todo funcione.",
         };
@@ -141,48 +139,34 @@ export default function PlataformaPage() {
             {c.anchorBadge}
           </span>
           <nav className="flex items-center gap-6">
-            <a href="#funcionalidades" className="transition-colors hover:text-foreground">{c.anchorFeatures}</a>
-            <a href="#capturas" className="transition-colors hover:text-foreground">{c.anchorScreens}</a>
-            <a href="#casos" className="transition-colors hover:text-foreground">{c.anchorCases}</a>
+            <a href="#en-movimiento" className="transition-colors hover:text-foreground">{c.anchorScreens}</a>
+            <a href="#recorrido" className="transition-colors hover:text-foreground">{c.anchorFeatures}</a>
+            <a href="#arquitecto-ia" className="flex items-center gap-1.5 text-accent transition-colors hover:text-foreground">
+              <span>✦</span> {c.anchorCases}
+            </a>
             <a href="#cierre" className="transition-colors hover:text-foreground">{c.anchorDemo}</a>
           </nav>
         </div>
       </div>
 
-      <main>
-        <IntegralSecurityHero />
+      <main className="[&_section[id]]:scroll-mt-28">
+        <HeroPlataforma3D />
+
+        <ReelEnMovimiento />
+
+        <RecorridoModulos />
+
+        <ArquitectoPlataformaIA />
 
         <RevealOnScroll>
           <OperationCycle />
         </RevealOnScroll>
 
-        <div id="capturas">
-          <ScreenshotShowcase />
-        </div>
-
-        <RevealOnScroll>
-          <FeatureGrid />
-        </RevealOnScroll>
-
-        <RevealOnScroll>
-          <OperationalArchitecture />
-        </RevealOnScroll>
-
-        <RevealOnScroll>
-          <IntegrationFlow />
-        </RevealOnScroll>
-
-        <div id="casos">
-          <RevealOnScroll>
-            <UseCases />
-          </RevealOnScroll>
-        </div>
+        <Pilares />
 
         <RevealOnScroll>
           <BeforeAfterComparison />
         </RevealOnScroll>
-
-        <Testimonials />
 
         <ClientLogos />
 
