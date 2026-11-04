@@ -155,11 +155,11 @@ export function catalogoServicios(): string {
       const estado = `${ETIQUETA_ESTADO[m.estado]}${m.notaEstado ? ` (${unaLinea(m.notaEstado, 120)})` : ""}`;
       const foco = focos[m.foco] ? `${m.foco} = ${focos[m.foco]}` : m.foco;
       const funciones = m.funciones
-        .map((f) => `${f.titulo}${f.nuevo ? " [nuevo]" : ""}: ${unaLinea(f.detalle, 140)}`)
+        .map((f) => `${f.titulo}${f.nuevo ? " [nuevo]" : ""}: ${unaLinea(f.detalle, 90)}`)
         .join("; ");
       const filas = [
         `- ${m.id} · ${m.nombre} · ${estado} · foco ${foco} — ${unaLinea(m.frase, 160)}`,
-        `  Resumen: ${unaLinea(m.resumen, 400)}`,
+        `  Resumen: ${unaLinea(m.resumen, 280)}`,
         `  Innovación: ${unaLinea(m.innovacion, 240)}`,
         funciones ? `  Funciones: ${funciones}` : "",
         m.roles.length ? `  Roles: ${m.roles.join(", ")}` : "",
