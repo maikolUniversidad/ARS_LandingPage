@@ -90,7 +90,71 @@ export type Tarjeta =
       foco?: string;
       /** Primera captura del módulo, si existe. */
       imagen?: { src: string; alt: string };
-    };
+    }
+  | TarjetaEstimacion
+  | TarjetaComparacion
+  | TarjetaResumenVisita
+  | TarjetaHallazgos;
+
+/** Tamaño orientativo de la operación (no es un plan comercial). */
+export type NivelOperacion = "pequena" | "mediana" | "grande";
+
+/** Alcance orientativo de un proyecto (herramienta estimar_proyecto). Sin precios. */
+export type TarjetaEstimacion = {
+  tipo: "estimacion";
+  nivel: NivelOperacion;
+  titulo: string;
+  resumen: string;
+  /** Unidades que el equipo comercial usaría para cotizar (sedes, cámaras con IA…). */
+  unidades: { concepto: string; cantidad: string }[];
+  /** Funcionalidades de /plataforma (id de `#feature-<id>`). */
+  modulos: { id: string; titulo: string }[];
+  analiticas: { id: string; nombre: string; motivo: string }[];
+  etapas: string[];
+  /** Indicadores con los que se mediría el resultado (de los reportes de ARS). */
+  indicadores: string[];
+  supuestos: string[];
+  aviso: string;
+};
+
+/** Comparación lado a lado de 2 a 4 analíticas (herramienta comparar_analiticas). */
+export type TarjetaComparacion = {
+  tipo: "comparacion";
+  titulo: string;
+  columnas: { id: string; nombre: string; familia: string }[];
+  /** Una fila por criterio; `valores` en el mismo orden que `columnas`. */
+  filas: { criterio: string; valores: string[] }[];
+  /** Recomendación breve si hay perfil o necesidad declarada. */
+  nota?: string;
+};
+
+/** Etapa del visitante en su decisión (calificación ligera del lead). */
+export type EtapaVisita = "explorando" | "evaluando" | "listo";
+
+/** Resumen de la visita para el equipo comercial (herramienta resumen_visita). */
+export type TarjetaResumenVisita = {
+  tipo: "resumen_visita";
+  titulo: string;
+  campos: { etiqueta: string; valor: string }[];
+  etapa: EtapaVisita;
+  siguientePaso: string;
+  /** Texto que se prellena en el formulario de contacto (el visitante lo revisa y envía). */
+  motivo: string;
+};
+
+/** Hallazgos de una foto o un video del visitante y las analíticas que se dispararían. */
+export type TarjetaHallazgos = {
+  tipo: "hallazgos";
+  fuente: string;
+  items: {
+    observacion: string;
+    analiticaId: string;
+    analitica: string;
+    prioridad: "alta" | "media" | "baja";
+    /** Momento del video (p. ej. "00:04") o zona de la imagen. */
+    momento?: string;
+  }[];
+};
 
 export type AdjuntoMeta = { nombre: string; tipo: string; bytes: number };
 

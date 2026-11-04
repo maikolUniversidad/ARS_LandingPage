@@ -18,25 +18,50 @@ import {
 } from "./tipos";
 
 export const MODELO_POR_DEFECTO = "claude-sonnet-5-5";
+export const MODELO_OPENAI_POR_DEFECTO = "gpt-5.5";
+export const MODELO_DEEPSEEK_POR_DEFECTO = "deepseek-flash";
+
+export type NombreProveedor = "anthropic" | "openai" | "deepseek";
+const NOMBRES: readonly NombreProveedor[] = ["anthropic", "openai", "deepseek"];
 
 export function configuracion() {
-  const anthropic = process.env.ANTHROPIC_API_KEY?.trim() || "";
-  const eleven = process.env.ELEVENLABS_API_KEY?.trim() || "";
-  return {
-    anthropicKey: anthropic,
-    modelo: process.env.ASISTENTE_MODELO?.trim() || MODELO_POR_DEFECTO,
-    elevenKey: eleven,
-    vozId: process.env.ELEVENLABS_VOICE_ID?.trim() || "",
-    agenteId: process.env.ELEVENLABS_AGENT_ID?.trim() || "",
-    modeloTts: process.env.ELEVENLABS_TTS_MODEL?.trim() || "eleven_flash_v2_5",
+  const env = (k: string) => process.env[k]?.trim() || "";
+  const claves: Record<NombreProveedor, string> = {
+    anthropic: env("ANTHROPIC_API_KEY"),
+    openai: env("OPENAI_API_KEY"),
+    deepseek: env("DEEPSEEK_API_KEY"),
   };
+  // Orden de preferencia (ASISTENTE_PROVEEDORES=anthropic,openai,deepseek); solo los que tienen clave.
+  const pedidos = env("ASISTENTE_PROVEEDORES")
+    .split(",")
+    .map((x) => x.trim().toLowerCase())
+    .filter((x): x is NombreProveedor => (NOMBRES as readonly string[]).includes(x));
+  const orden = [...new Set([...(pedidos.length ? pedidos : NOMBRES), ...NOMBRES])].filter((n) => claves[n]);
+  return {
+    anthropicKey: claves.anthropic,
+    openaiKey: claves.openai,
+    deepseekKey: claves.deepseek,
+    proveedores: orden,
+    modelo: env("ASISTENTE_MODELO") || MODELO_POR_DEFECTO,
+    modeloOpenai: env("ASISTENTE_MODELO_OPENAI") || MODELO_OPENAI_POR_DEFECTO,
+    modeloDeepseek: env("ASISTENTE_MODELO_DEEPSEEK") || MODELO_DEEPSEEK_POR_DEFECTO,
+    elevenKey: env("ELEVENLABS_API_KEY"),
+    vozId: env("ELEVENLABS_VOICE_ID"),
+    agenteId: env("ELEVENLABS_AGENT_ID"),
+    modeloTts: env("ELEVENLABS_TTS_MODEL") || "eleven_flash_v2_5",
+  };
+}
+
+export function modeloDe(c: ReturnType<typeof configuracion>, p: NombreProveedor): string {
+  return p === "anthropic" ? c.modelo : p === "openai" ? c.modeloOpenai : c.modeloDeepseek;
 }
 
 export function estadoServicios(): EstadoServicios {
   const c = configuracion();
+  const primero = c.proveedores[0];
   return {
-    chat: Boolean(c.anthropicKey) || (process.env.NODE_ENV !== "production" && process.env.ASISTENTE_DEMO === "1"),
-    modelo: c.modelo,
+    chat: Boolean(primero) || (process.env.NODE_ENV !== "production" && process.env.ASISTENTE_DEMO === "1"),
+    modelo: primero ? modeloDe(c, primero) : "demo",
     voz: {
       tts: Boolean(c.elevenKey && c.vozId),
       stt: Boolean(c.elevenKey),

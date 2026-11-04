@@ -56,6 +56,36 @@ function guion(p: PeticionChat): Guion {
     };
   }
   const pagina = p.contexto.seccion?.titulo || p.contexto.ruta;
+  const en = p.contexto.idioma === "en";
+  // Modo guía: recorrido por la página (el enlace #recorrido lo arranca en el navegador).
+  if (/recorrido|tour|paseo/.test(q)) {
+    return {
+      texto: en
+        ? "Let's go! I'll walk you through this page section by section; you can pause or skip anytime.\n\n[▶ Start the tour](#recorrido)"
+        : "¡Vamos! Te llevo por esta página sección por sección; puedes pausar o saltar cuando quieras.\n\n[▶ Empezar el recorrido](#recorrido)",
+      herramienta: { nombre: "sugerir", entrada: { opciones: en ? ["Take me to the platform", "Show me a queue analytic"] : ["Llévame a la plataforma", "Muéstrame una analítica de filas"] } },
+    };
+  }
+  // Modo guía: explicar la sección que la persona tiene a la vista (pista o «Cuéntame más»).
+  const seccion = p.contexto.seccion;
+  if (seccion && /seccion|section|cuentame mas|tell me more/.test(q)) {
+    return {
+      texto: en
+        ? `This is **${seccion.titulo}**. I've highlighted it for you: it shows how ARS handles this part of the operation. In demo mode I only know its heading; with ANTHROPIC_API_KEY I'd explain it in detail.`
+        : `Esta es **${seccion.titulo}**. Te la resalto: muestra cómo ARS resuelve esta parte de la operación. En modo demo solo conozco su título; con ANTHROPIC_API_KEY te la explico a fondo.`,
+      extra: [{ nombre: "resaltar", entrada: { ancla: seccion.id, nota: seccion.titulo } }],
+      herramienta: { nombre: "sugerir", entrada: { opciones: en ? ["Give me a tour of this page", "I want a demo"] : ["Haz un recorrido por esta página", "Quiero una demo"] } },
+    };
+  }
+  if (/central|monitoreo|alertas|inicio|home/.test(q)) {
+    return {
+      texto: en ? "Sure, I'll take you to the control room." : "Claro, te llevo a la central de monitoreo.",
+      herramienta: { nombre: "ir_a", entrada: { ruta: "/", ancla: "monitoreo" } },
+      despues: en
+        ? "Scroll at your pace: I'll stay on the side and offer to explain each section."
+        : "Desplázate a tu ritmo: me quedo a un lado y te ofrezco explicarte cada sección.",
+    };
+  }
   if (/demo|precio|cotiz|asesor|contact/.test(q)) {
     return { texto: "¡Con gusto! Te dejo el formulario para que el equipo comercial te contacte.", herramienta: { nombre: "abrir_contacto", entrada: { motivo: "Quiero una demo de ARS" } } };
   }
