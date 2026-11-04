@@ -75,6 +75,12 @@ html,body{margin:0;height:100%;background:#DDE3EE;font-family:"Archivo","Helveti
 @keyframes late{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes entra{from{opacity:0;transform:translateY(.4em)}to{opacity:1;transform:none}}
 @keyframes fuera{0%,80%{opacity:1}100%{opacity:0;transform:translate(-50%,-160%)}}
+/* Vista de cámara: la simulación se ve desde la misma cámara que grabó el video real. */
+.escena3d.vcctv .pip{box-shadow:none;border-radius:0}
+.escena3d.vcctv .pip .lo,.escena3d.vcctv .ayuda3d,.escena3d.vcctv .chip3d{display:none}
+.escena3d.vcctv canvas.gl{cursor:default}
+.escena3d.vcctv .pip .cam{font-size:.6em;left:.8em;bottom:.9em}.escena3d.vcctv .pip .rec{font-size:.55em;right:.8em;top:2.8em}
+.escena3d.vcctv .estado{top:.8em}
 @media (prefers-reduced-motion:reduce){.estado i,.pip .rec::before{animation:none}}
 </style>
 </head>
@@ -99,13 +105,20 @@ html,body{margin:0;height:100%;background:#DDE3EE;font-family:"Archivo","Helveti
 <script src="motor.js"></script>
 <script src="escenas.js"></script>
 <script src="escenas2.js"></script>
+<script src="sync/base.js"></script>
+<script src="sync/comercial.js"></script>
+<script src="sync/operativo.js"></script>
+<script src="sync/prevencion.js"></script>
+<script src="sync/lite.js"></script>
 <script>
 (function(){
   "use strict";
   // Protocolo con la página que embebe (postMessage, origen "*", solo datos sin secretos):
-  //   padre → iframe  {tipo:"vigias-sim-ir", id, pip?}   cambia de analítica SIN recargar el motor.
+  //   padre → iframe  {tipo:"vigias-sim-ir", id, pip?, vista?}   cambia de analítica (y de vista "cctv"|"maqueta") SIN recargar el motor.
+  //   padre → iframe  {tipo:"vigias-sim-t", t, play, rate?}  segundo del video real: la simulación lo sigue (t:null suelta el reloj).
   //   iframe → padre  {tipo:"vigias-sim", id, listo|montado|fase+idx|error}
-  var q=new URLSearchParams(location.search),id=q.get("id")||"calor",sinPip=q.get("pip")==="0";
+  var q=new URLSearchParams(location.search),id=q.get("id")||"calor",sinPip=q.get("pip")==="0",vista=q.get("vista")==="cctv"?"cctv":"maqueta";
+  var reloj={t:null,play:false,rate:1,w:0};
   var raiz=document.getElementById("escena"),reposo=raiz.querySelector(".reposo");
   var ES=window.ESCENAS||[],porId={};ES.forEach(function(s){porId[s.id]=s});
   function avisar(m){try{if(parent&&parent!==window)parent.postMessage(Object.assign({tipo:"vigias-sim",id:id},m),"*")}catch(e){}}
@@ -116,11 +129,16 @@ html,body{margin:0;height:100%;background:#DDE3EE;font-family:"Archivo","Helveti
   // El motor escribe data-fase="" al montar (y al reiniciar el ciclo) y luego el estado en cada cambio de fase.
   var idx=-1;
   new MutationObserver(function(){var f=raiz.dataset.fase||"";if(f===""){idx=-1;avisar({fase:"vigila",idx:-1,reinicio:true})}else{idx++;avisar({fase:f,idx:idx})}}).observe(raiz,{attributes:true,attributeFilter:["data-fase"]});
-  function montar(){raiz.classList.toggle("sinpip",!!def.sinPip);MOTOR.montar(raiz,def)}
-  window.addEventListener("message",function(ev){var d=ev.data;if(!d||d.tipo!=="vigias-sim-ir")return;
+  function montar(){raiz.classList.toggle("sinpip",!!def.sinPip);MOTOR.vista=vista;MOTOR.montar(raiz,def);MOTOR.ponerVista(vista)}
+  MOTOR.tExt=function(){if(reloj.t==null)return null;return reloj.play?reloj.t+(performance.now()-reloj.w)/1000*reloj.rate:reloj.t};
+  window.addEventListener("message",function(ev){var d=ev.data;if(!d)return;
+    if(d.tipo==="vigias-sim-t"){if(d.t==null||!isFinite(d.t)){reloj.t=null;return}reloj.t=+d.t;reloj.play=!!d.play;reloj.rate=+d.rate||1;reloj.w=performance.now();return}
+    if(d.tipo!=="vigias-sim-ir")return;
     if(typeof d.pip==="boolean")sinPip=!d.pip;
+    if(d.vista==="cctv"||d.vista==="maqueta"){var cambia=d.vista!==vista;vista=d.vista;if(cambia&&(!d.id||d.id===id)&&MOTOR.listo){MOTOR.ponerVista(vista);return}}
+    if((d.id||id)===id&&!d.reiniciar&&MOTOR.listo)return;
     var nd=defDe(d.id||id);if(!nd){avisar({error:"sin-escena",pedido:String(d.id)});return}
-    id=nd.id;def=nd;if(MOTOR.listo){montar();avisar({montado:true})}});
+    if(nd.id!==id)reloj.t=null;id=nd.id;def=nd;if(MOTOR.listo){montar();avisar({montado:true})}});
   MOTOR.arrancar(function(){montar();avisar({listo:true});window.addEventListener("resize",function(){MOTOR.tamano()})});
   document.addEventListener("visibilitychange",function(){if(document.hidden)MOTOR.detener();else if(MOTOR.listo)montar()});
 })();
