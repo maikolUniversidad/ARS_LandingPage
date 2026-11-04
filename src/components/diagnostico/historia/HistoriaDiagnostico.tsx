@@ -5,6 +5,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play, Volume2, VolumeX, X
 import { AREA_IDS, type AreaId, type Capitulo, type Diagnostico, type Recomendacion } from "@/data/diagnostico/tipos";
 import { areaPorId } from "@/data/servicios";
 import { ReproductorVoz } from "@/lib/asistente/voz";
+import { isLowPower, noopSubscribe as noop, supportsWebGL } from "@/lib/three/webgl";
 import { cn } from "@/lib/utils";
 import type { DistritoCampus, InstanciaCampus } from "./campus";
 import { PanelDiferencia } from "./PanelDiferencia";
@@ -24,15 +25,6 @@ const MOMENTO: Record<Capitulo["momento"], { texto: string; clase: string }> = {
 
 const PRIORIDAD: Record<Recomendacion["prioridad"], string> = { alta: "Prioridad alta", media: "Prioridad media", baja: "Prioridad baja" };
 
-const noop = () => () => {};
-function soportaWebGL() {
-  try {
-    const c = document.createElement("canvas");
-    return Boolean(c.getContext("webgl2") ?? c.getContext("webgl"));
-  } catch {
-    return false;
-  }
-}
 const prefiereMenosMovimiento = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 type Puntero = { id: AreaId; x: number; y: number };
@@ -48,7 +40,7 @@ export function HistoriaDiagnostico({ diagnostico, onTerminar }: HistoriaDiagnos
   const [hover, setHover] = useState<Puntero | null>(null);
   const [seleccion, setSeleccion] = useState<Puntero | null>(null);
   const [fallo, setFallo] = useState(false);
-  const webgl = useSyncExternalStore(noop, soportaWebGL, () => true);
+  const webgl = useSyncExternalStore(noop, supportsWebGL, () => true);
   const reducedMotion = useSyncExternalStore(noop, prefiereMenosMovimiento, () => false);
 
   const contRef = useRef<HTMLDivElement>(null);
@@ -93,7 +85,7 @@ export function HistoriaDiagnostico({ diagnostico, onTerminar }: HistoriaDiagnos
       visible = document.visibilityState === "visible";
       instRef.current?.setActiva(visible && enPantalla);
     };
-    const lowPower = window.matchMedia("(pointer: coarse), (max-width: 767px)").matches || (navigator.hardwareConcurrency || 8) <= 4;
+    const lowPower = isLowPower();
 
     import("./campus")
       .then(({ crearCampus }) => {
@@ -107,6 +99,7 @@ export function HistoriaDiagnostico({ diagnostico, onTerminar }: HistoriaDiagnos
           reducedMotion: prefiereMenosMovimiento(),
           onHover: (id, x, y) => setHover(id ? { id, ...relativo(x, y) } : null),
           onSeleccion: (id, x, y) => setSeleccion({ id, ...relativo(x, y) }),
+          onFallo: () => vivo && setFallo(true),
         });
         instRef.current = inst;
         const r = cont.getBoundingClientRect();

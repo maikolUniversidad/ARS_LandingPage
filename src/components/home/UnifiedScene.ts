@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { createSafeRenderer, type SafeRenderer } from "@/lib/three/safe-renderer";
 import { createDashboard, createHumanoid, createQuadruped, type BoardStrings, type Dashboard, type Humanoid, type Quadruped } from "./models";
 import { CHAPTERS, LAYER_COUNT, LAYER_HEX, clamp01, ramp, smooth } from "./story";
 
@@ -25,7 +26,8 @@ export type SceneOptions = {
   reducedMotion: boolean;
   board: BoardStrings;
   onAnchors?: (anchors: Anchors) => void;
-  onContextLost?: () => void;
+  /** El contexto WebGL se perdió y no volvió a tiempo: pasar al respaldo estático. */
+  onFatal?: () => void;
 };
 
 const COLOR = {
@@ -195,6 +197,7 @@ type Plate = { group: THREE.Group; mats: Array<THREE.LineBasicMaterial | THREE.M
 
 export class UnifiedScene {
   private readonly renderer: THREE.WebGLRenderer;
+  private readonly safe: SafeRenderer;
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.PerspectiveCamera(45, 1, 0.5, 900);
   private readonly opts: SceneOptions;
@@ -211,6 +214,7 @@ export class UnifiedScene {
   private time = 0;
   private raf = 0;
   private running = false;
+  private resumeAfterRestore = false;
   private last = 0;
   private frameAcc = 0;
   private frameCount = 0;
@@ -276,15 +280,38 @@ export class UnifiedScene {
   private readonly colRed = new THREE.Color(COLOR.red);
   private readonly colTrace = new THREE.Color(COLOR.ice);
 
-  constructor(canvas: HTMLCanvasElement, opts: SceneOptions) {
+  /**
+   * Crea la escena. Lanza si no hay WebGL; si la construcción falla libera el
+   * renderer y su contexto antes de propagar el error (sin contextos huérfanos).
+   */
+  static create(canvas: HTMLCanvasElement, opts: SceneOptions): UnifiedScene {
+    const safe = createSafeRenderer({ canvas, lowPower: opts.lowPower, onFatal: () => opts.onFatal?.() });
+    if (!safe) throw new Error("WebGL no disponible");
+    try {
+      return new UnifiedScene(safe, opts);
+    } catch (e) {
+      safe.dispose(true);
+      throw e;
+    }
+  }
+
+  private constructor(safe: SafeRenderer, opts: SceneOptions) {
     this.opts = opts;
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: !opts.lowPower, alpha: false, powerPreference: "high-performance" });
-    this.maxDpr = Math.min(window.devicePixelRatio || 1, opts.lowPower ? 1.5 : 2);
+    this.safe = safe;
+    this.renderer = safe.renderer;
+    this.maxDpr = safe.maxDpr;
     this.dpr = this.maxDpr;
-    this.renderer.setPixelRatio(this.dpr);
-    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.setClearColor(COLOR.deep, 1);
-    canvas.addEventListener("webglcontextlost", this.handleContextLost, false);
+    // Contexto perdido: se pausa; si vuelve, se retoma donde estaba.
+    safe.onLost = () => {
+      const wasRunning = this.running;
+      this.stop();
+      this.resumeAfterRestore = wasRunning;
+    };
+    safe.onRestored = () => {
+      if (this.resumeAfterRestore) this.start();
+      else this.renderOnce();
+    };
 
     this.scene.background = new THREE.Color(COLOR.deep);
     this.scene.fog = new THREE.FogExp2(COLOR.deep, 0.0095);
@@ -749,6 +776,10 @@ export class UnifiedScene {
   }
 
   start() {
+    if (this.safe.isLost()) {
+      this.resumeAfterRestore = true;
+      return;
+    }
     if (this.opts.reducedMotion) {
       this.renderOnce();
       return;
@@ -761,31 +792,32 @@ export class UnifiedScene {
 
   stop() {
     this.running = false;
+    this.resumeAfterRestore = false;
     cancelAnimationFrame(this.raf);
   }
 
   dispose() {
     this.stop();
-    this.renderer.domElement.removeEventListener("webglcontextlost", this.handleContextLost, false);
+    const mats = new Set<THREE.Material>();
     this.scene.traverse((obj) => {
       const o = obj as THREE.Mesh;
       o.geometry?.dispose();
       const mat = o.material;
-      if (Array.isArray(mat)) mat.forEach((x) => x.dispose());
-      else mat?.dispose();
+      if (Array.isArray(mat)) mat.forEach((x) => mats.add(x));
+      else if (mat) mats.add(mat);
     });
+    for (const m of mats) {
+      // Texturas propias de sprites/materiales; la de brillo es compartida y se libera una vez abajo.
+      const map = (m as THREE.Material & { map?: THREE.Texture | null }).map;
+      if (map && map !== this.glow) map.dispose();
+      m.dispose();
+    }
     this.board.dispose();
     this.glow.dispose();
-    this.renderer.dispose();
+    this.safe.dispose();
   }
 
   // ───────────────────────── Loop ─────────────────────────
-
-  private handleContextLost = (e: Event) => {
-    e.preventDefault();
-    this.stop();
-    this.opts.onContextLost?.();
-  };
 
   private loop = (now: number) => {
     if (!this.running) return;

@@ -30,6 +30,8 @@ export type OpcionesEscena = {
   reducedMotion: boolean;
   /** Avisa de clics sobre objetos con foco (p. ej. tocar una cámara del edificio). */
   onSeleccion?: (clave: string) => void;
+  /** El contexto WebGL se perdió y no se recuperó: el componente muestra el respaldo. */
+  onFallo?: () => void;
 };
 
 export type InstanciaEscena = {

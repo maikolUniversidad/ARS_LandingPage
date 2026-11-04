@@ -19,6 +19,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import type { EscenaId } from "@/data/servicios/tipos";
+import { createSafeRenderer, type SafeRenderer } from "@/lib/three/safe-renderer";
 import { FOCOS_ESCENA, type InstanciaEscena, type OpcionesEscena } from "./contrato";
 
 export const COLOR = {
@@ -455,19 +456,34 @@ export function montarEscena(
   construir: (kit: Kit) => Escena,
   cfg: ConfigEscena = {},
 ): InstanciaEscena {
-  const { canvas, lowPower, reducedMotion } = op;
+  const sr = createSafeRenderer({
+    canvas: op.canvas,
+    lowPower: op.lowPower,
+    params: { alpha: true },
+    onFatal: () => op.onFallo?.(),
+  });
+  if (!sr) throw new Error("WebGL no disponible");
+  try {
+    return montar(id, op, construir, cfg, sr);
+  } catch (e) {
+    // Si la construcción falla no se deja un contexto WebGL huérfano.
+    sr.dispose(true);
+    throw e;
+  }
+}
+
+function montar(
+  id: EscenaId,
+  op: OpcionesEscena,
+  construir: (kit: Kit) => Escena,
+  cfg: ConfigEscena,
+  sr: SafeRenderer,
+): InstanciaEscena {
+  const { canvas, reducedMotion } = op;
   const claves = Object.keys(FOCOS_ESCENA[id]);
 
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: !lowPower,
-    alpha: true,
-    powerPreference: "high-performance",
-  });
-  const maxDpr = Math.min(window.devicePixelRatio || 1, lowPower ? 1.5 : 2);
-  let dpr = maxDpr;
-  renderer.setPixelRatio(dpr);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  const renderer = sr.renderer;
+  let dpr = sr.maxDpr;
   renderer.setClearColor(COLOR.deep, 1);
 
   const scene = new THREE.Scene();
@@ -723,18 +739,22 @@ export function montarEscena(
     raf = 0;
   };
 
-  const onPerdido = (e: Event) => {
-    e.preventDefault();
+  // Contexto perdido: se detiene el bucle; si vuelve se reanuda y si no, el helper
+  // avisa `onFallo` para pasar al respaldo estático.
+  sr.onLost = () => {
     perdido = true;
     parar();
   };
-  const onRecuperado = () => {
+  sr.onRestored = () => {
     perdido = false;
     sucio = 3;
     if (activa) arrancar();
+    else {
+      esc.update(t, 0);
+      actualizarMarcas(0);
+      renderer.render(scene, camera);
+    }
   };
-  canvas.addEventListener("webglcontextlost", onPerdido);
-  canvas.addEventListener("webglcontextrestored", onRecuperado);
 
   const instancia: InstanciaEscena = {
     setFoco(clave) {
@@ -781,8 +801,6 @@ export function montarEscena(
       canvas.removeEventListener("pointerup", onUp);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
-      canvas.removeEventListener("webglcontextlost", onPerdido);
-      canvas.removeEventListener("webglcontextrestored", onRecuperado);
       canvas.style.cursor = "";
       esc.dispose?.();
       const mats = new Set<THREE.Material>();
@@ -799,7 +817,7 @@ export function montarEscena(
         m.dispose();
       }
       kit.disposeTexturas();
-      renderer.dispose();
+      sr.dispose();
     },
   };
 
