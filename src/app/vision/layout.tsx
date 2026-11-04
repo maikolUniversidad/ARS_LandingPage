@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     url: "/vision",
     type: "website",
-    images: [{ url: "/analiticas-3d/evidencia-publica/calor-poster.jpg", width: 1280, height: 720, alt: "Mapa de calor sobre una cámara real" }],
+    images: [{ url: "/analiticas-3d/evidencia-publica/comercial/calor-poster.jpg", width: 960, height: 540, alt: "Mapa de calor sobre una cámara real" }],
   },
   twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
 };
