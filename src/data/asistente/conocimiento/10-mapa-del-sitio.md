@@ -49,9 +49,14 @@ Nota técnica: existe una analítica con id `cierre` («Cierre de puerta sin aut
 
 Enviar aquí: preguntas sobre qué detectan las cámaras, analíticas para retail, prevención, operación, modelos de bajo costo.
 
-## `/proyectos` — Mapa de proyectos en Latinoamérica
+## `/proyectos` — Proyectos por sector y ciudad
 
-«Una red que ya está operando.» Mapa interactivo (scroll para zoom, arrastrar para mover, clic para ver detalles). Lista «Presencia ARS» con filtros por país, departamento/región y ciudad; cada proyecto abre una ficha con vertical, descripción, integraciones y métricas, y botón «Solicitar información». No tiene anclas.
+«La plataforma, operando en terreno.» Mapa de Colombia y Perú con un marcador por ciudad, filtros por estado (En operación, Piloto, En desarrollo), país y área de servicio, y tarjetas que abren la ficha de cada proyecto con los módulos del catálogo que usa (enlazados a `/servicios/<area>#<modulo>`) y CTA al diagnóstico. Cada ficha tiene enlace propio `/proyectos#<id>`.
+
+Anclas:
+- `#mapa` — mapa, filtros y tarjetas.
+- `#como-empieza` — diagnóstico → piloto → operación.
+- `#cierre` — contacto.
 
 Enviar aquí: preguntas sobre experiencia, ciudades, países, sectores.
 

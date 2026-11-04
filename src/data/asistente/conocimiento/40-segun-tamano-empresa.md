@@ -5,7 +5,7 @@ orden: 40
 rutas: ["/plataforma", "/vision", "/proyectos"]
 ---
 
-**Importante**: el sitio no publica planes ni paquetes por tamaño de empresa. Lo que sigue es una orientación derivada de lo que sí muestra el sitio (casos de uso, familia de modelos lite, arquitectura multisede y escala de los proyectos del mapa). Preséntalo siempre como orientativo y aclara que el alcance, los módulos incluidos y el costo de cada caso son a confirmar con el equipo comercial.
+**Importante**: el sitio no publica planes ni paquetes por tamaño de empresa. Lo que sigue es una orientación derivada de lo que sí muestra el sitio (casos de uso, familia de modelos lite, arquitectura multisede y proyectos de referencia por sector). Preséntalo siempre como orientativo y aclara que el alcance, los módulos incluidos y el costo de cada caso son a confirmar con el equipo comercial.
 
 ## Principios comunes a cualquier tamaño
 
@@ -33,7 +33,7 @@ rutas: ["/plataforma", "/vision", "/proyectos"]
 - Arquitectura **multi-cliente · multi-sede · multi-zona** completa, central de monitoreo con video wall, priorización de riesgos y operadores por turno.
 - Empresas de seguridad que gestionan muchos clientes: programación de turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento.
 - Analíticas de prevención y riesgo de alto valor: `negras`, `armas`, `aglomeracion`, `caidas`, `fuego`, `abandono`, reconocimiento facial con listas y LPR en accesos.
-- Escala de referencia en el mapa de `/proyectos`: despliegues de decenas a cientos de cámaras por sitio (aeropuertos, puertos, metro, centros comerciales, torres corporativas). Son datos ilustrativos del mapa; no los presentes como cifras contractuales.
+- Proyectos de referencia en `/proyectos`: redes de sedes públicas, transporte masivo, energía, recintos de eventos y back-office de empresas de seguridad. Son casos de referencia sin cifras; no inventes escalas ni cantidades.
 
 ## Qué preguntar al visitante para orientar
 
