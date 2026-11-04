@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 export default function VisionPage() {
   const { locale } = useI18n();
   const [actual, elegir] = useAnaliticaElegida();
-  const conVideo = analiticas.filter((a) => a.video).length;
+  const conVideo = analiticas.filter((a) => a.video?.src && !a.video.ia).length;
 
   const c =
     locale === "en"
@@ -37,7 +37,7 @@ export default function VisionPage() {
           eyebrow: "Vision module · Video analytics",
           titleA: "Every analytic,",
           titleB: "seen working.",
-          lead: "Each analytic is shown twice: as a 3D simulation (the camera already installed, what it sees and the exact moment it alerts) and, whenever it already exists, as real footage processed by our models.",
+          lead: "Each analytic is shown twice, side by side and in sync: the video and a 3D simulation seen from the same camera, where you can follow what the analytic sees and the exact second it alerts.",
           leadNote: "The catalog is in Spanish, as presented to our clients.",
           ctaDeck: "Open the 3D presentation",
           stats: [
@@ -71,7 +71,7 @@ export default function VisionPage() {
           indiceTitleA: "All 45 at a glance.",
           indiceTitleB: "One click opens each one above.",
           creditos:
-            "Video credits: MEVA dataset cameras (mevadata.org, Kitware/IARPA, CC BY 4.0); Pexels and Mixkit (commercial licenses); own laboratory. All processed by our models, unedited.",
+            "Video credits: MEVA dataset cameras (mevadata.org, Kitware/IARPA, CC BY 4.0); Pexels, Pixabay and Mixkit (commercial licenses); own laboratory. Clips marked “AI-generated video” are reference footage made with ElevenLabs, not model evidence. Each 3D simulation reproduces the camera, space and timing of its clip. Full list in /analiticas-3d/evidencia-publica/CREDITS.md.",
           closingEyebrow: "No new equipment",
           closingTitle: `${analiticas.length} analytics. The same cameras.`,
           closingBody: "Everything runs on the site's own server, over the circuit already installed. Each analytic is presented the same way: what it does, how it triggers and the video that proves it.",
@@ -90,7 +90,7 @@ export default function VisionPage() {
           eyebrow: "Módulo de Visión · Analíticas de video",
           titleA: "Cada analítica,",
           titleB: "vista funcionando.",
-          lead: "Cada analítica se ve dos veces: en una simulación 3D (la cámara que ya está instalada, lo que ve y el momento exacto en que avisa) y, cuando ya existe, en el video real procesado por nuestros modelos.",
+          lead: "Cada analítica se ve dos veces, lado a lado y al mismo tiempo: el video y una simulación 3D vista desde la misma cámara, donde se sigue lo que la analítica ve y el segundo exacto en que avisa.",
           leadNote: "",
           ctaDeck: "Abrir la presentación 3D",
           stats: [
@@ -124,7 +124,7 @@ export default function VisionPage() {
           indiceTitleA: "Las 45 de un vistazo.",
           indiceTitleB: "Un clic abre cada una arriba.",
           creditos:
-            "Créditos de video: cámaras del dataset MEVA (mevadata.org, Kitware/IARPA, CC BY 4.0); Pexels y Mixkit (licencias de uso comercial); laboratorio propio. Todos procesados por nuestros modelos, sin retoques.",
+            "Créditos de video: cámaras del dataset MEVA (mevadata.org, Kitware/IARPA, CC BY 4.0); Pexels, Pixabay y Mixkit (licencias de uso comercial); laboratorio propio. Los clips rotulados «video generado con IA» son de referencia, hechos con ElevenLabs, no evidencia de un modelo. Cada simulación 3D reproduce la cámara, el espacio y los tiempos de su clip. Lista completa en /analiticas-3d/evidencia-publica/CREDITS.md.",
           closingEyebrow: "Sin equipo nuevo",
           closingTitle: `${analiticas.length} analíticas. Las mismas cámaras.`,
           closingBody: "Todo corre en el propio servidor del sitio, sobre el circuito que ya está instalado. Cada analítica se presenta igual: qué hace, cómo se activa y el video que lo demuestra.",
@@ -311,7 +311,7 @@ export default function VisionPage() {
                                 <span className="size-1.5 shrink-0" style={{ background: activa ? FAMILIA_COLOR[f.id] : "transparent", outline: activa ? undefined : "1px solid rgba(127,140,180,0.4)" }} aria-hidden />
                                 {a.nombre}
                               </span>
-                              {a.video && <span className="text-[9px] text-foreground/40" aria-label={c.visor.videoReal}>▶</span>}
+                              {a.video && <span className="text-[9px] text-foreground/40" aria-label={a.video.ia ? c.visor.videoIa : c.visor.videoReal}>▶</span>}
                             </button>
                           </li>
                         );

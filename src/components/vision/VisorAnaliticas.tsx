@@ -162,7 +162,7 @@ export function VisorAnaliticas({ actual, onElegir, textos }: Props) {
                 style={activa ? { background: FAMILIA_COLOR[actual.familia] } : undefined}
               >
                 {a.nombre}
-                {a.video && <span className={cn("text-[9px]", activa ? "opacity-70" : "text-foreground/40")} aria-label={textos.videoReal}>▶</span>}
+                {a.video && <span className={cn("text-[9px]", activa ? "opacity-70" : "text-foreground/40")} aria-label={a.video.ia ? textos.videoIa : textos.videoReal}>▶</span>}
               </button>
             );
           })}

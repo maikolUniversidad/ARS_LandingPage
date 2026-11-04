@@ -128,9 +128,9 @@ export function ParejaSimVideo({ actual, textos, onPaso }: Props) {
 
   return (
     <div>
-      <div className="grid gap-px bg-border/40 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-px bg-border/40 lg:grid-cols-2">
         {/* Simulación 3D */}
-        <figure className="m-0 bg-card">
+        <figure className="m-0 min-w-0 bg-card">
           <figcaption className="flex min-h-10 items-center justify-between gap-3 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.15em] sm:min-h-11 sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.25em] text-foreground/60">
             <span className="flex items-center gap-2">
               <span className="size-1.5 bg-accent" aria-hidden />
@@ -172,7 +172,7 @@ export function ParejaSimVideo({ actual, textos, onPaso }: Props) {
         </figure>
 
         {/* Video real */}
-        <figure className="m-0 bg-card">
+        <figure className="m-0 min-w-0 bg-card">
           <figcaption className="flex min-h-10 items-center justify-between gap-3 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.15em] sm:min-h-11 sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.25em] text-foreground/60">
             <span className="flex shrink-0 items-center gap-2">
               <span

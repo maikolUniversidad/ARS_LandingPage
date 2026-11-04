@@ -38,23 +38,28 @@
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Cada persona que entra recibe un número"
+     "texto": "Cada persona del vestíbulo recibe un número (ID 23, ID 6, ID 24…)"
     },
     {
-     "t": 6,
+     "t": 6.4,
      "estado": "detecta",
-     "texto": "Dos se cruzan y se tapan: el número no se intercambia"
+     "texto": "ID 6 pasa por delante de ID 23 y lo tapa: el número no se intercambia"
     },
     {
-     "t": 11,
+     "t": 9.5,
      "estado": "ok",
-     "texto": "Sale de cuadro, vuelve y recupera su número"
+     "texto": "Cada uno sigue con su número después del cruce"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/seguimiento.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/seguimiento-poster.jpg",
-    "chapa": "CCTV real · tracker real"
+    "src": "/analiticas-3d/evidencia-publica/comercial/seguimiento.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/comercial/seguimiento-poster.jpg",
+    "chapa": "CCTV real (MEVA) · tracker real",
+    "fuente": "MEVA · Multiview Extended Video with Activities (cámara 0421, vestíbulo)",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 7
    }
   },
   {
@@ -64,28 +69,67 @@
    "corta": "Cuenta quién entra y quién sale por la puerta.",
    "desc": "Una línea en la puerta cuenta cada cruce y su sentido. Con eso salen las visitas por hora, el pico del día y cuántas personas hay adentro en cada momento.",
    "estado": null,
-   "dur": 16,
+   "dur": 10,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "La línea de la puerta espera el primer cruce"
+     "texto": "La línea de conteo atraviesa el cruce peatonal"
     },
     {
-     "t": 3.4,
-     "estado": "detecta",
-     "texto": "Cruza hacia adentro: suma una entrada"
-    },
-    {
-     "t": 9.4,
+     "t": 8.5,
      "estado": "ok",
-     "texto": "Cruza hacia afuera: suma una salida y ajusta el aforo"
+     "texto": "ID 78 cruza la línea hacia la cámara: suma una entrada"
+    },
+    {
+     "t": 9.3,
+     "estado": "ok",
+     "texto": "ID 102 cruza detrás: segunda entrada en un segundo"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/conteo.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/conteo-poster.jpg",
-    "chapa": "video público · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/comercial/conteo.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/comercial/conteo-poster.jpg",
+    "chapa": "video público (Pexels) · modelo real",
+    "fuente": "Pexels · video 30138510 (cruce peatonal, Ciudad de México)",
+    "autor": "Pexels (ver página del video)",
+    "url": "https://www.pexels.com/video/30138510/",
+    "licencia": "Pexels License",
+    "evento": 8.5,
+    "marcas": [
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.665
+       ],
+       [
+        1,
+        0.665
+       ]
+      ],
+      "color": "oro",
+      "etiqueta": "Línea de conteo",
+      "hasta": 8.5
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.665
+       ],
+       [
+        1,
+        0.665
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "Entrada +1",
+      "desde": 8.5
+     }
+    ]
    }
   },
   {
@@ -95,25 +139,34 @@
    "corta": "Rango de edad y género de quien visita.",
    "desc": "Estima el rango de edad y el género de cada visitante al entrar, sin guardar caras ni nombres. Sirve para saber a quién le está vendiendo cada hora.",
    "estado": null,
-   "dur": 15,
+   "dur": 9.5,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "La cámara de la entrada ve a cada visitante"
+     "texto": "La cámara de la entrada ve a cada visitante de frente"
     },
     {
-     "t": 3,
+     "t": 0.2,
      "estado": "detecta",
-     "texto": "Estima rango de edad y género, sin guardar la cara"
+     "texto": "Estima rango de edad y género al entrar, sin guardar la cara"
     },
     {
-     "t": 9,
+     "t": 7.5,
      "estado": "ok",
-     "texto": "Arma el perfil de quién visita, hora por hora"
+     "texto": "Suma cada visita al perfil de la hora"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/comercial/demografia.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/comercial/demografia-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "Generado con IA (ElevenLabs · Seedance 2.5, texto a video) para esta lámina",
+    "autor": "ARS · generado con IA",
+    "licencia": "Contenido generado para uso propio",
+    "evento": 3.5,
+    "ia": true
+   }
   },
   {
    "id": "calor",
@@ -122,28 +175,33 @@
    "corta": "Dónde se detiene la gente y cuánto rato.",
    "desc": "Acumula sobre el plano del local dónde pasa la gente y dónde se queda. Muestra qué exhibición atrae, qué pasillo nadie recorre y cómo cambia por hora.",
    "estado": null,
-   "dur": 18,
+   "dur": 16,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Cada paso de cada persona se suma al plano"
+     "texto": "Cada paso de cada persona del vestíbulo se suma al plano"
     },
     {
-     "t": 6,
+     "t": 5,
      "estado": "detecta",
-     "texto": "Las zonas donde se detienen se encienden"
+     "texto": "Se encienden el mostrador del café y el paso hacia las mesas"
     },
     {
-     "t": 12,
+     "t": 11,
      "estado": "ok",
-     "texto": "Queda a la vista qué atrae y qué nadie visita"
+     "texto": "Queda a la vista dónde se detiene la gente y qué zona nadie pisa"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/calor.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/calor-poster.jpg",
-    "chapa": "CCTV real · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/comercial/calor.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/comercial/calor-poster.jpg",
+    "chapa": "CCTV real (MEVA) · modelo real",
+    "fuente": "MEVA · Multiview Extended Video with Activities (cámara 0421, vestíbulo)",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 5
    }
   },
   {
@@ -158,23 +216,103 @@
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Se dibuja la zona frente a la exhibición"
+     "texto": "Se dibuja la zona frente a la banca de espera"
     },
     {
-     "t": 3.5,
+     "t": 5.6,
      "estado": "detecta",
-     "texto": "Una persona se detiene y el reloj empieza a correr"
+     "texto": "ID 2 entra a la zona y su reloj empieza a correr; ID 4 la sigue"
     },
     {
      "t": 10,
      "estado": "ok",
-     "texto": "Pasa de 3 minutos: cuenta como interés real"
+     "texto": "Se sientan: ya no es paso, es espera (ID 2 lleva más de 4 s)"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/permanencia.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/permanencia-poster.jpg",
-    "chapa": "CCTV real · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/comercial/permanencia.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/comercial/permanencia-poster.jpg",
+    "chapa": "CCTV real (MEVA) · modelo real",
+    "fuente": "MEVA · Multiview Extended Video with Activities (cámara G507, sala de espera)",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 5.6,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.295,
+        0.7
+       ],
+       [
+        0.625,
+        0.7
+       ],
+       [
+        0.7,
+        1
+       ],
+       [
+        0.28,
+        1
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Zona de espera",
+      "hasta": 5.6
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.295,
+        0.7
+       ],
+       [
+        0.625,
+        0.7
+       ],
+       [
+        0.7,
+        1
+       ],
+       [
+        0.28,
+        1
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Zona de espera",
+      "desde": 5.6,
+      "hasta": 10
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.295,
+        0.7
+       ],
+       [
+        0.625,
+        0.7
+       ],
+       [
+        0.7,
+        1
+       ],
+       [
+        0.28,
+        1
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "Zona de espera",
+      "desde": 10
+     }
+    ]
    }
   },
   {
@@ -184,28 +322,84 @@
    "corta": "Cuenta pasos por un punto y en qué sentido.",
    "desc": "Una línea dibujada sobre la cámara cuenta cada cruce y su sentido. Sirve para medir flujo entre zonas o para avisar cuando alguien pasa por donde no debe.",
    "estado": null,
-   "dur": 15,
+   "dur": 16,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Se traza la línea y el sentido permitido"
+     "texto": "Se traza la línea del pasillo y su sentido (hacia la cámara)"
     },
     {
-     "t": 3,
+     "t": 3.4,
      "estado": "detecta",
-     "texto": "Cada cruce en el sentido normal suma al flujo"
+     "texto": "ID 1 y ID 5 cruzan hacia la cámara: suman al flujo"
     },
     {
-     "t": 9.5,
+     "t": 13.2,
      "estado": "alerta",
-     "texto": "Alguien cruza en el sentido prohibido: aviso"
+     "texto": "ID 31 cruza en sentido contrario (se aleja): aviso"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/cruce.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/cruce-poster.jpg",
-    "chapa": "CCTV real · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/comercial/cruce.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/comercial/cruce-poster.jpg",
+    "chapa": "CCTV real (MEVA) · modelo real",
+    "fuente": "MEVA · Multiview Extended Video with Activities (cámara G423, pasillo)",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 13.2,
+    "marcas": [
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0.43,
+        0.575
+       ],
+       [
+        0.66,
+        0.575
+       ]
+      ],
+      "color": "oro",
+      "etiqueta": "Línea de paso",
+      "hasta": 13.2
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0.43,
+        0.575
+       ],
+       [
+        0.66,
+        0.575
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Sentido contrario",
+      "desde": 13.2,
+      "hasta": 15.5
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0.43,
+        0.575
+       ],
+       [
+        0.66,
+        0.575
+       ]
+      ],
+      "color": "oro",
+      "etiqueta": "Línea de paso",
+      "desde": 15.5
+     }
+    ]
    }
   },
   {
@@ -215,114 +409,426 @@
    "corta": "Separa a quien está comprando de quien pasa.",
    "desc": "Reconoce los gestos de compra: detenerse, recorrer la góndola con la mirada, comparar marcas, tomar un producto. Marca al comprador activo para que el personal lo atienda a tiempo.",
    "estado": null,
-   "dur": 17,
+   "dur": 9.5,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Varias personas en el pasillo"
+     "texto": "Gente de paso por el pasillo"
     },
     {
-     "t": 3,
+     "t": 2.5,
      "estado": "detecta",
-     "texto": "Se detiene y recorre la góndola con la mirada, arriba y abajo, entre varias marcas"
+     "texto": "Se detiene frente a la góndola y la recorre con la mirada"
     },
     {
-     "t": 8,
+     "t": 5.5,
      "estado": "detecta",
-     "texto": "Toma un producto y lo examina"
+     "texto": "Toma una caja roja del estante y la examina"
     },
     {
-     "t": 10,
+     "t": 7,
      "estado": "ok",
-     "texto": "Se marca como comprador activo y se avisa al asesor"
+     "texto": "Comprador activo: se avisa al asesor del pasillo"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/comercial/comprador.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/comercial/comprador-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "Generado con IA (ElevenLabs · Seedance 2.5, texto a video) para esta lámina",
+    "autor": "ARS · generado con IA",
+    "licencia": "Contenido generado para uso propio",
+    "evento": 7,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.22,
+        0.43
+       ],
+       [
+        0.62,
+        0.43
+       ],
+       [
+        0.62,
+        0.72
+       ],
+       [
+        0.22,
+        0.72
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Frente a la góndola",
+      "hasta": 2.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.22,
+        0.43
+       ],
+       [
+        0.62,
+        0.43
+       ],
+       [
+        0.62,
+        0.72
+       ],
+       [
+        0.22,
+        0.72
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Frente a la góndola",
+      "desde": 2.5,
+      "hasta": 7
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.22,
+        0.43
+       ],
+       [
+        0.62,
+        0.43
+       ],
+       [
+        0.62,
+        0.72
+       ],
+       [
+        0.22,
+        0.72
+       ]
+      ],
+      "color": "oro",
+      "etiqueta": "Comprador activo",
+      "desde": 7
+     }
+    ],
+    "ia": true
+   }
   },
   {
    "id": "blancas",
    "familia": "operativo",
    "nombre": "Listas blancas",
    "corta": "Reconoce a quien tiene acceso y le abre.",
-   "desc": "Reconoce a las personas autorizadas en un acceso y habilita el paso sin tarjeta. A quien no está en la lista no le abre y pide validación.",
+   "desc": "Reconoce a las personas autorizadas en un acceso y habilita el paso sin tarjeta. A quien no está en la lista no le abre solo: pide validación.",
    "estado": "funcionando a diario",
-   "dur": 15,
+   "dur": 16,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "La cámara del acceso ve llegar a alguien"
+     "texto": "La cámara del acceso ve llegar a alguien por la escalera"
     },
     {
-     "t": 3,
+     "t": 5,
      "estado": "ok",
-     "texto": "Está en la lista blanca: la puerta se abre"
+     "texto": "Está en la lista blanca: la puerta se libera y sale"
     },
     {
-     "t": 9,
+     "t": 5.6,
      "estado": "detecta",
-     "texto": "Alguien que no está: la puerta sigue cerrada y pide validación"
+     "texto": "Su acompañante no está en la lista: queda registrado para validar"
+    },
+    {
+     "t": 12,
+     "estado": "vigila",
+     "texto": "La puerta vuelve a cerrar: el acceso queda en el registro"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/operativo/blancas.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/operativo/blancas-poster.jpg",
+    "chapa": "CCTV real · escena de referencia",
+    "fuente": "MEVA, cámara G326 (acceso del edificio administrativo), 2018-03-07 11:05, s 98–114",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 5,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.36,
+        0.84
+       ],
+       [
+        0.58,
+        0.81
+       ],
+       [
+        0.6,
+        1
+       ],
+       [
+        0.33,
+        1
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Acceso",
+      "hasta": 5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.36,
+        0.84
+       ],
+       [
+        0.58,
+        0.81
+       ],
+       [
+        0.6,
+        1
+       ],
+       [
+        0.33,
+        1
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "Acceso",
+      "desde": 5,
+      "hasta": 12
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.36,
+        0.84
+       ],
+       [
+        0.58,
+        0.81
+       ],
+       [
+        0.6,
+        1
+       ],
+       [
+        0.33,
+        1
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Acceso",
+      "desde": 12
+     }
+    ]
+   }
   },
   {
    "id": "filas",
    "familia": "operativo",
    "nombre": "Gestión de filas y cajas",
    "corta": "Avisa cuando la fila crece y hay que abrir otra caja.",
-   "desc": "Cuenta cuántas personas hay en cada fila y cuánto llevan esperando. Cuando pasa el umbral avisa para abrir otra caja, antes de que el cliente se vaya.",
+   "desc": "Cuenta cuántas personas hacen fila frente a la caja y cuánto llevan esperando. Cuando pasa el umbral avisa para abrir otra caja, antes de que el cliente se vaya.",
    "estado": null,
    "dur": 18,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Cuenta la fila de cada caja"
+     "texto": "Cuenta a quien hace fila frente a la caja de la cafetería"
     },
     {
-     "t": 6,
+     "t": 2,
      "estado": "alerta",
-     "texto": "Cinco personas y más de 6 minutos: abrir otra caja"
+     "texto": "Cinco en fila: la espera pasa el umbral, abrir otra caja"
     },
     {
-     "t": 11,
+     "t": 7,
      "estado": "ok",
-     "texto": "Abre la caja 2 y la fila se reparte"
+     "texto": "La caja despacha: la fila baja a dos y el aviso se cierra"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/operativo/filas.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/operativo/filas-poster.jpg",
+    "chapa": "CCTV real · detector real",
+    "fuente": "MEVA (Multiview Extended Video with Activities), cámara G421, 2018-03-07 16:50, s 0–18",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 2,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.2448,
+        0.597
+       ],
+       [
+        0.526,
+        0.5224
+       ],
+       [
+        0.599,
+        1
+       ],
+       [
+        0.1719,
+        1
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Fila caja",
+      "hasta": 2
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.2448,
+        0.597
+       ],
+       [
+        0.526,
+        0.5224
+       ],
+       [
+        0.599,
+        1
+       ],
+       [
+        0.1719,
+        1
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Fila caja",
+      "desde": 2,
+      "hasta": 7
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.2448,
+        0.597
+       ],
+       [
+        0.526,
+        0.5224
+       ],
+       [
+        0.599,
+        1
+       ],
+       [
+        0.1719,
+        1
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "Fila caja",
+      "desde": 7
+     }
+    ]
+   }
   },
   {
    "id": "aforo",
    "familia": "operativo",
    "nombre": "Control de aforo",
    "corta": "Lleva cuántos hay adentro y avisa al llegar al límite.",
-   "desc": "Suma entradas y resta salidas en todas las puertas para saber cuántas personas hay adentro. Al llegar al límite avisa para frenar el ingreso.",
+   "desc": "Cuenta cuántas personas hay dentro del vestíbulo, cuadro a cuadro. Al pasar el límite que se fijó para el espacio avisa para frenar el ingreso.",
    "estado": null,
-   "dur": 15,
+   "dur": 18,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Cuenta a quien entra y a quien sale"
+     "texto": "Cuenta a quien está en el vestíbulo: el límite es 12"
     },
     {
-     "t": 5,
+     "t": 7,
      "estado": "detecta",
-     "texto": "Se acerca al límite: 19 de 20"
+     "texto": "Entra un grupo por las puertas de vidrio: 7, 8, 11…"
     },
     {
-     "t": 8,
+     "t": 12.5,
      "estado": "alerta",
-     "texto": "Aforo completo: aviso para frenar el ingreso"
+     "texto": "13 de 12: aforo superado, aviso para frenar el ingreso"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/aforo.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/aforo-poster.jpg",
-    "chapa": "CCTV real · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/operativo/aforo.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/operativo/aforo-poster.jpg",
+    "chapa": "CCTV real · modelo real",
+    "fuente": "MEVA, cámara G421, 2018-03-13 17:35, s 167.9–185.9 (recorte del clip anterior con el detector D-FINE-S quemado)",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 12.5,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.0161,
+        0.2388
+       ],
+       [
+        0.9531,
+        0.2388
+       ],
+       [
+        0.9917,
+        0.9832
+       ],
+       [
+        0.0161,
+        0.9832
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Aforo · vestíbulo",
+      "hasta": 12.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.0161,
+        0.2388
+       ],
+       [
+        0.9531,
+        0.2388
+       ],
+       [
+        0.9917,
+        0.9832
+       ],
+       [
+        0.0161,
+        0.9832
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Aforo · vestíbulo",
+      "desde": 12.5
+     }
+    ]
    }
   },
   {
@@ -330,40 +836,96 @@
    "familia": "operativo",
    "nombre": "Lectura de placas y parqueo",
    "corta": "Placa, tipo, color, cajón y tiempo de cada vehículo.",
-   "desc": "Lee la placa al entrar y abre la barrera. Además reconoce si es carro o moto, su color y en qué cajón quedó, y cuenta cuánto lleva cada uno. Si algo lo tapa, el vehículo sigue en el registro: no se pierde ni se cuenta dos veces.",
+   "desc": "Lee la placa de cada vehículo en la entrada o salida del parqueadero y lo registra con su tipo y color. Si algo lo tapa un momento —una moto, un peatón, otro auto que cruza—, el vehículo sigue en el registro: no se pierde ni se cuenta dos veces.",
    "estado": null,
-   "dur": 22,
+   "dur": 11.5,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Cada vehículo del parqueadero con su placa, tipo, color, cajón y tiempo"
+     "texto": "Cámara de la salida del parqueadero: ve el carro y su placa"
     },
     {
-     "t": 3.4,
+     "t": 1,
      "estado": "detecta",
-     "texto": "Un carro llega a la barrera: lee KTV 482 · rojo · carro"
+     "texto": "Lee la placa: BGY 888 · gris · carro"
     },
     {
-     "t": 5,
-     "estado": "ok",
-     "texto": "Está registrado: entra a un cajón libre y empieza a contar"
+     "t": 4,
+     "estado": "vigila",
+     "texto": "Pasan una moto y un peatón: cada uno con su recuadro, la placa se mantiene"
     },
     {
-     "t": 12.5,
+     "t": 6.6,
      "estado": "detecta",
-     "texto": "Un furgón tapa la fila de autos y motos: los recuadros se mantienen punteados"
+     "texto": "Un auto cruza delante y lo tapa: el registro no se pierde"
     },
     {
-     "t": 16,
+     "t": 10.2,
      "estado": "ok",
-     "texto": "Entra una moto al cajón de motos: se suma al registro"
+     "texto": "El carro sale: BGY 888 registrado una sola vez"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/placas.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/placas-poster.jpg",
-    "chapa": "video público · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/operativo/placas.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/operativo/placas-poster.jpg",
+    "chapa": "video público · modelo real",
+    "fuente": "Pexels, video 37508953 (salida de parqueadero, Berlín); detecciones de lpr_v2 (YOLOv9-t + CCT-S) quemadas",
+    "autor": "Pexels (autor del video 37508953)",
+    "url": "https://www.pexels.com/video/37508953/",
+    "licencia": "Pexels License",
+    "evento": 1,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.11,
+        0.5
+       ],
+       [
+        0.44,
+        0.5
+       ],
+       [
+        0.44,
+        0.92
+       ],
+       [
+        0.11,
+        0.92
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "carro · PLACA BGY888",
+      "desde": 1,
+      "hasta": 10.2
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.11,
+        0.5
+       ],
+       [
+        0.44,
+        0.5
+       ],
+       [
+        0.44,
+        0.92
+       ],
+       [
+        0.11,
+        0.92
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "carro · PLACA BGY888",
+      "desde": 10.2
+     }
+    ]
    }
   },
   {
@@ -371,62 +933,130 @@
    "familia": "operativo",
    "nombre": "Detección de personal",
    "corta": "Separa al personal de los clientes en sala.",
-   "desc": "Decide si quien aparece es del equipo o es un cliente, por el uniforme y sin reconocer a nadie. Así los conteos de clientes no se inflan con el personal.",
+   "desc": "Decide si quien aparece es del equipo o es un cliente, por la ropa de trabajo y el puesto, sin reconocer a nadie. Así los conteos de clientes no se inflan con el personal.",
    "estado": "listo para instalar",
-   "dur": 16,
+   "dur": 18,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Ve a todas las personas del local"
+     "texto": "Ve a todas las personas de la cafetería"
     },
     {
-     "t": 3,
+     "t": 2,
      "estado": "detecta",
-     "texto": "Mira el uniforme: personal en amarillo, clientes en azul"
+     "texto": "Mira la ropa de trabajo y el puesto: la cajera y la persona de limpieza son personal"
     },
     {
-     "t": 7,
+     "t": 6,
      "estado": "ok",
-     "texto": "Cuenta cuántos hay de cada uno, en todo momento"
+     "texto": "Cuenta personal y clientes por separado, en todo momento"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/operativo/staff.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/operativo/staff-poster.jpg",
+    "chapa": "CCTV real · detector real",
+    "fuente": "MEVA, cámara G421, 2018-03-07 16:50, s 24–42 (roles personal/cliente asignados a mano sobre las pistas del detector)",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 2,
+    "marcas": []
+   }
   },
   {
    "id": "derrames",
    "familia": "operativo",
    "nombre": "Detección de derrames",
    "corta": "Avisa cuando el piso deja de estar limpio.",
-   "desc": "Cada cámara aprende cómo se ve su piso limpio. Si aparece un derrame, una mancha o basura y sigue ahí 45 segundos, avisa con el tipo y la ubicación.",
+   "desc": "Cada cámara aprende cómo se ve su piso limpio. Si aparece un derrame, una mancha o basura y sigue ahí, avisa con el tipo y la ubicación; cuando lo limpian, el evento se cierra solo.",
    "estado": "en validación",
-   "dur": 16,
+   "dur": 15,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "El piso limpio es la referencia"
+     "texto": "El piso limpio del pasillo es la referencia"
     },
     {
-     "t": 2.4,
+     "t": 4.5,
      "estado": "detecta",
-     "texto": "Cae un envase y aparece un charco: empieza la espera"
+     "texto": "Se cae un envase y aparece un charco: empieza la espera"
     },
     {
-     "t": 6.5,
+     "t": 8,
      "estado": "alerta",
-     "texto": "Sigue ahí: aviso de derrame con su foto"
+     "texto": "Sigue ahí: aviso de derrame con su foto y ubicación"
     },
     {
-     "t": 12,
+     "t": 12.6,
      "estado": "ok",
      "texto": "Lo limpian y el evento se cierra solo"
     }
    ],
    "video": {
-    "poster": "/analiticas-3d/evidencia-publica/piso-alerta.jpg",
-    "img": "/analiticas-3d/evidencia-publica/piso-alerta.jpg",
-    "chapa": "laboratorio propio"
+    "src": "/analiticas-3d/evidencia-publica/operativo/derrames.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/operativo/derrames-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "Generado con IA (ElevenLabs · Seedance 2.5, texto a video); el 3D se ajustó a su cámara y a sus tiempos",
+    "autor": "ARS · generación propia",
+    "url": "",
+    "licencia": "uso propio",
+    "evento": 8,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.27,
+        0.6
+       ],
+       [
+        0.62,
+        0.6
+       ],
+       [
+        0.62,
+        0.92
+       ],
+       [
+        0.27,
+        0.92
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Derrame · pasillo 2",
+      "desde": 4.8,
+      "hasta": 8
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.27,
+        0.6
+       ],
+       [
+        0.62,
+        0.6
+       ],
+       [
+        0.62,
+        0.92
+       ],
+       [
+        0.27,
+        0.92
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Derrame · pasillo 2",
+      "desde": 8,
+      "hasta": 12.6
+     }
+    ],
+    "ia": true
    }
   },
   {
@@ -434,30 +1064,110 @@
    "familia": "operativo",
    "nombre": "Guardián de puestos",
    "corta": "Vigila que el puesto lo atienda la misma persona.",
-   "desc": "Avisa cuando alguien distinto ocupa un puesto con la sesión de otro, cuando la misma persona figura en dos puestos o cuando un puesto queda abierto sin nadie.",
+   "desc": "Avisa cuando alguien distinto ocupa un puesto con la sesión de otro, cuando la misma persona figura en dos puestos o cuando un puesto queda abierto sin nadie. Aquí, la caja de la cafetería.",
    "estado": "en validación",
-   "dur": 16,
+   "dur": 18,
    "fases": [
     {
      "t": 0,
-     "estado": "vigila",
-     "texto": "Cada puesto con su titular y su sesión"
+     "estado": "ok",
+     "texto": "La caja la atiende su titular"
     },
     {
-     "t": 4,
+     "t": 7.5,
      "estado": "detecta",
-     "texto": "El titular se levanta: el puesto queda en espera"
+     "texto": "La titular se va: la caja queda en espera"
     },
     {
-     "t": 8,
+     "t": 14,
      "estado": "alerta",
-     "texto": "Otra persona se sienta con la sesión abierta: aviso de relevo"
+     "texto": "Otra persona ocupa la caja: aviso de cambio de persona"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/guardian.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/guardian-poster.jpg",
-    "chapa": "CCTV real · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/operativo/guardian.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/operativo/guardian-poster.jpg",
+    "chapa": "CCTV real · modelo real",
+    "fuente": "MEVA, cámara G421, 2018-03-07 11:05, s 282–300 (recorte del clip anterior con Guardián v2 quemado)",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 14,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.0047,
+        0.4748
+       ],
+       [
+        0.1714,
+        0.4748
+       ],
+       [
+        0.1714,
+        0.9916
+       ],
+       [
+        0.0047,
+        0.9916
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "Puesto · caja",
+      "hasta": 7.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.0047,
+        0.4748
+       ],
+       [
+        0.1714,
+        0.4748
+       ],
+       [
+        0.1714,
+        0.9916
+       ],
+       [
+        0.0047,
+        0.9916
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Puesto · caja",
+      "desde": 7.5,
+      "hasta": 14
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.0047,
+        0.4748
+       ],
+       [
+        0.1714,
+        0.4748
+       ],
+       [
+        0.1714,
+        0.9916
+       ],
+       [
+        0.0047,
+        0.9916
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Puesto · caja",
+      "desde": 14
+     }
+    ]
    }
   },
   {
@@ -467,7 +1177,7 @@
    "corta": "Avisa en el acto si entra alguien de una lista.",
    "desc": "Compara cada rostro del acceso con una lista corta y avisa al puesto de monitoreo con la foto y el video ya guardados. Solo en accesos.",
    "estado": "funcionando a diario",
-   "dur": 14,
+   "dur": 11.4,
    "fases": [
     {
      "t": 0,
@@ -475,17 +1185,44 @@
      "texto": "Cada rostro del acceso se compara con la lista"
     },
     {
-     "t": 4,
+     "t": 3.2,
      "estado": "alerta",
      "texto": "Coincidencia con la lista negra: aviso inmediato"
     },
     {
-     "t": 8,
+     "t": 6,
      "estado": "detecta",
      "texto": "Se sigue a la persona dentro del local"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/prevencion/negras.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/negras-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "ElevenLabs (generación de video)",
+    "autor": "generado con IA para Vigías",
+    "url": "https://elevenlabs.io",
+    "licencia": "uso propio · referencia",
+    "evento": 3.2,
+    "marcas": [
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0.33,
+        0.55
+       ],
+       [
+        0.69,
+        0.55
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Acceso · se compara cada rostro"
+     }
+    ],
+    "ia": true
+   }
   },
   {
    "id": "merodeo",
@@ -494,60 +1231,140 @@
    "corta": "Avisa de quien da vueltas sin entrar ni irse.",
    "desc": "Mide cuánto tiempo pasa una persona en una zona y cómo se mueve. Quien va y viene frente a una vitrina, un cajero o una puerta más de lo normal dispara el aviso.",
    "estado": null,
-   "dur": 18,
+   "dur": 11.6,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Se vigila la zona frente a la vitrina"
+     "texto": "Se vigila el andén frente a la vitrina"
     },
     {
-     "t": 5,
+     "t": 2.5,
      "estado": "detecta",
-     "texto": "Va y viene sin entrar: el reloj de permanencia corre"
+     "texto": "Se para frente a la vitrina sin entrar: el reloj de permanencia corre"
     },
     {
-     "t": 11,
+     "t": 10.5,
      "estado": "alerta",
-     "texto": "Pasa el umbral de merodeo: aviso con su recorrido"
+     "texto": "Vuelve a pasar: supera el umbral de merodeo y avisa con su recorrido"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/prevencion/merodeo.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/merodeo-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "ElevenLabs (generación de video)",
+    "autor": "generado con IA para Vigías",
+    "url": "https://elevenlabs.io",
+    "licencia": "uso propio · referencia",
+    "evento": 10.5,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.13,
+        0.2
+       ],
+       [
+        0.36,
+        0.2
+       ],
+       [
+        0.42,
+        1
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Frente a la vitrina"
+     }
+    ],
+    "ia": true
+   }
   },
   {
    "id": "intrusion",
    "familia": "prevencion",
    "nombre": "Intrusión",
-   "corta": "La alarma suena distinto según cuánto se acercan.",
-   "desc": "La zona prohibida se dibuja sobre la cámara en tres franjas. El sistema mide qué tan adentro está la persona y el sonido cambia con ella: el operador entiende la gravedad sin mirar.",
+   "corta": "Avisa cuando alguien entra o se queda en una zona prohibida.",
+   "desc": "La zona prohibida se dibuja sobre la cámara: aquí, el piso frente a la salida de emergencia. Si alguien entra y se queda, el sistema lo marca en amarillo y, pasado el tiempo permitido, dispara la alarma con su recuadro.",
    "estado": "funcionando a diario",
-   "dur": 15,
+   "dur": 18,
    "fases": [
     {
      "t": 0,
-     "estado": "vigila",
-     "texto": "El perímetro tiene tres franjas dibujadas"
-    },
-    {
-     "t": 3.5,
      "estado": "detecta",
-     "texto": "Toca el borde: nivel 1, dos pitidos"
+     "texto": "Una persona está dentro de la zona frente a la salida de emergencia"
     },
     {
-     "t": 6,
+     "t": 8.2,
      "estado": "alerta",
-     "texto": "Avanza: nivel 2, sirena breve"
-    },
-    {
-     "t": 8.5,
-     "estado": "alerta",
-     "texto": "Está adentro: nivel 3, sirena continua"
+     "texto": "Se queda en la zona: alarma de intrusión"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/intrusion.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/intrusion-poster.jpg",
-    "chapa": "CCTV real · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/prevencion/intrusion.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/intrusion-poster.jpg",
+    "chapa": "CCTV real (MEVA G507) · modelo real",
+    "fuente": "MEVA · Multiview Extended Video with Activities (Kitware / IARPA DIVA)",
+    "autor": "Kitware / IARPA DIVA · MEVA KF1, cámara G507",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 8.2,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.711,
+        0.393
+       ],
+       [
+        0.924,
+        0.393
+       ],
+       [
+        0.986,
+        0.674
+       ],
+       [
+        0.702,
+        0.674
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Frente a la salida de emergencia",
+      "hasta": 8.2
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.711,
+        0.393
+       ],
+       [
+        0.924,
+        0.393
+       ],
+       [
+        0.986,
+        0.674
+       ],
+       [
+        0.702,
+        0.674
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Frente a la salida de emergencia",
+      "desde": 8.2
+     }
+    ]
    }
   },
   {
@@ -557,7 +1374,7 @@
    "corta": "Avisa cuando alguien que no es del equipo cruza a una zona interna.",
    "desc": "Combina la puerta de una zona interna con el reconocimiento de personal: el equipo pasa sin aviso, y si cruza alguien que no lo es, avisa al instante.",
    "estado": null,
-   "dur": 15,
+   "dur": 11.4,
    "fases": [
     {
      "t": 0,
@@ -565,17 +1382,61 @@
      "texto": "La puerta de bodega solo es para el personal"
     },
     {
-     "t": 3,
+     "t": 1.2,
      "estado": "ok",
-     "texto": "Pasa alguien con uniforme: sin aviso"
+     "texto": "Pasa alguien del equipo: sin aviso"
     },
     {
-     "t": 8.4,
+     "t": 9.5,
      "estado": "alerta",
      "texto": "Cruza un cliente: aviso de acceso no autorizado"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/prevencion/acceso.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/acceso-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "ElevenLabs (generación de video)",
+    "autor": "generado con IA para Vigías",
+    "url": "https://elevenlabs.io",
+    "licencia": "uso propio · referencia",
+    "evento": 9.5,
+    "marcas": [
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0.52,
+        0.98
+       ],
+       [
+        0.75,
+        0.98
+       ]
+      ],
+      "color": "oro",
+      "etiqueta": "Puerta · solo personal",
+      "hasta": 9.5
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0.52,
+        0.98
+       ],
+       [
+        0.75,
+        0.98
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Puerta · solo personal",
+      "desde": 9.5
+     }
+    ],
+    "ia": true
+   }
   },
   {
    "id": "aglomeracion",
@@ -584,28 +1445,83 @@
    "corta": "Avisa cuando se junta demasiada gente en un punto.",
    "desc": "Mide la densidad de personas por zona y qué tan rápido crece. Una concentración repentina o un tumulto disparan el aviso antes de que se salga de control.",
    "estado": null,
-   "dur": 15,
+   "dur": 18,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Densidad normal en la zona"
+     "texto": "Densidad normal en el vestíbulo"
     },
     {
-     "t": 4,
+     "t": 4.5,
      "estado": "detecta",
-     "texto": "La gente converge rápido hacia un punto"
+     "texto": "Entra gente y se junta al fondo"
     },
     {
-     "t": 8,
+     "t": 8.8,
      "estado": "alerta",
-     "texto": "Pasa de 2 personas por m²: aviso de aglomeración"
+     "texto": "Pasa de 15 personas: aviso de aglomeración"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/aglomeracion.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/aglomeracion-poster.jpg",
-    "chapa": "CCTV real · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/prevencion/aglomeracion.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/aglomeracion-poster.jpg",
+    "chapa": "CCTV real (MEVA G421) · modelo real",
+    "fuente": "MEVA · Multiview Extended Video with Activities (Kitware / IARPA DIVA)",
+    "autor": "Kitware / IARPA DIVA · MEVA KF1, cámara G421",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 8.8,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.03,
+        0.235
+       ],
+       [
+        0.947,
+        0.23
+       ],
+       [
+        0.99,
+        0.98
+       ],
+       [
+        0.015,
+        0.98
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Vestíbulo · umbral 15",
+      "hasta": 8.8
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.03,
+        0.235
+       ],
+       [
+        0.947,
+        0.23
+       ],
+       [
+        0.99,
+        0.98
+       ],
+       [
+        0.015,
+        0.98
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Vestíbulo · umbral 15",
+      "desde": 8.8
+     }
+    ]
    }
   },
   {
@@ -615,28 +1531,107 @@
    "corta": "Avisa si alguien trabaja sin casco o chaleco.",
    "desc": "Revisa casco, chaleco y overol según la regla de cada zona, y emite un aviso por persona y no uno por imagen. Si no ve bien, no opina.",
    "estado": "con evidencia",
-   "dur": 15,
+   "dur": 13,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "En esta zona se exige casco y chaleco"
+     "texto": "En la losa se exige casco y chaleco"
     },
     {
-     "t": 4,
-     "estado": "ok",
-     "texto": "Trabajador con casco y chaleco: en verde"
-    },
-    {
-     "t": 7.5,
+     "t": 1.6,
      "estado": "alerta",
-     "texto": "Otro entra sin casco: aviso por esa persona"
+     "texto": "Trabajadores sin casco: aviso por cada persona"
+    },
+    {
+     "t": 6.3,
+     "estado": "ok",
+     "texto": "Los demás con casco: sin aviso"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/epp.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/epp-poster.jpg",
-    "chapa": "video público · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/prevencion/epp.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/epp-poster.jpg",
+    "chapa": "video público · modelo real",
+    "fuente": "video público de obra (recorte de evidencia-publica/epp.mp4)",
+    "autor": "sin registrar en el repo (ver CREDITS-prevencion.md)",
+    "licencia": "por confirmar",
+    "evento": 1.6,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.07,
+        0.62
+       ],
+       [
+        0.97,
+        0.62
+       ],
+       [
+        0.99,
+        0.86
+       ],
+       [
+        0.05,
+        0.86
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Losa · casco y chaleco",
+      "hasta": 1.6
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.07,
+        0.62
+       ],
+       [
+        0.97,
+        0.62
+       ],
+       [
+        0.99,
+        0.86
+       ],
+       [
+        0.05,
+        0.86
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Losa · casco y chaleco",
+      "desde": 1.6,
+      "hasta": 6.3
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.07,
+        0.62
+       ],
+       [
+        0.97,
+        0.62
+       ],
+       [
+        0.99,
+        0.86
+       ],
+       [
+        0.05,
+        0.86
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Losa · casco y chaleco",
+      "desde": 6.3
+     }
+    ]
    }
   },
   {
@@ -646,7 +1641,7 @@
    "corta": "Avisa cuando una persona cae y no se levanta.",
    "desc": "Sigue la postura de cada persona. Si cae y se queda en el piso más de unos segundos, avisa con la ubicación para que alguien acuda.",
    "estado": null,
-   "dur": 15,
+   "dur": 9.7,
    "fases": [
     {
      "t": 0,
@@ -654,52 +1649,116 @@
      "texto": "Sigue la postura de quien camina"
     },
     {
-     "t": 4.2,
+     "t": 1.2,
      "estado": "detecta",
      "texto": "Pasa de vertical a horizontal: posible caída"
     },
     {
-     "t": 8,
+     "t": 5,
      "estado": "alerta",
      "texto": "No se levanta: aviso para que alguien acuda"
+    },
+    {
+     "t": 8,
+     "estado": "ok",
+     "texto": "Llega un empleado a ayudar"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/prevencion/caidas.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/caidas-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "ElevenLabs (generación de video)",
+    "autor": "generado con IA para Vigías",
+    "url": "https://elevenlabs.io",
+    "licencia": "uso propio · referencia",
+    "evento": 5,
+    "ia": true
+   }
   },
   {
    "id": "hurto",
    "familia": "prevencion",
    "nombre": "Hurto",
    "corta": "Distingue un hurto de una compra normal, y avisa.",
-   "desc": "Lee la postura y los gestos de las manos de cada persona y les pone una puntuación. Mirar a los lados, tomar productos pequeños y llevarlos a la ropa en vez de a la canasta la hace subir; cuando cruza el umbral, avisa en el momento.",
+   "desc": "Lee la postura y los gestos de las manos de cada persona frente a una zona marcada (aquí, un mesón) y les pone una puntuación. Tomar algo y llevarlo a la ropa en vez de dejarlo la hace subir; cuando cruza el umbral, avisa en el momento.",
    "estado": "en desarrollo",
-   "dur": 20,
+   "dur": 16,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Llega a la góndola de productos pequeños: perfumes y cuchillas"
+     "texto": "Detector activo: esperando interacción con el mesón"
     },
     {
-     "t": 3,
+     "t": 4.4,
      "estado": "detecta",
-     "texto": "Mira a los lados antes de tomar nada"
+     "texto": "Interacción con el mesón: analizando el gesto"
     },
     {
-     "t": 5.2,
-     "estado": "detecta",
-     "texto": "Toma un producto, abre la chaqueta con la otra mano y lo guarda adentro"
-    },
-    {
-     "t": 10.6,
+     "t": 9.1,
      "estado": "alerta",
-     "texto": "Segundo producto a la chaqueta: la puntuación cruza el umbral y avisa"
+     "texto": "Manipulación sospechosa: lo esconde y se va"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/hurto-vivo.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/hurto-vivo-poster.jpg",
-    "chapa": "prueba en laboratorio propio"
+    "src": "/analiticas-3d/evidencia-publica/prevencion/hurto.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/hurto-poster.jpg",
+    "chapa": "prueba en laboratorio propio · detector en desarrollo",
+    "fuente": "grabación propia del laboratorio Vigías (visor en vivo)",
+    "autor": "Vigías",
+    "licencia": "propia",
+    "evento": 9.1,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.14,
+        0.79
+       ],
+       [
+        0.225,
+        0.725
+       ],
+       [
+        0.32,
+        0.99
+       ],
+       [
+        0.2,
+        0.99
+       ]
+      ],
+      "color": "oro",
+      "etiqueta": "Mesón vigilado",
+      "hasta": 9.1
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.14,
+        0.79
+       ],
+       [
+        0.225,
+        0.725
+       ],
+       [
+        0.32,
+        0.99
+       ],
+       [
+        0.2,
+        0.99
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Mesón vigilado",
+      "desde": 9.1
+     }
+    ]
    }
   },
   {
@@ -707,27 +1766,61 @@
    "familia": "prevencion",
    "nombre": "Ocultamiento de producto",
    "corta": "Ve cuando un producto se esconde en la ropa.",
-   "desc": "Sigue el producto desde que sale de la góndola. Si desaparece dentro de la ropa o de un bolso en vez de ir al carro o a la canasta, abre un caso.",
+   "desc": "Sigue el producto desde que sale del mesón. Si desaparece dentro de la ropa o de un bolso en vez de ir al carro o a la canasta, abre un caso.",
    "estado": null,
-   "dur": 15,
+   "dur": 14.5,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Sigue cada producto que sale de la góndola"
+     "texto": "Entra a la sala por el fondo"
     },
     {
-     "t": 3.6,
+     "t": 4.9,
      "estado": "detecta",
-     "texto": "El producto va a la mano"
+     "texto": "Llega al mesón marcado y toma un producto"
     },
     {
-     "t": 7.4,
+     "t": 8.6,
      "estado": "alerta",
-     "texto": "Desaparece bajo la chaqueta: «manipulación sospechosa · esconde»"
+     "texto": "El producto no vuelve al mesón: «manipulación sospechosa · esconde»"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/prevencion/ocultaProd.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/ocultaProd-poster.jpg",
+    "chapa": "laboratorio propio · modelo real",
+    "fuente": "Prueba en laboratorio propio de Vigías (detector C+ v1)",
+    "autor": "Vigías",
+    "url": "",
+    "licencia": "Material propio",
+    "evento": 8.6,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.03,
+        0.75
+       ],
+       [
+        0.19,
+        0.66
+       ],
+       [
+        0.29,
+        0.93
+       ],
+       [
+        0.1,
+        0.99
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Mesón vigilado"
+     }
+    ]
+   }
   },
   {
    "id": "armas",
@@ -736,28 +1829,68 @@
    "corta": "Detecta un arma de fuego en menos de medio segundo.",
    "desc": "Pistolas y armas largas, llevadas por alguien o dejadas sobre un mostrador. Toda alerta pide verificación humana; nunca confunde un teléfono con un arma.",
    "estado": "en validación",
-   "dur": 13,
+   "dur": 9.56,
    "fases": [
     {
      "t": 0,
-     "estado": "vigila",
-     "texto": "Vigila manos y objetos en la escena"
-    },
-    {
-     "t": 4,
      "estado": "detecta",
-     "texto": "Aparece un arma: espera varios cuadros seguidos"
+     "texto": "Un hombre apunta hacia la barra: el modelo ve la pistola"
     },
     {
-     "t": 4.3,
+     "t": 0.3,
      "estado": "alerta",
-     "texto": "Confirmada en 0,3 s: «arma de fuego · portada»"
+     "texto": "Confirmada en varios cuadros: «arma de fuego · pistola»"
+    },
+    {
+     "t": 1.8,
+     "estado": "detecta",
+     "texto": "Sigue el arma mientras el hombre se mueve"
+    },
+    {
+     "t": 3.8,
+     "estado": "alerta",
+     "texto": "Entra un segundo hombre armado por la izquierda: nueva alerta"
+    },
+    {
+     "t": 5.8,
+     "estado": "detecta",
+     "texto": "Los dos salen hacia la puerta de la izquierda"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/armas.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/armas-poster.jpg",
-    "chapa": "video de banco · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/prevencion/armas.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/armas-poster.jpg",
+    "chapa": "video de banco (Mixkit) · modelo real",
+    "fuente": "Mixkit · «A robbery in the coffee shop» (#23252), con detecciones del modelo de armas",
+    "autor": "Mixkit",
+    "url": "https://mixkit.co/free-stock-video/a-robbery-in-the-coffee-shop-23252/",
+    "licencia": "Mixkit Stock Video Free License",
+    "evento": 3.8,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.43,
+        0.53
+       ],
+       [
+        0.98,
+        0.55
+       ],
+       [
+        0.98,
+        0.78
+       ],
+       [
+        0.45,
+        0.74
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Barra"
+     }
+    ]
    }
   },
   {
@@ -767,33 +1900,63 @@
    "corta": "Cuchillos, machetes y objetos cortantes.",
    "desc": "Cuando un cuchillo, una daga o un machete aparece y se sostiene unos fotogramas, salta la alarma en un tercio de segundo. Además sigue el comportamiento previo: mirar a todos lados y llevarse la mano a la cintura.",
    "estado": "en validación",
-   "dur": 15,
+   "dur": 15.7,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Entra a la recepción y se detiene"
+     "texto": "Entra por el fondo de la sala, junto al ventanal"
     },
     {
-     "t": 2.6,
+     "t": 3.2,
      "estado": "detecta",
-     "texto": "Mira a todos lados, nervioso, y se lleva la mano a la cintura"
+     "texto": "Se detiene y se lleva la mano a la cintura"
     },
     {
-     "t": 6.6,
-     "estado": "detecta",
-     "texto": "Saca un objeto cortante de entre la ropa"
-    },
-    {
-     "t": 7,
+     "t": 5.6,
      "estado": "alerta",
      "texto": "Confirmado «cuchillo» en la mano: aviso para verificar"
+    },
+    {
+     "t": 9.5,
+     "estado": "alerta",
+     "texto": "Se acerca al puesto con el cuchillo a la vista"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/blancas-vivo.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/blancas-vivo-poster.jpg",
-    "chapa": "laboratorio propio"
+    "src": "/analiticas-3d/evidencia-publica/prevencion/blancas2.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/blancas2-poster.jpg",
+    "chapa": "laboratorio propio · modelo real",
+    "fuente": "Cámara propia de Vigías (sala de monitoreo)",
+    "autor": "Vigías",
+    "url": "",
+    "licencia": "Material propio",
+    "evento": 5.6,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.62,
+        0.18
+       ],
+       [
+        0.99,
+        0.2
+       ],
+       [
+        0.99,
+        0.98
+       ],
+       [
+        0.66,
+        0.98
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Sala de monitoreo"
+     }
+    ]
    }
   },
   {
@@ -835,33 +1998,59 @@
    "corta": "Avisa de un incendio cuando todavía es una llama chica.",
    "desc": "Busca humo y fuego en la imagen, sin sensores nuevos. En el video, la alarma de humo saltó a los 2 segundos, con la columna todavía subiendo sobre la calle: ese margen es el que importa.",
    "estado": "en validación",
-   "dur": 20,
+   "dur": 16,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Bodega en calma"
+     "texto": "Vista aérea de la calle: el techo empieza a echar humo"
     },
     {
-     "t": 2.5,
-     "estado": "detecta",
-     "texto": "Una chispa prende el cartón: llama pequeña y humo claro"
-    },
-    {
-     "t": 5,
+     "t": 1.5,
      "estado": "alerta",
-     "texto": "Humo + fuego confirmados: aviso con 87 s de margen"
+     "texto": "Humo confirmado (0,85): aviso con la columna todavía subiendo"
     },
     {
-     "t": 11,
+     "t": 6,
      "estado": "alerta",
-     "texto": "El humo choca con el techo y baja en capa: la cámara empieza a perder la imagen"
+     "texto": "La columna crece y el viento la lleva sobre la calle"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/fuego.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/fuego-poster.jpg",
-    "chapa": "video público · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/prevencion/fuego.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/fuego-poster.jpg",
+    "chapa": "video público · modelo real",
+    "fuente": "Video público de un incendio urbano, con detecciones del modelo de humo y fuego (yolox_s_fire)",
+    "autor": "",
+    "url": "",
+    "licencia": "Material de archivo ya publicado en el sitio",
+    "evento": 1.5,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.52,
+        0.06
+       ],
+       [
+        0.98,
+        0.06
+       ],
+       [
+        0.98,
+        0.55
+       ],
+       [
+        0.52,
+        0.55
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Humo",
+      "desde": 1.5
+     }
+    ]
    }
   },
   {
@@ -871,7 +2060,7 @@
    "corta": "Avisa del objeto que alguien deja y se va.",
    "desc": "Asocia cada objeto con quien lo traía. Si la persona se aleja y el objeto se queda solo más del tiempo fijado, avisa con la imagen de quién lo dejó: sirve para objetos perdidos y para bultos sospechosos.",
    "estado": null,
-   "dur": 16,
+   "dur": 13.54,
    "fases": [
     {
      "t": 0,
@@ -879,22 +2068,107 @@
      "texto": "Una persona lee en la mesa con su maleta y su celular"
     },
     {
-     "t": 3,
+     "t": 2.2,
      "estado": "detecta",
-     "texto": "Toma la maleta y se va; el celular se queda en la mesa"
+     "texto": "Se levanta, toma la maleta y se va; el celular se queda en la mesa"
     },
     {
-     "t": 6,
+     "t": 5.5,
      "estado": "detecta",
      "texto": "Ya nadie está cerca: empieza la cuenta de 5 segundos"
     },
     {
-     "t": 11,
+     "t": 10.5,
      "estado": "alerta",
      "texto": "Pasan 5 s: «objeto perdido · celular»"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/prevencion/abandono.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/abandono-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "Video generado con IA (Seedance 2.5, ElevenLabs) para ilustrar la analítica",
+    "autor": "Vigías (generado con IA)",
+    "url": "",
+    "licencia": "Generado con IA para Vigías",
+    "evento": 10.5,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.59,
+        0.53
+       ],
+       [
+        0.66,
+        0.53
+       ],
+       [
+        0.66,
+        0.61
+       ],
+       [
+        0.59,
+        0.61
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Celular",
+      "hasta": 5.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.59,
+        0.53
+       ],
+       [
+        0.66,
+        0.53
+       ],
+       [
+        0.66,
+        0.61
+       ],
+       [
+        0.59,
+        0.61
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Sin dueño cerca",
+      "desde": 5.5,
+      "hasta": 10.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.59,
+        0.53
+       ],
+       [
+        0.66,
+        0.53
+       ],
+       [
+        0.66,
+        0.61
+       ],
+       [
+        0.59,
+        0.61
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Objeto perdido · celular",
+      "desde": 10.5
+     }
+    ],
+    "ia": true
+   }
   },
   {
    "id": "rostro",
@@ -903,84 +2177,396 @@
    "corta": "Avisa de quien entra con la cara cubierta.",
    "desc": "Detecta caras tapadas con capucha, casco o pasamontañas en los accesos. Es una señal temprana: quien entra así a un local suele no querer ser visto.",
    "estado": null,
-   "dur": 13,
+   "dur": 15.08,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "La cámara de la entrada busca el rostro"
+     "texto": "La cámara de la sala busca el rostro de quien entra"
     },
     {
-     "t": 3.6,
+     "t": 1.6,
      "estado": "detecta",
-     "texto": "El rostro no se ve: está cubierto"
+     "texto": "El rostro no se ve: el modelo marca «cubierto»"
     },
     {
-     "t": 5.4,
+     "t": 2.7,
      "estado": "alerta",
-     "texto": "Casco puesto dentro del local: aviso en el acceso"
+     "texto": "Pasamontañas confirmado en varios cuadros: aviso"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/prevencion/rostro.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/rostro-poster.jpg",
+    "chapa": "video de stock (Mixkit) · modelo real",
+    "fuente": "Mixkit · «Thief creep through house and looks up at camera» (#12830), con detecciones del modelo EPP (clase Mask)",
+    "autor": "Mixkit",
+    "url": "https://mixkit.co/free-stock-video/thief-creep-through-house-and-looks-up-at-camera-12830/",
+    "licencia": "Mixkit Stock Video Free License",
+    "evento": 2.7,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.3,
+        0.4
+       ],
+       [
+        0.72,
+        0.4
+       ],
+       [
+        0.8,
+        0.98
+       ],
+       [
+        0.22,
+        0.98
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Entrada a la sala"
+     }
+    ]
+   }
   },
   {
    "id": "activos",
    "familia": "prevencion",
    "nombre": "Retiro de activos",
    "corta": "Cada equipo tiene su sitio, y avisa cuando sale de él.",
-   "desc": "Vigila que cada equipo siga en su lugar. Una línea separa el lado del personal del lado del público. Si alguien estira la mano por encima y se lleva el equipo, verifica en ámbar y avisa en rojo, con el video desde 15 segundos antes.",
+   "desc": "Vigila que cada equipo siga en su lugar. Si algo lo tapa, verifica en ámbar; si el sitio queda vacío, avisa en rojo con el video desde 15 segundos antes.",
    "estado": "funcionando en silencio",
-   "dur": 16,
+   "dur": 19.46,
    "fases": [
     {
      "t": 0,
      "estado": "ok",
-     "texto": "El celular y el monitor vigilados, en verde; la línea magenta separa personal y público"
+     "texto": "El celular y el monitor del escritorio, vigilados"
     },
     {
-     "t": 4.2,
+     "t": 0.6,
      "estado": "detecta",
-     "texto": "Alguien del lado del público estira la mano por encima de la línea"
+     "texto": "Una mochila tapa el celular: verificando"
     },
     {
-     "t": 5.6,
-     "estado": "detecta",
-     "texto": "El celular deja de verse: ámbar, verificando retiro"
-    },
-    {
-     "t": 7.6,
+     "t": 15.5,
      "estado": "alerta",
-     "texto": "Sigue sin estar: «activo retirado · celular», con video"
+     "texto": "El sitio del celular quedó vacío: «activo retirado · celular»"
+    },
+    {
+     "t": 18.4,
+     "estado": "alerta",
+     "texto": "Arrancan el monitor de la pared: «activo retirado · monitor»"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/prevencion/activos.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/prevencion/activos-poster.jpg",
+    "chapa": "video de stock (Mixkit) · detección de cambio real",
+    "fuente": "Mixkit · «Two thieves recorded on a security camera» (#31372), con detección de cambio por zona (OpenCV)",
+    "autor": "Mixkit",
+    "url": "https://mixkit.co/free-stock-video/two-thieves-recorded-on-a-security-camera-31372/",
+    "licencia": "Mixkit Stock Video Free License",
+    "evento": 15.5,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0,
+        0.54
+       ],
+       [
+        0.12,
+        0.51
+       ],
+       [
+        0.31,
+        0.68
+       ],
+       [
+        0.19,
+        0.93
+       ],
+       [
+        0,
+        0.8
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "Activos vigilados",
+      "hasta": 15.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0,
+        0.54
+       ],
+       [
+        0.12,
+        0.51
+       ],
+       [
+        0.31,
+        0.68
+       ],
+       [
+        0.19,
+        0.93
+       ],
+       [
+        0,
+        0.8
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Activo retirado",
+      "desde": 15.5
+     }
+    ]
+   }
   },
   {
    "id": "fleje",
    "familia": "lite",
    "nombre": "Verificación de etiqueta",
    "corta": "Revisa que cada producto tenga su fleje y su precio.",
-   "desc": "Lee los flejes del borde de la góndola y los cruza con el producto que hay encima. Avisa del fleje que falta, del que no corresponde y del precio que no coincide.",
+   "desc": "Lee el borde de cada repisa buscando el fleje con el precio y lo cruza con el producto de encima. En este video la estantería no tiene ningún fleje: cada tramo sale «sin fleje» y queda el aviso para rotular antes de abrir.",
    "estado": null,
-   "dur": 14,
+   "dur": 12.9,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Lee cada fleje del borde de la góndola"
+     "texto": "Recorre el borde de cada repisa buscando el fleje"
     },
     {
-     "t": 4,
-     "estado": "ok",
-     "texto": "Producto y fleje coinciden: en verde"
+     "t": 3,
+     "estado": "detecta",
+     "texto": "Tramos leídos sin encontrar fleje"
     },
     {
-     "t": 8,
+     "t": 7,
      "estado": "alerta",
-     "texto": "Fleje faltante y precio que no coincide: aviso para corregir"
+     "texto": "4 repisas sin fleje: aviso para rotular precios"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/lite/fleje.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/fleje-poster.jpg",
+    "chapa": "video público (Pixabay) · marcas de referencia, sin modelo",
+    "fuente": "Pixabay",
+    "autor": "modoflai",
+    "url": "https://pixabay.com/videos/man-store-shop-supermarket-208777/",
+    "licencia": "Pixabay Content License",
+    "evento": 7,
+    "marcas": [
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.25
+       ],
+       [
+        1,
+        0.285
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "leyendo · repisa 2",
+      "desde": 0.8,
+      "hasta": 3
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.25
+       ],
+       [
+        1,
+        0.285
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "sin fleje · repisa 2",
+      "desde": 3,
+      "hasta": 7
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.25
+       ],
+       [
+        1,
+        0.285
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "sin fleje · repisa 2",
+      "desde": 7
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.425
+       ],
+       [
+        1,
+        0.445
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "leyendo · repisa 3",
+      "desde": 0.8,
+      "hasta": 3
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.425
+       ],
+       [
+        1,
+        0.445
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "sin fleje · repisa 3",
+      "desde": 3,
+      "hasta": 7
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.425
+       ],
+       [
+        1,
+        0.445
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "sin fleje · repisa 3",
+      "desde": 7
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.605
+       ],
+       [
+        1,
+        0.59
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "leyendo · repisa 4",
+      "desde": 0.8,
+      "hasta": 3
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.605
+       ],
+       [
+        1,
+        0.59
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "sin fleje · repisa 4",
+      "desde": 3,
+      "hasta": 7
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.605
+       ],
+       [
+        1,
+        0.59
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "sin fleje · repisa 4",
+      "desde": 7
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.86
+       ],
+       [
+        1,
+        0.8
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "leyendo · repisa 5",
+      "desde": 0.8,
+      "hasta": 3
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.86
+       ],
+       [
+        1,
+        0.8
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "sin fleje · repisa 5",
+      "desde": 3,
+      "hasta": 7
+     },
+     {
+      "tipo": "linea",
+      "pts": [
+       [
+        0,
+        0.86
+       ],
+       [
+        1,
+        0.8
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "sin fleje · repisa 5",
+      "desde": 7
+     }
+    ]
+   }
   },
   {
    "id": "canastillas",
@@ -1014,62 +2600,202 @@
    "familia": "lite",
    "nombre": "Puertas abiertas o cerradas",
    "corta": "Vigila la puerta de entrada y las neveras: cuál está abierta y desde cuándo.",
-   "desc": "Sabe si cada puerta está abierta o cerrada: la de entrada de la tienda (apertura, cierre y horario), las neveras, cuartos fríos, bodegas o salidas de emergencia. Avisa cuando una se queda abierta más de lo permitido o se cierra cuando no debe.",
+   "desc": "Sabe si cada puerta está abierta o cerrada y desde cuándo: congeladores, neveras, cuartos fríos, bodegas o la entrada. En el video el cliente abre un congelador, saca una bandeja y lo cierra a los 5 segundos: queda registrado y, como no pasó del límite, no hay aviso.",
    "estado": null,
-   "dur": 16,
+   "dur": 11,
    "fases": [
     {
      "t": 0,
      "estado": "ok",
-     "texto": "Puerta de entrada abierta en horario; las cuatro neveras, cerradas"
+     "texto": "Congeladores cerrados"
     },
     {
-     "t": 3,
+     "t": 1.6,
      "estado": "detecta",
-     "texto": "Abre la puerta de la nevera 2 y toma una bebida"
+     "texto": "Abre la puerta 3: empieza a contar el tiempo"
     },
     {
-     "t": 6,
+     "t": 4.4,
      "estado": "detecta",
-     "texto": "Se va y la deja abierta: empieza a contar"
+     "texto": "Saca una bandeja con la puerta abierta"
     },
     {
-     "t": 10,
-     "estado": "alerta",
-     "texto": "Lleva abierta más de lo permitido: aviso de cadena de frío"
+     "t": 6.8,
+     "estado": "ok",
+     "texto": "La cierra a los 5 s: dentro del límite, sin aviso"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/lite/puertas.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/puertas-poster.jpg",
+    "chapa": "video público (Mixkit) · marcas de referencia, sin modelo",
+    "fuente": "Mixkit",
+    "autor": "Mixkit",
+    "url": "https://mixkit.co/free-stock-video/man-chooses-products-from-supermarket-refrigerators-49350/",
+    "licencia": "Mixkit Stock Video Free License",
+    "evento": 6.8,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.56,
+        0.02
+       ],
+       [
+        0.67,
+        0
+       ],
+       [
+        0.67,
+        0.78
+       ],
+       [
+        0.56,
+        0.76
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "congelador 3 · abierto",
+      "desde": 1.6,
+      "hasta": 6.8
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.56,
+        0.02
+       ],
+       [
+        0.67,
+        0
+       ],
+       [
+        0.67,
+        0.78
+       ],
+       [
+        0.56,
+        0.76
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "congelador 3 · cerrado",
+      "hasta": 1.6
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.56,
+        0.02
+       ],
+       [
+        0.67,
+        0
+       ],
+       [
+        0.67,
+        0.78
+       ],
+       [
+        0.56,
+        0.76
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "cerrado · 5 s",
+      "desde": 6.8
+     }
+    ]
+   }
   },
   {
    "id": "huecos",
    "familia": "lite",
    "nombre": "Huecos en góndola",
    "corta": "Cuánto de la góndola está surtido, en vivo.",
-   "desc": "Marca los huecos de la estantería y calcula el porcentaje de disponibilidad de cada zona. Un hueco tiene que verse un minuto seguido para reportarse.",
+   "desc": "Marca los huecos de la estantería y calcula el porcentaje de disponibilidad. En el video, el modelo confirma dos huecos (H1 arriba, junto a la balanza, y H2 abajo a la izquierda) mientras el tendero atiende: la disponibilidad baja a 97 %.",
    "estado": "en validación",
-   "dur": 15,
+   "dur": 12.9,
    "fases": [
     {
      "t": 0,
      "estado": "ok",
-     "texto": "Góndola surtida: disponibilidad alta"
+     "texto": "Estantería surtida: disponibilidad 100 %"
     },
     {
-     "t": 4,
-     "estado": "detecta",
-     "texto": "Se van abriendo huecos: candidatos en naranja"
-    },
-    {
-     "t": 9,
+     "t": 2.7,
      "estado": "alerta",
-     "texto": "Confirmados: la disponibilidad baja y avisa para reponer"
+     "texto": "Dos huecos confirmados (H1 y H2): disponibilidad 97 %"
+    },
+    {
+     "t": 7.5,
+     "estado": "detecta",
+     "texto": "H1 se tapa al reacomodar; sigue confirmado H2 · 98 %"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/huecos.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/huecos-poster.jpg",
-    "chapa": "video público (Pexels) · modelo real v3"
+    "src": "/analiticas-3d/evidencia-publica/lite/huecos.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/huecos-poster.jpg",
+    "chapa": "video público (Pixabay) · modelo real v3",
+    "fuente": "Pixabay",
+    "autor": "modoflai",
+    "url": "https://pixabay.com/videos/man-store-shop-supermarket-208777/",
+    "licencia": "Pixabay Content License",
+    "evento": 2.7,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.338,
+        0.18
+       ],
+       [
+        0.375,
+        0.18
+       ],
+       [
+        0.375,
+        0.25
+       ],
+       [
+        0.338,
+        0.25
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "H1",
+      "desde": 2.7,
+      "hasta": 7.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.155,
+        0.925
+       ],
+       [
+        0.21,
+        0.925
+       ],
+       [
+        0.21,
+        0.995
+       ],
+       [
+        0.155,
+        0.995
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "H2",
+      "desde": 2.7
+     }
+    ]
    }
   },
   {
@@ -1077,9 +2803,9 @@
    "familia": "lite",
    "nombre": "Producto vencido o por vencer",
    "corta": "Lee la fecha y avisa lo que vence pronto.",
-   "desc": "Lee la fecha de vencimiento de los productos en exhibición. Marca en ámbar lo que vence en los próximos días y en rojo lo que ya venció, para retirarlo a tiempo.",
+   "desc": "Lee la fecha de vencimiento de lo que está a la vista. Marca en ámbar lo que vence en los próximos días y en rojo lo que ya venció, para retirarlo a tiempo. En el video: jugos y leches de la repisa baja, detrás del mostrador.",
    "estado": null,
-   "dur": 14,
+   "dur": 12.9,
    "fases": [
     {
      "t": 0,
@@ -1094,45 +2820,255 @@
     {
      "t": 8.5,
      "estado": "alerta",
-     "texto": "Uno ya está vencido: aviso para retirarlo"
+     "texto": "Una leche ya está vencida: aviso para retirarla"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/lite/fleje.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/vencido-poster.jpg",
+    "chapa": "video público (Pixabay) · marcas de referencia, sin modelo",
+    "fuente": "Pixabay",
+    "autor": "modoflai",
+    "url": "https://pixabay.com/videos/man-store-shop-supermarket-208777/",
+    "licencia": "Pixabay Content License",
+    "evento": 8.5,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.855,
+        0.655
+       ],
+       [
+        0.905,
+        0.655
+       ],
+       [
+        0.905,
+        0.79
+       ],
+       [
+        0.855,
+        0.79
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "vence 3 d",
+      "desde": 4.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.91,
+        0.655
+       ],
+       [
+        0.96,
+        0.655
+       ],
+       [
+        0.96,
+        0.79
+       ],
+       [
+        0.91,
+        0.79
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "vence 3 d",
+      "desde": 4.9
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.76,
+        0.86
+       ],
+       [
+        0.82,
+        0.86
+       ],
+       [
+        0.82,
+        0.995
+       ],
+       [
+        0.76,
+        0.995
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "vence 5 d",
+      "desde": 5.3
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.88,
+        0.86
+       ],
+       [
+        0.94,
+        0.86
+       ],
+       [
+        0.94,
+        0.995
+       ],
+       [
+        0.88,
+        0.995
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "vencido",
+      "desde": 8.5
+     }
+    ]
+   }
   },
   {
    "id": "destruccion",
    "familia": "lite",
    "nombre": "Vencimiento y destrucción",
    "corta": "Registra el producto que se bota, y cuadra la pérdida.",
-   "desc": "Fija el contenedor de destrucción y sigue las manos. Cada producto que alguien bota queda registrado con su hora y su lote. Así la pérdida de mercancía deja de ser un faltante sin explicar: se sabe cuánto se destruyó y cuándo.",
+   "desc": "Fija el contenedor de destrucción y su boca, y sigue las manos. Cada producto que alguien bota queda registrado con su hora: la mano entra cargada y sale vacía. Así la pérdida deja de ser un faltante sin explicar. En el video, una persona se levanta de la banca, va al contenedor y deposita algo.",
    "estado": "en desarrollo",
-   "dur": 15,
+   "dur": 14,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "El contenedor de destrucción y su boca quedan fijados"
+     "texto": "Contenedor y boca fijados; una persona en la banca"
     },
     {
-     "t": 3,
+     "t": 3.4,
      "estado": "detecta",
-     "texto": "Toma un producto vencido del carro"
+     "texto": "Se acerca al contenedor con la mano cargada"
     },
     {
-     "t": 5.5,
+     "t": 5.3,
      "estado": "detecta",
-     "texto": "Lo bota al contenedor: la mano entra cargada y sale vacía"
+     "texto": "La mano entra en la boca del contenedor"
     },
     {
-     "t": 6.4,
+     "t": 6,
      "estado": "ok",
-     "texto": "Se registra la destrucción y la tabla de pérdida suma uno: 3 → 4 de 25"
+     "texto": "Sale vacía: depósito registrado · pérdida 3 → 4"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/destruccion.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/destruccion-poster.jpg",
-    "chapa": "cámara de seguridad real · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/lite/destruccion.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/destruccion-poster.jpg",
+    "chapa": "cámara de seguridad real · modelo real",
+    "fuente": "clip ya existente en evidencia-publica/destruccion.mp4 (recortado)",
+    "autor": "—",
+    "url": "",
+    "licencia": "la del clip original (procedencia no documentada en el repo)",
+    "evento": 6,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.37,
+        0.7
+       ],
+       [
+        0.42,
+        0.7
+       ],
+       [
+        0.42,
+        0.9
+       ],
+       [
+        0.37,
+        0.9
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "contenedor (ancla)"
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.355,
+        0.59
+       ],
+       [
+        0.435,
+        0.59
+       ],
+       [
+        0.435,
+        0.78
+       ],
+       [
+        0.355,
+        0.78
+       ]
+      ],
+      "color": "oro",
+      "etiqueta": "boca",
+      "hasta": 5.3
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.355,
+        0.59
+       ],
+       [
+        0.435,
+        0.59
+       ],
+       [
+        0.435,
+        0.78
+       ],
+       [
+        0.355,
+        0.78
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "mano en boca",
+      "desde": 5.3,
+      "hasta": 6.4
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.355,
+        0.59
+       ],
+       [
+        0.435,
+        0.59
+       ],
+       [
+        0.435,
+        0.78
+       ],
+       [
+        0.355,
+        0.78
+       ]
+      ],
+      "color": "oro",
+      "etiqueta": "boca",
+      "desde": 6.4
+     }
+    ]
    }
   },
   {
@@ -1140,19 +3076,19 @@
    "familia": "lite",
    "nombre": "Almacenamiento en bodega",
    "corta": "Ocupación de racks y mercancía fuera de su lugar.",
-   "desc": "Calcula cuánto de cada rack está ocupado y avisa de la estiba que queda en un pasillo o en una zona que no le corresponde.",
+   "desc": "Calcula cuánto de cada rack está ocupado y avisa de la mercancía que queda en un pasillo o fuera de su zona. En el video, un carro cargado se queda en el pasillo de circulación mientras el montacargas trabaja al fondo: pasa el tiempo permitido y salta el aviso.",
    "estado": null,
-   "dur": 15,
+   "dur": 16,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Mide la ocupación de cada rack"
+     "texto": "Mide la ocupación de cada rack y vigila el pasillo"
     },
     {
-     "t": 5,
+     "t": 2,
      "estado": "detecta",
-     "texto": "Una estiba queda fuera de su zona"
+     "texto": "Carro con mercancía detenido en el pasillo"
     },
     {
      "t": 9.5,
@@ -1160,69 +3096,309 @@
      "texto": "Sigue en el pasillo de circulación: aviso"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/lite/bodega.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/bodega-poster.jpg",
+    "chapa": "video público (Pixabay) · marcas de referencia, sin modelo",
+    "fuente": "Pixabay",
+    "autor": "GreenCardShow",
+    "url": "https://pixabay.com/videos/forklift-machinery-loading-209883/",
+    "licencia": "Pixabay Content License",
+    "evento": 9.5,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.06,
+        1
+       ],
+       [
+        0.8,
+        1
+       ],
+       [
+        0.58,
+        0.71
+       ],
+       [
+        0.36,
+        0.72
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "pasillo de circulación",
+      "hasta": 9.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.06,
+        1
+       ],
+       [
+        0.8,
+        1
+       ],
+       [
+        0.58,
+        0.71
+       ],
+       [
+        0.36,
+        0.72
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "pasillo obstruido",
+      "desde": 9.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.3,
+        0.6
+       ],
+       [
+        0.4,
+        0.6
+       ],
+       [
+        0.4,
+        0.79
+       ],
+       [
+        0.3,
+        0.79
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "carro detenido",
+      "desde": 2,
+      "hasta": 9.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.3,
+        0.6
+       ],
+       [
+        0.4,
+        0.6
+       ],
+       [
+        0.4,
+        0.79
+       ],
+       [
+        0.3,
+        0.79
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "en pasillo · 4 min",
+      "desde": 9.5
+     }
+    ]
+   }
   },
   {
    "id": "racks",
    "familia": "lite",
    "nombre": "Sobrecarga en racks",
    "corta": "Avisa cuando un rack queda sobrecargado.",
-   "desc": "Cajas apiladas por encima del último nivel o que sobresalen por los costados. La zona de cada rack se dibuja una vez y el sistema la vigila solo.",
+   "desc": "Cajas apiladas por encima del último nivel o que sobresalen por el frente o los costados. La zona de cada rack se dibuja una vez y el sistema la vigila solo. En el video, el operario sube una caja más a una bahía llena y la pila toca la viga de arriba.",
    "estado": "en validación",
-   "dur": 14,
+   "dur": 8.5,
    "fases": [
     {
      "t": 0,
      "estado": "ok",
-     "texto": "Racks con carga en orden"
+     "texto": "Racks con la carga en orden; entra un operario con una caja"
     },
     {
-     "t": 4,
+     "t": 3.5,
      "estado": "detecta",
-     "texto": "Se apilan cajas encima del último nivel"
+     "texto": "Sube la caja a la bahía 2, que ya estaba llena"
     },
     {
-     "t": 7.5,
+     "t": 4.5,
      "estado": "alerta",
-     "texto": "Invaden la franja prohibida bajo el techo: aviso"
+     "texto": "La pila toca la viga y sobresale del frente: sobrecarga en rack 1"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/lite/racks.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/racks-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "ElevenLabs · LTX-2 Fast (texto a video)",
+    "autor": "generado para Vigías",
+    "licencia": "contenido generado; uso como referencia ilustrativa",
+    "evento": 4.5,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.34,
+        0
+       ],
+       [
+        0.58,
+        0
+       ],
+       [
+        0.58,
+        0.5
+       ],
+       [
+        0.34,
+        0.6
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "rack 1",
+      "hasta": 3.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.34,
+        0
+       ],
+       [
+        0.58,
+        0
+       ],
+       [
+        0.58,
+        0.5
+       ],
+       [
+        0.34,
+        0.6
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "rack 1",
+      "desde": 3.5,
+      "hasta": 4.5
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.34,
+        0
+       ],
+       [
+        0.58,
+        0
+       ],
+       [
+        0.58,
+        0.5
+       ],
+       [
+        0.34,
+        0.6
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "sobrecarga · 0,97",
+      "desde": 4.5
+     }
+    ],
+    "ia": true
+   }
   },
   {
    "id": "pasillos",
    "familia": "lite",
    "nombre": "Pasillos libres",
    "corta": "Avisa de lo que se queda estorbando el paso.",
-   "desc": "Separa a las personas de los objetos y solo avisa de lo que se queda: cajas, carros o canastas en el suelo. Espera 30 segundos antes de confirmar.",
+   "desc": "Separa a las personas de los objetos y solo avisa de lo que se queda: cajas, carros o canastas en el suelo. En el video, la canasta que la clienta deja en el piso queda como candidata y se confirma como obstáculo a los 7 segundos; ella no cuenta, es una persona.",
    "estado": "en validación",
-   "dur": 16,
+   "dur": 9.5,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "El pasillo está libre"
+     "texto": "Una clienta se agacha en el pasillo 2 y deja la canasta en el piso"
     },
     {
-     "t": 3.4,
+     "t": 1.5,
      "estado": "detecta",
-     "texto": "Dejan una caja: candidato con su cuenta atrás"
+     "texto": "La canasta no se mueve: candidata a obstáculo, corre la cuenta"
     },
     {
-     "t": 8.4,
+     "t": 7.1,
      "estado": "alerta",
-     "texto": "Pasan 30 s: obstáculo confirmado"
-    },
-    {
-     "t": 13,
-     "estado": "ok",
-     "texto": "La retiran y el evento se cierra solo"
+     "texto": "Se confirma: obstáculo en el pasillo 2 (la persona no cuenta)"
     }
    ],
    "video": {
-    "src": "/analiticas-3d/evidencia-publica/pasillos.mp4",
-    "poster": "/analiticas-3d/evidencia-publica/pasillos-poster.jpg",
-    "chapa": "video público · modelo real"
+    "src": "/analiticas-3d/evidencia-publica/lite/pasillos.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/pasillos-poster.jpg",
+    "chapa": "video público · modelo real",
+    "fuente": "Clip público ya publicado en evidencia-publica/pasillos.mp4 (procesado con el modelo de pasillos)",
+    "licencia": "ver CREDITS-lite-b.md",
+    "evento": 7.1,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.43,
+        0.44
+       ],
+       [
+        0.6,
+        0.44
+       ],
+       [
+        0.64,
+        0.88
+       ],
+       [
+        0.37,
+        0.88
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "pasillo 2",
+      "hasta": 7.1
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.43,
+        0.5
+       ],
+       [
+        0.53,
+        0.5
+       ],
+       [
+        0.53,
+        0.64
+       ],
+       [
+        0.43,
+        0.64
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "obstáculo",
+      "desde": 7.1
+     }
+    ]
    }
   },
   {
@@ -1284,9 +3460,9 @@
    "familia": "lite",
    "nombre": "Validación de autopago",
    "corta": "Verifica que todo lo que pasa por el autopago se escanee.",
-   "desc": "Mira cada producto que pasa por la zona de escaneo del autopago y lo cruza con lo que registró la máquina. El que pasa sin escanear dispara el aviso.",
+   "desc": "Mira cada producto que pasa por la zona de escaneo del autopago y lo cruza con lo que registró la máquina. El que llega a la bolsa sin pasar por el lector dispara el aviso.",
    "estado": null,
-   "dur": 15,
+   "dur": 9.5,
    "fases": [
     {
      "t": 0,
@@ -1294,51 +3470,246 @@
      "texto": "Cada producto que pasa por el lector se cruza con el registro"
     },
     {
-     "t": 4,
+     "t": 1.3,
      "estado": "ok",
-     "texto": "Escaneados: coinciden"
+     "texto": "Leche, pan y café pasan por el lector: coinciden"
     },
     {
-     "t": 8.6,
+     "t": 8.3,
      "estado": "alerta",
-     "texto": "Un producto pasa por fuera del lector: aviso al supervisor"
+     "texto": "Una caja roja va directo a la bolsa sin pasar por el lector: aviso"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/lite/autopago.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/autopago-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "ElevenLabs · LTX-2 Fast (texto a video)",
+    "autor": "generado para Vigías",
+    "licencia": "contenido generado; uso como referencia ilustrativa",
+    "evento": 8.3,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.4,
+        0.38
+       ],
+       [
+        0.57,
+        0.38
+       ],
+       [
+        0.57,
+        0.56
+       ],
+       [
+        0.4,
+        0.56
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "zona de escaneo",
+      "hasta": 8.3
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.4,
+        0.38
+       ],
+       [
+        0.57,
+        0.38
+       ],
+       [
+        0.57,
+        0.56
+       ],
+       [
+        0.4,
+        0.56
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "zona de escaneo",
+      "desde": 8.3
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.62,
+        0.62
+       ],
+       [
+        0.78,
+        0.62
+       ],
+       [
+        0.78,
+        0.88
+       ],
+       [
+        0.62,
+        0.88
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "bolsa",
+      "hasta": 8.3
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.62,
+        0.62
+       ],
+       [
+        0.78,
+        0.62
+       ],
+       [
+        0.78,
+        0.88
+       ],
+       [
+        0.62,
+        0.88
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "sin escanear",
+      "desde": 8.3
+     }
+    ],
+    "ia": true
+   }
   },
   {
    "id": "zonaCiega",
    "familia": "lite",
    "nombre": "Zona ciega",
    "corta": "Muestra lo que ninguna cámara ve, y quién entra ahí.",
-   "desc": "Arma el mapa de cobertura de todas las cámaras sobre el plano y marca los puntos ciegos. Cuando alguien entra a uno, lo sigue por estimación y avisa si tarda en reaparecer.",
+   "desc": "Arma el mapa de cobertura de todas las cámaras sobre el plano y marca los puntos ciegos. Cuando alguien entra a uno, lo sigue por estimación y avisa si tarda en reaparecer. En el video se ve lo que sí cubre CAM 01; la zona ciega queda detrás de la góndola de la derecha.",
    "estado": null,
-   "dur": 16,
+   "dur": 7.5,
    "fases": [
     {
      "t": 0,
      "estado": "vigila",
-     "texto": "Se proyecta lo que cubre cada cámara"
+     "texto": "CAM 01 cubre el piso de ventas; el mapa marca lo que no ve"
     },
     {
-     "t": 4,
+     "t": 1,
      "estado": "detecta",
-     "texto": "Queda a la vista el punto que nadie ve"
+     "texto": "Detrás de la góndola de la derecha queda una zona ciega"
     },
     {
-     "t": 10,
+     "t": 3,
+     "estado": "detecta",
+     "texto": "El cliente de chaqueta azul pasa detrás de la góndola: se sigue por estimación"
+    },
+    {
+     "t": 6,
      "estado": "alerta",
-     "texto": "Alguien entra y no reaparece: aviso de zona ciega"
+     "texto": "No reaparece: aviso de zona ciega"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/lite/zonaCiega.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/lite/zonaCiega-poster.jpg",
+    "chapa": "video generado con IA · referencia",
+    "fuente": "ElevenLabs · LTX-2 Fast (texto a video)",
+    "autor": "generado para Vigías",
+    "licencia": "contenido generado; uso como referencia ilustrativa",
+    "evento": 6,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.03,
+        0.7
+       ],
+       [
+        0.79,
+        0.72
+       ],
+       [
+        0.79,
+        1
+       ],
+       [
+        0.03,
+        1
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "cubierto por CAM 01"
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.83,
+        0.33
+       ],
+       [
+        1,
+        0.29
+       ],
+       [
+        1,
+        1
+       ],
+       [
+        0.8,
+        1
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "zona ciega · detrás de la góndola",
+      "desde": 1,
+      "hasta": 6
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.83,
+        0.33
+       ],
+       [
+        1,
+        0.29
+       ],
+       [
+        1,
+        1
+       ],
+       [
+        0.8,
+        1
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "zona ciega · detrás de la góndola",
+      "desde": 6
+     }
+    ],
+    "ia": true
+   }
   },
   {
    "id": "apertura",
    "familia": "operativo",
    "nombre": "Apertura de tienda",
-   "corta": "Registra a qué hora abre cada tienda y si fue puntual.",
-   "desc": "La cámara de la entrada sabe si la puerta está cerrada o abierta y a qué hora cambia. Cada mañana registra la hora real de apertura, la compara con la meta de la tienda y guarda el video del momento; si a la hora pactada sigue cerrada, avisa.",
+   "corta": "Registra a qué hora abre cada local y si fue puntual.",
+   "desc": "La cámara de la entrada sabe si la puerta está cerrada o abierta y a qué hora cambia. Cada mañana registra la hora real de apertura, la compara con la meta del local y guarda el video del momento; si a la hora pactada sigue cerrada, avisa.",
    "estado": null,
    "dur": 16,
    "fases": [
@@ -1348,54 +3719,217 @@
      "texto": "06:55 · puerta cerrada; la meta de apertura es 07:00"
     },
     {
-     "t": 3,
+     "t": 6,
      "estado": "detecta",
-     "texto": "Llega el encargado y abre la puerta"
+     "texto": "Llega el encargado a la puerta"
     },
     {
-     "t": 5.5,
+     "t": 10.1,
      "estado": "ok",
-     "texto": "Apertura registrada a las 06:58 · puntual"
+     "texto": "Abre la puerta: apertura registrada a las 06:58, puntual"
     },
     {
-     "t": 10,
+     "t": 12,
      "estado": "ok",
-     "texto": "Entran los primeros clientes: la tienda opera"
+     "texto": "Entran las primeras personas: el local opera"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/operativo/apertura.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/operativo/apertura-poster.jpg",
+    "chapa": "CCTV real · detector real",
+    "fuente": "MEVA, cámara G506 (entrada de la terminal), 2018-03-07 17:00, s 26–42; la hora del rótulo es la del ejemplo, no la del video",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 10.1,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.3958,
+        0.4151
+       ],
+       [
+        0.5286,
+        0.4086
+       ],
+       [
+        0.5469,
+        0.4851
+       ],
+       [
+        0.3828,
+        0.4991
+       ]
+      ],
+      "color": "vigila",
+      "etiqueta": "Puerta principal",
+      "hasta": 6
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.3958,
+        0.4151
+       ],
+       [
+        0.5286,
+        0.4086
+       ],
+       [
+        0.5469,
+        0.4851
+       ],
+       [
+        0.3828,
+        0.4991
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Puerta principal",
+      "desde": 6,
+      "hasta": 10.1
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.3958,
+        0.4151
+       ],
+       [
+        0.5286,
+        0.4086
+       ],
+       [
+        0.5469,
+        0.4851
+       ],
+       [
+        0.3828,
+        0.4991
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "Puerta principal",
+      "desde": 10.1
+     }
+    ]
+   }
   },
   {
    "id": "cierre",
    "familia": "operativo",
    "nombre": "Cierre de puerta sin autorización",
    "corta": "Avisa si la puerta se cierra en horario comercial.",
-   "desc": "Dentro del horario de atención la puerta debe estar abierta. Si se cierra y nadie lo autorizó, cuenta cuánto lleva cerrada, muestra a quién la cerró y avisa; además registra a los clientes que llegaron y no pudieron entrar.",
+   "desc": "Dentro del horario de atención la puerta debe quedar abierta. Si se cierra y nadie lo autorizó, cuenta cuánto lleva cerrada, muestra quién pasó por última vez y avisa.",
    "estado": null,
-   "dur": 16,
+   "dur": 18,
    "fases": [
     {
      "t": 0,
      "estado": "ok",
-     "texto": "15:18 · horario comercial, puerta abierta"
-    },
-    {
-     "t": 4,
-     "estado": "detecta",
-     "texto": "Un empleado cierra la puerta sin autorización"
+     "texto": "Horario de atención: la puerta de acceso se abre y la gente entra"
     },
     {
      "t": 8,
      "estado": "detecta",
-     "texto": "Llega un cliente y no puede entrar"
+     "texto": "Entra el último y la puerta empieza a cerrarse"
     },
     {
-     "t": 11,
+     "t": 12.6,
      "estado": "alerta",
-     "texto": "Lleva 3 min cerrada en horario comercial: aviso al supervisor"
+     "texto": "Puerta cerrada en horario de atención, sin autorización: aviso al supervisor"
     }
    ],
-   "video": null
+   "video": {
+    "src": "/analiticas-3d/evidencia-publica/operativo/cierre.mp4",
+    "poster": "/analiticas-3d/evidencia-publica/operativo/cierre-poster.jpg",
+    "chapa": "CCTV real · detector real",
+    "fuente": "MEVA, cámara G326, 2018-03-07 11:05, s 254–272",
+    "autor": "Kitware / IARPA DIVA",
+    "url": "https://mevadata.org",
+    "licencia": "CC BY 4.0",
+    "evento": 12.6,
+    "marcas": [
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.36,
+        0.84
+       ],
+       [
+        0.58,
+        0.81
+       ],
+       [
+        0.6,
+        1
+       ],
+       [
+        0.33,
+        1
+       ]
+      ],
+      "color": "ok",
+      "etiqueta": "Puerta de acceso",
+      "hasta": 8
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.36,
+        0.84
+       ],
+       [
+        0.58,
+        0.81
+       ],
+       [
+        0.6,
+        1
+       ],
+       [
+        0.33,
+        1
+       ]
+      ],
+      "color": "detecta",
+      "etiqueta": "Puerta de acceso",
+      "desde": 8,
+      "hasta": 12.6
+     },
+     {
+      "tipo": "zona",
+      "pts": [
+       [
+        0.36,
+        0.84
+       ],
+       [
+        0.58,
+        0.81
+       ],
+       [
+        0.6,
+        1
+       ],
+       [
+        0.33,
+        1
+       ]
+      ],
+      "color": "alerta",
+      "etiqueta": "Puerta cerrada · horario",
+      "desde": 12.6
+     }
+    ]
+   }
   }
  ]
 }
