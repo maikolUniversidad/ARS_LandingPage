@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { analiticas } from "@/data/analiticas";
-import { esMovil, resaltarElemento } from "@/lib/asistente/acciones";
+import { prefiereMenosMovimiento, quitarHalo, resaltarElemento } from "@/lib/asistente/acciones";
 import { extraerFotogramas, formatoBytes, imagenDesdeUrl, prepararAdjunto } from "@/lib/asistente/adjuntos";
 import { borrarHistorial, cargarHistorial, enviarChat, ErrorChat, guardarHistorial, leerEstado } from "@/lib/asistente/cliente";
-import { leerContexto } from "@/lib/asistente/contexto-pagina";
+import { leerContexto, tituloSeccion, type PasoGuia } from "@/lib/asistente/contexto-pagina";
 import { useTextosAsistente, type ClaveAsistente } from "@/lib/asistente/i18n";
 import { borrarMemoria, cargarPerfil, guardarPerfil, partirHistorial, recorridoReciente, registrarPaso, type Perfil } from "@/lib/asistente/memoria";
 import type { Accion, Cita, ClavePerfil, DocumentoAdjunto, EstadoServicios, MensajeChat, Tarjeta } from "@/lib/asistente/tipos";
@@ -14,6 +14,13 @@ import { LIMITES } from "@/lib/asistente/tipos";
 import { GrabadoraVoz, ReproductorVoz, VigiaInterrupcion, vozDisponible } from "@/lib/asistente/voz";
 import { AgenteVoz } from "@/lib/asistente/voz-agente";
 import { BotonFlotante } from "./BotonFlotante";
+import { ControlRecorrido } from "./guia/ControlRecorrido";
+import { DURACION_ACOPLE, EstilosGuia } from "./guia/EstilosGuia";
+import { HojaGuia } from "./guia/HojaGuia";
+import { PistaSeccion } from "./guia/PistaSeccion";
+import { CONSULTA_MOVIL, useMedia } from "./guia/useMedia";
+import { useRecorrido } from "./guia/useRecorrido";
+import { useSeguirSeccion } from "./guia/useSeguirSeccion";
 import type { FaseVoz } from "./OrbeVoz";
 import { PanelAsistente, type ModoVoz, type Subtitulo, type Sugerencia } from "./PanelAsistente";
 
@@ -23,7 +30,15 @@ const SIN_SERVICIOS: EstadoServicios = { chat: false, modelo: "", voz: { tts: fa
 
 /** Evento global para abrir el asistente desde cualquier parte del sitio. */
 export const EVENTO_ABRIR = "ars:asistente";
-export type DetalleAbrir = { mensaje?: string; voz?: boolean };
+export type DetalleAbrir = { mensaje?: string; voz?: boolean; recorrido?: boolean };
+
+/** Texto plano de la última frase de Ars (para la hoja móvil). */
+function ultimaFrase(texto: string): string {
+  const plano = texto.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/[*`#>]/g, "").replace(/\s+/g, " ").trim();
+  return plano.length > 150 ? `…${plano.slice(-150).replace(/^\S*\s/, "")}` : plano;
+}
+
+const FASES_OCUPADAS = new Set<FaseVoz>(["conectando", "transcribiendo", "pensando", "hablando"]);
 
 type OpcionesEnvio = { docsExtra?: DocumentoAdjunto[]; porVoz?: boolean };
 
@@ -51,6 +66,14 @@ export function Asistente() {
   const [burbuja, setBurbuja] = useState<string | null>(null);
   const [anuncio, setAnuncio] = useState("");
   const [ancla, setAncla] = useState("");
+  /** Modo guía: Ars se corre a un lado (columna en escritorio, hoja en móvil). */
+  const [acoplado, setAcoplado] = useState(false);
+  const [borrador, setBorrador] = useState("");
+  const [rastro, setRastro] = useState<string | null>(null);
+  /** Qué está haciendo Ars antes de la primera palabra (el modelo usa herramientas primero). */
+  const [actividad, setActividad] = useState<ClaveAsistente | null>(null);
+  const actividadTimers = useRef<number[]>([]);
+  const movil = useMedia(CONSULTA_MOVIL);
 
   const abortRef = useRef<AbortController | null>(null);
   const reproductor = useRef<ReproductorVoz | null>(null);
@@ -65,6 +88,11 @@ export function Asistente() {
   const escucharRef = useRef<() => void>(() => undefined);
   const videoPendiente = useRef<string | null>(null);
   const analizarRef = useRef<(id: string) => void>(() => undefined);
+  const acopladoRef = useRef(false);
+  const faseVozRef = useRef<FaseVoz>("inactivo");
+  const borradorRef = useRef("");
+  const subtituloRef = useRef<Subtitulo | null>(null);
+  const rastroTimer = useRef(0);
 
   useEffect(() => {
     mensajesRef.current = mensajes;
@@ -79,7 +107,41 @@ export function Asistente() {
   }, [modoVoz]);
   useEffect(() => {
     abiertoRef.current = abierto;
-  }, [abierto]);
+    acopladoRef.current = acoplado;
+    faseVozRef.current = faseVoz;
+    borradorRef.current = borrador;
+    subtituloRef.current = subtitulo;
+  }, [abierto, acoplado, faseVoz, borrador, subtitulo]);
+
+  /* ───────────── Modo guía: acompañar mientras navega ───────────── */
+
+  /** Ars no se interrumpe si la persona escribe, o si Ars piensa o habla. */
+  const ocupado = useCallback(
+    () => enCursoRef.current || borradorRef.current.trim() !== "" || FASES_OCUPADAS.has(faseVozRef.current),
+    [],
+  );
+  const seguir = useSeguirSeccion({ activo: abierto && acoplado, ocupado, ruta: pathname });
+
+  /**
+   * Acopla el panel a un lado para que la página quede a la vista. Devuelve
+   * cuánto esperar antes de desplazar (lo que tarda la transición).
+   */
+  const acoplar = useCallback((): number => {
+    const ya = abiertoRef.current && acopladoRef.current;
+    abiertoRef.current = true;
+    acopladoRef.current = true;
+    setAbierto(true);
+    setAcoplado(true);
+    setBurbuja(null);
+    return ya || prefiereMenosMovimiento() ? 0 : DURACION_ACOPLE + 120;
+  }, []);
+
+  const mostrarRastro = useCallback((texto: string) => {
+    window.clearTimeout(rastroTimer.current);
+    setRastro(texto);
+    setAnuncio(texto);
+    rastroTimer.current = window.setTimeout(() => setRastro(null), 4500);
+  }, []);
 
   // Estado de los servicios (claves configuradas) al abrir por primera vez.
   const pidioEstado = useRef(false);
@@ -115,58 +177,63 @@ export function Asistente() {
 
   /* ───────────── Acciones sobre la web ───────────── */
 
-  const cerrarEnMovil = useCallback(() => {
-    if (esMovil()) setAbierto(false);
-  }, []);
-
   /**
    * Navegación con ancla: el router de Next se lleva mal con los hash entre
    * páginas, así que navegamos a la ruta y aplicamos el ancla al llegar.
    */
-  const pendiente = useRef<{ ruta: string; ancla?: string; resaltar: string | null } | null>(null);
-  const aplicarAncla = useCallback((ruta: string, a: string | undefined, resaltar: string | null) => {
-    if (a) {
-      window.history.replaceState(window.history.state, "", `${ruta}#${a}`);
-      window.dispatchEvent(new HashChangeEvent("hashchange"));
-    }
-    if (resaltar) void resaltarElemento(resaltar);
-    else window.scrollTo({ top: 0 });
-  }, []);
+  const pendiente = useRef<{ ruta: string; ancla?: string; resaltar: string | null; retraso: number } | null>(null);
+  const aplicarAncla = useCallback(
+    (ruta: string, a: string | undefined, resaltar: string | null, retraso: number) => {
+      if (a) {
+        window.history.replaceState(window.history.state, "", `${ruta}#${a}`);
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+      }
+      if (resaltar) {
+        seguir.marcar(resaltar);
+        void resaltarElemento(resaltar, { retraso }).then((ok) => {
+          const titulo = ok ? tituloSeccion(resaltar) : "";
+          if (titulo) mostrarRastro(`${t("asistente.guia.llevando")} ${titulo}`);
+        });
+      } else window.scrollTo({ top: 0, behavior: prefiereMenosMovimiento() ? "auto" : "smooth" });
+    },
+    [seguir, mostrarRastro, t],
+  );
 
   useEffect(() => {
     const p = pendiente.current;
     if (p && p.ruta === pathname) {
       pendiente.current = null;
-      aplicarAncla(p.ruta, p.ancla, p.resaltar);
+      aplicarAncla(p.ruta, p.ancla, p.resaltar, p.retraso);
     }
   }, [pathname, aplicarAncla]);
 
   const navegar = useCallback(
-    (ruta: string, a: string | undefined, resaltar: string | null) => {
-      if (ruta === window.location.pathname) aplicarAncla(ruta, a, resaltar);
+    (ruta: string, a: string | undefined, resaltar: string | null, retraso = 0) => {
+      if (ruta === window.location.pathname) aplicarAncla(ruta, a, resaltar, retraso);
       else {
-        pendiente.current = { ruta, ancla: a, resaltar };
+        pendiente.current = { ruta, ancla: a, resaltar, retraso };
+        mostrarRastro(`${t("asistente.guia.llevando")} ${ruta}`);
         router.push(ruta);
       }
     },
-    [router, aplicarAncla],
+    [router, aplicarAncla, mostrarRastro, t],
   );
 
   const ejecutar = useCallback(
     (a: Accion) => {
       switch (a.tipo) {
         case "ir_a":
-          cerrarEnMovil();
-          navegar(a.ruta, a.ancla, a.ancla ?? null);
+          navegar(a.ruta, a.ancla, a.ancla ?? null, acoplar());
           break;
         case "mostrar_analitica":
-          cerrarEnMovil();
-          navegar("/vision", a.id, "visor");
+          navegar("/vision", a.id, "visor", acoplar());
           break;
-        case "resaltar":
-          cerrarEnMovil();
-          void resaltarElemento(a.ancla);
+        case "resaltar": {
+          const retraso = acoplar();
+          seguir.marcar(a.ancla);
+          void resaltarElemento(a.ancla, { nota: a.nota ?? t("asistente.guia.resaltando"), retraso, duracion: 4200 });
           break;
+        }
         case "abrir_contacto":
           setAbierto(true);
           break;
@@ -190,13 +257,15 @@ export function Asistente() {
           break;
       }
     },
-    [navegar, cerrarEnMovil],
+    [navegar, acoplar, seguir, t],
   );
 
+  const iniciarRecorridoRef = useRef<() => void>(() => undefined);
   const enlaceInterno = useCallback(
     (href: string) => {
       const [ruta, a] = href.split("#");
-      if (ruta === "/vision" && a) ejecutar({ tipo: "mostrar_analitica", id: a });
+      if (!ruta && a === "recorrido") iniciarRecorridoRef.current();
+      else if (ruta === "/vision" && a) ejecutar({ tipo: "mostrar_analitica", id: a });
       else ejecutar({ tipo: "ir_a", ruta: ruta || window.location.pathname, ancla: a });
     },
     [ejecutar],
@@ -257,6 +326,25 @@ export function Asistente() {
       enCursoRef.current = true;
       setEnCurso(true);
       if (modo === "voz") setFaseVoz("pensando");
+      // Estado vivo mientras llega la primera palabra (3–7 s con herramientas).
+      let primeraPalabra = false;
+      // Una acción sobre la página (navegar, resaltar) manda sobre «Preparando opciones…».
+      let hizoAccion = false;
+      const limpiarActividad = () => {
+        actividadTimers.current.forEach((x) => window.clearTimeout(x));
+        actividadTimers.current = [];
+      };
+      const etapa = (k: ClaveAsistente, despues?: [number, ClaveAsistente][]) => {
+        if (primeraPalabra) return;
+        limpiarActividad();
+        setActividad(k);
+        for (const [ms, sig] of despues ?? []) actividadTimers.current.push(window.setTimeout(() => !primeraPalabra && setActividad(sig), ms));
+      };
+      const seguirPensando: [number, ClaveAsistente][] = [
+        [2500, "asistente.actividad.revisando"],
+        [6000, "asistente.actividad.armando"],
+      ];
+      etapa("asistente.actividad.pensando", seguirPensando);
 
       const hablar = modo === "voz" || modoVozRef.current === "manos-libres";
       const rep = hablar ? obtenerReproductor() : null;
@@ -283,17 +371,34 @@ export function Asistente() {
           },
           (ev) => {
             if (ev.t === "texto") {
+              if (!primeraPalabra) {
+                primeraPalabra = true;
+                limpiarActividad();
+                setActividad(null);
+              }
               acumulado += ev.d;
               actualizarUltimo((m) => ({ ...m, texto: m.texto + ev.d }));
               rep?.empujar(ev.d);
               if (!abiertoRef.current) setBurbuja(acumulado.trim().slice(-160));
             } else if (ev.t === "tarjeta") {
               const tj: Tarjeta = ev.tarjeta;
+              if (tj.tipo !== "sugerencias" && !hizoAccion) etapa("asistente.actividad.tarjetas", [[2500, "asistente.actividad.armando"]]);
               actualizarUltimo((m) => ({ ...m, tarjetas: [...(m.tarjetas ?? []), tj] }));
             } else if (ev.t === "cita") {
               const c: Cita = ev.cita;
               actualizarUltimo((m) => ({ ...m, citas: [...(m.citas ?? []), c] }));
             } else if (ev.t === "accion") {
+              const k: Partial<Record<Accion["tipo"], ClaveAsistente>> = {
+                ir_a: "asistente.actividad.navegando",
+                mostrar_analitica: "asistente.actividad.analitica",
+                resaltar: "asistente.actividad.resaltando",
+                recordar: "asistente.actividad.recordando",
+              };
+              const clave = k[ev.accion.tipo];
+              if (clave) {
+                hizoAccion = true;
+                etapa(clave, [[2500, "asistente.actividad.armando"]]);
+              }
               ejecutar(ev.accion);
             } else if (ev.t === "error") {
               actualizarUltimo((m) => ({ ...m, texto: m.texto ? `${m.texto}\n\n${ev.mensaje}` : ev.mensaje, error: !m.texto }));
@@ -318,6 +423,9 @@ export function Asistente() {
           if (modoVozRef.current === "manos-libres") setFaseVoz("inactivo");
         }
       } finally {
+        primeraPalabra = true;
+        limpiarActividad();
+        setActividad(null);
         enCursoRef.current = false;
         setEnCurso(false);
         if (abortRef.current === ctrl) abortRef.current = null;
@@ -515,6 +623,70 @@ export function Asistente() {
     return grabadora.current?.nivel() ?? 0;
   }, [faseVoz]);
 
+  /* ───────────── Recorrido guiado y narración ───────────── */
+
+  /** Narra en voz una frase corta, sin pisar a la persona si está hablando. */
+  const narrar = useCallback(
+    (texto: string) => {
+      if (modoVozRef.current !== "manos-libres" || enCursoRef.current) return;
+      if (subtituloRef.current?.rol === "user" && faseVozRef.current === "escuchando") return;
+      grabadora.current?.cancelar();
+      grabadora.current = null;
+      obtenerReproductor().decir(texto);
+    },
+    [obtenerReproductor],
+  );
+
+  const retrasoTour = useRef(0);
+  const alPaso = useCallback(
+    (paso: PasoGuia, i: number, n: number, duracion: number) => {
+      seguir.marcar(paso.id);
+      const etiqueta = t("asistente.recorrido.paso").replace("{n}", String(i + 1)).replace("{t}", String(n));
+      void resaltarElemento(paso.id, { nota: `${etiqueta} · ${paso.titulo}`, duracion: duracion + 1500, retraso: retrasoTour.current });
+      retrasoTour.current = 0;
+      setAnuncio(`${etiqueta}: ${paso.titulo}`);
+      const frase = `${paso.titulo}. ${paso.texto}`;
+      narrar(i === 0 ? t("asistente.recorrido.inicioVoz").replace("{s}", frase) : frase);
+    },
+    [seguir, t, narrar],
+  );
+  const ocupadoTour = useCallback(() => enCursoRef.current || FASES_OCUPADAS.has(faseVozRef.current), []);
+  const tour = useRecorrido({ ocupado: ocupadoTour, alPaso });
+
+  const iniciarRecorrido = useCallback(() => {
+    retrasoTour.current = acoplar();
+    if (!tour.iniciar()) setAviso(t("asistente.recorrido.vacio"));
+  }, [acoplar, tour, t]);
+  useEffect(() => {
+    iniciarRecorridoRef.current = iniciarRecorrido;
+  }, [iniciarRecorrido]);
+
+  // Al cambiar de página, el recorrido de la anterior ya no aplica.
+  const salirTour = tour.salir;
+  useEffect(() => {
+    salirTour();
+  }, [pathname, salirTour]);
+
+  // Pista de sección en voz: una frase breve («Estás en…, ¿te la explico?»).
+  const pista = seguir.pista;
+  useEffect(() => {
+    if (pista) narrar(t("asistente.guia.narrar").replace("{s}", pista.titulo));
+  }, [pista, narrar, t]);
+
+  const aceptarPista = useCallback(() => {
+    if (!pista) return;
+    seguir.descartar();
+    void enviar(t("asistente.guia.pistaMsg").replace("{s}", pista.titulo), modoVozRef.current === "manos-libres" ? "voz" : "texto");
+  }, [pista, seguir, enviar, t]);
+
+  const masDetalle = useCallback(
+    (titulo: string) => {
+      tour.pausar();
+      void enviar(t("asistente.recorrido.masDetalleMsg").replace("{s}", titulo), modoVozRef.current === "manos-libres" ? "voz" : "texto");
+    },
+    [tour, enviar, t],
+  );
+
   // Limpieza al desmontar.
   useEffect(
     () => () => {
@@ -523,6 +695,8 @@ export function Asistente() {
       reproductor.current?.detener();
       vigia.current?.detener();
       void agente.current?.terminar();
+      window.clearTimeout(rastroTimer.current);
+      quitarHalo();
     },
     [],
   );
@@ -574,14 +748,22 @@ export function Asistente() {
 
   const abrir = useCallback(() => {
     setAbierto(true);
+    setAcoplado(false);
     setBurbuja(null);
   }, []);
+
+  const cerrar = useCallback(() => {
+    setAbierto(false);
+    setAcoplado(false);
+    tour.salir();
+  }, [tour]);
 
   useEffect(() => {
     const alAbrir = (e: Event) => {
       const d = (e as CustomEvent<DetalleAbrir>).detail ?? {};
       abrir();
       if (d.voz) void cambiarModoVoz("manos-libres");
+      else if (d.recorrido) window.setTimeout(() => iniciarRecorridoRef.current(), 50);
       else if (d.mensaje) window.setTimeout(() => void enviar(d.mensaje ?? ""), 50);
     };
     window.addEventListener(EVENTO_ABRIR, alAbrir);
@@ -636,6 +818,24 @@ export function Asistente() {
   }, [pathname, analiticaAbierta, t, enviar, analizarVideoAnalitica]);
 
   const bytesDocs = docs.reduce((n, d) => n + d.bytes, 0);
+  const hoja = abierto && acoplado && movil;
+  const ultimoArs = [...mensajes].reverse().find((m) => m.rol === "assistant" && m.texto.trim());
+  const lineaHoja =
+    modoVoz !== "apagado" && subtitulo ? subtitulo.texto : actividad ? t(actividad) : ultimaFrase(ultimoArs?.texto ?? "");
+  const r = tour.recorrido;
+  const pistaUI = pista && !r ? <PistaSeccion pista={pista} alAceptar={aceptarPista} alDescartar={seguir.descartar} compacta={hoja} /> : null;
+  const controlTour = (compacto: boolean) =>
+    r ? (
+      <ControlRecorrido
+        recorrido={r}
+        alAnterior={tour.anterior}
+        alSiguiente={tour.siguiente}
+        alPausa={tour.alternarPausa}
+        alSalir={tour.salir}
+        alMasDetalle={masDetalle}
+        compacto={compacto}
+      />
+    ) : null;
 
   return (
     <div data-asistente-raiz="" className="contents">
@@ -648,9 +848,24 @@ export function Asistente() {
         faseVoz={faseVoz}
         nivel={nivelVoz}
       />
-      {abierto && (
+      <EstilosGuia acopladoEscritorio={abierto && acoplado && !movil} />
+      {hoja && (
+        <HojaGuia
+          linea={lineaHoja}
+          enCurso={enCurso}
+          vozOn={modoVoz !== "apagado"}
+          faseVoz={faseVoz}
+          nivelVoz={nivelVoz}
+          alExpandir={() => setAcoplado(false)}
+          alCerrar={cerrar}
+          alMic={() => void cambiarModoVoz(modoVoz === "apagado" ? "manos-libres" : "apagado")}
+          arriba={pistaUI}
+          recorrido={controlTour(true)}
+        />
+      )}
+      {abierto && !hoja && (
         <PanelAsistente
-          alCerrar={() => setAbierto(false)}
+          alCerrar={cerrar}
           bienvenida={bienvenida}
           mensajes={mensajes}
           enCurso={enCurso}
@@ -681,6 +896,25 @@ export function Asistente() {
           subtitulo={subtitulo}
           alCambiarModoVoz={(m) => void cambiarModoVoz(m)}
           alTocarOrbe={tocarOrbe}
+          acoplado={acoplado && !movil}
+          alAcoplar={(a) => {
+            if (a) acoplar();
+            else setAcoplado(false);
+          }}
+          borrador={borrador}
+          alBorrador={setBorrador}
+          alIniciarRecorrido={iniciarRecorrido}
+          recorridoActivo={Boolean(r)}
+          rastro={rastro}
+          actividad={actividad ? t(actividad) : null}
+          guia={
+            pistaUI || r ? (
+              <>
+                {controlTour(false)}
+                {pistaUI}
+              </>
+            ) : undefined
+          }
         />
       )}
       <p className="sr-only" aria-live="polite" role="status">

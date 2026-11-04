@@ -1,7 +1,29 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import { ArrowDown, ArrowUp, AudioLines, Brain, Check, Copy, FileText, Film, Loader2, Mic, Paperclip, RotateCcw, Sparkles, Square, X, Zap } from "lucide-react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import {
+  ArrowDown,
+  ArrowUp,
+  AudioLines,
+  Brain,
+  Check,
+  ChevronDown,
+  Copy,
+  FileText,
+  Film,
+  Loader2,
+  Maximize2,
+  Mic,
+  Navigation,
+  PanelRight,
+  Paperclip,
+  RotateCcw,
+  Route,
+  Sparkles,
+  Square,
+  X,
+  Zap,
+} from "lucide-react";
 import { useTextosAsistente } from "@/lib/asistente/i18n";
 import type { Perfil } from "@/lib/asistente/memoria";
 import type { Accion, ClavePerfil, EstadoServicios, MensajeChat } from "@/lib/asistente/tipos";
@@ -41,6 +63,20 @@ type Props = {
   subtitulo: Subtitulo | null;
   alCambiarModoVoz: (m: ModoVoz) => void;
   alTocarOrbe: () => void;
+  /** Modo guía: columna lateral en escritorio (en móvil se usa la hoja inferior). */
+  acoplado: boolean;
+  alAcoplar: (acoplar: boolean) => void;
+  /** Borrador del compositor (vive en Asistente para sobrevivir al acoplar). */
+  borrador: string;
+  alBorrador: (t: string) => void;
+  alIniciarRecorrido: () => void;
+  recorridoActivo: boolean;
+  /** Pista de sección y controles del recorrido, encima del compositor. */
+  guia?: ReactNode;
+  /** Última acción sobre la página («Te llevo a…»), visible unos segundos. */
+  rastro: string | null;
+  /** Qué hace Ars mientras llega la primera palabra («Revisando el sitio…»). */
+  actividad: string | null;
 };
 
 const ETIQUETA_FASE = {
@@ -70,14 +106,17 @@ const ACEPTA =
 
 export function PanelAsistente(p: Props) {
   const { t, idioma } = useTextosAsistente();
-  const [texto, setTexto] = useState("");
+  const texto = p.borrador;
+  const setTexto = p.alBorrador;
   const [arrastrando, setArrastrando] = useState(false);
   const [lejosDelFinal, setLejosDelFinal] = useState(false);
   const entrada = useRef<HTMLTextAreaElement>(null);
   const lista = useRef<HTMLDivElement>(null);
   const archivo = useRef<HTMLInputElement>(null);
+  const inicioY = useRef<number | null>(null);
   const pegado = useRef(true);
   const cerrarRef = useRef(p.alCerrar);
+  const acopladoRef = useRef(p.acoplado);
   const tituloId = useId();
   const sinChat = p.estado !== null && !p.estado.chat;
   const vozOn = p.modoVoz !== "apagado";
@@ -85,11 +124,13 @@ export function PanelAsistente(p: Props) {
 
   useEffect(() => {
     cerrarRef.current = p.alCerrar;
-  }, [p.alCerrar]);
+    acopladoRef.current = p.acoplado;
+  }, [p.alCerrar, p.acoplado]);
 
   // Foco al abrir; al cerrar, devolverlo al botón flotante.
   useEffect(() => {
-    entrada.current?.focus({ preventScroll: true });
+    // Acoplado (Ars guía mientras la persona mira la página) no se roba el foco.
+    if (!acopladoRef.current) entrada.current?.focus({ preventScroll: true });
     return () => {
       window.setTimeout(() => document.querySelector<HTMLButtonElement>('[aria-controls="asistente-panel"]')?.focus(), 0);
     };
@@ -98,7 +139,10 @@ export function PanelAsistente(p: Props) {
   // Escape cierra.
   useEffect(() => {
     const k = (e: KeyboardEvent) => {
-      if (e.key === "Escape") cerrarRef.current();
+      if (e.key !== "Escape") return;
+      // Acoplado, la página sigue usable: Esc solo cierra si el foco está en el panel.
+      if (acopladoRef.current && !(document.activeElement instanceof Element && document.activeElement.closest("#asistente-panel"))) return;
+      cerrarRef.current();
     };
     window.addEventListener("keydown", k);
     return () => window.removeEventListener("keydown", k);
@@ -176,7 +220,12 @@ export function PanelAsistente(p: Props) {
         setArrastrando(false);
         if (e.dataTransfer.files.length) p.alAdjuntar(e.dataTransfer.files);
       }}
-      className="fixed inset-0 z-[70] flex h-[100dvh] flex-col overflow-hidden bg-[#020a18] text-foreground motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 md:inset-auto md:bottom-6 md:right-6 md:h-[min(760px,calc(100dvh-3rem))] md:w-[440px] md:rounded-3xl md:border md:border-white/10 md:shadow-[0_30px_90px_-20px_rgba(35,72,212,0.55)]"
+      data-acoplado={p.acoplado || undefined}
+      className={`fixed inset-0 z-[70] flex h-[100dvh] flex-col overflow-hidden bg-[#020a18] text-foreground motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 md:inset-auto md:border md:border-white/10 md:transition-[width,height,right,bottom,border-radius,box-shadow] md:duration-500 md:ease-[cubic-bezier(.2,.8,.2,1)] motion-reduce:transition-none ${
+        p.acoplado
+          ? "md:bottom-0 md:right-0 md:h-[100dvh] md:w-[380px] md:rounded-none md:border-y-0 md:border-r-0 md:shadow-[-24px_0_70px_-30px_rgba(35,72,212,0.6)]"
+          : "md:bottom-6 md:right-6 md:h-[min(760px,calc(100dvh-3rem))] md:w-[440px] md:rounded-3xl md:shadow-[0_30px_90px_-20px_rgba(35,72,212,0.55)]"
+      }`}
     >
       {/* Fondo de marca */}
       <div
@@ -185,14 +234,51 @@ export function PanelAsistente(p: Props) {
       />
 
       {/* Encabezado */}
-      <header className="relative flex items-center gap-3 border-b border-white/10 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] md:pt-3">
+      <header
+        onPointerDown={(e) => {
+          inicioY.current = e.clientY;
+        }}
+        onPointerUp={(e) => {
+          const y0 = inicioY.current;
+          inicioY.current = null;
+          // En móvil, deslizar el encabezado hacia abajo minimiza a la hoja guía.
+          if (y0 !== null && e.clientY - y0 > 56 && window.matchMedia("(max-width: 767px)").matches) p.alAcoplar(true);
+        }}
+        className="relative flex items-center gap-2 border-b border-white/10 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] md:pt-3"
+      >
         <OrbeVoz fase={vozOn ? p.faseVoz : "inactivo"} nivel={p.nivelVoz} tamano={36} />
         <div className="min-w-0 flex-1">
           <h2 id={tituloId} className="font-heading text-base font-black uppercase leading-none tracking-tight">
             {t("asistente.nombre")}
           </h2>
-          <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-[#9eb0c0]">{t("asistente.subtitulo")}</p>
+          <p className="mt-1 truncate font-mono text-[9px] uppercase tracking-[0.3em] text-[#9eb0c0]">
+            {p.acoplado ? t("asistente.guia.modo") : t("asistente.subtitulo")}
+          </p>
         </div>
+        {!p.recorridoActivo && !sinChat && (
+          <button type="button" className={boton} onClick={p.alIniciarRecorrido} aria-label={t("asistente.recorrido.iniciar")} title={t("asistente.recorrido.iniciar")}>
+            <Route className="size-4" aria-hidden="true" />
+          </button>
+        )}
+        <button
+          type="button"
+          className={`${boton} hidden md:grid`}
+          onClick={() => p.alAcoplar(!p.acoplado)}
+          aria-pressed={p.acoplado}
+          aria-label={p.acoplado ? t("asistente.guia.desacoplar") : t("asistente.guia.acoplar")}
+          title={p.acoplado ? t("asistente.guia.desacoplar") : t("asistente.guia.acoplar")}
+        >
+          {p.acoplado ? <Maximize2 className="size-4" aria-hidden="true" /> : <PanelRight className="size-4" aria-hidden="true" />}
+        </button>
+        <button
+          type="button"
+          className={`${boton} md:hidden`}
+          onClick={() => p.alAcoplar(true)}
+          aria-label={t("asistente.guia.minimizar")}
+          title={t("asistente.guia.minimizar")}
+        >
+          <ChevronDown className="size-5" aria-hidden="true" />
+        </button>
         <button
           type="button"
           className={boton}
@@ -221,6 +307,19 @@ export function PanelAsistente(p: Props) {
           <X className="size-5" aria-hidden="true" />
         </button>
       </header>
+
+      {/* Última acción sobre la página («Te llevo a…») */}
+      <div
+        aria-hidden={!p.rastro}
+        className={`grid transition-[grid-template-rows] duration-300 motion-reduce:transition-none ${p.rastro ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+      >
+        <div className="overflow-hidden">
+          <p className="flex items-center gap-2 border-b border-[#2348d4]/30 bg-[#2348d4]/10 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#cdd8ff]">
+            <Navigation className="size-3 shrink-0" aria-hidden="true" />
+            <span className="truncate">{p.rastro}</span>
+          </p>
+        </div>
+      </div>
 
       {/* Escenario de voz con subtítulos en vivo */}
       {vozOn && (
@@ -334,7 +433,7 @@ export function PanelAsistente(p: Props) {
           const esUltimo = i === p.mensajes.length - 1;
           if (m.rol === "user") {
             return (
-              <div key={m.id} className="flex justify-end">
+              <div key={m.id} className="flex justify-end motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-1 motion-safe:duration-300">
                 <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-[#2348d4] px-3.5 py-2.5 text-sm leading-relaxed text-white">
                   <span className="sr-only">{t("asistente.tu")}: </span>
                   {m.porVoz && <Mic className="mr-1.5 inline size-3.5 -translate-y-px opacity-70" aria-label={t("asistente.dictado")} />}
@@ -355,7 +454,7 @@ export function PanelAsistente(p: Props) {
           }
           const escribiendo = esUltimo && p.enCurso && !m.texto;
           return (
-            <div key={m.id} className="flex flex-col">
+            <div key={m.id} className="flex flex-col motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300">
               {(m.texto || escribiendo) && (
                 <div
                   className={`max-w-[94%] rounded-2xl rounded-tl-sm border px-3.5 py-2.5 text-sm leading-relaxed ${
@@ -363,16 +462,24 @@ export function PanelAsistente(p: Props) {
                   }`}
                 >
                   {escribiendo ? (
-                    <span className="flex items-center gap-1 py-1" aria-label={t("asistente.pensando")}>
-                      {[0, 1, 2].map((d) => (
-                        <span
-                          key={d}
-                          className={`size-1.5 rounded-full bg-[#7fa0ff] motion-safe:animate-bounce ${d === 1 ? "[animation-delay:120ms]" : d === 2 ? "[animation-delay:240ms]" : ""}`}
-                        />
-                      ))}
+                    <span className="flex items-center gap-2.5 py-0.5" role="status">
+                      <span className="flex items-center gap-1" aria-hidden="true">
+                        {[0, 1, 2].map((d) => (
+                          <span
+                            key={d}
+                            className={`size-1.5 rounded-full bg-[#7fa0ff] motion-safe:animate-bounce ${d === 1 ? "[animation-delay:120ms]" : d === 2 ? "[animation-delay:240ms]" : ""}`}
+                          />
+                        ))}
+                      </span>
+                      <span
+                        key={p.actividad ?? ""}
+                        className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9eb0c0] motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300"
+                      >
+                        {p.actividad ?? t("asistente.guia.escribiendo")}
+                      </span>
                     </span>
                   ) : (
-                    <TextoRico texto={m.texto} alEnlaceInterno={p.alEnlaceInterno} />
+                    <TextoRico texto={m.texto} alEnlaceInterno={p.alEnlaceInterno} cursor={esUltimo && p.enCurso} />
                   )}
                 </div>
               )}
@@ -389,6 +496,16 @@ export function PanelAsistente(p: Props) {
           <div>
             <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/40">{t("asistente.sugerencias")}</p>
             <div className="flex flex-wrap gap-2">
+              {!p.recorridoActivo && (
+                <button
+                  type="button"
+                  onClick={p.alIniciarRecorrido}
+                  className="flex items-center gap-1.5 rounded-full border border-[#2348d4] bg-[#2348d4]/20 px-3 py-1.5 text-left text-xs text-white transition-colors hover:bg-[#2348d4]/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2348d4]"
+                >
+                  <Route className="size-3" aria-hidden="true" />
+                  {t("asistente.recorrido.iniciar")}
+                </button>
+              )}
               {p.sugerencias.map((s) => (
                 <button
                   key={s.texto}
@@ -445,6 +562,7 @@ export function PanelAsistente(p: Props) {
 
       {/* Compositor */}
       <div className="relative border-t border-white/10 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2 md:pb-3">
+        {p.guia && <div className="mb-2 space-y-2">{p.guia}</div>}
         {p.procesando && (
           <div role="status" className="mb-2 flex items-center gap-2 rounded-lg border border-[#2348d4]/40 bg-[#2348d4]/10 px-3 py-2 text-xs text-[#cdd8ff]">
             <Loader2 className="size-3.5 motion-safe:animate-spin" aria-hidden="true" /> {p.procesando}
