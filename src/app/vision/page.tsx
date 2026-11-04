@@ -6,6 +6,7 @@ import { useCallback } from "react";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileMenu } from "@/components/MobileMenu";
 import { Scramble } from "@/components/Scramble";
+import { PlanificadorIA } from "@/components/vision/PlanificadorIA";
 import { FAMILIA_COLOR, useAnaliticaElegida, VisorAnaliticas } from "@/components/vision/VisorAnaliticas";
 import { analiticas, familias, PPTX_URL, PRESENTACION_URL } from "@/data/analiticas";
 import { mailtoUrl, whatsappUrl } from "@/lib/contact";
@@ -40,6 +41,7 @@ export default function VisionPage() {
           lead: "Each analytic is shown twice, side by side and in sync: the video and a 3D simulation seen from the same camera, where you can follow what the analytic sees and the exact second it alerts.",
           leadNote: "The catalog is in Spanish, as presented to our clients.",
           ctaDeck: "Open the 3D presentation",
+          ctaPlan: "Design my system with AI",
           stats: [
             { n: String(analiticas.length), t: "analytics" },
             { n: String(familias.length), t: "families" },
@@ -93,6 +95,7 @@ export default function VisionPage() {
           lead: "Cada analítica se ve dos veces, lado a lado y al mismo tiempo: el video y una simulación 3D vista desde la misma cámara, donde se sigue lo que la analítica ve y el segundo exacto en que avisa.",
           leadNote: "",
           ctaDeck: "Abrir la presentación 3D",
+          ctaPlan: "Diseñar mi sistema con IA",
           stats: [
             { n: String(analiticas.length), t: "analíticas" },
             { n: String(familias.length), t: "familias" },
@@ -246,6 +249,18 @@ export default function VisionPage() {
               {c.leadNote && <p className="mt-2 font-serif text-sm italic text-foreground/50">{c.leadNote}</p>}
               <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
                 <a
+                  href="#planificador"
+                  onClick={(e) => {
+                    // Sin tocar el hash: el visor lo usa para saber qué analítica mostrar.
+                    e.preventDefault();
+                    document.getElementById("planificador")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className="bevel-btn inline-flex items-center gap-3 border border-border/60 bg-foreground px-5 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-90"
+                >
+                  <span className="text-accent">✦</span>
+                  {c.ctaPlan}
+                </a>
+                <a
                   href={PRESENTACION_URL}
                   target="_blank"
                   rel="noopener"
@@ -269,6 +284,9 @@ export default function VisionPage() {
 
         {/* Visor: una analítica por lámina, 3D y prueba real lado a lado */}
         <VisorAnaliticas actual={actual} onElegir={elegir} textos={c.visor} />
+
+        {/* Planificador con IA: el cliente cuenta su sitio y ve en 3D cuántas cámaras y qué analítica corre cada una */}
+        <PlanificadorIA locale={locale === "en" ? "en" : "es"} onVer={abrirEnVisor} />
 
         {/* Índice de las 45 */}
         <section id="indice" className="relative border-b border-border/40 px-4 py-16 sm:px-6 md:px-10 md:py-24">
