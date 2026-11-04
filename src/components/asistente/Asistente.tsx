@@ -70,6 +70,9 @@ export function Asistente() {
   const [acoplado, setAcoplado] = useState(false);
   const [borrador, setBorrador] = useState("");
   const [rastro, setRastro] = useState<string | null>(null);
+  /** Qué está haciendo Ars antes de la primera palabra (el modelo usa herramientas primero). */
+  const [actividad, setActividad] = useState<ClaveAsistente | null>(null);
+  const actividadTimers = useRef<number[]>([]);
   const movil = useMedia(CONSULTA_MOVIL);
 
   const abortRef = useRef<AbortController | null>(null);
@@ -323,6 +326,25 @@ export function Asistente() {
       enCursoRef.current = true;
       setEnCurso(true);
       if (modo === "voz") setFaseVoz("pensando");
+      // Estado vivo mientras llega la primera palabra (3–7 s con herramientas).
+      let primeraPalabra = false;
+      // Una acción sobre la página (navegar, resaltar) manda sobre «Preparando opciones…».
+      let hizoAccion = false;
+      const limpiarActividad = () => {
+        actividadTimers.current.forEach((x) => window.clearTimeout(x));
+        actividadTimers.current = [];
+      };
+      const etapa = (k: ClaveAsistente, despues?: [number, ClaveAsistente][]) => {
+        if (primeraPalabra) return;
+        limpiarActividad();
+        setActividad(k);
+        for (const [ms, sig] of despues ?? []) actividadTimers.current.push(window.setTimeout(() => !primeraPalabra && setActividad(sig), ms));
+      };
+      const seguirPensando: [number, ClaveAsistente][] = [
+        [2500, "asistente.actividad.revisando"],
+        [6000, "asistente.actividad.armando"],
+      ];
+      etapa("asistente.actividad.pensando", seguirPensando);
 
       const hablar = modo === "voz" || modoVozRef.current === "manos-libres";
       const rep = hablar ? obtenerReproductor() : null;
@@ -349,17 +371,34 @@ export function Asistente() {
           },
           (ev) => {
             if (ev.t === "texto") {
+              if (!primeraPalabra) {
+                primeraPalabra = true;
+                limpiarActividad();
+                setActividad(null);
+              }
               acumulado += ev.d;
               actualizarUltimo((m) => ({ ...m, texto: m.texto + ev.d }));
               rep?.empujar(ev.d);
               if (!abiertoRef.current) setBurbuja(acumulado.trim().slice(-160));
             } else if (ev.t === "tarjeta") {
               const tj: Tarjeta = ev.tarjeta;
+              if (tj.tipo !== "sugerencias" && !hizoAccion) etapa("asistente.actividad.tarjetas", [[2500, "asistente.actividad.armando"]]);
               actualizarUltimo((m) => ({ ...m, tarjetas: [...(m.tarjetas ?? []), tj] }));
             } else if (ev.t === "cita") {
               const c: Cita = ev.cita;
               actualizarUltimo((m) => ({ ...m, citas: [...(m.citas ?? []), c] }));
             } else if (ev.t === "accion") {
+              const k: Partial<Record<Accion["tipo"], ClaveAsistente>> = {
+                ir_a: "asistente.actividad.navegando",
+                mostrar_analitica: "asistente.actividad.analitica",
+                resaltar: "asistente.actividad.resaltando",
+                recordar: "asistente.actividad.recordando",
+              };
+              const clave = k[ev.accion.tipo];
+              if (clave) {
+                hizoAccion = true;
+                etapa(clave, [[2500, "asistente.actividad.armando"]]);
+              }
               ejecutar(ev.accion);
             } else if (ev.t === "error") {
               actualizarUltimo((m) => ({ ...m, texto: m.texto ? `${m.texto}\n\n${ev.mensaje}` : ev.mensaje, error: !m.texto }));
@@ -384,6 +423,9 @@ export function Asistente() {
           if (modoVozRef.current === "manos-libres") setFaseVoz("inactivo");
         }
       } finally {
+        primeraPalabra = true;
+        limpiarActividad();
+        setActividad(null);
         enCursoRef.current = false;
         setEnCurso(false);
         if (abortRef.current === ctrl) abortRef.current = null;
@@ -778,7 +820,8 @@ export function Asistente() {
   const bytesDocs = docs.reduce((n, d) => n + d.bytes, 0);
   const hoja = abierto && acoplado && movil;
   const ultimoArs = [...mensajes].reverse().find((m) => m.rol === "assistant" && m.texto.trim());
-  const lineaHoja = modoVoz !== "apagado" && subtitulo ? subtitulo.texto : ultimaFrase(ultimoArs?.texto ?? "");
+  const lineaHoja =
+    modoVoz !== "apagado" && subtitulo ? subtitulo.texto : actividad ? t(actividad) : ultimaFrase(ultimoArs?.texto ?? "");
   const r = tour.recorrido;
   const pistaUI = pista && !r ? <PistaSeccion pista={pista} alAceptar={aceptarPista} alDescartar={seguir.descartar} compacta={hoja} /> : null;
   const controlTour = (compacto: boolean) =>
@@ -863,6 +906,7 @@ export function Asistente() {
           alIniciarRecorrido={iniciarRecorrido}
           recorridoActivo={Boolean(r)}
           rastro={rastro}
+          actividad={actividad ? t(actividad) : null}
           guia={
             pistaUI || r ? (
               <>

@@ -75,6 +75,8 @@ type Props = {
   guia?: ReactNode;
   /** Última acción sobre la página («Te llevo a…»), visible unos segundos. */
   rastro: string | null;
+  /** Qué hace Ars mientras llega la primera palabra («Revisando el sitio…»). */
+  actividad: string | null;
 };
 
 const ETIQUETA_FASE = {
@@ -460,13 +462,21 @@ export function PanelAsistente(p: Props) {
                   }`}
                 >
                   {escribiendo ? (
-                    <span className="flex items-center gap-1 py-1" role="img" aria-label={t("asistente.guia.escribiendo")}>
-                      {[0, 1, 2].map((d) => (
-                        <span
-                          key={d}
-                          className={`size-1.5 rounded-full bg-[#7fa0ff] motion-safe:animate-bounce ${d === 1 ? "[animation-delay:120ms]" : d === 2 ? "[animation-delay:240ms]" : ""}`}
-                        />
-                      ))}
+                    <span className="flex items-center gap-2.5 py-0.5" role="status">
+                      <span className="flex items-center gap-1" aria-hidden="true">
+                        {[0, 1, 2].map((d) => (
+                          <span
+                            key={d}
+                            className={`size-1.5 rounded-full bg-[#7fa0ff] motion-safe:animate-bounce ${d === 1 ? "[animation-delay:120ms]" : d === 2 ? "[animation-delay:240ms]" : ""}`}
+                          />
+                        ))}
+                      </span>
+                      <span
+                        key={p.actividad ?? ""}
+                        className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9eb0c0] motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300"
+                      >
+                        {p.actividad ?? t("asistente.guia.escribiendo")}
+                      </span>
                     </span>
                   ) : (
                     <TextoRico texto={m.texto} alEnlaceInterno={p.alEnlaceInterno} cursor={esUltimo && p.enCurso} />

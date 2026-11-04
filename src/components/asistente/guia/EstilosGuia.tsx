@@ -16,13 +16,19 @@ function anclarLectura(ms: number): () => void {
   const s = seccionVisible();
   const el = s ? document.getElementById(s.id) : null;
   if (!el) return () => undefined;
-  const top0 = el.getBoundingClientRect().top;
+  // Solo se compensa el reflujo (cambio de la posición del elemento en el
+  // documento), no el scroll: así no pelea con un desplazamiento guiado.
+  const absoluto = () => el.getBoundingClientRect().top + window.scrollY;
+  let previo = absoluto();
   const fin = performance.now() + ms;
   let raf = 0;
   const paso = () => {
-    const delta = el.getBoundingClientRect().top - top0;
+    if (performance.now() > fin) return;
+    const ahora = absoluto();
+    const delta = ahora - previo;
+    previo = ahora;
     if (Math.abs(delta) > 1) window.scrollTo({ top: window.scrollY + delta, behavior: "instant" });
-    if (performance.now() < fin) raf = requestAnimationFrame(paso);
+    raf = requestAnimationFrame(paso);
   };
   raf = requestAnimationFrame(paso);
   return () => cancelAnimationFrame(raf);

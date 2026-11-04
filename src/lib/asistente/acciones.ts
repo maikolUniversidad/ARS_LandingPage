@@ -142,5 +142,21 @@ export async function resaltarElemento(id: string, op: OpcionesResaltar = {}): P
   if (op.retraso) await new Promise((r) => window.setTimeout(r, op.retraso));
   desplazarA(el);
   mostrarHalo(el, op.nota, op.duracion ?? 3200);
+  // Si la página se reacomodó mientras tanto (imágenes, panel acoplándose),
+  // un ajuste final deja la sección donde debe quedar.
+  const objetivo = () => {
+    const r = el.getBoundingClientRect();
+    const { arriba, alto } = areaLibre();
+    return r.height + 32 <= alto ? r.top - arriba - (alto - r.height) / 2 : r.top - arriba - 16;
+  };
+  // Nunca contra la persona: si toca la rueda, la pantalla o el teclado, no se corrige.
+  let tomoControl = false;
+  const tomar = () => (tomoControl = true);
+  const eventos = ["wheel", "touchstart", "keydown"] as const;
+  eventos.forEach((e) => window.addEventListener(e, tomar, { passive: true, once: true }));
+  window.setTimeout(() => {
+    eventos.forEach((e) => window.removeEventListener(e, tomar));
+    if (!tomoControl && Math.abs(objetivo()) > 48) desplazarA(el);
+  }, 1100);
   return true;
 }
