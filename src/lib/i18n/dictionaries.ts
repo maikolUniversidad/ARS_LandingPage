@@ -16,6 +16,7 @@ export type Dict = {
     changeLang: string;
     home: string;
     projects: string;
+    services: string;
   };
   bottomBar: { sound: string; scroll: string; chat: string };
   sections: {
@@ -106,7 +107,7 @@ export type HomeDict = {
     action: string;
   };
   stats: Array<{ value: string; label: string }>;
-  ctas: { vision: string; platform: string; projects: string };
+  ctas: { vision: string; platform: string; projects: string; services: string };
   recap: {
     eyebrow: string;
     title: string;
@@ -133,6 +134,7 @@ export const dictionaries: Record<Locale, Dict> = {
       changeLang: "Idioma",
       home: "Inicio",
       projects: "Proyectos",
+      services: "Servicios",
     },
     bottomBar: {
       sound: "Sonido off",
@@ -323,7 +325,7 @@ export const dictionaries: Record<Locale, Dict> = {
         { value: "12+", label: "Analíticas de IA" },
         { value: "< 1 s", label: "Detección de intrusión" },
       ],
-      ctas: { vision: "Ver analíticas en video real", platform: "Conocer la plataforma", projects: "Ver proyectos" },
+      ctas: { vision: "Ver analíticas en video real", platform: "Conocer la plataforma", projects: "Ver proyectos", services: "Ver todos los servicios" },
       recap: {
         eyebrow: "La seguridad de ARS en tres capas",
         title: "Prevenir, detectar, responder. Conectado.",
@@ -353,6 +355,7 @@ export const dictionaries: Record<Locale, Dict> = {
       changeLang: "Language",
       home: "Home",
       projects: "Projects",
+      services: "Services",
     },
     bottomBar: {
       sound: "Sound off",
@@ -543,7 +546,7 @@ export const dictionaries: Record<Locale, Dict> = {
         { value: "12+", label: "AI analytics" },
         { value: "< 1 s", label: "Intrusion detection" },
       ],
-      ctas: { vision: "See analytics on real video", platform: "Discover the platform", projects: "See projects" },
+      ctas: { vision: "See analytics on real video", platform: "Discover the platform", projects: "See projects", services: "See all services" },
       recap: {
         eyebrow: "ARS security in three layers",
         title: "Prevent, detect, respond. Connected.",

@@ -3,10 +3,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { analiticas } from "@/data/analiticas";
-import { esMovil, resaltarElemento } from "@/lib/asistente/acciones";
+import { enfocarServicio, esMovil, resaltarElemento } from "@/lib/asistente/acciones";
 import { extraerFotogramas, formatoBytes, imagenDesdeUrl, prepararAdjunto } from "@/lib/asistente/adjuntos";
 import { borrarHistorial, cargarHistorial, enviarChat, ErrorChat, guardarHistorial, leerEstado } from "@/lib/asistente/cliente";
 import { leerContexto } from "@/lib/asistente/contexto-pagina";
+import { EVENTO_PREGUNTAR, EVENTO_VOZ_ACTIVA, type DetallePreguntar, type DetalleVozActiva } from "@/lib/asistente/eventos-servicios";
 import { useTextosAsistente, type ClaveAsistente } from "@/lib/asistente/i18n";
 import { borrarMemoria, cargarPerfil, guardarPerfil, partirHistorial, recorridoReciente, registrarPaso, type Perfil } from "@/lib/asistente/memoria";
 import type { Accion, Cita, ClavePerfil, DocumentoAdjunto, EstadoServicios, MensajeChat, Tarjeta } from "@/lib/asistente/tipos";
@@ -25,7 +26,15 @@ const SIN_SERVICIOS: EstadoServicios = { chat: false, modelo: "", voz: { tts: fa
 export const EVENTO_ABRIR = "ars:asistente";
 export type DetalleAbrir = { mensaje?: string; voz?: boolean };
 
-type OpcionesEnvio = { docsExtra?: DocumentoAdjunto[]; porVoz?: boolean };
+type OpcionesEnvio = {
+  docsExtra?: DocumentoAdjunto[];
+  porVoz?: boolean;
+  /** Módulo de /servicios por el que se pregunta (botón «Pregúntale a Ars sobre esto»). */
+  moduloPregunta?: string;
+};
+
+/** Área de /servicios/<area> en una ruta, si aplica. */
+const areaDeRuta = (ruta: string) => /^\/servicios\/([^/?#]+)/.exec(ruta)?.[1];
 
 /**
  * Asistente de IA de ARS: botón flotante + panel. Vive en el layout raíz, así
@@ -163,6 +172,13 @@ export function Asistente() {
           cerrarEnMovil();
           navegar("/vision", a.id, "visor");
           break;
+        case "mostrar_servicio": {
+          cerrarEnMovil();
+          const ruta = `/servicios/${a.area}`;
+          navegar(ruta, a.modulo, a.modulo ?? null);
+          void enfocarServicio(ruta, a.modulo, a.foco);
+          break;
+        }
         case "resaltar":
           cerrarEnMovil();
           void resaltarElemento(a.ancla);
@@ -196,7 +212,9 @@ export function Asistente() {
   const enlaceInterno = useCallback(
     (href: string) => {
       const [ruta, a] = href.split("#");
+      const area = areaDeRuta(ruta);
       if (ruta === "/vision" && a) ejecutar({ tipo: "mostrar_analitica", id: a });
+      else if (area) ejecutar({ tipo: "mostrar_servicio", area, modulo: a || undefined });
       else ejecutar({ tipo: "ir_a", ruta: ruta || window.location.pathname, ancla: a });
     },
     [ejecutar],
@@ -243,6 +261,11 @@ export function Asistente() {
       setAviso(null);
 
       const documentos = [...docs, ...(opciones.docsExtra ?? [])];
+      const ctxPagina = leerContexto(window.location.pathname, idioma);
+      if (opciones.moduloPregunta) {
+        const area = ctxPagina.servicio?.area ?? areaDeRuta(window.location.pathname);
+        if (area) ctxPagina.servicio = { area, modulo: opciones.moduloPregunta, pregunta: true };
+      }
       const usuario: MensajeChat = {
         id: uid(),
         rol: "user",
@@ -273,7 +296,7 @@ export function Asistente() {
                   : m.texto,
             })),
             contexto: {
-              ...leerContexto(window.location.pathname, idioma),
+              ...ctxPagina,
               perfil: perfilRef.current,
               recorrido: recorridoReciente(),
               resumenPrevio: resumen || undefined,
@@ -588,6 +611,35 @@ export function Asistente() {
     return () => window.removeEventListener(EVENTO_ABRIR, alAbrir);
   }, [abrir, cambiarModoVoz, enviar]);
 
+  // «Pregúntale a Ars sobre esto» desde un módulo de /servicios.
+  useEffect(() => {
+    const alPreguntar = (e: Event) => {
+      const d = (e as CustomEvent<DetallePreguntar>).detail;
+      const texto = d?.texto?.trim();
+      if (!texto) return;
+      abrir();
+      if (enCursoRef.current) abortRef.current?.abort();
+      const inicio = Date.now();
+      const intentar = () => {
+        if (enCursoRef.current && Date.now() - inicio < 3000) {
+          window.setTimeout(intentar, 100);
+          return;
+        }
+        const modo = modoVozRef.current === "manos-libres" ? "voz" : "texto";
+        void enviar(texto, modo, { moduloPregunta: d.modulo });
+      };
+      window.setTimeout(intentar, 50);
+    };
+    window.addEventListener(EVENTO_PREGUNTAR, alPreguntar);
+    return () => window.removeEventListener(EVENTO_PREGUNTAR, alPreguntar);
+  }, [abrir, enviar]);
+
+  // Avisa al sitio cuando Ars habla (TTS o agente de voz) para atenuar la música ambiente.
+  const hablando = faseVoz === "hablando";
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent<DetalleVozActiva>(EVENTO_VOZ_ACTIVA, { detail: { activa: hablando } }));
+  }, [hablando]);
+
   /* ───────────── Bienvenida y sugerencias según la página ───────────── */
 
   const analiticaAbierta = pathname === "/vision" ? porIdAnalitica.get(ancla) : undefined;
@@ -602,7 +654,9 @@ export function Asistente() {
             ? "asistente.bienvenida.proyectos"
             : pathname === "/laboratorio" || pathname === "/vision-lab"
               ? "asistente.bienvenida.laboratorio"
-              : "asistente.bienvenida";
+              : pathname === "/servicios" || pathname.startsWith("/servicios/")
+                ? "asistente.bienvenida.servicios"
+                : "asistente.bienvenida";
     return t(k);
   }, [pathname, t]);
 
@@ -621,6 +675,12 @@ export function Asistente() {
     }
     if (pathname === "/proyectos") {
       return [texto("asistente.sug.ciudades"), texto("asistente.sug.retail"), texto("asistente.sug.queEs"), texto("asistente.sug.demo")];
+    }
+    if (pathname === "/servicios" || pathname.startsWith("/servicios/")) {
+      const lista: Sugerencia[] = [];
+      if (pathname !== "/servicios") lista.push(texto("asistente.sug.esteModulo"));
+      lista.push(texto("asistente.sug.diaArs"), texto("asistente.sug.conecta"), texto("asistente.sug.tamano"), texto("asistente.sug.demo"));
+      return lista;
     }
     if (pathname === "/laboratorio" || pathname === "/vision-lab") {
       return [texto("asistente.sug.probar"), texto("asistente.sug.analitica"), texto("asistente.sug.queEs")];

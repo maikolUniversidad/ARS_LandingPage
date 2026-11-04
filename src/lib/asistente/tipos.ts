@@ -15,6 +15,11 @@ export type ContextoPagina = {
   seccion: { id: string; titulo: string } | null;
   /** Analítica abierta en el visor de /vision, si aplica. */
   analitica: { id: string; nombre: string } | null;
+  /**
+   * En /servicios/<area>: el área y el módulo más visible (secciones con
+   * `data-modulo`). El servidor completa los nombres desde el catálogo.
+   */
+  servicio?: ContextoServicio | null;
   idioma: Idioma;
   /** Lo que la persona contó de sí misma (memoria persistente en su navegador). */
   perfil?: Partial<Record<ClavePerfil, string>>;
@@ -22,6 +27,16 @@ export type ContextoPagina = {
   recorrido?: PasoRecorrido[];
   /** Resumen de mensajes antiguos que ya no viajan completos. */
   resumenPrevio?: string;
+};
+
+export type ContextoServicio = {
+  area: string;
+  /** Id del módulo más visible (o por el que la persona preguntó). */
+  modulo?: string;
+  /** Encabezado visible del módulo (solo informativo). */
+  titulo?: string;
+  /** true si la persona pulsó «Pregúntale a Ars sobre esto» en ese módulo. */
+  pregunta?: boolean;
 };
 
 export const CLAVES_PERFIL = [
@@ -50,14 +65,32 @@ export type Accion =
   | { tipo: "resaltar"; ancla: string; nota?: string }
   | { tipo: "recordar"; clave: ClavePerfil; valor: string }
   | { tipo: "olvidar"; clave: ClavePerfil | "todo" }
-  | { tipo: "analizar_video"; id: string };
+  | { tipo: "analizar_video"; id: string }
+  /** Lleva a /servicios/<area>#<modulo>, vuela la escena 3D al foco y resalta el módulo. */
+  | { tipo: "mostrar_servicio"; area: string; modulo?: string; foco?: string };
 
 /** Tarjetas enriquecidas que acompañan a un mensaje del asistente. */
 export type Tarjeta =
   | { tipo: "analitica"; id: string; nombre: string; corta: string; familia: string }
   | { tipo: "enlace"; ruta: string; ancla?: string; titulo: string; descripcion?: string }
   | { tipo: "contacto"; motivo?: string }
-  | { tipo: "sugerencias"; opciones: string[] };
+  | { tipo: "sugerencias"; opciones: string[] }
+  | {
+      tipo: "servicio";
+      area: string;
+      /** Nombre del área (para el rótulo). */
+      nombreArea: string;
+      modulo: string;
+      nombre: string;
+      frase: string;
+      estado: "vivo" | "piloto" | "proximamente" | "hoja-de-ruta";
+      notaEstado?: string;
+      /** Color de acento del área (hex). */
+      color: string;
+      foco?: string;
+      /** Primera captura del módulo, si existe. */
+      imagen?: { src: string; alt: string };
+    };
 
 export type AdjuntoMeta = { nombre: string; tipo: string; bytes: number };
 

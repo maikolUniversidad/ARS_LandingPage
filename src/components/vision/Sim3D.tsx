@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { simUrl, type EstadoSim } from "@/data/analiticas";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +20,21 @@ type Props = {
   onListo?: () => void;
   /** Cargar recién cuando entra en pantalla (por defecto sí). */
   lazy?: boolean;
+  /** "cctv": la escena se ve desde la cámara que grabó el video real; "maqueta": vista libre para girar. */
+  vista?: "cctv" | "maqueta";
+  /**
+   * Video que manda el reloj: la simulación sigue su segundo (play, pausa, salto y loop),
+   * así el 3D y el video muestran el mismo momento. Sin video, la simulación corre sola.
+   */
+  relojRef?: RefObject<HTMLVideoElement | null>;
+  /** Cambia cuando cambia el elemento de video (p. ej. el id de la analítica), para re-enganchar el reloj. */
+  relojClave?: string | null;
 };
+
+/** Vista con la que arrancó el iframe (va en su URL). */
+function vista0(src: string): "cctv" | "maqueta" {
+  return src.includes("vista=cctv") ? "cctv" : "maqueta";
+}
 
 type Mensaje = {
   tipo?: string;
@@ -39,12 +53,13 @@ type Mensaje = {
  * monte otra escena, sin recargar el motor three.js ni el modelo de la persona
  * (~4 MB). El contenedor debe tener tamaño propio (p. ej. `aspect-[16/10]`).
  */
-export function Sim3D({ id, pip = true, className, title, onFase, onListo, lazy = true }: Props) {
+export function Sim3D({ id, pip = true, className, title, onFase, onListo, lazy = true, vista = "maqueta", relojRef, relojClave }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const listoRef = useRef(false);
-  const pedidoRef = useRef({ id, pip });
-  const [src] = useState(() => simUrl(id, { pip }));
+  const pedidoRef = useRef({ id, pip, vista });
+  const [src] = useState(() => simUrl(id, { pip, vista }));
+  const [listo, setListo] = useState(false);
   const [visible, setVisible] = useState(!lazy);
   const [error, setError] = useState<string | null>(null);
 
@@ -79,21 +94,46 @@ export function Sim3D({ id, pip = true, className, title, onFase, onListo, lazy 
       if (d.listo) {
         listoRef.current = true;
         const p = pedidoRef.current;
-        if (d.id !== p.id) w.postMessage({ tipo: "vigias-sim-ir", id: p.id, pip: p.pip }, "*");
+        if (d.id !== p.id || p.vista !== vista0(src)) w.postMessage({ tipo: "vigias-sim-ir", id: p.id, pip: p.pip, vista: p.vista }, "*");
+        setListo(true);
         onListo?.();
       }
       if (d.fase && d.id === pedidoRef.current.id) onFase?.(d.fase, d.idx ?? -1, d.id);
     };
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
-  }, [onFase, onListo]);
+  }, [onFase, onListo, src]);
 
   // Cambio de analítica: se lo pedimos al motor ya cargado.
   useEffect(() => {
-    pedidoRef.current = { id, pip };
+    pedidoRef.current = { id, pip, vista };
     const w = iframeRef.current?.contentWindow;
-    if (listoRef.current && w) w.postMessage({ tipo: "vigias-sim-ir", id, pip }, "*");
-  }, [id, pip]);
+    if (listoRef.current && w) w.postMessage({ tipo: "vigias-sim-ir", id, pip, vista }, "*");
+  }, [id, pip, vista]);
+
+  // Reloj compartido: el segundo del video viaja a la simulación (4 veces por segundo y en cada evento del video).
+  useEffect(() => {
+    const w = iframeRef.current?.contentWindow;
+    if (!listo || !w) return;
+    const v = relojRef?.current ?? null;
+    const enviar = () => {
+      if (!v || !Number.isFinite(v.currentTime) || v.readyState < 1) {
+        w.postMessage({ tipo: "vigias-sim-t", t: v ? 0 : null, play: false }, "*");
+        return;
+      }
+      w.postMessage({ tipo: "vigias-sim-t", t: v.currentTime, play: !v.paused && !v.ended, rate: v.playbackRate }, "*");
+    };
+    enviar();
+    if (!v) return;
+    const evs = ["play", "pause", "seeked", "seeking", "loadedmetadata", "ratechange", "timeupdate"] as const;
+    evs.forEach((e) => v.addEventListener(e, enviar));
+    const iv = window.setInterval(enviar, 250);
+    return () => {
+      evs.forEach((e) => v.removeEventListener(e, enviar));
+      window.clearInterval(iv);
+      w.postMessage({ tipo: "vigias-sim-t", t: null }, "*");
+    };
+  }, [listo, relojRef, relojClave, id]);
 
   return (
     <div ref={ref} className={cn("relative overflow-hidden bg-[#DDE3EE]", className)}>

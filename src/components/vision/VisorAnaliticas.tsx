@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { analiticas, familias, type Analitica, type EstadoSim, type FamiliaId } from "@/data/analiticas";
 import { EstadoPill, ESTADO_COLOR } from "./EstadoPill";
-import { Sim3D } from "./Sim3D";
+import { ParejaSimVideo, type TextosPareja } from "./ParejaSimVideo";
 import { cn } from "@/lib/utils";
 
 /** Color de cada familia (los mismos de la presentación original). */
@@ -44,16 +44,10 @@ export function useAnaliticaElegida(): [Analitica, (id: string) => void] {
   return [porId.get(id)!, elegir];
 }
 
-export type TextosVisor = {
-  simulacion: string;
-  videoReal: string;
-  imagenReal: string;
-  sinVideo: string;
-  sinVideoNota: string;
+export type TextosVisor = TextosPareja & {
   comoSeActiva: string;
   anterior: string;
   siguiente: string;
-  girar: string;
   analiticas: string;
   de: string;
 };
@@ -65,7 +59,7 @@ type Props = {
 };
 
 /**
- * Visor lámina por lámina: la simulación 3D y la prueba real lado a lado,
+ * Visor lámina por lámina: la simulación 3D y el video real lado a lado, con un solo reloj,
  * debajo qué hace la analítica y los pasos que recorre, iluminados al ritmo
  * de la simulación. Un clic (familia, chip, flecha o tecla) cambia de analítica
  * sin recargar el motor 3D.
@@ -81,7 +75,8 @@ export function VisorAnaliticas({ actual, onElegir, textos }: Props) {
   // Paso activo de la simulación; se reinicia al cambiar de analítica (durante el render, sin efecto).
   const [paso, setPaso] = useState<{ id: string; idx: number; fase: EstadoSim }>({ id: actual.id, idx: -1, fase: "vigila" });
   const pasoActual = paso.id === actual.id ? paso : { id: actual.id, idx: -1, fase: "vigila" as EstadoSim };
-  const onFase = useCallback((fase: EstadoSim, i: number, id: string) => setPaso({ id, idx: i, fase }), []);
+  const actualId = actual.id;
+  const onPaso = useCallback((i: number, fase: EstadoSim) => setPaso({ id: actualId, idx: i, fase }), [actualId]);
 
   // Teclado: ← → cambian de analítica (salvo escribiendo en un campo).
   useEffect(() => {
@@ -95,7 +90,6 @@ export function VisorAnaliticas({ actual, onElegir, textos }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [anterior.id, siguiente.id, onElegir]);
 
-  const v = actual.video;
 
   return (
     <section id="visor" className="scroll-mt-20 border-b border-border/40 px-4 pb-10 pt-6 sm:px-6 md:px-10 md:pb-14">
@@ -168,7 +162,7 @@ export function VisorAnaliticas({ actual, onElegir, textos }: Props) {
                 style={activa ? { background: FAMILIA_COLOR[actual.familia] } : undefined}
               >
                 {a.nombre}
-                {a.video && <span className={cn("text-[9px]", activa ? "opacity-70" : "text-foreground/40")} aria-label={textos.videoReal}>▶</span>}
+                {a.video && <span className={cn("text-[9px]", activa ? "opacity-70" : "text-foreground/40")} aria-label={a.video.ia ? textos.videoIa : textos.videoReal}>▶</span>}
               </button>
             );
           })}
@@ -176,57 +170,7 @@ export function VisorAnaliticas({ actual, onElegir, textos }: Props) {
 
         {/* Lámina */}
         <article className="mt-3 border border-border/60 bg-card shadow-[0_40px_80px_-50px_rgba(0,12,40,0.9)]" aria-live="polite">
-          <div className="grid gap-px bg-border/40 lg:grid-cols-2">
-            {/* Simulación 3D */}
-            <figure className="m-0 bg-card">
-              <figcaption className="flex items-center justify-between gap-3 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/60">
-                <span className="flex items-center gap-2">
-                  <span className="size-1.5 bg-accent" aria-hidden />
-                  {textos.simulacion}
-                </span>
-                <span className="hidden text-foreground/40 sm:inline">{textos.girar}</span>
-              </figcaption>
-              <Sim3D id={actual.id} lazy={false} onFase={onFase} className="aspect-[16/10] w-full" title={`${textos.simulacion}: ${actual.nombre}`} />
-            </figure>
-
-            {/* Prueba real */}
-            <figure className="m-0 bg-card">
-              <figcaption className="flex items-center justify-between gap-3 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/60">
-                <span className="flex items-center gap-2">
-                  <span className="size-1.5" style={{ background: v ? "#E5484D" : "transparent", outline: v ? undefined : "1px solid currentColor" }} aria-hidden />
-                  {v ? (v.src ? textos.videoReal : textos.imagenReal) : textos.sinVideo}
-                </span>
-                {v && <span className="truncate text-foreground/40">{v.chapa}</span>}
-              </figcaption>
-              <div className="relative aspect-[16/10] w-full bg-[#060D22]">
-                {v?.src && (
-                  <video
-                    key={actual.id}
-                    className="absolute inset-0 h-full w-full object-contain"
-                    controls
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                    preload="metadata"
-                    poster={v.poster}
-                    aria-label={`${textos.videoReal}: ${actual.nombre}`}
-                  >
-                    <source src={v.src} type="video/mp4" />
-                  </video>
-                )}
-                {v && !v.src && v.img && (
-                  // eslint-disable-next-line @next/next/no-img-element -- evidencia servida tal cual desde /public
-                  <img src={v.img} alt={`${textos.imagenReal}: ${actual.nombre}`} className="absolute inset-0 h-full w-full object-contain" />
-                )}
-                {!v && (
-                  <div className="absolute inset-0 grid place-items-center bg-[repeating-linear-gradient(135deg,#0a1530_0_12px,#0d1a3a_12px_24px)] p-8 text-center">
-                    <p className="max-w-xs text-sm leading-relaxed text-[#d5e0ff]/70">{textos.sinVideoNota}</p>
-                  </div>
-                )}
-              </div>
-            </figure>
-          </div>
+          <ParejaSimVideo key={actual.id} actual={actual} textos={textos} onPaso={onPaso} />
 
           {/* Qué hace + cómo se activa */}
           <div className="grid gap-8 border-t border-border/40 px-5 py-6 md:px-8 md:py-7 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
