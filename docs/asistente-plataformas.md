@@ -149,7 +149,13 @@ Las herramientas nuevas **no** se añadieron como *client tools* del agente; el 
 
    El modelo usó cada herramienta en su caso. Defecto menor: en el estimado mencionó «grabadores actuales» sin que la persona lo dijera.
 3. **UI.** Las cuatro tarjetas se renderizaron en una ruta temporal, ya borrada, a 400 px de ancho, sin errores en consola. La comparación de 3 o 4 columnas se desplaza en horizontal dentro de la tarjeta.
-4. **`curl` a `/api/asistente/chat`.** Responde en modo demo porque no hay `ANTHROPIC_API_KEY`, lo que confirma que el route actual sigue funcionando con estos cambios.
+4. **`curl` a `/api/asistente/chat`.** Primero en modo demo (sin `ANTHROPIC_API_KEY`). Después de fusionar el backend de varios proveedores (`27d578c`), con `ASISTENTE_PROVEEDORES=deepseek,openai` y `next start`:
+   - «dame un estimado» → `recordar` ×4 + tarjeta `estimacion`;
+   - «compara aforo y filas» → tarjeta `comparacion`;
+   - «universidad, 5 sedes, demo ya» → `resumen_visita` + `contacto` + `abrir_contacto`.
+
+   El modelo escribía ids técnicos entre comillas invertidas y dijo que dos analíticas «ya funcionan» sin estado declarado; el prompt ya lo prohíbe.
+   - **Pendiente para el backend:** `proveedores/anthropic.ts` y `proveedores/openai.ts` todavía llaman a `ejecutarHerramienta`, que es síncrona. Mientras no pasen a `await ejecutarHerramientaAsync(...)`, `buscar_conocimiento` busca solo por palabras.
 5. **Comprobaciones finales.** `npm run typecheck`, `npm run lint` y `npm run build` pasan.
 
 **No verificado:**
