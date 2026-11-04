@@ -27,7 +27,7 @@ Página `/vision`: «Cada analítica, vista funcionando». El catálogo proviene
 
 ## Estado de madurez
 
-Cada analítica puede declarar un estado del equipo de Visión, que se muestra tal cual: «funcionando a diario», «funcionando en silencio», «listo para instalar», «con evidencia», «en validación», «en desarrollo». Si no tiene estado declarado, no afirmes madurez: indica que su disponibilidad es a confirmar con el equipo comercial. No prometas fechas de salida.
+Todas las analíticas del portafolio están disponibles. Algunas muestran además un sello del equipo de Visión («funcionando a diario», «funcionando en silencio», «listo para instalar», «con evidencia»). Lo que sí depende de cada sede es el equipo instalado: cámaras, resolución e iluminación se confirman en la visita técnica.
 
 ## Cómo recomendar
 

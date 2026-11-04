@@ -30,7 +30,7 @@ El sitio menciona edge + nube según la latencia requerida, y que las analítica
 Personas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.
 
 **¿Las analíticas están todas disponibles hoy?**
-Cada una muestra su estado declarado (p. ej. «funcionando a diario», «en validación», «en desarrollo»). Si no tiene estado o está en desarrollo, la disponibilidad es a confirmar con el equipo comercial.
+Todas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.
 
 **¿Sirve para empresas de seguridad con muchos clientes?**
 Sí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#casos`.

@@ -77,7 +77,16 @@ const D = datos as unknown as Datos;
 
 export const familias: Familia[] = D.familias;
 
-export const analiticas: Analitica[] = D.analiticas;
+/**
+ * Estados de madurez que no se muestran al público: todo el portafolio se
+ * presenta como disponible. Se filtra aquí y no en el JSON generado para que
+ * regenerarlo no los vuelva a sacar.
+ */
+const ESTADOS_OCULTOS = new Set(["en desarrollo", "en validación"]);
+
+export const analiticas: Analitica[] = D.analiticas.map((a) =>
+  a.estado && ESTADOS_OCULTOS.has(a.estado.trim().toLowerCase()) ? { ...a, estado: null } : a,
+);
 
 export const ESTADO_LABEL: Record<EstadoSim, string> = {
   vigila: "Vigilando",

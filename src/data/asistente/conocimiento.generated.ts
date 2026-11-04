@@ -18,8 +18,8 @@ ARS no es un conjunto de programas separados: une en una sola plataforma con IA 
 
 1. **Vigilancia física** (en operación): el vigilante y sus turnos, relevos, rondas con QR, minuta desde el celular, radio PTT y botón de pánico en el mismo teléfono, y el supervisor visible en campo.
 2. **Visión con IA sobre las cámaras** (en operación): las analíticas de \`/vision\` sobre las cámaras que la sede ya tiene; cada alerta llega con foto y video y **una persona confirma antes de actuar**. Las analíticas disponibles dependen del equipo de cada sede.
-3. **Sensores, domótica e IoT** (en **piloto**): sensores, controles de acceso, alarmas y relojes biométricos en el mismo panel. Las alarmas de puerta del acceso inteligente sí están en operación; el módulo IoT como tal está en piloto.
-4. **Robótica** (línea del **laboratorio**, en desarrollo, no es un producto comercial): perros robot que recorren y verifican con las mismas analíticas de las cámaras. La plataforma está pensada para sumar nuevos dispositivos. No prometas fechas, modelos ni disponibilidad; si preguntan, di que es una línea en desarrollo del laboratorio y ofrece hablar con el equipo.
+3. **Sensores, domótica e IoT** (en **operación**): sensores, controles de acceso, alarmas y relojes biométricos en el mismo panel que el resto de la operación.
+4. **Robótica** (**en desarrollo** en nuestro laboratorio, no es un producto comercial todavía): perros robot que recorren y verifican con las mismas analíticas de las cámaras. La plataforma está pensada para sumar nuevos dispositivos. No prometas fechas, modelos ni disponibilidad; si preguntan, di que es una línea en desarrollo del laboratorio y ofrece hablar con el equipo.
 5. **Central de operaciones y gerencia** (en operación): mapa en vivo de cada sede y cada persona, radio, chat y pánico en la misma pantalla; la gerencia ve en tiempo real qué está cubierto, qué falta y qué pasó.
 
 **Todo es una traza**: cada evento queda trazado de punta a punta, del puesto a la gerencia. Ejemplo de la portada (escenario de demostración, ficticio): una ronda reporta una novedad en la cerca norte → la cámara 04 confirma con cruce de línea y el operador valida → el sensor de la puerta de la bodega avisa → el robot del laboratorio verifica → la central despacha al supervisor por radio → el cierre con evidencia, responsable y tiempos llega al tablero de gerencia.
@@ -78,8 +78,8 @@ Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y 
 - \`#hero\` — «Todas las capas de la seguridad. Una sola traza.»
 - \`#fisica\` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.
 - \`#vision\` — Capa 02 · Visión con IA sobre las cámaras. En operación.
-- \`#iot\` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). Piloto.
-- \`#robotica\` — Capa 04 · Robótica (perros robot con las mismas analíticas). Laboratorio, en desarrollo.
+- \`#iot\` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). En operación.
+- \`#robotica\` — Capa 04 · Robótica (perros robot con las mismas analíticas). En desarrollo.
 - \`#central\` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.
 - \`#traza\` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.
 - \`#escala\` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma, cifras del catálogo y botones a demo y a \`/servicios\`.
@@ -245,7 +245,7 @@ ARS no es «un producto de cámaras»: es **el sistema operativo de una empresa 
 - **E · Realidad virtual** (\`realidad-virtual\`): Central Viva en 3D, demostración de la Sede Inteligente, Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz.
 - **F · Gestión humana** (\`gestion-humana\`): selección, colaboradores, nómina desde los turnos, costos, Área Documental con IA, portal documental para el cliente y Jurídica.
 - **G · Formación** (\`formacion\`): cursos con certificados QR, diseñador de cursos con IA, video por temas, auditoría de reglas y evaluaciones.
-- **H · Finanzas y ERP** (\`finanzas-y-erp\`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN (próximamente), el **Agente interoperador de datos** y el ERP de la empresa dentro de ARS.
+- **H · Finanzas y ERP** (\`finanzas-y-erp\`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), el **Agente interoperador de datos** y el ERP de la empresa dentro de ARS.
 - **I · Productividad e IA** (\`productividad-e-ia\`): tareas, reuniones con transcripción, tickets, formularios dinámicos, automatizaciones y Centro de IA.
 - **J · Gobierno, seguridad y canales** (\`gobierno-y-seguridad\`): Torre de Control, auditoría, configuración multiempresa, ingreso con cédula y doble factor, app Android, app instalable (PWA) y app de escritorio para la central.
 
@@ -294,12 +294,12 @@ Si un módulo trae \`notaEstado\` (por ejemplo «con gafas Meta Quest, en piloto
 
 - **Cámaras:** habla solo de las analíticas del catálogo de servicios (intrusión, cruce de línea, merodeo, objetos olvidados, conteo, aforo, mapa de calor, atributos estimados de persona). No ofrezcas en este catálogo lectura de placas, detección de armas, EPP, visión térmica, clasificación vehicular ni detección de fuego o humo; si preguntan, di que se evalúan caso a caso con el equipo comercial y remite a \`/vision\` para ver su estado. El reconocimiento facial por cámara es una **alerta de personas desconocidas o de una lista, que verifica un operador**, nunca una identificación automática. Las analíticas dependen del equipo instalado en cada sede.
 - **Turnos:** la verificación facial del relevo compara con la foto registrada; no hables de «antisuplantación». Los relojes biométricos ZKTeco se mencionan como **compatibilidad**. El relevo entre empresas es para supervisores de un mismo grupo empresarial.
-- **Radio:** en el teléfono funciona con la app Android; varios perfiles en un teléfono y manos libres están en piloto.
+- **Radio:** en el teléfono funciona con la app Android, con varios perfiles en un teléfono y manos libres.
 - **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.
 - **Servidores propios:** dilo para documentos del personal, reuniones y datos de personal; no lo generalices a toda la plataforma.
-- **Realidad virtual:** la Sede Inteligente es una **demostración con datos simulados**; la experiencia con gafas Meta Quest está en piloto y la app nativa para Quest está en la hoja de ruta. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.
-- **Nómina y contabilidad:** trabajan junto al ERP de la empresa, conectado por el Agente interoperador de datos; la contabilidad es una copia de consulta del ERP. No des cifras de coincidencia con el ERP. La quincenal, la prima, las vacaciones y la liquidación de contratos están «próximamente»; las facturas DIAN también, y ARS no emite facturas.
-- **Puertas con reconocimiento facial y escaneo 3D de sedes:** solo «próximamente», sin detalles técnicos ni fechas.
+- **Realidad virtual:** la Sede Inteligente es una **demostración con datos simulados**; también se vive con gafas Meta Quest y con la app nativa para Quest. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.
+- **Nómina y contabilidad:** trabajan junto al ERP de la empresa, conectado por el Agente interoperador de datos; la contabilidad es una copia de consulta del ERP. No des cifras de coincidencia con el ERP. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. Las facturas DIAN y RADIAN están en piloto y pasan a producción en los próximos meses; ARS no emite facturas.
+- **Puertas con reconocimiento facial y escaneo 3D de sedes:** disponibles; el reconocimiento facial abre o alerta y una persona verifica.
 - **Cifras:** no des números de usuarios, vigilantes, clientes, sedes, documentos ni porcentajes de uso. No nombres clientes.
 - Si algo no está en el catálogo, di que se confirma con el equipo comercial y ofrece agendar una demo.`,
   },
@@ -330,7 +330,7 @@ Si un módulo trae \`notaEstado\` (por ejemplo «con gafas Meta Quest, en piloto
 
 ## Estado de madurez
 
-Cada analítica puede declarar un estado del equipo de Visión, que se muestra tal cual: «funcionando a diario», «funcionando en silencio», «listo para instalar», «con evidencia», «en validación», «en desarrollo». Si no tiene estado declarado, no afirmes madurez: indica que su disponibilidad es a confirmar con el equipo comercial. No prometas fechas de salida.
+Todas las analíticas del portafolio están disponibles. Algunas muestran además un sello del equipo de Visión («funcionando a diario», «funcionando en silencio», «listo para instalar», «con evidencia»). Lo que sí depende de cada sede es el equipo instalado: cámaras, resolución e iluminación se confirman en la visita técnica.
 
 ## Cómo recomendar
 
@@ -516,7 +516,7 @@ El sitio menciona edge + nube según la latencia requerida, y que las analítica
 Personas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en \`/vision#indice\`.
 
 **¿Las analíticas están todas disponibles hoy?**
-Cada una muestra su estado declarado (p. ej. «funcionando a diario», «en validación», «en desarrollo»). Si no tiene estado o está en desarrollo, la disponibilidad es a confirmar con el equipo comercial.
+Todas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.
 
 **¿Sirve para empresas de seguridad con muchos clientes?**
 Sí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver \`/plataforma#casos\`.

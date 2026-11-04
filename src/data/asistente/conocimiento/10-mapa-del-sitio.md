@@ -14,8 +14,8 @@ Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y 
 - `#hero` — «Todas las capas de la seguridad. Una sola traza.»
 - `#fisica` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.
 - `#vision` — Capa 02 · Visión con IA sobre las cámaras. En operación.
-- `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). Piloto.
-- `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). Laboratorio, en desarrollo.
+- `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). En operación.
+- `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). En desarrollo.
 - `#central` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.
 - `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.
 - `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma, cifras del catálogo y botones a demo y a `/servicios`.

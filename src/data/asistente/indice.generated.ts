@@ -28,8 +28,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Qué es ARS Intelligence › Posicionamiento: todas las capas, una sola traza",
    "ruta": "/",
-   "texto": "1. **Vigilancia física** (en operación): el vigilante y sus turnos, relevos, rondas con QR, minuta desde el celular, radio PTT y botón de pánico en el mismo teléfono, y el supervisor visible en campo.\n2. **Visión con IA sobre las cámaras** (en operación): las analíticas de `/vision` sobre las cámaras que la sede ya tiene; cada alerta llega con foto y video y **una persona confirma antes de actuar**. Las analíticas disponibles dependen del equipo de cada sede.\n3. **Sensores, domótica e IoT** (en **piloto**): sensores, controles de acceso, alarmas y relojes biométricos en el mismo panel. Las alarmas de puerta del acceso inteligente sí están en operación; el módulo IoT como tal está en piloto.\n4. **Robótica** (línea del **laboratorio**, en desarrollo, no es un producto comercial): perros robot que recorren y verifican con las mismas analíticas de las cámaras. La plataforma está pensada para sumar nuevos dispositivos. No prometas fechas, modelos ni disponibilidad; si preguntan, di que es una línea en desarrollo del laboratorio y ofrece hablar con el equipo.\n5. **Central de operaciones y gerencia** (en operación): mapa en vivo de cada sede y cada persona, radio, chat y pánico en la misma pantalla; la gerencia ve en tiempo real qué está cubierto, qué falta y qué pasó.",
-   "h": "07b883bf8cf64d02"
+   "texto": "1. **Vigilancia física** (en operación): el vigilante y sus turnos, relevos, rondas con QR, minuta desde el celular, radio PTT y botón de pánico en el mismo teléfono, y el supervisor visible en campo.\n2. **Visión con IA sobre las cámaras** (en operación): las analíticas de `/vision` sobre las cámaras que la sede ya tiene; cada alerta llega con foto y video y **una persona confirma antes de actuar**. Las analíticas disponibles dependen del equipo de cada sede.\n3. **Sensores, domótica e IoT** (en **operación**): sensores, controles de acceso, alarmas y relojes biométricos en el mismo panel que el resto de la operación.\n4. **Robótica** (**en desarrollo** en nuestro laboratorio, no es un producto comercial todavía): perros robot que recorren y verifican con las mismas analíticas de las cámaras. La plataforma está pensada para sumar nuevos dispositivos. No prometas fechas, modelos ni disponibilidad; si preguntan, di que es una línea en desarrollo del laboratorio y ofrece hablar con el equipo.\n5. **Central de operaciones y gerencia** (en operación): mapa en vivo de cada sede y cada persona, radio, chat y pánico en la misma pantalla; la gerencia ve en tiempo real qué está cubierto, qué falta y qué pasó.",
+   "h": "80a6c502a9b1ab5b"
   },
   {
    "id": "kb:que-es-ars:1.2",
@@ -104,8 +104,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/` — Portada (las capas de la seguridad unidas en una traza)",
    "ruta": "/",
-   "texto": "- `#hero` — «Todas las capas de la seguridad. Una sola traza.»\n- `#fisica` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.\n- `#vision` — Capa 02 · Visión con IA sobre las cámaras. En operación.\n- `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). Piloto.\n- `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). Laboratorio, en desarrollo.\n- `#central` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.\n- `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.\n- `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma, cifras del catálogo y botones a demo y a `/servicios`.\n- `#contacto` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. `/#cierre` también lleva aquí.",
-   "h": "60edb3435702a5ea"
+   "texto": "- `#hero` — «Todas las capas de la seguridad. Una sola traza.»\n- `#fisica` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.\n- `#vision` — Capa 02 · Visión con IA sobre las cámaras. En operación.\n- `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). En operación.\n- `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). En desarrollo.\n- `#central` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.\n- `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.\n- `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma, cifras del catálogo y botones a demo y a `/servicios`.\n- `#contacto` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. `/#cierre` también lleva aquí.",
+   "h": "ed8941e80479b612"
   },
   {
    "id": "kb:mapa-del-sitio:1.2",
@@ -303,8 +303,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Las 10 áreas",
    "ruta": "/servicios",
-   "texto": "- **A · Operación en campo** (`operacion-en-campo`): turnos y programación, asistencia y relevos con selfie y verificación facial, rondas con QR, revistas y reportes de supervisión, visitantes y bicicletas, armas, vehículos y caninos.\n- **B · Centro de operaciones** (`centro-de-operaciones`): Sala de Control con mapa en vivo, zonas con alerta de salida de zona, sala del coordinador, recorridos GPS de supervisores, cumplimiento persona por persona y alias de clientes y sedes.\n- **C · Comunicación y emergencias** (`comunicacion-y-emergencias`): radio PTT en el celular y la web, chat corporativo, conversación con la Central, consola de grabaciones, reporte por sede, botón de pánico y notificaciones.\n- **D · Monitoreo inteligente** (`monitoreo-inteligente`): visión artificial sobre las cámaras existentes, acceso inteligente con listas y consentimientos, IoT, levantamiento 2D/3D de sedes.\n- **E · Realidad virtual** (`realidad-virtual`): Central Viva en 3D, demostración de la Sede Inteligente, Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz.\n- **F · Gestión humana** (`gestion-humana`): selección, colaboradores, nómina desde los turnos, costos, Área Documental con IA, portal documental para el cliente y Jurídica.\n- **G · Formación** (`formacion`): cursos con certificados QR, diseñador de cursos con IA, video por temas, auditoría de reglas y evaluaciones.\n- **H · Finanzas y ERP** (`finanzas-y-erp`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN (próximamente), el **Agente interoperador de datos** y el ERP de la empresa dentro de ARS.\n- **I · Productividad e IA** (`productividad-e-ia`): tareas, reuniones con transcripción, tickets, formularios dinámicos, automatizaciones y Centro de IA.\n- **J · Gobierno, seguridad y canales** (`gobierno-y-seguridad`): Torre de Control, auditoría, configuración multiempresa, ingreso con cédula y doble factor, app Android, app instalable (PWA) y app de escritorio para la central.",
-   "h": "f7efbe7b463799d2"
+   "texto": "- **A · Operación en campo** (`operacion-en-campo`): turnos y programación, asistencia y relevos con selfie y verificación facial, rondas con QR, revistas y reportes de supervisión, visitantes y bicicletas, armas, vehículos y caninos.\n- **B · Centro de operaciones** (`centro-de-operaciones`): Sala de Control con mapa en vivo, zonas con alerta de salida de zona, sala del coordinador, recorridos GPS de supervisores, cumplimiento persona por persona y alias de clientes y sedes.\n- **C · Comunicación y emergencias** (`comunicacion-y-emergencias`): radio PTT en el celular y la web, chat corporativo, conversación con la Central, consola de grabaciones, reporte por sede, botón de pánico y notificaciones.\n- **D · Monitoreo inteligente** (`monitoreo-inteligente`): visión artificial sobre las cámaras existentes, acceso inteligente con listas y consentimientos, IoT, levantamiento 2D/3D de sedes.\n- **E · Realidad virtual** (`realidad-virtual`): Central Viva en 3D, demostración de la Sede Inteligente, Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz.\n- **F · Gestión humana** (`gestion-humana`): selección, colaboradores, nómina desde los turnos, costos, Área Documental con IA, portal documental para el cliente y Jurídica.\n- **G · Formación** (`formacion`): cursos con certificados QR, diseñador de cursos con IA, video por temas, auditoría de reglas y evaluaciones.\n- **H · Finanzas y ERP** (`finanzas-y-erp`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), el **Agente interoperador de datos** y el ERP de la empresa dentro de ARS.\n- **I · Productividad e IA** (`productividad-e-ia`): tareas, reuniones con transcripción, tickets, formularios dinámicos, automatizaciones y Centro de IA.\n- **J · Gobierno, seguridad y canales** (`gobierno-y-seguridad`): Torre de Control, auditoría, configuración multiempresa, ingreso con cédula y doble factor, app Android, app instalable (PWA) y app de escritorio para la central.",
+   "h": "258aa523d856ab28"
   },
   {
    "id": "kb:servicios-ars:3",
@@ -367,8 +367,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Guía de lo que no se promete",
    "ruta": "/servicios",
-   "texto": "- **Cámaras:** habla solo de las analíticas del catálogo de servicios (intrusión, cruce de línea, merodeo, objetos olvidados, conteo, aforo, mapa de calor, atributos estimados de persona). No ofrezcas en este catálogo lectura de placas, detección de armas, EPP, visión térmica, clasificación vehicular ni detección de fuego o humo; si preguntan, di que se evalúan caso a caso con el equipo comercial y remite a `/vision` para ver su estado. El reconocimiento facial por cámara es una **alerta de personas desconocidas o de una lista, que verifica un operador**, nunca una identificación automática. Las analíticas dependen del equipo instalado en cada sede.\n- **Turnos:** la verificación facial del relevo compara con la foto registrada; no hables de «antisuplantación». Los relojes biométricos ZKTeco se mencionan como **compatibilidad**. El relevo entre empresas es para supervisores de un mismo grupo empresarial.\n- **Radio:** en el teléfono funciona con la app Android; varios perfiles en un teléfono y manos libres están en piloto.\n- **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.\n- **Servidores propios:** dilo para documentos del personal, reuniones y datos de personal; no lo generalices a toda la plataforma.\n- **Realidad virtual:** la Sede Inteligente es una **demostración con datos simulados**; la experiencia con gafas Meta Quest está en piloto y la app nativa para Quest está en la hoja de ruta. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.\n- **Nómina y contabilidad:** trabajan junto al ERP de la empresa, conectado por el Agente interoperador de datos; la contabilidad es una copia de consulta del ERP. No des cifras de coincidencia con el ERP. La quincenal, la prima, las vacaciones y la liquidación de contratos están «próximamente»; las facturas DIAN también, y ARS no emite facturas.\n- **Puertas con reconocimiento facial y escaneo 3D de sedes:** solo «próximamente», sin detalles técnicos ni fechas.\n- **Cifras:** no des números de usuarios, vigilantes, clientes, sedes, documentos ni porcentajes de uso. No nombres clientes.\n- Si algo no está en el catálogo, di que se confirma con el equipo comercial y ofrece agendar una demo.",
-   "h": "d055ad7497868a11"
+   "texto": "- **Cámaras:** habla solo de las analíticas del catálogo de servicios (intrusión, cruce de línea, merodeo, objetos olvidados, conteo, aforo, mapa de calor, atributos estimados de persona). No ofrezcas en este catálogo lectura de placas, detección de armas, EPP, visión térmica, clasificación vehicular ni detección de fuego o humo; si preguntan, di que se evalúan caso a caso con el equipo comercial y remite a `/vision` para ver su estado. El reconocimiento facial por cámara es una **alerta de personas desconocidas o de una lista, que verifica un operador**, nunca una identificación automática. Las analíticas dependen del equipo instalado en cada sede.\n- **Turnos:** la verificación facial del relevo compara con la foto registrada; no hables de «antisuplantación». Los relojes biométricos ZKTeco se mencionan como **compatibilidad**. El relevo entre empresas es para supervisores de un mismo grupo empresarial.\n- **Radio:** en el teléfono funciona con la app Android, con varios perfiles en un teléfono y manos libres.\n- **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.\n- **Servidores propios:** dilo para documentos del personal, reuniones y datos de personal; no lo generalices a toda la plataforma.\n- **Realidad virtual:** la Sede Inteligente es una **demostración con datos simulados**; también se vive con gafas Meta Quest y con la app nativa para Quest. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.\n- **Nómina y contabilidad:** trabajan junto al ERP de la empresa, conectado por el Agente interoperador de datos; la contabilidad es una copia de consulta del ERP. No des cifras de coincidencia con el ERP. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. Las facturas DIAN y RADIAN están en piloto y pasan a producción en los próximos meses; ARS no emite facturas.\n- **Puertas con reconocimiento facial y escaneo 3D de sedes:** disponibles; el reconocimiento facial abre o alerta y una persona verifica.\n- **Cifras:** no des números de usuarios, vigilantes, clientes, sedes, documentos ni porcentajes de uso. No nombres clientes.\n- Si algo no está en el catálogo, di que se confirma con el equipo comercial y ofrece agendar una demo.",
+   "h": "9d8edf8857fe71d9"
   },
   {
    "id": "kb:vision-analiticas:0",
@@ -411,9 +411,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Módulo de Visión · Analíticas de video › Estado de madurez",
    "ruta": "/vision",
-   "texto": "Cada analítica puede declarar un estado del equipo de Visión, que se muestra tal cual: «funcionando a diario», «funcionando en silencio», «listo para instalar», «con evidencia», «en validación», «en desarrollo». Si no tiene estado declarado, no afirmes madurez: indica que su disponibilidad es a confirmar con el equipo comercial. No prometas fechas de salida.",
-   "h": "368065692fed05f6",
-   "v": "C0zw7fweH/UfEkj/58YMF+UI8gUQ/90DH+7uBBPk+tkTBQ73DAvv6g8D5QoG9+cB7gzd/xJ1F/L0BfPvDfkDL/nVswjv7fgUE+rvMg8OBOjXBMEEGADu8Q0O8VAFJQwbMN7eE/kB+97pAO8P9v0d3xo3G/0GzDHRxy3Y4/XsKw7FDeP3OdXo5RL41TwU7RkU3wL8H/sC+Q3e+APv6vfq2AMCJw0CCvwYzBgh/vrgEfsRABLt6xDo2Abt0hsXCcER8CVG2PPt/+fK+TjTB/3m/9QmQhgaDdsi0xYB8c/vEgDuPRLPG93k8OwNAgwiBPrjCQ/28xMV7dkX+Qj48uv/9dUB4fP9F8vI+yMj4hr48QMEPgj6FALUNNHgGzkFGAME5TEq8A7zBgQhAAUIHQbi6eI6D//14Rj4DOnK3R/1NN8G6/rmy+X3EUXf+uTzFhzq+RXt49nA5xFI+/vlIAIt1xL26/sVBc4T+PYfEhgR8fMU/BLfGvXW1Rb4+R/zCNr7//DfFP0B9vTc6v8C+vwf1vLuzxr+HxQI+/chtTLbAskH+RsgAfkI7/QJExL42t0wLwIT7vPHA/Hk5t/uxwjL9vXWCynaEsD2N9PyJ+YHCi4eE/IIIwgPLycCAhgEyvUBBvfu7kl/+OT/If0DFfQF9t4AFwf9GgT8KfYQ4BPr/hc="
+   "texto": "Todas las analíticas del portafolio están disponibles. Algunas muestran además un sello del equipo de Visión («funcionando a diario», «funcionando en silencio», «listo para instalar», «con evidencia»). Lo que sí depende de cada sede es el equipo instalado: cámaras, resolución e iluminación se confirman en la visita técnica.",
+   "h": "57cd16173b658d4c"
   },
   {
    "id": "kb:vision-analiticas:5",
@@ -626,9 +625,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
-   "texto": "**¿Qué detectan las cámaras?**\nPersonas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.\n\n**¿Las analíticas están todas disponibles hoy?**\nCada una muestra su estado declarado (p. ej. «funcionando a diario», «en validación», «en desarrollo»). Si no tiene estado o está en desarrollo, la disponibilidad es a confirmar con el equipo comercial.\n\n**¿Sirve para empresas de seguridad con muchos clientes?**\nSí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#casos`.\n\n**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**\nEl sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT. Integraciones específicas con terceros: a confirmar con el equipo comercial.\n\n**¿Dónde operan?**\nColombia y Perú, según el sitio. Ver `/proyectos`.",
-   "h": "0ee5619ddb148d56",
-   "v": "ABcf++wswSj99OTiIaAVH9ISzQIJNc/MwtrLK+H3ML7L/Of08iUVIRQZzcHP+MML/yjR7A86H/Pa/P/uBPE8CRL4yRHm9jAIFOTqBeIhzNLdB9QiG+rE5PIB5kTrBhgLGe7wIgHM6YH98TITOOIvywMwNwgb6C+7/iP/99bi3ubB2fL8R/oc9yWwv/wp2wYrtuDn7Cn7FArE9fgi+isD8toc3AvhC/7OrEjxIRcVFtUe6QefuP7/6vjOpBPAXs5DMUAUsv0B6LKzHW02BgI5MsrwZe08DfUWmxsGI8332ucBWjq/H5j3CP0CBwQd7gEJHScGHTkI/LdDKGBCIAEg+tjJzM85Ks3OAN0N8BsXDRX5+OgHI7f5GLkHAh0TKf7uwEIjJNED8+9FLPHmKxL5scdTBxCwxOHME9HXw0j1BMk90wDBwLYd+ky4WRPx9evYGiXg8hbOpP9dAxvuJzr+2NTk0hnx+MLuxhdFIxD1pfwm/ES2HNrj1Bw1Dy4KEfr7+QrgBhPV8AnnxeD6SugR6A7auhKvHwIcAugLmDXiA+f4ICsSYQzpNsUh6sulvzEbWSLnAPQu/hrkDu0k2d3u/APHG0u/S8TuSOno3OgA+jcq7Z4BMSn1POwt5PPz/NT8LAnfDFc510ob/towTvH04L+17xLrA/LyBCLu4Q/HAwY="
+   "texto": "**¿Qué detectan las cámaras?**\nPersonas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.\n\n**¿Las analíticas están todas disponibles hoy?**\nTodas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.\n\n**¿Sirve para empresas de seguridad con muchos clientes?**\nSí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#casos`.\n\n**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**\nEl sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT. Integraciones específicas con terceros: a confirmar con el equipo comercial.\n\n**¿Dónde operan?**\nColombia y Perú, según el sitio. Ver `/proyectos`.",
+   "h": "0847e0ad62cefe1d"
   },
   {
    "id": "kb:preguntas-frecuentes:0.3",
@@ -653,8 +651,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Seguimiento de personas» (Comercial y comportamental)",
    "ruta": "/vision",
    "ancla": "seguimiento",
-   "texto": "Cada persona conserva su número mientras está. Quien entra recibe un número y lo conserva hasta que se va, aunque se cruce con otra persona o pase a otra cámara. Es la base de todas las demás.\nCómo se activa: 0 s: Cada persona del vestíbulo recibe un número (ID 23, ID 6, ID 24…); 6.4 s: ID 6 pasa por delante de ID 23 y lo tapa: el número no se intercambia; 9.5 s: Cada uno sigue con su número después del cruce.\nEstado declarado: en validación. Prueba real: sí (CCTV real (MEVA) · tracker real).\nEnlace: /vision#seguimiento",
-   "h": "523d5ec3081a0687"
+   "texto": "Cada persona conserva su número mientras está. Quien entra recibe un número y lo conserva hasta que se va, aunque se cruce con otra persona o pase a otra cámara. Es la base de todas las demás.\nCómo se activa: 0 s: Cada persona del vestíbulo recibe un número (ID 23, ID 6, ID 24…); 6.4 s: ID 6 pasa por delante de ID 23 y lo tapa: el número no se intercambia; 9.5 s: Cada uno sigue con su número después del cruce.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (CCTV real (MEVA) · tracker real).\nEnlace: /vision#seguimiento",
+   "h": "b69f1af166b4acf0"
   },
   {
    "id": "analitica:conteo",
@@ -761,8 +759,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Detección de derrames» (Operativo y de eficiencia)",
    "ruta": "/vision",
    "ancla": "derrames",
-   "texto": "Avisa cuando el piso deja de estar limpio. Cada cámara aprende cómo se ve su piso limpio. Si aparece un derrame, una mancha o basura y sigue ahí, avisa con el tipo y la ubicación; cuando lo limpian, el evento se cierra solo.\nCómo se activa: 0 s: El piso limpio del pasillo es la referencia; 4.5 s: Se cae un envase y aparece un charco: empieza la espera; 8 s: Sigue ahí: aviso de derrame con su foto y ubicación; 12.6 s: Lo limpian y el evento se cierra solo.\nEstado declarado: en validación. Prueba real: sí (video generado con IA · referencia).\nEnlace: /vision#derrames",
-   "h": "adbe5ea976799b28"
+   "texto": "Avisa cuando el piso deja de estar limpio. Cada cámara aprende cómo se ve su piso limpio. Si aparece un derrame, una mancha o basura y sigue ahí, avisa con el tipo y la ubicación; cuando lo limpian, el evento se cierra solo.\nCómo se activa: 0 s: El piso limpio del pasillo es la referencia; 4.5 s: Se cae un envase y aparece un charco: empieza la espera; 8 s: Sigue ahí: aviso de derrame con su foto y ubicación; 12.6 s: Lo limpian y el evento se cierra solo.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (video generado con IA · referencia).\nEnlace: /vision#derrames",
+   "h": "36dff67190fb441a"
   },
   {
    "id": "analitica:guardian",
@@ -770,8 +768,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Guardián de puestos» (Operativo y de eficiencia)",
    "ruta": "/vision",
    "ancla": "guardian",
-   "texto": "Vigila que el puesto lo atienda la misma persona. Avisa cuando alguien distinto ocupa un puesto con la sesión de otro, cuando la misma persona figura en dos puestos o cuando un puesto queda abierto sin nadie. Aquí, la caja de la cafetería.\nCómo se activa: 0 s: La caja la atiende su titular; 7.5 s: La titular se va: la caja queda en espera; 14 s: Otra persona ocupa la caja: aviso de cambio de persona.\nEstado declarado: en validación. Prueba real: sí (CCTV real · modelo real).\nEnlace: /vision#guardian",
-   "h": "f743218024d9374f"
+   "texto": "Vigila que el puesto lo atienda la misma persona. Avisa cuando alguien distinto ocupa un puesto con la sesión de otro, cuando la misma persona figura en dos puestos o cuando un puesto queda abierto sin nadie. Aquí, la caja de la cafetería.\nCómo se activa: 0 s: La caja la atiende su titular; 7.5 s: La titular se va: la caja queda en espera; 14 s: Otra persona ocupa la caja: aviso de cambio de persona.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (CCTV real · modelo real).\nEnlace: /vision#guardian",
+   "h": "2f5f895a821c6ec7"
   },
   {
    "id": "analitica:negras",
@@ -842,8 +840,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Hurto» (Prevención y riesgo)",
    "ruta": "/vision",
    "ancla": "hurto",
-   "texto": "Distingue un hurto de una compra normal, y avisa. Lee la postura y los gestos de las manos de cada persona frente a una zona marcada (aquí, un mesón) y les pone una puntuación. Tomar algo y llevarlo a la ropa en vez de dejarlo la hace subir; cuando cruza el umbral, avisa en el momento.\nCómo se activa: 0 s: Detector activo: esperando interacción con el mesón; 4.4 s: Interacción con el mesón: analizando el gesto; 9.1 s: Manipulación sospechosa: lo esconde y se va.\nEstado declarado: en desarrollo. Prueba real: sí (prueba en laboratorio propio · detector en desarrollo).\nEnlace: /vision#hurto",
-   "h": "a3d1060f94ffa46c"
+   "texto": "Distingue un hurto de una compra normal, y avisa. Lee la postura y los gestos de las manos de cada persona frente a una zona marcada (aquí, un mesón) y les pone una puntuación. Tomar algo y llevarlo a la ropa en vez de dejarlo la hace subir; cuando cruza el umbral, avisa en el momento.\nCómo se activa: 0 s: Detector activo: esperando interacción con el mesón; 4.4 s: Interacción con el mesón: analizando el gesto; 9.1 s: Manipulación sospechosa: lo esconde y se va.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (prueba en laboratorio propio · detector en desarrollo).\nEnlace: /vision#hurto",
+   "h": "ce16713c8fc2c6e4"
   },
   {
    "id": "analitica:ocultaProd",
@@ -860,8 +858,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Armas de fuego» (Prevención y riesgo)",
    "ruta": "/vision",
    "ancla": "armas",
-   "texto": "Detecta un arma de fuego en menos de medio segundo. Pistolas y armas largas, llevadas por alguien o dejadas sobre un mostrador. Toda alerta pide verificación humana; nunca confunde un teléfono con un arma.\nCómo se activa: 0 s: Un hombre apunta hacia la barra: el modelo ve la pistola; 0.3 s: Confirmada en varios cuadros: «arma de fuego · pistola»; 1.8 s: Sigue el arma mientras el hombre se mueve; 3.8 s: Entra un segundo hombre armado por la izquierda: nueva alerta; 5.8 s: Los dos salen hacia la puerta de la izquierda.\nEstado declarado: en validación. Prueba real: sí (video de banco (Mixkit) · modelo real).\nEnlace: /vision#armas",
-   "h": "6a74e821c580668a"
+   "texto": "Detecta un arma de fuego en menos de medio segundo. Pistolas y armas largas, llevadas por alguien o dejadas sobre un mostrador. Toda alerta pide verificación humana; nunca confunde un teléfono con un arma.\nCómo se activa: 0 s: Un hombre apunta hacia la barra: el modelo ve la pistola; 0.3 s: Confirmada en varios cuadros: «arma de fuego · pistola»; 1.8 s: Sigue el arma mientras el hombre se mueve; 3.8 s: Entra un segundo hombre armado por la izquierda: nueva alerta; 5.8 s: Los dos salen hacia la puerta de la izquierda.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (video de banco (Mixkit) · modelo real).\nEnlace: /vision#armas",
+   "h": "c9e337dde7dd193a"
   },
   {
    "id": "analitica:blancas2",
@@ -869,8 +867,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Armas blancas» (Prevención y riesgo)",
    "ruta": "/vision",
    "ancla": "blancas2",
-   "texto": "Cuchillos, machetes y objetos cortantes. Cuando un cuchillo, una daga o un machete aparece y se sostiene unos fotogramas, salta la alarma en un tercio de segundo. Además sigue el comportamiento previo: mirar a todos lados y llevarse la mano a la cintura.\nCómo se activa: 0 s: Entra por el fondo de la sala, junto al ventanal; 3.2 s: Se detiene y se lleva la mano a la cintura; 5.6 s: Confirmado «cuchillo» en la mano: aviso para verificar; 9.5 s: Se acerca al puesto con el cuchillo a la vista.\nEstado declarado: en validación. Prueba real: sí (laboratorio propio · modelo real).\nEnlace: /vision#blancas2",
-   "h": "98bcc0691ad832a6"
+   "texto": "Cuchillos, machetes y objetos cortantes. Cuando un cuchillo, una daga o un machete aparece y se sostiene unos fotogramas, salta la alarma en un tercio de segundo. Además sigue el comportamiento previo: mirar a todos lados y llevarse la mano a la cintura.\nCómo se activa: 0 s: Entra por el fondo de la sala, junto al ventanal; 3.2 s: Se detiene y se lleva la mano a la cintura; 5.6 s: Confirmado «cuchillo» en la mano: aviso para verificar; 9.5 s: Se acerca al puesto con el cuchillo a la vista.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (laboratorio propio · modelo real).\nEnlace: /vision#blancas2",
+   "h": "f469c3f09ac25965"
   },
   {
    "id": "analitica:peleas",
@@ -888,8 +886,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Humo y fuego» (Prevención y riesgo)",
    "ruta": "/vision",
    "ancla": "fuego",
-   "texto": "Avisa de un incendio cuando todavía es una llama chica. Busca humo y fuego en la imagen, sin sensores nuevos. En el video, la alarma de humo saltó a los 2 segundos, con la columna todavía subiendo sobre la calle: ese margen es el que importa.\nCómo se activa: 0 s: Vista aérea de la calle: el techo empieza a echar humo; 1.5 s: Humo confirmado (0,85): aviso con la columna todavía subiendo; 6 s: La columna crece y el viento la lleva sobre la calle.\nEstado declarado: en validación. Prueba real: sí (video público · modelo real).\nEnlace: /vision#fuego",
-   "h": "9970d1ab5c4645af"
+   "texto": "Avisa de un incendio cuando todavía es una llama chica. Busca humo y fuego en la imagen, sin sensores nuevos. En el video, la alarma de humo saltó a los 2 segundos, con la columna todavía subiendo sobre la calle: ese margen es el que importa.\nCómo se activa: 0 s: Vista aérea de la calle: el techo empieza a echar humo; 1.5 s: Humo confirmado (0,85): aviso con la columna todavía subiendo; 6 s: La columna crece y el viento la lleva sobre la calle.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (video público · modelo real).\nEnlace: /vision#fuego",
+   "h": "d60b4ea73ef58b60"
   },
   {
    "id": "analitica:abandono",
@@ -952,8 +950,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Huecos en góndola» (Modelos lite · bajo costo)",
    "ruta": "/vision",
    "ancla": "huecos",
-   "texto": "Cuánto de la góndola está surtido, en vivo. Marca los huecos de la estantería y calcula el porcentaje de disponibilidad. En el video, el modelo confirma dos huecos (H1 arriba, junto a la balanza, y H2 abajo a la izquierda) mientras el tendero atiende: la disponibilidad baja a 97 %.\nCómo se activa: 0 s: Estantería surtida: disponibilidad 100 %; 2.7 s: Dos huecos confirmados (H1 y H2): disponibilidad 97 %; 7.5 s: H1 se tapa al reacomodar; sigue confirmado H2 · 98 %.\nEstado declarado: en validación. Prueba real: sí (video público (Pixabay) · modelo real v3).\nEnlace: /vision#huecos",
-   "h": "af8ef5691e5cd66d"
+   "texto": "Cuánto de la góndola está surtido, en vivo. Marca los huecos de la estantería y calcula el porcentaje de disponibilidad. En el video, el modelo confirma dos huecos (H1 arriba, junto a la balanza, y H2 abajo a la izquierda) mientras el tendero atiende: la disponibilidad baja a 97 %.\nCómo se activa: 0 s: Estantería surtida: disponibilidad 100 %; 2.7 s: Dos huecos confirmados (H1 y H2): disponibilidad 97 %; 7.5 s: H1 se tapa al reacomodar; sigue confirmado H2 · 98 %.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (video público (Pixabay) · modelo real v3).\nEnlace: /vision#huecos",
+   "h": "fd01a402ba54722c"
   },
   {
    "id": "analitica:vencido",
@@ -970,8 +968,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Vencimiento y destrucción» (Modelos lite · bajo costo)",
    "ruta": "/vision",
    "ancla": "destruccion",
-   "texto": "Registra el producto que se bota, y cuadra la pérdida. Fija el contenedor de destrucción y su boca, y sigue las manos. Cada producto que alguien bota queda registrado con su hora: la mano entra cargada y sale vacía. Así la pérdida deja de ser un faltante sin explicar. En el video, una persona se levanta de la banca, va al contenedor y deposita algo.\nCómo se activa: 0 s: Contenedor y boca fijados; una persona en la banca; 3.4 s: Se acerca al contenedor con la mano cargada; 5.3 s: La mano entra en la boca del contenedor; 6 s: Sale vacía: depósito registrado · pérdida 3 → 4.\nEstado declarado: en desarrollo. Prueba real: sí (cámara de seguridad real · modelo real).\nEnlace: /vision#destruccion",
-   "h": "273241edfdec1e3a"
+   "texto": "Registra el producto que se bota, y cuadra la pérdida. Fija el contenedor de destrucción y su boca, y sigue las manos. Cada producto que alguien bota queda registrado con su hora: la mano entra cargada y sale vacía. Así la pérdida deja de ser un faltante sin explicar. En el video, una persona se levanta de la banca, va al contenedor y deposita algo.\nCómo se activa: 0 s: Contenedor y boca fijados; una persona en la banca; 3.4 s: Se acerca al contenedor con la mano cargada; 5.3 s: La mano entra en la boca del contenedor; 6 s: Sale vacía: depósito registrado · pérdida 3 → 4.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (cámara de seguridad real · modelo real).\nEnlace: /vision#destruccion",
+   "h": "9dfe30de7c3ce5cf"
   },
   {
    "id": "analitica:bodega",
@@ -988,8 +986,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Sobrecarga en racks» (Modelos lite · bajo costo)",
    "ruta": "/vision",
    "ancla": "racks",
-   "texto": "Avisa cuando un rack queda sobrecargado. Cajas apiladas por encima del último nivel o que sobresalen por el frente o los costados. La zona de cada rack se dibuja una vez y el sistema la vigila solo. En el video, el operario sube una caja más a una bahía llena y la pila toca la viga de arriba.\nCómo se activa: 0 s: Racks con la carga en orden; entra un operario con una caja; 3.5 s: Sube la caja a la bahía 2, que ya estaba llena; 4.5 s: La pila toca la viga y sobresale del frente: sobrecarga en rack 1.\nEstado declarado: en validación. Prueba real: sí (video generado con IA · referencia).\nEnlace: /vision#racks",
-   "h": "b5264ca6308a3a83"
+   "texto": "Avisa cuando un rack queda sobrecargado. Cajas apiladas por encima del último nivel o que sobresalen por el frente o los costados. La zona de cada rack se dibuja una vez y el sistema la vigila solo. En el video, el operario sube una caja más a una bahía llena y la pila toca la viga de arriba.\nCómo se activa: 0 s: Racks con la carga en orden; entra un operario con una caja; 3.5 s: Sube la caja a la bahía 2, que ya estaba llena; 4.5 s: La pila toca la viga y sobresale del frente: sobrecarga en rack 1.\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (video generado con IA · referencia).\nEnlace: /vision#racks",
+   "h": "a49121b97d2a4c23"
   },
   {
    "id": "analitica:pasillos",
@@ -997,8 +995,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "titulo": "Analítica «Pasillos libres» (Modelos lite · bajo costo)",
    "ruta": "/vision",
    "ancla": "pasillos",
-   "texto": "Avisa de lo que se queda estorbando el paso. Separa a las personas de los objetos y solo avisa de lo que se queda: cajas, carros o canastas en el suelo. En el video, la canasta que la clienta deja en el piso queda como candidata y se confirma como obstáculo a los 7 segundos; ella no cuenta, es una persona.\nCómo se activa: 0 s: Una clienta se agacha en el pasillo 2 y deja la canasta en el piso; 1.5 s: La canasta no se mueve: candidata a obstáculo, corre la cuenta; 7.1 s: Se confirma: obstáculo en el pasillo 2 (la persona no cuenta).\nEstado declarado: en validación. Prueba real: sí (video público · modelo real).\nEnlace: /vision#pasillos",
-   "h": "5973e113afc96127"
+   "texto": "Avisa de lo que se queda estorbando el paso. Separa a las personas de los objetos y solo avisa de lo que se queda: cajas, carros o canastas en el suelo. En el video, la canasta que la clienta deja en el piso queda como candidata y se confirma como obstáculo a los 7 segundos; ella no cuenta, es una persona.\nCómo se activa: 0 s: Una clienta se agacha en el pasillo 2 y deja la canasta en el piso; 1.5 s: La canasta no se mueve: candidata a obstáculo, corre la cuenta; 7.1 s: Se confirma: obstáculo en el pasillo 2 (la persona no cuenta).\nEstado declarado: sin estado declarado (disponibilidad a confirmar con el equipo comercial). Prueba real: sí (video público · modelo real).\nEnlace: /vision#pasillos",
+   "h": "23da8eafecafef60"
   },
   {
    "id": "analitica:exhibicion",
