@@ -31,6 +31,17 @@ type Props = {
   relojClave?: string | null;
 };
 
+/** Si el motor no avisa `listo` en este tiempo tras cargar el iframe, se muestra el error. */
+const ESPERA_LISTO_MS = 15_000;
+/** Tope total desde que el iframe empieza a cargar (red muy lenta: ~4 MB de modelo). */
+const ESPERA_TOTAL_MS = 60_000;
+
+const TEXTO_ERROR: Record<string, string> = {
+  "sin-webgl": "La vista 3D no cargó en este navegador. Puede abrir la presentación completa desde el final de la página.",
+  cuadro: "La simulación 3D se detuvo. Recargue la página para intentarlo de nuevo.",
+  tiempo: "La simulación 3D está tardando demasiado en cargar. Revise la conexión y recargue la página.",
+};
+
 /** Vista con la que arrancó el iframe (va en su URL). */
 function vista0(src: string): "cctv" | "maqueta" {
   return src.includes("vista=cctv") ? "cctv" : "maqueta";
@@ -62,6 +73,8 @@ export function Sim3D({ id, pip = true, className, title, onFase, onListo, lazy 
   const [listo, setListo] = useState(false);
   const [visible, setVisible] = useState(!lazy);
   const [error, setError] = useState<string | null>(null);
+  const [cargado, setCargado] = useState(false);
+  const enPantallaRef = useRef(true);
 
   useEffect(() => {
     if (!lazy || visible) return;
@@ -87,22 +100,51 @@ export function Sim3D({ id, pip = true, className, title, onFase, onListo, lazy 
       if (!w || ev.source !== w) return;
       const d = ev.data as Mensaje | null;
       if (!d || d.tipo !== "vigias-sim") return;
-      if (d.error === "sin-webgl") {
+      if (d.error === "sin-webgl" || d.error === "cuadro") {
         setError(d.error);
         return;
       }
       if (d.listo) {
+        const primera = !listoRef.current;
         listoRef.current = true;
         const p = pedidoRef.current;
         if (d.id !== p.id || p.vista !== vista0(src)) w.postMessage({ tipo: "vigias-sim-ir", id: p.id, pip: p.pip, vista: p.vista }, "*");
+        // El iframe pudo cargar fuera de pantalla: que sepa si debe arrancar en pausa.
+        w.postMessage({ tipo: "vigias-sim-pausa", pausa: !enPantallaRef.current }, "*");
         setListo(true);
-        onListo?.();
+        if (primera) onListo?.();
       }
       if (d.fase && d.id === pedidoRef.current.id) onFase?.(d.fase, d.idx ?? -1, d.id);
     };
     window.addEventListener("message", onMsg);
+    // El iframe puede venir en el HTML del servidor y avisar `listo` antes de que este listener
+    // exista (antes de hidratar): se le pregunta de nuevo y, si ya arrancó, lo repite.
+    iframeRef.current?.contentWindow?.postMessage({ tipo: "vigias-sim-hola" }, "*");
     return () => window.removeEventListener("message", onMsg);
-  }, [onFase, onListo, src]);
+  }, [onFase, onListo, src, visible]);
+
+  // Si el motor no avisa `listo` a tiempo (red caída, script roto, GPU colgada) se muestra el error
+  // en vez de dejar el gris para siempre.
+  useEffect(() => {
+    if (!visible || listo || error) return;
+    const t = window.setTimeout(() => setError("tiempo"), cargado ? ESPERA_LISTO_MS : ESPERA_TOTAL_MS);
+    return () => window.clearTimeout(t);
+  }, [visible, listo, error, cargado]);
+
+  // Fuera de pantalla el iframe deja de dibujar (pausa real del rAF); al volver sigue donde estaba.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !visible) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        enPantallaRef.current = e.isIntersecting;
+        if (listoRef.current) iframeRef.current?.contentWindow?.postMessage({ tipo: "vigias-sim-pausa", pausa: !e.isIntersecting }, "*");
+      },
+      { rootMargin: "120px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [visible]);
 
   // Cambio de analítica: se lo pedimos al motor ya cargado.
   useEffect(() => {
@@ -144,6 +186,10 @@ export function Sim3D({ id, pip = true, className, title, onFase, onListo, lazy 
           title={title ?? "Simulación 3D"}
           className="absolute inset-0 h-full w-full border-0"
           allow="fullscreen"
+          onLoad={(e) => {
+            setCargado(true);
+            e.currentTarget.contentWindow?.postMessage({ tipo: "vigias-sim-hola" }, "*");
+          }}
         />
       )}
       {!visible && (
@@ -152,8 +198,8 @@ export function Sim3D({ id, pip = true, className, title, onFase, onListo, lazy 
         </div>
       )}
       {error && (
-        <div className="absolute inset-0 grid place-items-center p-6 text-center text-sm text-[#0A1330]">
-          La vista 3D no cargó en este navegador. Puede abrir la presentación completa desde el final de la página.
+        <div role="status" className="absolute inset-0 grid place-items-center p-6 text-center text-sm text-[#0A1330]">
+          {TEXTO_ERROR[error] ?? TEXTO_ERROR["sin-webgl"]}
         </div>
       )}
     </div>

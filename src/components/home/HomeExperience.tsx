@@ -8,6 +8,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileMenu } from "@/components/MobileMenu";
 import { mailtoUrl, whatsappUrl } from "@/lib/contact";
+import { isModestDevice, noopSubscribe, supportsWebGL } from "@/lib/three/webgl";
 import { useI18n } from "@/lib/i18n/context";
 import type { HomeDict } from "@/lib/i18n/dictionaries";
 import { cn } from "@/lib/utils";
@@ -50,19 +51,6 @@ export type HomeCounts = { areas: number; modules: number; live: number; analyti
 
 // ───────────────────────── Entorno del navegador ─────────────────────────
 
-const noopSubscribe = () => () => {};
-let webglCache: boolean | undefined;
-function detectWebGL() {
-  if (webglCache === undefined) {
-    try {
-      const c = document.createElement("canvas");
-      webglCache = Boolean(c.getContext("webgl2") ?? c.getContext("webgl"));
-    } catch {
-      webglCache = false;
-    }
-  }
-  return webglCache;
-}
 
 function useMediaQuery(query: string) {
   return useSyncExternalStore(
@@ -84,13 +72,16 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
   const store = useMemo(() => createChapterStore(0), []);
 
   const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
-  const webgl = useSyncExternalStore(noopSubscribe, detectWebGL, () => false);
+  const webgl = useSyncExternalStore(noopSubscribe, supportsWebGL, () => false);
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const coarse = useMediaQuery("(pointer: coarse), (max-width: 767px)");
-  const fewCores = useSyncExternalStore(noopSubscribe, () => (navigator.hardwareConcurrency || 8) <= 4, () => false);
+  const fewCores = useSyncExternalStore(noopSubscribe, isModestDevice, () => false);
   const lowPower = coarse || fewCores;
 
-  const [failed, setFailed] = useState(false);
+  // Fallos fatales del 3D (contexto perdido sin restaurar o error al crear la escena).
+  // El primero remonta el canvas una vez; el segundo deja el respaldo estático.
+  const [failures, setFailures] = useState(0);
+  const failed = failures >= 2;
   const [chapterIdx, setChapterIdx] = useState(0);
   const [step, setStep] = useState(-1);
   const [storyVisible, setStoryVisible] = useState(true);
@@ -160,7 +151,7 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
     return () => io.disconnect();
   }, []);
 
-  const onFail = useCallback(() => setFailed(true), []);
+  const onFail = useCallback(() => setFailures((n) => n + 1), []);
   const use3D = mounted && webgl && !failed;
   const activeLayer = CHAPTER_LAYER[CHAPTERS[Math.min(chapterIdx, CHAPTERS.length - 1)]];
 
@@ -208,6 +199,7 @@ export function HomeExperience({ counts }: { counts: HomeCounts }) {
         <StaticBackdrop note={mounted && !use3D ? h.staticNote : undefined} />
         {use3D && (
           <HomeCanvas
+            key={failures}
             store={store}
             reducedMotion={reducedMotion}
             lowPower={lowPower}

@@ -19,15 +19,19 @@
   var semilla=1;function rnd(){semilla=(semilla*16807)%2147483647;return(semilla-1)/2147483646}
   function rndEntre(a,b){return a+(b-a)*rnd()}
 
-  var R=new THREE.WebGLRenderer({antialias:true,powerPreference:"high-performance",preserveDrawingBuffer:!!window.__PRUEBA});
-  R.setPixelRatio(Math.min(2,window.devicePixelRatio||1));R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.0;
+  // Modo bajo consumo: puntero grueso (móvil/tableta), ≤ 4 GB de memoria o ≤ 4 núcleos → sin antialias, DPR ≤ 1.5 y sombras 1024.
+  var bajo=(function(){try{var mm=window.matchMedia,mem=navigator.deviceMemory;return!!((mm&&mm("(pointer: coarse)").matches)||(typeof mem==="number"&&mem<=4)||(navigator.hardwareConcurrency||8)<=4)}catch(e){return false}})();
+  M.bajoConsumo=bajo;
+  // Si el navegador no puede crear el contexto WebGL no se define el motor: sim.html lo detecta y avisa {error:"sin-webgl"}.
+  var R;try{R=new THREE.WebGLRenderer({antialias:!bajo,powerPreference:"high-performance",preserveDrawingBuffer:!!window.__PRUEBA})}catch(e){console.log("ERROR WebGL "+(e&&e.message||e));window.MOTOR=undefined;window.MOTOR_ERROR="sin-webgl";return}
+  R.setPixelRatio(Math.min(bajo?1.5:2,window.devicePixelRatio||1));R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.0;
   R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;R.setScissorTest(false);R.autoClear=false;R.physicallyCorrectLights=false;
   var lienzo=R.domElement;lienzo.className="gl";
   var scene=new THREE.Scene();scene.background=new THREE.Color(0xE3E8F1);
   try{var pm=new THREE.PMREMGenerator(R);pm.compileEquirectangularShader();scene.environment=pm.fromScene(new THREE.RoomEnvironment(),0.04).texture;
     if(THREE.RGBELoader)new THREE.RGBELoader().setDataType(THREE.UnsignedByteType).load("texturas/brown_photostudio_02_1k.hdr",function(hdr){scene.environment=pm.fromEquirectangular(hdr).texture;hdr.dispose()},undefined,function(){})}catch(e){}
   var hemi=new THREE.HemisphereLight(0xFFFFFF,0xB7C2D8,0.48);scene.add(hemi);
-  var sol=new THREE.DirectionalLight(0xFFF4E4,1.55);sol.position.set(-10,18,12);sol.castShadow=true;sol.shadow.mapSize.set(2048,2048);
+  var sol=new THREE.DirectionalLight(0xFFF4E4,1.55);sol.position.set(-10,18,12);sol.castShadow=true;sol.shadow.mapSize.set(bajo?1024:2048,bajo?1024:2048);
   var sc=sol.shadow.camera;sc.left=-18;sc.right=18;sc.top=18;sc.bottom=-18;sc.near=1;sc.far=70;sol.shadow.bias=-0.00035;sol.shadow.normalBias=0.025;sol.shadow.radius=3;scene.add(sol);
   var relleno=new THREE.DirectionalLight(0xCFE0FF,0.32);relleno.position.set(14,9,-8);scene.add(relleno);
   (function(){var s=new THREE.Mesh(new THREE.PlaneGeometry(160,160),new THREE.ShadowMaterial({opacity:0.16}));s.rotation.x=-PI/2;s.position.y=-0.66;s.receiveShadow=true;scene.add(s)})();
@@ -713,15 +717,26 @@
     E.pipTxt.textContent=(E.camId||"CAM 03")+" · "+E.reloj(t)}
   M.pip=function(fn){E.pipExtra=fn};
   M.proyectarCctv=function(p){var v=new THREE.Vector3(p[0],p[1],p[2]).project(cctv);return[(v.x*0.5+0.5),(-v.y*0.5+0.5)]};
-  function bucle(){requestAnimationFrame(bucle);try{cuadro()}catch(e){console.log("ERROR cuadro "+(e&&e.message)+" "+(e&&e.stack&&e.stack.split("\n")[1]));vivo=false}}
+  // Bucle de render. `M.pausar()` cancela el rAF de verdad (iframe fuera de pantalla o pestaña oculta) y `M.reanudar()` lo retoma
+  // sin remontar la escena. Si `cuadro()` lanza, se remonta la escena UNA vez; si vuelve a fallar se detiene y avisa `M.onError`.
+  var rafId=0,pausado=false,reintentos=0,sanos=0;
+  function programar(){if(!rafId&&!pausado&&M.listo)rafId=requestAnimationFrame(bucle)}
+  function bucle(){rafId=0;if(pausado)return;rafId=requestAnimationFrame(bucle);
+    try{cuadro();if(reintentos&&++sanos>180){reintentos=0;sanos=0}}
+    catch(e){console.log("ERROR cuadro "+(e&&e.message)+" "+(e&&e.stack&&e.stack.split("\n")[1]));vivo=false;sanos=0;
+      if(reintentos<1&&actual&&E.raiz){reintentos++;try{M.montar(E.raiz,actual);return}catch(e2){console.log("ERROR remontar "+(e2&&e2.message))}}
+      if(rafId){cancelAnimationFrame(rafId);rafId=0}M.error="cuadro";try{if(M.onError)M.onError(e)}catch(e3){}}}
+  M.pausar=function(){pausado=true;if(rafId){cancelAnimationFrame(rafId);rafId=0}};
+  M.reanudar=function(){if(!pausado&&rafId)return;pausado=false;reloj.getDelta();if(M.error==="cuadro"&&actual&&E.raiz){M.error=null;reintentos=0;M.montar(E.raiz,actual)}programar()};
+  M.estaPausado=function(){return pausado};
   function torsoNeutro(g){var p=g.attributes.position,a=p.array,n=p.count,esc=ALTO_MODELO/1.8,y0=1.13*esc,y1=1.44*esc,zb=0.088*esc;
     for(var i=0;i<n;i++){var x=a[i*3],y=a[i*3+1],z=a[i*3+2];if(y<y0||y>y1||z<=zb||Math.abs(x)>0.17*esc)continue;var w=Math.min(1,(y-y0)/(0.06*esc),(y1-y)/(0.06*esc));var k=1-0.72*w*(1-Math.min(1,Math.abs(x)/(0.17*esc)));a[i*3+2]=zb+(z-zb)*k}
     p.needsUpdate=true;g.computeVertexNormals();g.computeBoundingBox()}
   M.arrancar=function(cb){var url=window.PERSONA_GLB||"persona.glb";
     var fin=function(gl){gl.animations.forEach(function(c){CLIPS[c.name]=c});["agree","headShake"].forEach(function(n){if(CLIPS[n]){CLIPS[n]=CLIPS[n].clone();THREE.AnimationUtils.makeClipAdditive(CLIPS[n])}});
       MODELO=gl.scene;MODELO.traverse(function(m){if(m.isSkinnedMesh&&!/Joints/i.test(m.material.name)){SUPERFICIE=m;m.geometry.computeBoundingBox();ALTO_MODELO=m.geometry.boundingBox.max.y-m.geometry.boundingBox.min.y;torsoNeutro(m.geometry)}});
-      M.listo=true;bucle();cb&&cb()};
-    var err=function(e){console.log("ERROR modelo "+(e&&e.message||e));M.listo=true;bucle();cb&&cb()};
+      M.listo=true;programar();cb&&cb()};
+    var err=function(e){console.log("ERROR modelo "+(e&&e.message||e));M.listo=true;programar();cb&&cb()};
     if(window.PERSONA_B64){try{var bin=atob(window.PERSONA_B64),buf=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)buf[i]=bin.charCodeAt(i);new THREE.GLTFLoader().parse(buf.buffer,"",fin,err)}catch(e){err(e)}}
     else new THREE.GLTFLoader().load(url,fin,undefined,err)};
   M.saltar=function(t){var dt=1/30;while(E.t+dt<t){E.t+=dt;pasoMundo(E.t,dt)}};M.manual=false;M.cuadroManual=function(){M._paso=true;try{cuadro()}finally{M._paso=false}return E.t};M.K=K;M.E=E;M.camara=camara;M.cctv=cctv;M.renderer=R;M.nav=NAV;M.PER=PER;M.scene=scene;M.controles=controles;

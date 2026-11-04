@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { EscenaId } from "@/data/servicios/tipos";
+import { isLowPower, noopSubscribe, supportsWebGL } from "@/lib/three/webgl";
 import { cn } from "@/lib/utils";
 import type { FabricaEscena, InstanciaEscena } from "./contrato";
 
@@ -18,16 +19,6 @@ const CARGADORES: Record<EscenaId, () => Promise<{ default: FabricaEscena }>> = 
   productividad: () => import("./productividad"),
   gobierno: () => import("./gobierno"),
 };
-
-const noop = () => () => {};
-function soportaWebGL() {
-  try {
-    const c = document.createElement("canvas");
-    return Boolean(c.getContext("webgl2") ?? c.getContext("webgl"));
-  } catch {
-    return false;
-  }
-}
 
 export type EscenaAreaProps = {
   escena: EscenaId;
@@ -47,7 +38,7 @@ export function EscenaArea({ escena, acento, foco, onSeleccion, className, respa
   const focoRef = useRef(foco);
   const selRef = useRef(onSeleccion);
   const [fallo, setFallo] = useState(false);
-  const webgl = useSyncExternalStore(noop, soportaWebGL, () => true);
+  const webgl = useSyncExternalStore(noopSubscribe, supportsWebGL, () => true);
 
   useEffect(() => {
     selRef.current = onSeleccion;
@@ -60,8 +51,7 @@ export function EscenaArea({ escena, acento, foco, onSeleccion, className, respa
     let vivo = true;
     let ro: ResizeObserver | null = null;
     let io: IntersectionObserver | null = null;
-    const lowPower =
-      window.matchMedia("(pointer: coarse), (max-width: 767px)").matches || (navigator.hardwareConcurrency || 8) <= 4;
+    const lowPower = isLowPower();
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     CARGADORES[escena]()
@@ -73,6 +63,8 @@ export function EscenaArea({ escena, acento, foco, onSeleccion, className, respa
           lowPower,
           reducedMotion,
           onSeleccion: (c) => selRef.current?.(c),
+          // El contexto WebGL se perdió y no volvió: respaldo estático.
+          onFallo: () => vivo && setFallo(true),
         });
         instRef.current = inst;
         const r = cont.getBoundingClientRect();
