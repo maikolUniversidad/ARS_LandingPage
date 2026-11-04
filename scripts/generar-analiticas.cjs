@@ -21,7 +21,7 @@ const win = {
 const ctx = { window: win, document: { querySelector: () => null, getElementById: () => null }, console };
 ctx.self = ctx.window;
 vm.createContext(ctx);
-const archivos = ["escenas.js", "escenas2.js", "evidencia-publica/evidencia-publica.js", "sync/base.js", ...FAMILIAS.map((f) => `sync/${f}.js`)];
+const archivos = ["escenas.js", "escenas2.js", "evidencia-publica/evidencia-publica.js", "sync/base.js", "sync/comercial.js", "sync/operativo.js", "sync/prevencion.js", "sync/prevencion-b.js", "sync/lite.js", "sync/lite-b.js"];
 for (const f of archivos) {
   const p = path.join(dir, f);
   if (fs.existsSync(p)) vm.runInContext(fs.readFileSync(p, "utf8"), ctx, { filename: f });
