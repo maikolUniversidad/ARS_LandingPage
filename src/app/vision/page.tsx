@@ -156,6 +156,12 @@ export default function VisionPage() {
           <nav className="flex items-center gap-3">
             <LanguageSwitcher />
             <Link
+              href="/servicios"
+              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground lg:flex"
+            >
+              <span className="text-accent">✦</span> {locale === "en" ? "Services" : "Servicios"}
+            </Link>
+            <Link
               href="/plataforma"
               className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground md:flex"
             >
@@ -181,6 +187,7 @@ export default function VisionPage() {
             </a>
             <MobileMenu
               links={[
+                { label: locale === "en" ? "Services" : "Servicios", href: "/servicios" },
                 { label: c.navPlatform, href: "/plataforma" },
                 { label: c.navLab, href: "/laboratorio" },
                 { label: c.navProjects, href: "/proyectos" },

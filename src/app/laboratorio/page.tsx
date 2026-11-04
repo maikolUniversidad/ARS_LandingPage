@@ -60,6 +60,12 @@ export default function LaboratorioPage() {
           <nav className="flex items-center gap-3">
             <LanguageSwitcher />
             <Link
+              href="/servicios"
+              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground lg:flex"
+            >
+              <span className="text-accent">✦</span> {t.nav.services}
+            </Link>
+            <Link
               href="/plataforma"
               className="bevel-btn group hidden items-center gap-2 border border-accent/60 bg-accent/15 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground backdrop-blur transition-colors hover:bg-accent/25 sm:flex"
             >
@@ -81,6 +87,7 @@ export default function LaboratorioPage() {
             </Link>
             <MobileMenu
               links={[
+                { label: t.nav.services, href: "/servicios" },
                 { label: "Plataforma", href: "/plataforma" },
                 { label: t.nav.projects, href: "/proyectos" },
                 { label: t.nav.home, href: "/" },

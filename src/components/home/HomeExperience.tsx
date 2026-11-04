@@ -226,6 +226,10 @@ function Header({ h }: { h: HomeDict }) {
           />
         </Link>
         <nav className="flex items-center gap-1 md:gap-2">
+          <Link href="/servicios" className={link}>
+            <span className="text-[#6b8aff]">✦</span>
+            {t.nav.services}
+          </Link>
           <Link href="/vision" className={link}>
             <span className="text-[#6b8aff]">◉</span>
             {h.nav.vision}
@@ -251,6 +255,7 @@ function Header({ h }: { h: HomeDict }) {
           </a>
           <MobileMenu
             links={[
+              { label: t.nav.services, href: "/servicios" },
               { label: h.nav.vision, href: "/vision" },
               { label: h.nav.platform, href: "/plataforma" },
               { label: h.nav.lab, href: "/laboratorio" },
@@ -643,6 +648,9 @@ function Recap({ h }: { h: HomeDict }) {
             );
           })}
         </ol>
+        <div className="mt-8 flex justify-end md:mt-10">
+          <CtaLink href="/servicios">{h.ctas.services}</CtaLink>
+        </div>
       </div>
     </section>
   );
