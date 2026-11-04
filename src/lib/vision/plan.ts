@@ -138,5 +138,7 @@ export type EscenaPlan = {
 // padre → iframe  {tipo:"vigias-plan", escena: EscenaPlan, cam?: number, vista?: "maqueta"|"cctv"}
 // padre → iframe  {tipo:"vigias-plan-cam", cam: number}          cambia la cámara activa (−1 = recorrido)
 // padre → iframe  {tipo:"vigias-plan-vista", vista: "maqueta"|"cctv"}
+// padre → iframe  {tipo:"vigias-plan-pausa", pausa: boolean}     el iframe salió/volvió a la pantalla: pausa real del render
+// iframe → padre  error: "sin-webgl" | "sin-escena" | "cuadro" (la escena falló dos veces seguidas)
 // iframe → padre  {tipo:"vigias-plan", listo?:true, montado?:true, cam?:number, evento?:{cam:number, analitica:string, texto:string, nivel:"detecta"|"alerta"|"ok"}, error?:string}
 export const MSG_PLAN = "vigias-plan" as const;

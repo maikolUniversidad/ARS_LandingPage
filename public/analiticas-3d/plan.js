@@ -547,5 +547,9 @@
   if(q.get("demo")==="1"){escena=sanear(DEMO);pendiente=true}
   M.arrancar(function(){avisar({listo:true});if(pendiente&&escena){pendiente=false;if(montar())avisar({montado:true})}else if(!escena)reposo.textContent="Esperando la propuesta de cámaras…";
     window.addEventListener("resize",function(){M.tamano();if(S&&S.ini&&recorrido)encuadreGeneral(false)})});
-  document.addEventListener("visibilitychange",function(){if(document.hidden)M.detener();else if(M.listo&&escena)montar()});
+  // Pausa real (sin remontar): pestaña oculta o iframe fuera de pantalla (lo avisa el padre con {tipo:"vigias-plan-pausa"}).
+  var pausaPadre=false;function aplicarPausa(){if(typeof M.pausar!=="function"){if(document.hidden)M.detener();return}if(document.hidden||pausaPadre)M.pausar();else M.reanudar()}
+  document.addEventListener("visibilitychange",aplicarPausa);
+  window.addEventListener("message",function(ev){var d=ev.data;if(d&&d.tipo==="vigias-plan-pausa"){pausaPadre=!!d.pausa;aplicarPausa()}});
+  M.onError=function(){reposo.textContent="La maqueta 3D se detuvo. Recargue la página para intentarlo de nuevo.";raiz.classList.remove("viva");avisar({error:"cuadro"})};
 })();

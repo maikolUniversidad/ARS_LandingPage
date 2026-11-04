@@ -93,6 +93,15 @@ export function Plano3D({ escena, cam, vista, onCam, onEvento, className, textos
     if (listo && w) w.postMessage({ tipo: `${MSG_PLAN}-vista`, vista }, "*");
   }, [vista, listo]);
 
+  // Fuera de pantalla el motor se pausa de verdad (no gasta GPU ni batería) y retoma donde iba.
+  useEffect(() => {
+    const el = iframeRef.current;
+    if (!listo || !el) return;
+    const io = new IntersectionObserver(([e]) => el.contentWindow?.postMessage({ tipo: `${MSG_PLAN}-pausa`, pausa: !e.isIntersecting }, "*"), { rootMargin: "120px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [listo]);
+
   return (
     <div className={cn("relative overflow-hidden bg-[#DDE3EE]", className)}>
       {!error && (
