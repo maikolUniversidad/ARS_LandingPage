@@ -12,6 +12,18 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["next", "dev", "-p", "3002"],
       "port": 3002
+    },
+    {
+      "name": "historia-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "dev", "-p", "3004"],
+      "port": 3004
+    },
+    {
+      "name": "reporte-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "dev", "-p", "3005"],
+      "port": 3005
     }
   ]
 }
