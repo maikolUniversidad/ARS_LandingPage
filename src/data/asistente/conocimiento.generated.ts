@@ -137,7 +137,7 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
     titulo: "Plataforma ARS y ERP operativo",
     orden: 20,
     rutas: ["/plataforma"],
-    contenido: `«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: \`/plataforma\`.
+    contenido: `«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: \`/plataforma\`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
 
 ## Funcionalidades (A–N) · ancla \`/plataforma#feature-<id>\`
 
@@ -148,9 +148,9 @@ Grupos: **Operación** (gestión humana, programación y ejecución en campo), *
 - **C · Rondas inteligentes** (\`rondas\`, Operación): rondas por sede, zona o cliente; puntos de control; tareas por punto; validación por ubicación; evidencia fotográfica; observaciones; control de rondas incompletas; alertas por incumplimiento; historial.
 - **D · Rondas con tareas personalizadas** (\`tareas\`, Operación): según instalación o riesgo; p. ej. verificar puerta cerrada, revisar perímetro, confirmar iluminación, reportar vehículos sospechosos, validar personal autorizado, tomar foto del punto, formulario de inspección, novedad con evidencia.
 - **E · Formularios dinámicos** (\`formularios\`, Operación): formularios por operación, cliente, ronda o tipo de novedad; campos de texto, selección, fecha, evidencia, firma o ubicación; validaciones obligatorias; enlazados a reportes y auditoría.
-- **F · Seguimiento en mapa en tiempo real** (\`mapa\`, Monitoreo): ubicación de guardas, vista por cliente/sede/zona, rutas de ronda, puntos de control, cámaras georreferenciadas, alertas sobre el mapa, historial de recorridos.
-- **G · PTT · Push To Talk** (\`ptt\`, Operación): comunicación tipo radio digital entre central, supervisores y campo; canales por cliente, sede, zona o equipo; registro de actividad si aplica; integración con eventos o alertas.
-- **H · POT · Acción operativa rápida** (\`pot\`, Operación): botón de acción rápida para reportar novedad o emergencia, solicitar apoyo, confirmar presencia o tarea, activar protocolo; queda asociado a ubicación, usuario y trazabilidad.
+- **F · Seguimiento en mapa en tiempo real** (\`mapa\`, Monitoreo): ubicación de guardas, vista por cliente/sede/zona, rutas de ronda, puntos de control, cámaras georreferenciadas, alertas sobre el mapa, historial de recorridos, segmentación por operación.
+- **G · PTT · Push To Talk** (\`ptt\`, Operación): comunicación inmediata tipo radio digital entre central, supervisores y campo; canales por cliente, sede, zona o equipo; soporte para supervisores; registro de actividad si aplica; integración con eventos o alertas; apoyo a la respuesta coordinada.
+- **H · POT · Acción operativa rápida** (\`pot\`, Operación): botón de acción rápida (el equivalente operativo a un botón de emergencia o de pánico) para reportar novedad o emergencia, activar una alerta, solicitar apoyo, confirmar presencia o una tarea crítica, activar protocolo; queda asociado a ubicación, usuario y trazabilidad.
 - **I · Central de monitoreo** (\`central\`, Monitoreo): video wall, monitoreo de cámaras, alertas en tiempo real, seguimiento de eventos, visualización de personal, comunicación con campo, evidencia, priorización de riesgos.
 - **J · Cámaras e IA** (\`ia\`, Inteligencia): personas (detección, reconocimiento facial contra listas autorizadas/restringidas, caídas, merodeo); vehículos (detección, LPR, clasificación por tipo y color); comportamiento y zonas (cruce de línea, intrusión, ROI, objetos abandonados); industrial (EPP, reglas por cámara, aglomeración, fuego y humo). El detalle de analíticas está en \`/vision\`.
 - **K · Alertas inteligentes** (\`alertas\`, Inteligencia): llegan con tipo de evento, prioridad, cámara, zona o sede, guarda relacionado, snapshot, video clip, ubicación, estado de atención e historial de seguimiento.
@@ -361,6 +361,28 @@ Algunos modelos marcados «API externa / requiere key» pueden no estar activos 
 - \`/vision\`: portafolio comercial de 45 analíticas con simulación 3D y evidencia real.`,
   },
   {
+    id: "asistente-ars",
+    titulo: "Qué puede hacer el asistente Ars por el visitante",
+    orden: 70,
+    rutas: ["/","/plataforma","/vision","/laboratorio"],
+    contenido: `Úsalo para contestar «¿qué puedes hacer?» o «¿cómo me ayudas?». Ofrece una o dos de estas opciones, según la página y lo que la persona ya contó. No las recites todas.
+
+## Capacidades
+
+- **Guiar por el sitio**: llevar a la página, sección o analítica correcta y resaltar lo que se está explicando.
+- **Recomendar según el caso**: con el sector, las sedes, las cámaras y el problema principal, proponer funcionalidades de \`/plataforma\` y analíticas de \`/vision\`.
+- **Alcance orientativo**: un borrador de alcance con tamaño de la operación, funcionalidades, analíticas, unidades a cotizar, etapas (demo → levantamiento → piloto → despliegue) e indicadores para medir el resultado. No es una cotización y no trae precios; el equipo comercial confirma alcance, compatibilidad, plazos y costo.
+- **Comparar analíticas**: una tabla lado a lado (qué detecta, cómo se activa, estado, prueba real, para qué sectores).
+- **Analizar una foto o un video propio**: la persona adjunta una foto de su instalación o un clip de cámara. Ars señala zonas ciegas, accesos, EPP o flujos, y qué analíticas lo detectarían y en qué segundo. El archivo se usa solo en esa conversación: no se guarda en el servidor y los videos ni siquiera se suben (el navegador extrae unos fotogramas). No identifica a personas.
+- **Leer documentos**: pliegos, términos de referencia o RFP en PDF o texto. Ars resume, cita la página y lo conecta con ARS.
+- **Preparar el contacto**: un resumen de la visita (necesidad, tamaño, intereses, plazo) que llega escrito en el formulario. La persona lo revisa, añade su nombre y correo y lo envía ella misma.
+- **Voz**: conversación hablada con subtítulos, si el sitio la tiene activa.
+
+## Privacidad del asistente
+
+Lo que la persona cuenta para personalizar (sector, sedes, cámaras…) se guarda solo en su navegador y lo puede ver y borrar en el panel. Las búsquedas en la documentación envían solo el texto de la pregunta a un servicio de búsqueda semántica, nunca los archivos adjuntos.`,
+  },
+  {
     id: "preguntas-frecuentes",
     titulo: "Preguntas frecuentes",
     orden: 90,
@@ -408,6 +430,15 @@ Sí, tres opciones:
 3. Demo guiada con el equipo: formulario en \`/#cierre\`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.
 
 **¿Hay versión en inglés?**
-El sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de \`/vision\` se presenta en español.`,
+El sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de \`/vision\` se presenta en español.
+
+**¿Me pueden dar un estimado?**
+Ars puede armar un alcance orientativo (funcionalidades, analíticas, unidades a cotizar y etapas) con el sector, las sedes, las cámaras y el objetivo. No incluye precios. La cotización formal la hace el equipo comercial después de la demo o del levantamiento.
+
+**¿Puedo mostrarle una foto o un video de mis cámaras?**
+Sí, se adjunta en el chat. Ars explica qué detectaría ARS y con qué analítica. El archivo se usa solo en esa conversación y no se guarda en el servidor; en un video, el navegador envía solo unos fotogramas. Para ver los modelos corriendo en vivo sobre tu propia cámara está \`/laboratorio#demo-stage\`.
+
+**¿En qué se diferencian dos analíticas parecidas (p. ej. intrusión, merodeo y acceso no autorizado)?**
+Ars puede compararlas en una tabla: qué detecta cada una, cómo se activa, estado y prueba real. Resumen rápido: **intrusión** mide qué tan adentro de una zona prohibida está la persona (tres franjas, con aviso según la gravedad); **merodeo** avisa de quien da vueltas sin entrar ni irse; **acceso no autorizado** combina la puerta de una zona interna con el reconocimiento de personal y avisa si cruza alguien que no es del equipo. Ver \`/vision#intrusion\`, \`/vision#merodeo\` y \`/vision#acceso\`.`,
   },
 ];
