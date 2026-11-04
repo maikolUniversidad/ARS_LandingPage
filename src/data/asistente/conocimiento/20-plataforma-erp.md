@@ -7,7 +7,7 @@ rutas: ["/plataforma"]
 
 «Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
 
-## Funcionalidades (A–N) · ancla `/plataforma#feature-<id>`
+## Funcionalidades (A–N) · se recorren en `/plataforma#recorrido`
 
 Grupos: **Operación** (gestión humana, programación y ejecución en campo), **Monitoreo** (visualización, central y trazabilidad), **Inteligencia** (IA y alertas con contexto), **Reportes** (indicadores, multisede y arquitectura).
 
@@ -26,7 +26,7 @@ Grupos: **Operación** (gestión humana, programación y ejecución en campo), *
 - **M · Reportes e indicadores** (`reportes`, Reportes): cumplimiento de turnos, rondas completadas y fallidas, tiempo de respuesta, novedades por sede, alertas por tipo, eventos por cámara, actividad por guarda, cobertura por cliente, evidencia generada, riesgos recurrentes, reportes por periodo.
 - **N · Multi-cliente · multi-sede · multi-zona** (`multisite`, Reportes): Organización → Cliente → Sede/Zona; Puesto → Cámara → Guarda; Turno → Ronda → Tarea; Evento → Evidencia → Reporte.
 
-## Capturas del producto (`/plataforma#capturas`)
+## Capturas del producto (`/plataforma#en-movimiento`)
 
 - Central de monitoreo: tablero único con cámaras, alertas y mapa en vivo; vista multipantalla configurable; priorización automática; asignación de operadores por turno.
 - IA por cámara: activar modelos por cámara sin reemplazar hardware; reglas por cámara; varios modelos sobre la misma fuente; edge + cloud según la latencia requerida.
@@ -46,7 +46,7 @@ Raíz: ARS Intelligence (plataforma) → L1 Clientes (empresas y organizaciones)
 
 Resultado: «Cero desconexión entre operación humana, IA y supervisión».
 
-## Casos de uso (`/plataforma#casos`)
+## Casos de uso (para armar el tuyo: `/plataforma#arquitecto-ia`)
 
 - **Conjunto residencial**: porterías, rondas perimetrales, novedades, cámaras por torre o zona, alertas por intrusión, reportes al administrador.
 - **Universidad o campus**: múltiples entradas, cámaras por edificio, estudiantes, visitantes y zonas críticas, permanencia o cruce de línea, eventos y reportes.

@@ -79,8 +79,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Qué es ARS Intelligence › Contacto",
    "ruta": "/",
-   "texto": "- Solicitar demo: formulario y botones en la sección `#contacto` de la portada (`/#contacto`), de `/plataforma#cierre` y de `/vision#cierre`.\n- WhatsApp de la gerencia comercial: +57 318 0005654.\n- Correo: gerencia.comercial@vigiasdecolombia.com (asunto sugerido «Solicitud de demo - ARS Intelligence»).\n- Dominio del sitio: arsintelligence.com.\n\nPrecios, planes, licencias y condiciones contractuales no están publicados en el sitio: a confirmar con el equipo comercial.",
-   "h": "03cf4fe7e76fef1f"
+   "texto": "- Diagnóstico de la empresa con IA (llamado principal del menú): `/diagnostico`.\n- Solicitar demo: formulario y botones en la sección `#contacto` de la portada (`/#contacto`), de `/plataforma#cierre` y de `/vision#cierre`.\n- WhatsApp de la gerencia comercial: +57 318 0005654.\n- Correo: gerencia.comercial@vigiasdecolombia.com (asunto sugerido «Solicitud de demo - ARS Intelligence»).\n- Dominio del sitio: arsintelligence.com.\n\nPrecios, planes, licencias y condiciones contractuales no están publicados en el sitio: a confirmar con el equipo comercial.",
+   "h": "39b4d48c7b28d6ea"
   },
   {
    "id": "kb:mapa-del-sitio:0",
@@ -118,14 +118,29 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
   {
    "id": "kb:mapa-del-sitio:2",
    "fuente": "kb",
-   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/plataforma` — Seguridad integral en una sola plataforma",
+   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/diagnostico` — Diagnóstico de tu empresa",
    "ruta": "/",
-   "texto": "La plataforma de operación (ERP operativo de seguridad). Orden de secciones: hero, ciclo operativo de 8 pasos, capturas del producto, funcionalidades (A–N), arquitectura operativa por niveles, flujo de integración (del turno al reporte), casos de uso, comparativa antes/con ARS, testimonios del equipo, logos de entidades y empresas, cierre con demo.\n\nAnclas:\n- `#funcionalidades` — las 14 funcionalidades agrupadas en Operación, Monitoreo, Inteligencia y Reportes. Cada tarjeta tiene además su ancla `#feature-<id>`: `turnos`, `personal`, `rondas`, `tareas`, `formularios`, `mapa`, `ptt`, `pot`, `central`, `ia`, `alertas`, `evidencia`, `reportes`, `multisite` (p. ej. `/plataforma#feature-rondas`).\n- `#capturas` — capturas: central de monitoreo, IA por cámara, reconocimiento facial, LPR, intrusión/ROI, EPP, alertas con evidencia.\n- `#casos` — casos de uso: conjunto residencial, universidad o campus, centro logístico, empresa de seguridad.\n- `#cierre` — Solicitar demo / Hablar con un asesor (WhatsApp).\n\nEnviar aquí: preguntas sobre turnos, rondas, guardas, central, reportes, multisede, software de gestión u operación.",
-   "h": "d8c08af27b28a74d",
-   "v": "7yEy+gz/wxkB0wnmBdsfA/b2zEAQDuD10/vrEPEMNdUdEBbZIxgNLRgV+/Lv89f5MhPq1RBb9Q3q/SMGBNgIKO8HpArxDSIR79oY7+cv6s/s7NLtB9u6+ube4Rf4FScBFwDqLiuT8K743T8ZDdAMywo1MhAj3Tjm8PDc6M/b7QPU1v3WG8ruCAnb1x0I5O//pu/xIAsNCQT58Bbq2/79+wD41R735O/XmVbZ6PMO/trd6QDl3gPx4Ob8vwzzZMMlNh0I2vz/COXPCHQs8wQaHfLdS/cv99UUxC3xBOXl7OEFcUnHH+ILJQzq/vUJ4wABABD36iwOBdw0JkYsLw39AuXw980mJdkSFP8MC+/xHS8ZKe/uJbQE7v3v+RArMB0F5yLsMvXy8vU9ByHe9y4R1e0dJfkCyOLxCevksD8HCfMb3gXSJuLqJRXCLrn+/Nkf+zwGBxbKwfsU9Qm9OSLK9MsFz/jlzeMOAOoy8BAZ3Oob2zXCEd721/45Eigk9f30ACUBMP/uFwQIygYGMQAN1AP+tg/g9zoj5/7i2i4UJOoE+xcmNfjVLeUZJ+/AuhEXLAvi8BUa8A3oA/0c4eITxtXs9z7yObj+SdwHLxsbCDQa9p3nMw8UPCrh1eT6/PUMFerR9E1/8CwCKeg5K+8A6uTPxAX29NsEO/ng4yHJ79Y="
+   "texto": "«¿Cómo se vería tu empresa con ARS?» Entrevista de unos 5 minutos con Ars: mientras la persona cuenta cómo opera, se van marcando las áreas de ARS que le sirven; al final los agentes por área arman el diagnóstico, una historia 3D de su operación y un reporte para compartir o descargar. `/diagnostico?ejemplo=1` muestra un diagnóstico de ejemplo. No tiene anclas.\n\nEnviar aquí: quien quiere saber qué le sirve de ARS a su empresa, un plan o un punto de partida antes de hablar con ventas. Es el llamado principal del sitio (botón «Diagnóstico» del menú).",
+   "h": "e072112a37033097"
   },
   {
    "id": "kb:mapa-del-sitio:3",
+   "fuente": "kb",
+   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/plataforma` — Seguridad integral en una sola plataforma",
+   "ruta": "/",
+   "texto": "La plataforma de operación (ERP operativo de seguridad), mostrada en movimiento. Orden de secciones: hero 3D con un muro de capturas reales, «En movimiento» (clips y recorridos con capturas reales), recorrido por los módulos de cada área de campo, Arquitecto IA (arma la plataforma a la medida de la empresa), ciclo operativo, pilares, comparativa antes/con ARS, logos de entidades y empresas, cierre con demo.\n\nAnclas:\n- `#en-movimiento` — clips y recorridos de la plataforma con capturas reales.\n- `#recorrido` — recorrido por los módulos de cada área (operación en campo, centro de operaciones, comunicación, monitoreo…), con enlace a cada área en `/servicios/<área>`.\n- `#arquitecto-ia` — la persona describe su operación y la IA propone los módulos y una ruta de implementación.\n- `#pilares` — pilares de la plataforma.\n- `#cierre` — Solicitar demo / Hablar con un asesor (WhatsApp).\n\nLas funcionalidades A–N (turnos, rondas, PTT, central, alertas…) no tienen ancla propia: para una funcionalidad concreta usa `/plataforma#recorrido` o el módulo equivalente en `/servicios/<área>#<módulo>`.",
+   "h": "35372f3742330b95"
+  },
+  {
+   "id": "kb:mapa-del-sitio:3.1",
+   "fuente": "kb",
+   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/plataforma` — Seguridad integral en una sola plataforma",
+   "ruta": "/",
+   "texto": "Enviar aquí: preguntas sobre turnos, rondas, guardas, central, reportes, multisede, software de gestión u operación.",
+   "h": "bd5871d7faada582"
+  },
+  {
+   "id": "kb:mapa-del-sitio:4",
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/vision` — Módulo de Visión · Analíticas de video",
    "ruta": "/",
@@ -134,7 +149,7 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "v": "8UX+4OL01+H51DLqKbspN9TmB1sU2/EWHOHqJjb3Cs8TBsrn4Rn8CjJSCDEv/vXxFA/oC/ZgBfDr+ucCCgYoKwkGmzsM4xgby/0SCMz26LcOIMoEDOwGEvUf2hjFBz5ZFBDZGEK++dwcFzD+8/so4BMiJAogzS/NxNxD89nH/fTa1Q/mIKAB7fwPvl8lDzLn/h8xESUFDSXe8wP/At7v7Ajj6f66R+HomAfN6BbpFgjx0BoXsjIP2gAV4N8CK9EVK1oK5d8Q8wrPJVbU6hIlIer0aONlAvYk4iL6UtX69/UtUFip/fMfI/UuA9UT4t7dKBYg5g817a0LLmsh6wUP95AXGsUM99fdAvIFJOLDDQ/5NNT3JuHnB/j18U7bPvQS1Q3u/gX43lE28P70F9hPFvdAJAoH9Nfh/uLCskPpOuvS/+vvzOrsQCXCVOn0O8jCASa4DcLjpNUZ4vrYNADvzekKBxHZ4uIh+OFiAxsRuulDyDjNFM4AyA8V9AjcBNXK8s4xLPMD9OTczAoHNg0z7eoKr+nbKBYjEAH9kwAQ+cwr5BZBGgrd/tMxQgwYsuIyMSXP5QLjAPDN/sYF3s384dOoCj7mJsbsOsQJFPgf4Csn+9byMgs0KhXkxvThzNfMLPrY/RB/2vAqD9MX/+7qDL7i+/E/+ugCE/QR4Q0R3/8="
   },
   {
-   "id": "kb:mapa-del-sitio:3.1",
+   "id": "kb:mapa-del-sitio:4.1",
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/vision` — Módulo de Visión · Analíticas de video",
    "ruta": "/",
@@ -142,7 +157,7 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "3df177519bb71089"
   },
   {
-   "id": "kb:mapa-del-sitio:4",
+   "id": "kb:mapa-del-sitio:5",
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/proyectos` — Mapa de proyectos en Latinoamérica",
    "ruta": "/",
@@ -151,7 +166,7 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "v": "zQEgHdwI1hfq6NX3EdUCEdrvAyEq+7MTDOfSMvr49ssJJPP3EQQZAhQfGhT4Ab7zHyvy7wT+CfADCevyBQcgEu8ryQ/5EfAWBer16M0d6dDb/N3P5OAO3RcD4PzvKiMS/xsaPji1C7Xq/zH/I8YDACM3DgninzbX9e0CDtrG+QXg5QD6LN/cAt/lzRUi3AAS0fQCMSkGFhrf+d785QDl2/z+/e7xD9jasAe8qvEj6/Xu8xz74QgK3eH6/RnQEOQoTjHs6dsf5Oi7HjQC4PsZBRbuWAsCIREKyzH98OPk4/cDPheqC/0oLBgUGOkh2/X9DAIs9S8I98g2HikgIOwnAdTh97gLHvD4CNH1GwHk+O8QDPUzLt0D1wHs1hfrGw4G2iFB+Qz68xEx1QT+Fvca3Pk6CPIa8e0QE/bY3CvnB/PUAfDT1tQKI+DVUAAYLQjs/Qr+Lv3jEAMiCR3eAwL15d8gzAf68uwD6u4M+xXw5gUhsQi5EOr43BkP/xLz+NfcBPYWCe74DfUq0EX+MuYP1/fezf3pLQkE/+fvgQkU6AcO+QfgMkgX+/gqNhPx1ekdHQ3WIQsB/v/kEN4eAM43E+va/BUNKeQcJQ4GGhMa5S8v7s4DMP8yId8NzP3g1dTiF93bByQ53SX7LPQx/fUC2cnd5ucH59flIf/y4gH14/Q="
   },
   {
-   "id": "kb:mapa-del-sitio:5",
+   "id": "kb:mapa-del-sitio:6",
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/laboratorio` — Laboratorio · Modelos de IA",
    "ruta": "/",
@@ -160,7 +175,7 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "v": "6QXvEPDH4B8C+y/GE8rrBtf/8T8A9t36Ibr5KfrhA9rR7c8NFhrkERMbCxXc+fDdFhXa/N5JAhXUFvMECvcPH+3xxTff9zD35ejqAcMs6dTp9+zu+QbV6+8PAxTxFj8wKPcOSTy9+PkYCh4O0e8Z9RwgGQMhzwy72f0a6+2pKN3K+wcAMeXi8v7otzwiy/n80Pz6BzIZDwi/89H3webR6QTO3AHJSvrvohLpBRIh7QoT1w7r0BHx58Xy7/3oH+kEQFEu4/UDNvvdEEsXAycyH+cAVfw//u0N0wbYP6v4AfUHHirD+fEGJB4JMv0X3ffaGyL86SgICN4mFzIIE98gILwLBsINK+LsLe/+CvTv/AoYLeQbKeH+Gd0f+wn0GwXV3xccDCHy7hJH9xTyBftA5t8+Awwe4coH+gX3yzTuKwLWDdfoxe8KAQO3FPoEAhD+4wvjQuf21CA9ATPUFe3k6PP42xfd4PP99QhQGgUB9N0a1Sq4Nszz0iYiDTID7/fzEOsWJufuAb7m0y4RNwcD7Pz2y/8CBygeFekHkiAO8Qk78BchF/Df9OcsSxH40eEbBxTUBxXk++gKAc/0CuLz/s7K5PrvKtrwMeAWERMM6VczOdEGKP338PHrzusC8erg+PnSBCt/1+odBegdCfIO8QX02CEYwLsQ4foF8SXo6f0="
   },
   {
-   "id": "kb:mapa-del-sitio:6",
+   "id": "kb:mapa-del-sitio:7",
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/servicios` — Servicios: el sistema operativo de una empresa de seguridad",
    "ruta": "/",
@@ -168,7 +183,7 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "209fe66942160235"
   },
   {
-   "id": "kb:mapa-del-sitio:6.1",
+   "id": "kb:mapa-del-sitio:7.1",
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/servicios` — Servicios: el sistema operativo de una empresa de seguridad",
    "ruta": "/",
@@ -176,21 +191,20 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "75dce5dc434e17ed"
   },
   {
-   "id": "kb:mapa-del-sitio:7",
+   "id": "kb:mapa-del-sitio:8",
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/vision-lab` — Playground técnico",
    "ruta": "/",
-   "texto": "Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), motor «IA real» en el navegador o «Demo» simulado, reglas (dibujar ROI o línea), panel de eventos, conteo, análisis facial y visor JSON de la respuesta. No tiene anclas. Pensado para perfiles técnicos o integradores.",
-   "h": "37811ffb05375605",
-   "v": "6Bzj8/Hs1AXp9iTuLdUaB83xACgF7er0IO7uLxbu79rx6vTgGwrsFQYHBR0A8fAEBBLqBfRH5xfpBgYnEfwSG/IN1BTk+xTx+dwGAd8i8M/y/O7w4urg+AQU6gbyHhshBfcANy7M+eYe9Rfy1Ar85ggyGvUmxxnI3xAJ4vTN+Ovd6wQFHtv6+OP0wTcP6/fz5gIGChgS+vrp79r45PTP+vHc8gfoJvwLwSEH+fYBCAUO5R343hMB9tzi8O3q8tQeJD4N5fL0G+zpFkP53h0dJhTtRwstBPAX6BLtLLD49fkIKCfN9t4YDAoHEu4S5f3tExIC+h8U8dYhGUUGBvQgIsv9Dcz+Cff0BAnxLtXoBRAJFPb8HwPoDtsW9RfUHgPm1CAP/v7kACZC+RPx8vco6fosGQcR5szv//jc0CL9GN3i7Ov94efwDgzPKesGHgHv7AzmKdzq2Qc48wvmHPvy5v/t7gzp9ugH7gsxGPct2fka0xvmBd/y1iEE9hwI+xHiA+AlFtj3+t3wyzIGOfUR8Ar02wf1AxYF/PQSnAwD8PM80Po//RDo4gYuJQv68+4NFRvO9gb1A/UCE/MM8uPp/urYABT5I/X1Md8OGwcW/CA3GeEGHvwPCPv75gP17fXg9Pnj1x5/4froB+0ICPL79N/r3A4j6bwJ/QQM+QPw+/Y="
+   "texto": "Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), motor «IA real» en el navegador o «Demo» simulado, reglas (dibujar ROI o línea), panel de eventos, conteo, análisis facial y visor JSON de la respuesta. No tiene anclas y no aparece en el menú: solo para perfiles técnicos o integradores; para visitantes, la demo es `/laboratorio`.",
+   "h": "ff927b282764f5c8"
   },
   {
-   "id": "kb:mapa-del-sitio:8",
+   "id": "kb:mapa-del-sitio:9",
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › Reglas de navegación",
    "ruta": "/",
-   "texto": "- Pedir demo o hablar con alguien → `/#contacto` (formulario) o WhatsApp +57 318 0005654.\n- Una analítica concreta → `/vision#<id>` usando el id exacto del catálogo.\n- Una funcionalidad de la plataforma → `/plataforma#feature-<id>` o `/plataforma#funcionalidades`.\n- Ver IA en vivo con su cámara → `/laboratorio#demo-stage`.\n- Un servicio o módulo de ARS → `/servicios/<área>#<módulo>` con la herramienta mostrar_servicio (ids exactos del catálogo de servicios).\n- Existe una ruta `/admin` interna (edición de datos del mapa); no es para visitantes, no la recomiendes.",
-   "h": "31df29dcd1560efd"
+   "texto": "- Pedir demo o hablar con alguien → `/#contacto` (formulario) o WhatsApp +57 318 0005654.\n- Saber qué le sirve de ARS a su empresa / un plan → `/diagnostico`.\n- Una analítica concreta → `/vision#<id>` usando el id exacto del catálogo.\n- Una funcionalidad de la plataforma → `/plataforma#recorrido`, o `/plataforma#arquitecto-ia` para armarla a la medida.\n- Ver IA en vivo con su cámara → `/laboratorio#demo-stage`.\n- Un servicio o módulo de ARS → `/servicios/<área>#<módulo>` con la herramienta mostrar_servicio (ids exactos del catálogo de servicios).\n- Existe una ruta `/admin` interna (edición de datos del mapa); no es para visitantes, no la recomiendes.",
+   "h": "a038d8cfecdf385b"
   },
   {
    "id": "kb:plataforma-erp:0",
@@ -204,29 +218,26 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
   {
    "id": "kb:plataforma-erp:1",
    "fuente": "kb",
-   "titulo": "Plataforma ARS y ERP operativo › Funcionalidades (A–N) · ancla `/plataforma#feature-<id>`",
+   "titulo": "Plataforma ARS y ERP operativo › Funcionalidades (A–N) · se recorren en `/plataforma#recorrido`",
    "ruta": "/plataforma",
    "texto": "Grupos: **Operación** (gestión humana, programación y ejecución en campo), **Monitoreo** (visualización, central y trazabilidad), **Inteligencia** (IA y alertas con contexto), **Reportes** (indicadores, multisede y arquitectura).",
-   "h": "d9078a38450169fa",
-   "v": "0jE/ABwc3BX73/HjE9sOKwTQ3iE2BtDWBA7JIsQPOdE+JSzaIicVGhHzABEPE8YQOyPM7gZHCv4LBCPt7+YpNPEVqP3m6f863PEo7/gbCvfi+LvqHcTX9NDw5u/qKyT3JePmLiiq6LnU/ysTH/zZwwMjFQDw1FIF/xHI57wQ6gHw3v8UFeDc/BTx5g384gcQo//eFSb9CBH28gz94foI0Bv++CID8MzdjUGp878E8bwGFPLp/QrX1+31qfToW948Kz8QyeEU5tr7DGwUAgUB/vvWXfA0C+Xt3yDb3v69DfjcXSe2Lsr8HvgC+v3y+/77BBAP8iQmFuwtHDZLGxf35OIR6LMQHOgxGOYqGdHHFy8n+usHINjz+wnq/iUNExjs6ynyJCTV6OUt5zXnDzcKtx4PAPQAvu4QDN7Qrzz8GAMmvhC+BNDuFSbaM80GKwML/jEI9RHasgLl6Ni6GUD/39QEz/j/wOoTx+Ma1hfw/gsa2iLIDenz7v4L9Qob/QPV7PboLe7vIgcJsfblEOYq0Or3ugLpAvhW6wT1zzQrItvz+gIgLQMO+ugsGvThtA0YMfze+v4X8zf8CwoSvebow7XXBhr9Kuj8UM4tbS8rDSP/4tUOIxULQhX13fP46e7iJRgE/FF/HTHyLgEjHvP469fWx/Dz7t/+Oer38jfX+vY="
+   "h": "72cb39c0bbb7a682"
   },
   {
    "id": "kb:plataforma-erp:1.1",
    "fuente": "kb",
-   "titulo": "Plataforma ARS y ERP operativo › Funcionalidades (A–N) · ancla `/plataforma#feature-<id>`",
+   "titulo": "Plataforma ARS y ERP operativo › Funcionalidades (A–N) · se recorren en `/plataforma#recorrido`",
    "ruta": "/plataforma",
    "texto": "- **A · Control de turnos y programación** (`turnos`, Operación): turnos por cliente, sede, zona, puesto y horario; asignación de guardas por puesto; control de horarios; validación de cobertura; ausencias o retrasos; historial; vista calendario/agenda.\n- **B · Gestión de personal operativo** (`personal`, Operación): perfil del guarda, estado en turno, ubicación en tiempo real, historial de actividad, asignación a zonas o sedes, disponibilidad, relación con reportes, novedades y tareas.\n- **C · Rondas inteligentes** (`rondas`, Operación): rondas por sede, zona o cliente; puntos de control; tareas por punto; validación por ubicación; evidencia fotográfica; observaciones; control de rondas incompletas; alertas por incumplimiento; historial.\n- **D · Rondas con tareas personalizadas** (`tareas`, Operación): según instalación o riesgo; p. ej. verificar puerta cerrada, revisar perímetro, confirmar iluminación, reportar vehículos sospechosos, validar personal autorizado, tomar foto del punto, formulario de inspección, novedad con evidencia.\n- **E · Formularios dinámicos** (`formularios`, Operación): formularios por operación, cliente, ronda o tipo de novedad; campos de texto, selección, fecha, evidencia, firma o ubicación; validaciones obligatorias; enlazados a reportes y auditoría.\n- **F · Seguimiento en mapa en tiempo real** (`mapa`, Monitoreo): ubicación de guardas, vista por cliente/sede/zona, rutas de ronda, puntos de control, cámaras georreferenciadas, alertas sobre el mapa, historial de recorridos, segmentación por operación.\n- **G · PTT · Push To Talk** (`ptt`, Operación): comunicación inmediata tipo radio digital entre central, supervisores y campo; canales por cliente, sede, zona o equipo; soporte para supervisores; registro de actividad si aplica; integración con eventos o alertas; apoyo a la respuesta coordinada.\n- **H · POT · Acción operativa rápida** (`pot`, Operación): botón de acción rápida (el equivalente operativo a un botón de emergencia o de pánico) para reportar novedad o emergencia, activar una alerta, solicitar apoyo, confirmar presencia o una tarea crítica, activar protocolo; queda asociado a ubicación, usuario y trazabilidad.\n- **I · Central de monitoreo** (`central`, Monitoreo): video wall, monitoreo de cámaras, alertas en tiempo real, seguimiento de eventos, visualización de personal, comunicación con campo, evidencia, priorización de riesgos.\n- **J · Cámaras e IA** (`ia`, Inteligencia): personas (detección, reconocimiento facial contra listas autorizadas/restringidas, caídas, merodeo); vehículos (detección, LPR, clasificación por tipo y color); comportamiento y zonas (cruce de línea, intrusión, ROI, objetos abandonados); industrial (EPP, reglas por cámara, aglomeración, fuego y humo). El detalle de analíticas está en `/vision`.\n- **K · Alertas inteligentes** (`alertas`, Inteligencia): llegan con tipo de evento, prioridad, cámara, zona o sede, guarda relacionado, snapshot, video clip, ubicación, estado de atención e historial de seguimiento.\n- **L · Evidencia y trazabilidad** (`evidencia`, Monitoreo): foto, video, fecha y hora, usuario responsable, ubicación, cámara, historial de cambios, estado y cierre de la novedad, reporte descargable.\n- **M · Reportes e indicadores** (`reportes`, Reportes): cumplimiento de turnos, rondas completadas y fallidas, tiempo de respuesta, novedades por sede, alertas por tipo, eventos por cámara, actividad por guarda, cobertura por cliente, evidencia generada, riesgos recurrentes, reportes por periodo.\n- **N · Multi-cliente · multi-sede · multi-zona** (`multisite`, Reportes): Organización → Cliente → Sede/Zona; Puesto → Cámara → Guarda; Turno → Ronda → Tarea; Evento → Evidencia → Reporte.",
-   "h": "dee86e89e63115e1",
-   "v": "30Ut7+sP9x0J8gQAFtMd+9Hzyy8ND+v43ALMF+YIT8P8/gX6BToUHysW18jUAN8A/zDXARJUFwjY9i35FOczIegLug0JCCIl8es0Af0d2N377936E+Kp3uMA0RkEIi78L+bcMzKm2LkM7BEWEPD/xv4wLeQH5jjVAQDy+ODl9gLXwwDmJsj6CR770BIQz/8cxf/0IRgICwjS/gX70xsC5Afr1iz41uPyhEP2+fgZ+s3mBejd5hvT2u/p1ArfT9I1CDMkxPYBCNf28n8M/vMRDdfQRAI3Gcwwtwq/Fu3w4erzUzO1HNDvF+/7AOIS6gPsIDH4+SMaCNoxAVseFBX69tvv3u8cFdYKCRAUGfkF9jUdCf4HGuP+/frtGSEfHwHw3gP7GvbCCPQt8RUWAx38zvYtIc/qvunp69O8oE/3Ne0Owu/b+8PfEhfIN9oLN/3q5jP7I/TPuwEYCP/JITYF57QVxQfj0sUTyOU64RUO6hUw7UHfDuvq4wg2/iYNB/v8ChTsKvLyAQbwvuPuOPcV6fsElQnOGhEtAgMN6iQXJdj4DxEOJPj0H8w4/eXfqAYyQRPk5yEE+Sn5EfUs5Pn81/Tq82bmNLjpVeECByIzDyEq6qDyGSkRQAr10/MH8AYQN+7Y31NfBygXIvgYLPEB/7/I3wb18doBHwf+6BjL79s="
+   "h": "5a0c299c8bae7586"
   },
   {
    "id": "kb:plataforma-erp:2",
    "fuente": "kb",
-   "titulo": "Plataforma ARS y ERP operativo › Capturas del producto (`/plataforma#capturas`)",
+   "titulo": "Plataforma ARS y ERP operativo › Capturas del producto (`/plataforma#en-movimiento`)",
    "ruta": "/plataforma",
    "texto": "- Central de monitoreo: tablero único con cámaras, alertas y mapa en vivo; vista multipantalla configurable; priorización automática; asignación de operadores por turno.\n- IA por cámara: activar modelos por cámara sin reemplazar hardware; reglas por cámara; varios modelos sobre la misma fuente; edge + cloud según la latencia requerida.\n- Reconocimiento facial: listas blancas y negras por sede, búsqueda forense por rostro, confianza configurable.\n- LPR: OCR de matrículas con cruce contra listas, soporte para placas LATAM, integración con barreras, reportes por flota o cliente.\n- Intrusión/ROI: reglas perimetrales por cámara, cruce de línea con dirección.\n- EPP: verificación automática, reporte para auditoría SST, alertas a supervisores.\n- Alertas con evidencia: snapshot + clip, estado de atención por operador, cierre con observaciones y firma.",
-   "h": "990896e93738b714",
-   "v": "1REg+O0K7hj2+gLrB9oUABPuuhQGCPXI6gTj97rkIs7/A//zCifqGD8P7dzd8u8L+R7iCvYr7fL2CizzFdYtMvfxxwXt8P8ZCeIIFwIl9ePu1e0YHMa43eT46yr//S0ULsgBKxC43q7k2jEcE/gqsfEJJ+4G7Srn/R/G9eD85OLn1+beGPbuCTfg9f8K9v8inPLY6xUk+/3Z9P4G5gUB0PYM7AT57/UCkk7aE/QA7eIIFwPG4Ajn8vPt3AnTSek3Gysp2uohycb2Bn8W//ciIuntVvM/7d8fyiQG+9Hb7uHrVUnSJav2C/EUGOr+5RL1DBoG2icUAfI2EBYlFwcRDcvky9AGQND1MtMmDe4hBQ0oFd8QQagEHfP/CSoQGQ7V9BwBDPPkD94yIBfwCSH4wdc+Certxc/sAuDyxh3hHtEx0vnA7d/0Eja+IPob4RXr7CD+8xXlvREM5d28SRv+2tvx/xzx5tcR4BIo8h8A0g4f6jfy8wD6yAkh7CMBARDx8xnrKe3b9wXXwe3zKPgUHPUA0yfWFg82A/YgzisEGvfuB/YKUCbmLtw35eLszCIdTQvf/ecQzjUC+foX1sX26tD0BzXWPMXXWN/3MRUa/y0x6az9NxzsNf325/bz4N73BgTxCEBr8yb4KeMnOfX/zfPf4f767unZHwvg+TnSDQc="
+   "h": "c722ae8edff1269a"
   },
   {
    "id": "kb:plataforma-erp:3",
@@ -249,11 +260,10 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
   {
    "id": "kb:plataforma-erp:5",
    "fuente": "kb",
-   "titulo": "Plataforma ARS y ERP operativo › Casos de uso (`/plataforma#casos`)",
+   "titulo": "Plataforma ARS y ERP operativo › Casos de uso (para armar el tuyo: `/plataforma#arquitecto-ia`)",
    "ruta": "/plataforma",
    "texto": "- **Conjunto residencial**: porterías, rondas perimetrales, novedades, cámaras por torre o zona, alertas por intrusión, reportes al administrador.\n- **Universidad o campus**: múltiples entradas, cámaras por edificio, estudiantes, visitantes y zonas críticas, permanencia o cruce de línea, eventos y reportes.\n- **Centro logístico**: acceso vehicular, reconocimiento de placas, rondas en bodegas, EPP, zonas restringidas, evidencia ante incidentes.\n- **Empresa de seguridad**: múltiples clientes, programación de turnos, supervisión de guardas, rondas y tareas, reportes automáticos, trazabilidad para facturación o cumplimiento.",
-   "h": "dc03bc02f8093513",
-   "v": "zRdBBhEc4RX5EO7nDtwdDRMNrSsXHPW12g8NL8rxOs4kABjt+zImKCsJ2NjmGtETKxq85z0kFOvk5yf+HeQjMwYGu/zfHxETF+0tAwsz6QX44b4MD8yg2t/a6xn1ET7wGc0LKhSp8sXp1y8YFsb94QstN/IkwSbzIRDZ5PTl4+Xj4d/0Hf/qAC705u4ZyPolpg7uCioN+wzk9Q7m1wsM3gzq3SQL2Pb8gWTFBuMK+dv6+QjO7+Pc0gHZshDGR/YwHTEnzd8VztLyEnYLDuoQCej4P+447dIk1yTr9eb+/+7wVzC0S5P7Ev/cDxcO6t32CQ0H8CQXAe8/Iz1WNif38eD68uojJOwiJ/0TA+P6EjEcFO8LPsD7/u4GDDk4J/3q3xYJIeXUHu4h5yLo+Tzx7ejwJODpx8zvIcq4tCL1MfEhx/ez/9HiJxSwJgAHIhIF+kQQ6gfgtBMF8v3ILyr447cL2gr3ycr7zwQf8xAJ6QEN0CDK4gn13PQrAQ4RGhHa8hbUQgDZ9SL6yAnfTPwY3vbzzRHi/i4K2v0F2CgUFvP29wIhOAjwNeQMC+uXvRcfOR7S/ysD2EUDBP84ztP30c/rCSLtSqvkY9T/SiI7Gi0V763wIPzyQRrhwv/o8OcBHwTuFE51BTYQKd4kRvIN49/K8Aj/As70LQLP7jzH6u8="
+   "h": "c86369a6d777be51"
   },
   {
    "id": "kb:plataforma-erp:6",
@@ -473,8 +483,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Cómo opera ARS según el tamaño de la empresa (orientativo) › Qué preguntar al visitante para orientar",
    "ruta": "/plataforma",
-   "texto": "1. Sector y tipo de instalación. 2. Número aproximado de sedes y cámaras. 3. Si ya tiene NVR/grabadores y vigilancia física. 4. El problema principal (pérdidas, filas, intrusión, EPP, control de guardas, reportes). 5. Si necesita gestión de turnos y rondas o solo analíticas de video.\n\nCon esas respuestas propone una ruta: analíticas concretas en `/vision#<id>`, funcionalidades en `/plataforma#feature-<id>` y cierre con demo en `/#contacto`.",
-   "h": "f760cb8012361f9c"
+   "texto": "1. Sector y tipo de instalación. 2. Número aproximado de sedes y cámaras. 3. Si ya tiene NVR/grabadores y vigilancia física. 4. El problema principal (pérdidas, filas, intrusión, EPP, control de guardas, reportes). 5. Si necesita gestión de turnos y rondas o solo analíticas de video.\n\nCon esas respuestas propone una ruta: analíticas concretas en `/vision#<id>`, la plataforma en `/plataforma#recorrido` (o a su medida en `/plataforma#arquitecto-ia`), el diagnóstico completo en `/diagnostico` y cierre con demo en `/#contacto`.",
+   "h": "b213ed44fbe99070"
   },
   {
    "id": "kb:proyectos:0",
@@ -625,25 +635,24 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
-   "texto": "**¿Qué detectan las cámaras?**\nPersonas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.\n\n**¿Las analíticas están todas disponibles hoy?**\nTodas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.\n\n**¿Sirve para empresas de seguridad con muchos clientes?**\nSí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#casos`.\n\n**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**\nEl sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT. Integraciones específicas con terceros: a confirmar con el equipo comercial.\n\n**¿Dónde operan?**\nColombia y Perú, según el sitio. Ver `/proyectos`.",
-   "h": "0847e0ad62cefe1d"
+   "texto": "**¿Qué detectan las cámaras?**\nPersonas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.\n\n**¿Las analíticas están todas disponibles hoy?**\nTodas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.\n\n**¿Sirve para empresas de seguridad con muchos clientes?**\nSí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#arquitecto-ia`.\n\n**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**\nEl sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT. Integraciones específicas con terceros: a confirmar con el equipo comercial.\n\n**¿Dónde operan?**\nColombia y Perú, según el sitio. Ver `/proyectos`.",
+   "h": "f4c0062a1fa61e8e"
   },
   {
    "id": "kb:preguntas-frecuentes:0.3",
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
-   "texto": "**¿Puedo ver una demo?**\nSí, tres opciones:\n1. Probar ya la IA con tu cámara o un video: `/laboratorio#demo-stage`.\n2. Ver cada analítica funcionando: `/vision#visor`.\n3. Demo guiada con el equipo: formulario en `/#contacto`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.\n\n**¿Hay versión en inglés?**\nEl sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de `/vision` se presenta en español.\n\n**¿Me pueden dar un estimado?**\nArs puede armar un alcance orientativo (funcionalidades, analíticas, unidades a cotizar y etapas) con el sector, las sedes, las cámaras y el objetivo. No incluye precios. La cotización formal la hace el equipo comercial después de la demo o del levantamiento.\n\n**¿Puedo mostrarle una foto o un video de mis cámaras?**\nSí, se adjunta en el chat. Ars explica qué detectaría ARS y con qué analítica. El archivo se usa solo en esa conversación y no se guarda en el servidor; en un video, el navegador envía solo unos fotogramas. Para ver los modelos corriendo en vivo sobre tu propia cámara está `/laboratorio#demo-stage`.",
-   "h": "717faf57e51f2f9f"
+   "texto": "**¿Puedo ver una demo?**\nSí, cuatro opciones:\n1. Probar ya la IA con tu cámara o un video: `/laboratorio#demo-stage`.\n2. Ver cada analítica funcionando: `/vision#visor`.\n3. Un diagnóstico de tu empresa con IA (5 minutos): `/diagnostico`.\n4. Demo guiada con el equipo: formulario en `/#contacto`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.\n\n**¿Hay versión en inglés?**\nEl sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de `/vision` se presenta en español.\n\n**¿Me pueden dar un estimado?**\nArs puede armar un alcance orientativo (funcionalidades, analíticas, unidades a cotizar y etapas) con el sector, las sedes, las cámaras y el objetivo. No incluye precios. La cotización formal la hace el equipo comercial después de la demo o del levantamiento.",
+   "h": "60fe090132feb1e1"
   },
   {
    "id": "kb:preguntas-frecuentes:0.4",
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
-   "texto": "**¿En qué se diferencian dos analíticas parecidas (p. ej. intrusión, merodeo y acceso no autorizado)?**\nArs puede compararlas en una tabla: qué detecta cada una, cómo se activa, estado y prueba real. Resumen rápido: **intrusión** mide qué tan adentro de una zona prohibida está la persona (tres franjas, con aviso según la gravedad); **merodeo** avisa de quien da vueltas sin entrar ni irse; **acceso no autorizado** combina la puerta de una zona interna con el reconocimiento de personal y avisa si cruza alguien que no es del equipo. Ver `/vision#intrusion`, `/vision#merodeo` y `/vision#acceso`.",
-   "h": "61b0a6dc8e5823e0",
-   "v": "8DEWBggF3OgZGgEVEfnwA94a0AAiQefrCfXuF+DkD+Hn9vnm3xEZ/xo33Ozc3drt6w3F+AFa+fzl7gP98+EaFOn/zgwc/ywT/tn1EgUP+QgJAeEGGf+h0Qy67y3xDygcJeLrGg+82+ck7h8TDNln1hAfLfHf6DfA+w8T8enkEeXW3QDcHt8HCiHt0QoC2hUe5fILEx0aIvvj9/cSFQX12uoB9gX1EALyyz26KO3xLuDe9gi5yAQT9hjQ2AjQAhZBHwgcpwD94dz45l3vACBBCtvzL8FA9uw63Cb7GNsX6iTsNS66Hq3xD/Db+d0M2uziBvAPGeUJCOc//Ckf8R3v8ub17N4NKNzc/fsF/frpFiYH++r2Ldv/EOoQGgYCJ+r45wEBAAkLE+wc/hDxNSEH6wQ8IQ7b5PPi9+LRzUTQJOc1zezK3cMACUXPP+kJ++7x90Pd9+P0vyMTGBXYJiMR6tr20xv23fcF9Pg9BBEJ4ucezRHI+976BAMeIk38M/Py/vcFDubz6ADs7M4DQw8vEQb1t/bTMxQiARkk/icBK9Ys/RUISu3a+usg+QQBvAI0/ejv+BMg3xP44PQq4wHoyQrsEA/XMdbhNQP9Eujq/h4JGNToJg36Hgn28e0G8BLgFeUcDUl/EzMGAbsJL/EpB/vAGBHcAAAo8Rj52O389+4="
+   "texto": "**¿Puedo mostrarle una foto o un video de mis cámaras?**\nSí, se adjunta en el chat. Ars explica qué detectaría ARS y con qué analítica. El archivo se usa solo en esa conversación y no se guarda en el servidor; en un video, el navegador envía solo unos fotogramas. Para ver los modelos corriendo en vivo sobre tu propia cámara está `/laboratorio#demo-stage`.\n\n**¿En qué se diferencian dos analíticas parecidas (p. ej. intrusión, merodeo y acceso no autorizado)?**\nArs puede compararlas en una tabla: qué detecta cada una, cómo se activa, estado y prueba real. Resumen rápido: **intrusión** mide qué tan adentro de una zona prohibida está la persona (tres franjas, con aviso según la gravedad); **merodeo** avisa de quien da vueltas sin entrar ni irse; **acceso no autorizado** combina la puerta de una zona interna con el reconocimiento de personal y avisa si cruza alguien que no es del equipo. Ver `/vision#intrusion`, `/vision#merodeo` y `/vision#acceso`.",
+   "h": "5d4ed2c81e33681d"
   },
   {
    "id": "analitica:seguimiento",
@@ -1059,180 +1068,162 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad A · Control de turnos y programación (grupo Operación)",
    "ruta": "/plataforma",
-   "ancla": "feature-turnos",
-   "texto": "Permite planificar, organizar y supervisar turnos de vigilancia por cliente, sede, zona, puesto y horario. Facilita la asignación de personal, control de cobertura y validación de cumplimiento operativo.\nIncluye: Programación de turnos por cliente y sede, Asignación de guardas por puesto, Control de horarios, Validación de cobertura, Identificación de ausencias o retrasos, Historial de programación, Vista calendario o agenda operativa.\nEnlace: /plataforma#feature-turnos",
-   "h": "a159abd2f4c9f1b6",
-   "v": "3jofy80PDCEP5zDbGPEG7dTp/C/79OP8zfvDHdTjQtwD9RXNQGAJG+4H+wDx964EJSjw6v9DOx7XAzAqC+ZCTeIDsvUTBwknA/VMKj/68fQJ4fsaDvLEAeHZDEEAaU8GCfsBOB7C3NgKA/82/PkMt9IjJdFH81bZH/HN2cf919zT7fbwLbbQ9TQZ4ggL8+wJu/Dp+wwl2PQQ+x4lrQkC+CLnxk300eYomlkl4d8lLsi8Bdv27CX/xc3T5fQRTt4VC1waxuUL9sG/1Brx+Ose/fPkSAsW89Ugu+vyD/KnsukEX0DG+sPo3hUIIRQTBvntBTvN6xsbFdwsFVUfCRDk+Ab5FOYnBM0NChY4OwwE6kQlPiUR++7hDtXnHQAvMwEU7zLaRPTN8jwtCUhMACP41RYhEhkG3NYfAOa2jDYCF+T41eLsJc/TQyHUGLcEJsUd4kIdHwa6lbkj6vnaQj/i5cUOq+4Fzb8N4AMk6BAp9vz/41vYANbQ6CRCFR717QX5EBbnSfnDEiX+6MnSNCIO0O/qtEGj3gESFzP5vCUcH+XeAxge7wMSLOUTCwGgpgIgQCK45VbfAT3VQgsM4un8zfXwH3L+R7LeHdkJHSET/CASCK/dFT7hW1gvzA8Ty9nYNNoI7WB/CSIE/SgdB/QtCe/f/vr47evyIRD70iGbBvE="
+   "ancla": "recorrido",
+   "texto": "Permite planificar, organizar y supervisar turnos de vigilancia por cliente, sede, zona, puesto y horario. Facilita la asignación de personal, control de cobertura y validación de cumplimiento operativo.\nIncluye: Programación de turnos por cliente y sede, Asignación de guardas por puesto, Control de horarios, Validación de cobertura, Identificación de ausencias o retrasos, Historial de programación, Vista calendario o agenda operativa.\nEnlace: /plataforma#recorrido",
+   "h": "6550d36d32057429"
   },
   {
    "id": "funcionalidad:personal",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad B · Gestión de personal operativo (grupo Operación)",
    "ruta": "/plataforma",
-   "ancla": "feature-personal",
-   "texto": "Centraliza la información del personal de seguridad, sus roles, turnos, ubicación, estado operativo y actividad en campo.\nIncluye: Perfil del guarda, Estado en turno, Ubicación en tiempo real, Historial de actividad, Asignación a zonas o sedes, Control de disponibilidad, Relación con reportes, novedades y tareas.\nEnlace: /plataforma#feature-personal",
-   "h": "2c648d66e0924535",
-   "v": "FlgpAfDyBiQe6QsFBOQVD9QB4Bn7+/bzyBbJEdnwS9kFBTLqJDUyIv8F8g7j5OkXIyrq5Q5FLTPt2Rsq8u8mUAn+tfMJ4CoX8PcnIiTx49oDBADyBv2+7Oz3/wL2JR70AfLiLwLB/tYD7/QuBwQM2AAtGNxDAlrvFwzCyK/2yN/gvMn3H+TkERzi7N4H3gH0qQDpF/4NAwr15RYl0hf+8TLYzCUR3vXioUgV+tgd8erx/uvlFPEH8NXl6xLdXuZFERsf0ezu3Pn27j301wgoBuHgOAEK9OcipwXd9Prc//rnRTDI+cbu9Bn9FvkXERL15igBDy0cIfo9FScjBQD8+v0LBfEVC/EC8wghE/4PEUkhBfwq8OjdB/QJIv4pDuoI2EEBUuz2/vsd8zgrBzb/4B8DNBbx1sUE/wHHszPy9OYdyOrQAsfaUTbVIN37EucKA10a+hXhuPYY+PbmBREE4rrvs+rwyOAO6+ZL3i4IBf4Q6g/ZD+vv/S8h7R8AFBH0EQPeKfXvFx3+793jIBMOxv3z0xPW1QIxEvkR4iITQ/D5F/URF/QfMO8GB/3OwuQiJiq/0xfp+zINDPIL/tcWyczb/l8EULoRKdIDMEIxGjL+45HVABsOSjQkzOoH5N4VSfwB3H9XIk8UCxQFF/Yc7djRHvYE+cTqGfbV5Bqt9Qw="
+   "ancla": "recorrido",
+   "texto": "Centraliza la información del personal de seguridad, sus roles, turnos, ubicación, estado operativo y actividad en campo.\nIncluye: Perfil del guarda, Estado en turno, Ubicación en tiempo real, Historial de actividad, Asignación a zonas o sedes, Control de disponibilidad, Relación con reportes, novedades y tareas.\nEnlace: /plataforma#recorrido",
+   "h": "1edc17de5f963424"
   },
   {
    "id": "funcionalidad:rondas",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad C · Rondas inteligentes (grupo Operación)",
    "ruta": "/plataforma",
-   "ancla": "feature-rondas",
-   "texto": "Permite crear rondas de vigilancia con puntos de control, rutas, horarios, tareas personalizadas y validación de cumplimiento.\nIncluye: Rondas por sede, zona o cliente, Puntos de control, Tareas por punto, Validación por ubicación, Evidencia fotográfica, Observaciones y novedades, Control de rondas incompletas, Alertas por incumplimiento, Historial de ejecución.\nEnlace: /plataforma#feature-rondas",
-   "h": "cfb096bf6c99864d",
-   "v": "91Yh8NUE/EIcECjMAOgc+sHkCEonE+vl1uLVLtTkL9bmye3KKlwfPRAjOfH80OPtLQnsExQ9CxLEDlAxDtA7L/L8nfv3GvorDO5P+iX6AvsavuTn/73Q0/Py9DTXRj8C7hH6OSie/ckHHRkj9wMzuO4hP9tAxi32B7is0avJxdUB6dn5QdP4IA/s1AwR8zgDq9v8+u0NyPsUIw4AiyHtChv91iHpvREll18j4NAs9/XR6O/g9Rrw1+ny4tgGTKA372kPwfrw2OG43CLm5BQ3JdDVWwks7+UtyA4TINbM5g30cCai7Ori8fbvBAIKEvru6Q7/6RI7ExwT/WYaHBX8B/PeF+c68t36EAYVMvvx4V8dIh8BI/r03A3/CB44IAAe4Qv0+tzf4f9AwGMh4EztwBYZ5cAO2N8849bMvU0BLN8puRDhGaPVNijXQN38N9fQ1CfpLBfXvcE8D+/JLyD3x78g0f3Ur9wX1t9F4xJJ1NPe2jwA/vsJDPxgPiQI097WEU7WLtDn7w4Yx+/yMRMk69/eiW++HiJbBUMV5h0QDMzP/hUy1vH6GfcQABykkhBOfyfRz0L0/xTZH/MIBrz4uuj043UyJKjHULL6OidCGkk1/JfjKiDNUiw4z/I1wsAGJegW8VNqAjcXMPQrJu8U5vLRCvDx9+EUAhm5rxuYCvU="
+   "ancla": "recorrido",
+   "texto": "Permite crear rondas de vigilancia con puntos de control, rutas, horarios, tareas personalizadas y validación de cumplimiento.\nIncluye: Rondas por sede, zona o cliente, Puntos de control, Tareas por punto, Validación por ubicación, Evidencia fotográfica, Observaciones y novedades, Control de rondas incompletas, Alertas por incumplimiento, Historial de ejecución.\nEnlace: /plataforma#recorrido",
+   "h": "5302afe2b20e955d"
   },
   {
    "id": "funcionalidad:tareas",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad D · Rondas con tareas personalizadas (grupo Operación)",
    "ruta": "/plataforma",
-   "ancla": "feature-tareas",
-   "texto": "Cada ronda puede incluir tareas específicas según el tipo de instalación, riesgo o necesidad del cliente.\nIncluye: Verificar puerta cerrada, Revisar perímetro, Confirmar iluminación, Reportar vehículos sospechosos, Validar presencia de personal autorizado, Tomar fotografía del punto, Completar formulario de inspección, Reportar novedad con evidencia.\nEnlace: /plataforma#feature-tareas",
-   "h": "e97ba13fc4147348",
-   "v": "9lET/9oEHy4XHx/29Nj5/dv6+2Uh8ee73v7aGeDrG8r9+xgFKWkcIR0DAtXT4MklHhMdDQ5A9PSv6EQuDdM9Lujgo//5K/8Y9fRYACbpBvsMveP73s613/DV5jcHPikU/BzZRlLK8sAV/Ps7/PAsuAYoQtM4zha57urAy8q2wc3o/K4XVtsPGSfkzywH5TMWx+79FCAE0e8HChX8rhvrEuzJ1iPT2i4UoGsmBfEUAe/k/wnh0xjv1sC84uLyM7048i8YwOEJ2wbLzizuAxkhC83FWwMi+uFK8/gPD9Xp4xPgZCSyALPO8P7xAQUK8Pb6ARMGuiMtJQcd+WUnF/MC+gcB4/1BC/IWBwMrECP7AEcbHfQLP+z03/Ql/R0ZF+7vwSMKHNrl1+clvVIqzFoP7v8OArsCx/sw7dX0wTX2QeE0rgXmDIPmWiXiKNILCuUA3EX0LRPY0wA3DvvSFCD1x8cMhwbmvtQj/s1MBPlE6grs9DnkBCn4KAI7SRoY+/PQ6TTvHO7mBukM49zoHTYp2Pzun1vcOiMsHBMP0R4OB90o7RwF5f36CfEV+g7EkB42JDnMqCTpDCLgFhwTBMP20ADXB1v9Jq+8VMTuLTk8Nzgm8YHkDBn+aj0rytUg1rDyCN768l516j3/GfMrHvEP/fzr9gPnyuoD6zvUyBSy5uA="
+   "ancla": "recorrido",
+   "texto": "Cada ronda puede incluir tareas específicas según el tipo de instalación, riesgo o necesidad del cliente.\nIncluye: Verificar puerta cerrada, Revisar perímetro, Confirmar iluminación, Reportar vehículos sospechosos, Validar presencia de personal autorizado, Tomar fotografía del punto, Completar formulario de inspección, Reportar novedad con evidencia.\nEnlace: /plataforma#recorrido",
+   "h": "44fefd2f3a7ac868"
   },
   {
    "id": "funcionalidad:formularios",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad E · Formularios dinámicos (grupo Operación)",
    "ruta": "/plataforma",
-   "ancla": "feature-formularios",
-   "texto": "ARS permite crear formularios adaptados a cada operación, cliente o tipo de evento, evitando formatos rígidos y facilitando la captura de información estructurada.\nIncluye: Formularios personalizados, Campos de texto, selección, fecha, evidencia, firma o ubicación, Formularios por tipo de novedad, Formularios por ronda, Formularios por cliente, Validaciones obligatorias, Relación con reportes y auditoría.\nEnlace: /plataforma#feature-formularios",
-   "h": "9a2ba90a29d9c4b3",
-   "v": "2EUVIATtzh/5BNXTNvj2Qw3h0PAV6JzECNTJCb32MM0lE+kIVjEV4wwP7v8PJdQGKRfZDyMtBAnL9xcz9+8ZHOwQiynxSwcPJB4dABn+DQgI9MX2+/7JF8vZviLyTC0b4fvZIWq61rjx++Ie+N8hx9cgQe/u8C/A9u201dzXyvTjye4ubd4C+Bf6BhEO9BA2oyXpFfoWDPsADjP64wUT/TL1/hLg4/fzpU3g3dn/9NfuAwAUCCf70ffS0s/u//IQFy0ktfoT2B4I5hf53P32H/K5Zf00AfAr4hL+89rFHeLGPRWu8rfs/A0R/AgUMAPtAh0E6gcsCeRM7TssGgn+4/QYG74K8CEwLf0DKQfr+loQDwDyLhXlDQLmDv8hCuK45eEm3xLr6goiyEsvzxj60xASDhAo4/MM77u2zyQYIMYVBw6pAaTZPg7eF68HDjD74TQCDPjI3dw+4u3w/x8K88M13uYVlNEM1O1P5wMGARQD3CHBHSkGugcDKuEGAefABvv2UvrzJv8CvQoYFwEJq9YdwkvMAQ9MKSYkuCslLdwAEfTv+PHzDvoY+e2zseISJRaxEwTpACLlQg0y18vay6G9BT/5A+njfbkfNB0kHSQZtrYDFCzOOkQ8xxoA197pJA8N7zB/EBP9DiMuAvYC8uCk8O/34fD3ChX95DvVBf4="
+   "ancla": "recorrido",
+   "texto": "ARS permite crear formularios adaptados a cada operación, cliente o tipo de evento, evitando formatos rígidos y facilitando la captura de información estructurada.\nIncluye: Formularios personalizados, Campos de texto, selección, fecha, evidencia, firma o ubicación, Formularios por tipo de novedad, Formularios por ronda, Formularios por cliente, Validaciones obligatorias, Relación con reportes y auditoría.\nEnlace: /plataforma#recorrido",
+   "h": "748a3f2b8fc2c67f"
   },
   {
    "id": "funcionalidad:mapa",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad F · Seguimiento en mapa en tiempo real (grupo Monitoreo)",
    "ruta": "/plataforma",
-   "ancla": "feature-mapa",
-   "texto": "Visualiza en un mapa la ubicación del personal, zonas, sedes, cámaras, rutas, eventos y puntos críticos de la operación.\nIncluye: Ubicación de guardas en tiempo real, Visualización por cliente, sede o zona, Rutas de ronda, Puntos de control, Cámaras georreferenciadas, Alertas sobre el mapa, Historial de recorridos, Segmentación por operación.\nEnlace: /plataforma#feature-mapa",
-   "h": "c3cf19564d371d10",
-   "v": "+mM7/cHt8R4d+Bz1BM0OArbc7SYLBuzt3u2wFNsEPNUS7B7lMk8AIgdM/wv0zcgJF0Dl+scwIxj35UAY9+04OA4gpQH89go8Cs0pFg/vvN38+O3zCcvA2Rga/xj4LAYiBujfORCj85Ie7AIeDg0wtgA5PesX3mPm/BTL47vW4OzS2uDnHc4DFALrwiT88hX+0wjtFjj/+PPT7QI8wO/19xH53x/f9NH5oDsI6d4PKOfdIezm9AwTDtsd7CzeW69A+0YQ4dwHyN7V80rr1DkpHOnuSBck9+ssgQr+Jr7d5P7WWkay2PUN3x8IHs0aDjcjBRoP5DMNFP1MH1MlGgcTKOYaC8kuGbnPCdklGwoGET4UExQ7GODt4Az4CBUHIv79zDDXM/LsDi4e9iMq6xTG8v8nF+7JwMHp8AUOtVf/Bekg1+nb9rfpOTLROyH++toO+xwI/gDEt+BG2/G5Gevx28760wH6+NcA4tgnzx8z1wnq8AvH/fre6z8jDBrl+fXs7BPcDtzl/wT56N34agwg1unanxLEEgYcFAQctwIQHRb/BvkXKO3rS/UVHQXWqN8eMRfI0jnG+zX958wGB7US6tgGGWbwTqDfI8EIEBg82zsz17DCSivtSh0l1tb2zvoJK+b140968FQgFwESBfT24dbbB/wL97bLIhvY2yjX7hQ="
+   "ancla": "recorrido",
+   "texto": "Visualiza en un mapa la ubicación del personal, zonas, sedes, cámaras, rutas, eventos y puntos críticos de la operación.\nIncluye: Ubicación de guardas en tiempo real, Visualización por cliente, sede o zona, Rutas de ronda, Puntos de control, Cámaras georreferenciadas, Alertas sobre el mapa, Historial de recorridos, Segmentación por operación.\nEnlace: /plataforma#recorrido",
+   "h": "a13ceabe7f1edb1b"
   },
   {
    "id": "funcionalidad:ptt",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad G · PTT · Push To Talk (grupo Operación)",
    "ruta": "/plataforma",
-   "ancla": "feature-ptt",
-   "texto": "Conecta a la central de monitoreo, supervisores y personal en campo mediante comunicación operativa rápida tipo radio digital.\nIncluye: Comunicación inmediata, Canales por cliente, sede, zona o equipo, Comunicación central-campo, Soporte para supervisores, Registro de actividad si aplica, Integración con eventos o alertas, Apoyo a respuesta coordinada.\nEnlace: /plataforma#feature-ptt",
-   "h": "fb5531f0d79f0cd6",
-   "v": "3R8g9ujx9EwpwxU0+cYB09ncAPrfIOD6ygi4RtgEJLz91yj/FWzsKjIVx/cLxs4KFAUGE/lDFfoL/CkZ1d0JJSAauAby+OcXlvQWTez1CcsB5snkBO+41fT51v75RArtMwzgJzLl1rMSAfsaEgka9P49B+I8n07n4ezg4rnT0PUE7uL5FQ/yHeP759Pk0SET2OXL/wUTvwbj8/QUzDTy1hbH7Cf6AfMIqjMQ7M888rHJFMnVFy/74sbm8x7zQN4sDir05wP00vDi2BPjyekiJfLkSf4u8tj/rQ3tEMPF6hrwODDCFeXg1hjq+ecWFBjf8/YE7wURE+c3904VAR4M6w0AD+cYA934Hf0xJeMQHzdAEQ8W8O0H+bf0Ax4JEfIq1yL7MxXdCjVL+iIJDwvOtC8fBdfjl8r/+v/66xsG09co8vrCIevwJyT9L+UTMOgdx1rm5fcF4QA1MRbrMSo25w0IHdIa2NYP2fH26P8/z+yz1w38KQvx6CUoAyMkCRT85BoSGtTyOvr7+/ED9//7++AKgSfo+AU0NO0k7zYNLePzDBsiJSMDPNtEFfHb1gILKwr06ikq8Ui7GxblGNwe1dXnEFMXTMn+SPAYLxH4ABTa9MHHIkIKPQwK6fcq+8rhRALy8kh9Ej3mBP/lDvP2CesEENHbCcLnRjj34h6mAOs="
+   "ancla": "recorrido",
+   "texto": "Conecta a la central de monitoreo, supervisores y personal en campo mediante comunicación operativa rápida tipo radio digital.\nIncluye: Comunicación inmediata, Canales por cliente, sede, zona o equipo, Comunicación central-campo, Soporte para supervisores, Registro de actividad si aplica, Integración con eventos o alertas, Apoyo a respuesta coordinada.\nEnlace: /plataforma#recorrido",
+   "h": "9df0135fcbd7156e"
   },
   {
    "id": "funcionalidad:pot",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad H · POT · Acción operativa rápida (grupo Operación)",
    "ruta": "/plataforma",
-   "ancla": "feature-pot",
-   "texto": "Permite ejecutar acciones rápidas desde la operación: reportar una novedad, activar una alerta, solicitar apoyo, confirmar presencia o marcar una tarea crítica.\nIncluye: Botón de acción rápida, Reporte de emergencia o novedad, Confirmación de tarea, Solicitud de apoyo, Activación de protocolo, Asociación con ubicación y usuario, Registro en trazabilidad.\nEnlace: /plataforma#feature-pot",
-   "h": "6e7a880aad10e15a",
-   "v": "0VH9H+zo1XQuqBUUDukIDdHU0wbg2t8n9y3MBNP5MMwAAijT+1L4Idz08/ERAtXuH1O/Gg1eFgEI4UhU3+rmFQw+sf4KSwU9qb0jKcAD6esJ493C3AGE18rh4TcOPgYDC/e1f1m23MzwIOIVHP44td4xCLos8jO/2gvVxMXn7fgK4b03Rt0TKvzY0/Dopw8Jrezg6dcEARn+7BsMtfu47hTB+xYMAfL7nDAH7NYA/dvBXbTWFEPvtNTL0jzVFwEn4g0HtQX++OjP6EUF8PjvLfncQwsm5N4E5jTvHq27DAvCWRbHBcztDCH3BPQ3CPe1FRADBiQJM98j8XEe+g/k4SAYDd48Kf0a/B4yObwM9BlAEAkJHtvRI+LQGCEQJeYB3iLqGxDD/w0hzmUSFQQNoHD8JL/V1cEHGuPLry8B5fATwQqw+LsNQA7yLr7vFv0o6wLmH/gDz+EoKy/GBRsz5vFB1Q3jv/I7p9gK7iQnzrnp8hoJGRzNCu4hIB4v7d4H9eUcHwUKSBIF8fT0GRUcpujwgi/T8iBWHQo/9iDyU78C2/UdEP3+Gfc+AtjnwgMpIyXwtQRKNC7lIi4X/7kBtdnt9FgEFe3hSMsFZf4+DSAQAKnm+0IHOTgp2vEYn7sEN+Lm6HJhISf7GPsPKPH3Hc3rILnf0qH4FP0H8RnhBsY="
+   "ancla": "recorrido",
+   "texto": "Permite ejecutar acciones rápidas desde la operación: reportar una novedad, activar una alerta, solicitar apoyo, confirmar presencia o marcar una tarea crítica.\nIncluye: Botón de acción rápida, Reporte de emergencia o novedad, Confirmación de tarea, Solicitud de apoyo, Activación de protocolo, Asociación con ubicación y usuario, Registro en trazabilidad.\nEnlace: /plataforma#recorrido",
+   "h": "fbe4e14e9f098fc8"
   },
   {
    "id": "funcionalidad:central",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad I · Central de monitoreo (grupo Monitoreo)",
    "ruta": "/plataforma",
-   "ancla": "feature-central",
-   "texto": "La central de monitoreo concentra cámaras, eventos, personal, alertas, mapas y comunicación en una sola vista operativa.\nIncluye: Video wall, Monitoreo de cámaras, Alertas en tiempo real, Seguimiento de eventos, Visualización de personal, Comunicación con campo, Evidencia asociada, Priorización de riesgos.\nEnlace: /plataforma#feature-central",
-   "h": "f15bfef2d57cde05",
-   "v": "9TIdBekFJCMb7ysMvvwT/NEM9SYFB/Lk6d26MAAka9rt9gD8ATfpJjFYAfzwtsQg9DLLCRcjJSEBCyYdC+sqTCTtq/AN1Asn5vgTSwDey/YA58AMH9y79fkW1i3jGg8rH+TWUxeXxqLo6gcEBgdEvBogJ7g50D3dDvng77y9A/604vXMHuIIFA3twxkBAigDtPTCED3c9frkwe48zfch5xje5SLa2+0OikQHMvMhLN++//b8+xUNFOchyhfHR6hFGU89/dEn+dnf4FUA/SQkL9fcRxFR7PUXhfzVIenDBf3gbzS/1/UP+wsK79kNBCHzESPcAQAqCx0ZOVUoAAMLAfUNAd0hD6XOCfAIAv0SAi4QNfEUKOEJDwPoMzcRGxYY+i71HPLJ6BgUIDwR7Cvvx/0SIg3SreDNCx7/rUb4H/Em4O3C9NfqOi29TgchJeDV3Cba8xnEsAse+P7bPfD9y+zszxL6AuIN3elT4TYVywAYACXUGg7s7C848fP62wDf9vXpOL35Eg/it/r/QBYq4fUGpSbS5QgyKQwSvxcOEdzF9hYbQBoBR+IIBOflmNQKORr5+Sba6DnVAsb1CPT/3+P7Fj7wZqjeUf32PRUz2lIV8qruKCAUPTc16ckN9AUEFu/L9Hl/ywgnOwAcBvP+1cXQ/wr4+rHePQHHzDfC9BI="
+   "ancla": "recorrido",
+   "texto": "La central de monitoreo concentra cámaras, eventos, personal, alertas, mapas y comunicación en una sola vista operativa.\nIncluye: Video wall, Monitoreo de cámaras, Alertas en tiempo real, Seguimiento de eventos, Visualización de personal, Comunicación con campo, Evidencia asociada, Priorización de riesgos.\nEnlace: /plataforma#recorrido",
+   "h": "00e8317f132448a3"
   },
   {
    "id": "funcionalidad:ia",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad J · Cámaras e IA (grupo Inteligencia)",
    "ruta": "/plataforma",
-   "ancla": "feature-ia",
-   "texto": "ARS integra cámaras CCTV con capacidades de inteligencia artificial para detectar eventos relevantes y apoyar al operador en la priorización de riesgos.\nIncluye: Personas: Detección de personas, Reconocimiento facial (listas autorizadas/restringidas), Caídas y eventos críticos, Merodeo o permanencia. Vehículos: Detección de vehículos, Reconocimiento de placas (LPR), Clasificación por tipo y color. Comportamiento y zonas: Cruce de línea, Intrusión en zona, ROI o zonas de interés, Objetos abandonados. Industrial y operación: Uso de elementos de protección personal (EPP), Reglas por cámara, Aglomeración y densidad, Detección de fuego y humo.\nEnlace: /plataforma#feature-ia",
-   "h": "ceaf90752491f7d4",
-   "v": "4hn97u7oAywDJP/FA+n67+8K/vbvAsDjD7XxEc7wU9Tg9Prp/j7wNislydXKvuH+1zzfGvhW7hTuFjoODtcq+uPf2C8A5gAy5+gPIugDCCII7c/5/LKv0r8C7UfUEyo0I7wcOejGEsME0RUJDfRHsvA4F9XwABbyCibn4ebB8s7C7OwfJQbyyD7q5/EP3S0VytvK4EQjCA0AydwCxxsA0/vo/EjPIwElil/mEto3AeMC0uyPukay0fjn0fzgWOlQBWFn1vP6/u389lMHBhNHM8bWWdVeAugs/eziGpzp+vjBPhWwFqHsD+Tg8fvy1RXuDiAE+gMqG/ow6UwaERjt9/ny0OYvLOS2GsUYIxAGAkEVB/EaNeTuWr/nKSgQBNumyvYl6OMLAhgWN0UUFh/2v79W2+oE1+YI49/Dqg2/RN8T0vGeu9oFHArFKh/46dPH0fjc3QjlmzlRLAGaIyoZ17vxxCL06bkLkvBhDRnq5g8NqA7TA9IU0BkaDC/5+BPPDvXxDvMJENPT6N/PYdwgC9EOyRjTJkhgACEzgUob7d0T6vQGNAHeAQ5HH+P3ugIzMgiu/iIUsi3oJewO9coME7vl/xj1UcfDStTtG/wUD0A2JcD5IAHjOBHp6u8L1NjlDu729Vx68xpFEdERLfIQ0ALREPr65wIEzhfo4hm+FDc="
+   "ancla": "recorrido",
+   "texto": "ARS integra cámaras CCTV con capacidades de inteligencia artificial para detectar eventos relevantes y apoyar al operador en la priorización de riesgos.\nIncluye: Personas: Detección de personas, Reconocimiento facial (listas autorizadas/restringidas), Caídas y eventos críticos, Merodeo o permanencia. Vehículos: Detección de vehículos, Reconocimiento de placas (LPR), Clasificación por tipo y color. Comportamiento y zonas: Cruce de línea, Intrusión en zona, ROI o zonas de interés, Objetos abandonados. Industrial y operación: Uso de elementos de protección personal (EPP), Reglas por cámara, Aglomeración y densidad, Detección de fuego y humo.\nEnlace: /plataforma#recorrido",
+   "h": "189f623f80eb59d0"
   },
   {
    "id": "funcionalidad:alertas",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad K · Alertas inteligentes (grupo Inteligencia)",
    "ruta": "/plataforma",
-   "ancla": "feature-alertas",
-   "texto": "Las alertas no son simples notificaciones. Llegan con contexto: qué ocurrió, dónde, cuándo, quién estaba asignado, qué cámara lo detectó y qué evidencia existe.\nIncluye: Tipo de evento, Nivel de prioridad, Cámara asociada, Zona o sede, Usuario o guarda relacionado, Snapshot, Video clip, Ubicación, Estado de atención, Historial de seguimiento.\nEnlace: /plataforma#feature-alertas",
-   "h": "37c6a404cd142946",
-   "v": "+0bXDPDpDiQ8I/T48+0FI97w4xHdCub6CamrA+85W9707eUD0DfyEz0tsP7c4tMDzzoALAFHKirVBjhZCtIcUfXEmBsPERQ03t/+Nvzb7vgSB7QS5Oqpvs0H0yXuDiNrVMDsTBGv3Inr5wcfEP1Mt/IpD9IB30UX2N/bA6jd1ya0yvUHJewTBhHS1v0T6zcPl/n+CSA5+T7uBf03wxL3+xnyAx+Q9ywEoVsRJugyIun98dulBQ/Z5+MJ3gDPSN4s+EFJ398R5+jXzTPY9y8dTLLWc+hQFesutgS3LL++BQbDPgPO1tPVAQn6+NkJ9wTmBQv4J/A4JvX/S1ENFQQC8/gT8dRJ8sqrDc4LBOAA1BUN8vsIB+sBItjkCg00Dwvp3+AWsO/x5RvxFi8k1hYHoxY0IvDR4QDb1dTcn0sIA/Ag2A6cycYJPjLHT+H1Ed7c8he6+SLdtupKDhuTCQcnycT60grWAhL6veB/+xL0xssX3iLUN8nz5fw8OC396920FRTdC9ELEfzh5OcKOwId79f+pi/Y+xxMJ/pKsi3ODdfWPf0UJPruPAHw8QAVocxIRzX62icu3CW7FfD8CtQN5PrR4WEYJcDSKrQKHfgx9xok8YX4LRb+MDIi2r1LnNb2GggZ9jVT8B9KGeL0DvIXDfC9KeHu7ND8ABrnygXXGN8="
+   "ancla": "recorrido",
+   "texto": "Las alertas no son simples notificaciones. Llegan con contexto: qué ocurrió, dónde, cuándo, quién estaba asignado, qué cámara lo detectó y qué evidencia existe.\nIncluye: Tipo de evento, Nivel de prioridad, Cámara asociada, Zona o sede, Usuario o guarda relacionado, Snapshot, Video clip, Ubicación, Estado de atención, Historial de seguimiento.\nEnlace: /plataforma#recorrido",
+   "h": "4175aa7b6aca430c"
   },
   {
    "id": "funcionalidad:evidencia",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad L · Evidencia y trazabilidad (grupo Monitoreo)",
    "ruta": "/plataforma",
-   "ancla": "feature-evidencia",
-   "texto": "Cada acción importante dentro de ARS queda registrada para auditoría, seguimiento y respaldo ante el cliente.\nIncluye: Evidencia fotográfica, Video de evento, Fecha y hora, Usuario responsable, Ubicación, Cámara asociada, Historial de cambios, Estado del evento, Cierre de novedad, Reporte descargable.\nEnlace: /plataforma#feature-evidencia",
-   "h": "d1378eac6b12e0b2",
-   "v": "BjHkBOQb9wz6BB3x98XuE+fzzQEXEujfA6au6boBWMwR/9omQOwH5j8V2/H8/qwgFDDXEQ4QAerkEgId9u4xD/PckycaDBcm/Qgh/SPwEeYP77ofENWj4t0aAhgKOl03Fc7vKh+24YHcBi75/dY6rwNHJNIH9Dnk8BjXxBW23/LpxPMMRtb7CzTVyw8YBSEcug7WKUYGAfn+IQ0QzQUB3iAM+SLbD+4DkCHOANsSCdD+CBjN6iDq0eYM5wnfINhR9EAu1sYd6f28Bzvi6fQMEu7PYhwu5t1WwAkO8by+AenOWRuj7sDmLfD8K90DDSvwKgvd5iEkEvwvLzstCfIK9M792MxM9r/uJ+EU7AAx4Dv+IfwoPdv3H/gGDysUBub18iUM6wPj6QZP7wg/5grbrwEu9ODv2f3k19bc5i7wHsQ0s/Sx373dGxjtRecIMSrx7xfwEAm2xhsgCAa6EggB3M0buwvhx9EV0ftM5h4fwQAozSrTMPzxDRceDeLu9SHE8Qy+PfLh7fDhoATxSQMxydX6nyjbGfQsSjwW3yH0AdH8+SPpQwkFEhcO6iXJvN8LRRPK+fPJuRX2Pubz2bvn3dzUICLTJbzMO8gYJvAy/007rqX1JAwAKy4j0uMCreHEI/LbATh1+wkBHuMsDPL31uS4Evjr1OD+AQ3H7ETk+g4="
+   "ancla": "recorrido",
+   "texto": "Cada acción importante dentro de ARS queda registrada para auditoría, seguimiento y respaldo ante el cliente.\nIncluye: Evidencia fotográfica, Video de evento, Fecha y hora, Usuario responsable, Ubicación, Cámara asociada, Historial de cambios, Estado del evento, Cierre de novedad, Reporte descargable.\nEnlace: /plataforma#recorrido",
+   "h": "17de664e290e338b"
   },
   {
    "id": "funcionalidad:reportes",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad M · Reportes e indicadores (grupo Reportes)",
    "ruta": "/plataforma",
-   "ancla": "feature-reportes",
-   "texto": "ARS convierte la operación diaria en información útil para gerentes, supervisores y clientes.\nIncluye: Cumplimiento de turnos, Rondas completadas, Rondas fallidas, Tiempo de respuesta, Novedades por sede, Alertas por tipo, Eventos por cámara, Actividad por guarda, Cobertura por cliente, Evidencia generada, Riesgos recurrentes, Reportes por periodo.\nEnlace: /plataforma#feature-reportes",
-   "h": "794e2e43569a838a",
-   "v": "5U8l6+YH9BcsDNjc4dEbGev1yS4WGtK19g2kBNT5J8oY+SXsIyYbBRdP3Qbh4cXrRjDJDQcoOBT68Tb9MOIkEfsHqBMTDwgs+uoN9xr//gsb18sRCrjFwwr8y//8Wkrg+Q3jPDrS9ckLDR/w3dpUxP4xHP0Q5EfjAgqxztXd5OnT6LseOtPoBSkH0ggOJgHWtu0J9yIAARby+SUmrw743zAuyBv898gLhkzp0NzOIsmv5fMC9SfnzNfcwQP1SOpB51jly+X/0gjMA1br0vsVCOfmbTIq69Aeuh0CCvTP3gDLfz+gD7YG3fIECBUPGfDwJDMMCCga/sNPHjE5LA7+88z/+MUZEssQIPf//AYJ7iYlXxUcIAX8Ae/aLTQ7+QLw8QcJByGx5/Ep3/5W4ifltyYV9rcezMUYAd7Tx0TkJt4qxe/V/6H6KvrcTuL5O8zy6TjTHPzFpdA15PTfDxsT5tUUrRD91twBs9BE3TUJ8RUszji8/AP22wIAIf/45++/FyraQuXy9QUKstPzFgQkwvbxlibIMQo9DCcSqA7//cr3FgbzFNkNQQkR+yieue8QSD3K9Erv9hv2PffzzNEJ5uLK61TpGpTaUb8NWxYoGDo076Hy/R4AOicj0d8E0NbfVMkB7ll0FBb0LxMa2/MXBdy/AArR2ewGGhLM3wvgzQk="
+   "ancla": "recorrido",
+   "texto": "ARS convierte la operación diaria en información útil para gerentes, supervisores y clientes.\nIncluye: Cumplimiento de turnos, Rondas completadas, Rondas fallidas, Tiempo de respuesta, Novedades por sede, Alertas por tipo, Eventos por cámara, Actividad por guarda, Cobertura por cliente, Evidencia generada, Riesgos recurrentes, Reportes por periodo.\nEnlace: /plataforma#recorrido",
+   "h": "af6710f310f846a8"
   },
   {
    "id": "funcionalidad:multisite",
    "fuente": "funcionalidad",
    "titulo": "Funcionalidad N · Multi-cliente · multi-sede · multi-zona (grupo Reportes)",
    "ruta": "/plataforma",
-   "ancla": "feature-multisite",
-   "texto": "ARS está pensada para operar múltiples clientes, sedes, zonas, cámaras, guardas y servicios desde una arquitectura ordenada y escalable.\nIncluye: Organización → Cliente → Sede / Zona, Puesto → Cámara → Guarda, Turno → Ronda → Tarea, Evento → Evidencia → Reporte.\nEnlace: /plataforma#feature-multisite",
-   "h": "95e1106721241b7f",
-   "v": "7TROAeUa3Rbh4NjbAc0RLunq4QAiK8isAPnMEt/pZMUZGwMFFiwMHTQr3ef/FKYeTFjG9vwrAfD78ScUSvBAMPwZrez+J/I+EPQn0uMAFevj597yKdzv3Pfs/DP1PD4MNeXhJiHC1Nby8SAeB+MO7yQYJusV0VUDMCy16OLP0goG4/UBOubn9AnXuPoR8B8C4SjZNxUt7ezEEwkQsyAB6RoC6hjp8LwCnVO5x9fhKsMBAAj8AjXj5ejdpvj5VNE33VAdteMexv7LBkcD6/sY5f/NWDgQAOD7rP3RAPat2wfTb0qOLswDDxz1+BgoAsnX/vIGAywDCOAtDzo6FxTr7uvmAM33C+cPHe4qB/ATBT8lDRwuNfHoBsasHjg9B/Hx+hMYDvXO99YS4xUwEF0ZzwoK7+Mm4ePkwtTLqz3dJwYj1/K80LntE/gAY9YRJAiyAjz3+f3auv0a6wLQKvIR8swf4vT30Mj3ufU45vcS6joO3i7iACIh9PEqDgL/A/rIBijFTs294BQ32uPbNdcW4BAOoyfRKx4xBREfgStTBNrXFvkdSeYaFR8mEOuh1QIQYSjVDRnw9ijiIdop5cjp8K/WAC74T8TqZOQWLhUu9Do+6c8WJf8TVBYd1eX61wPiPtEF7zl6BUQkQvhKEfHw08eu0P7z3brxBvzF5yLC6Qs="
+   "ancla": "recorrido",
+   "texto": "ARS está pensada para operar múltiples clientes, sedes, zonas, cámaras, guardas y servicios desde una arquitectura ordenada y escalable.\nIncluye: Organización → Cliente → Sede / Zona, Puesto → Cámara → Guarda, Turno → Ronda → Tarea, Evento → Evidencia → Reporte.\nEnlace: /plataforma#recorrido",
+   "h": "4d89c019491b1c11"
   },
   {
    "id": "caso:residencial",
    "fuente": "funcionalidad",
    "titulo": "Caso de uso: Conjunto residencial (Residencial · Administración)",
    "ruta": "/plataforma",
-   "ancla": "casos",
-   "texto": "Control de porterías, Rondas perimetrales, Registro de novedades, Cámaras por torre o zona, Alertas por intrusión, Reportes al administrador.\nEnlace: /plataforma#casos",
-   "h": "15a8977e8cb4e879",
-   "v": "/Bz8CAAsBQMREgT+KugQ/gg33kzwJBDKySoBIhEWLNQi9xD6+BoSJTAe9fPb9uoQFyDf5ScVH+3n5hAn6OQQKPnXwyP/NR3zCu3/9vES/f3y7K0h//Gg4f3I6UfbHCr1BusUPDyp8bzo8RkQCskt2PVDK/sutyr7FPrr8+/MxNm+6eblFAv/9yfzzu8uzRMWwRYDBEET/Bbp/gUYz/rQ+ALS+xEK8ykAlnAME+kWFvLO2wTi9QH9x/XJ0inEIdIpEjgN5dEKzc3C6z8ICNUBE/4YL/Mu3uM8+ezrA+gG++P+QiPVK7MACv7IFSkF7+4DBgjnGi4eCvVTEkNcLRHxAsr8/f8v+Mz1MfEE/e0N5BwoIQ0nKsb//eP++k0sLREN6icECNf0/yUj2zcc/0771+H3IOnf0cTY7tn/vzcTJeQU5N2/5sbrOiTAN+0WM/QP8FLTGiMIyA4g3xjnEhDi8cYP0g4M1bkJ6fkyDQAdyuMY6/28AhXw8xIbLPQeDubFBhTeNOjY7gv+0BbhQQst1QHt5i3e3jLsFeYCyy8G/vrv9Ake+hkFIwgM6dirvPsIAjXq5B0d4yPZBOIG/8wcyvrx0RjwULjqTtTdIRQqEUAT2pkG5vD9Nwz4vuAT687Y//L6HVB//SEQB+ofLvEh4eXjMRD+/a4SHBPI3AWz5gE="
+   "ancla": "arquitecto-ia",
+   "texto": "Control de porterías, Rondas perimetrales, Registro de novedades, Cámaras por torre o zona, Alertas por intrusión, Reportes al administrador.\nPara armar el suyo: /plataforma#arquitecto-ia",
+   "h": "17311aeaf603fa34"
   },
   {
    "id": "caso:campus",
    "fuente": "funcionalidad",
    "titulo": "Caso de uso: Universidad o campus (Educación · Acceso)",
    "ruta": "/plataforma",
-   "ancla": "casos",
-   "texto": "Múltiples entradas, Cámaras por edificios, Monitoreo de estudiantes, visitantes y zonas críticas, Detección de permanencia o cruce de línea, Control de eventos y reportes.\nEnlace: /plataforma#casos",
-   "h": "7f90c9bf51f71700",
-   "v": "7P4cDQAE5h3wDgH3/e0TAwQ51En8EQvT5NwgIvoKScr8EeYazzERGiQT/vji4sIfIjCvzCYdC+Lu+P4CNAMYOTUR0ga+PjD/AvYiDP8g5eoSCNsHIfqg5u2//D/LHysyFcQRPgiV5cjszRn9CcA31/c7NcklgRD2HgEL6ODC2fS25PbhCvQNCBH/xOco21UlzgXlMlce9Cbf4/Dzyhjs7R7GABv2/gHvgXfbLfg4CPTO2/jQ8+3r0BLfyxHpAtstFjAi5M7w3p66CDnyPesBGOb7R+8g1OM+7PoaEMoHF97yTCrYJaroBAroIBz35uv4CgLxLzUNBec1Yz5GF/H95dwIE+IpGNjmNuHs8/bx7iALGfgTTOL6CNcMFEYPKBTqvSD+COb7CzQZ8Tv67SkS5tshLfzzzaHXBgvltxb5G+cn7PrECOv7RgmqNfHwJvDr51bO9vDmtTMp4BTbKAzj5Nf57hD35vP55A9JDigGw9wR4+veGBD47P0yDhf6DATB2yH9QebF/i8Axjj7Zhooze7p0TX0zVTOEA/frCf+FA3f6CIECBz3OO0F+vG2y+obDkPV8DDx7SnSB/YbDdDsw+T0BQ4KXtDgP7P8RwAeACwX9K/rJen+Mxbzz/D56er86gTWGUdzEBsZIOUvHPAEwvLkIQAI8qwRFgG7zyev3Mo="
+   "ancla": "arquitecto-ia",
+   "texto": "Múltiples entradas, Cámaras por edificios, Monitoreo de estudiantes, visitantes y zonas críticas, Detección de permanencia o cruce de línea, Control de eventos y reportes.\nPara armar el suyo: /plataforma#arquitecto-ia",
+   "h": "25c1e6dd94d9acfb"
   },
   {
    "id": "caso:logistica",
    "fuente": "funcionalidad",
    "titulo": "Caso de uso: Centro logístico (Logística · Industrial)",
    "ruta": "/plataforma",
-   "ancla": "casos",
-   "texto": "Control de acceso vehicular, Reconocimiento de placas, Rondas en bodegas, EPP, Alertas por zonas restringidas, Evidencia ante incidentes.\nEnlace: /plataforma#casos",
-   "h": "aa63ad6f4f588fa4",
-   "v": "9gXrBO7/3zzvDCYWB9sPKQ4izTcKJBPg1/UoJuLoVcEm9PL5/jEOGhgOFPro2PATHxDI3BgZC/voCEED9d4MRCr/2O/YCRAG6fcRGvo59Njs++3x+8iH0tm17jvoGA0MCMwXQh6lC6oL6icOFMNVvwZnMfhDpzYH9vPOv7yxxdTh2s3bOvQD9xvR3QwHyydJh+L+4nRQ/Bb25+v6rhH04e7Y0BwCDg0CgWfmEOL6zf7l8Rnp5eHu4Pf2xgnWIqBLNjsxz9Ie7brHC2b4/ukQHvYAPNRI+/BHuDQeGtfcDdzkVinQH7EB+AoECCkIzBf8DQL60zkKC/1BHT4+9ukB+tvc7/I2BLb8FuI6GeYa9Qg4F+cANbcE/vQNA0wWQ+4b1A8Y8MPuHfQa3jQHBjf9tdQBFMjxwsHe2+Hm0jYKFbsz0gvIFdryIVezACgqGCvu8jsKERoF5hs85AThLDDRxbz96gbZ0sgW3R4sHy4KvdEU7SvK8fbw+x00Ehcz+/rz+w30TOS45P/0+ADURusr/OTewlvUBhgT2P4J1Tv3CwYGAOYQEFTsNdsaB/fdpfssNkPb7hQV0QXOAQwhF7cJ6u/zIRXpT6jkNq8ENAQwHzEX35zVPBbsRwnsxfvj3bTO3g/iCmN8DyzTEeQWLO300ODMMhr748/6DyfF6Cyf9eg="
+   "ancla": "arquitecto-ia",
+   "texto": "Control de acceso vehicular, Reconocimiento de placas, Rondas en bodegas, EPP, Alertas por zonas restringidas, Evidencia ante incidentes.\nPara armar el suyo: /plataforma#arquitecto-ia",
+   "h": "764fb9207ff0153b"
   },
   {
    "id": "caso:seguridad",
    "fuente": "funcionalidad",
    "titulo": "Caso de uso: Empresa de seguridad (Servicios · Multi-cliente)",
    "ruta": "/plataforma",
-   "ancla": "casos",
-   "texto": "Gestión de múltiples clientes, Programación de turnos, Supervisión de guardas, Rondas y tareas, Reportes automáticos, Trazabilidad para facturación o cumplimiento.\nEnlace: /plataforma#casos",
-   "h": "ace223e8bd02191e",
-   "v": "4Q4/5+4N6D8Z6BvEEtItIObtsyP2Tg7WnBfhBNTlXb4g8C3wMlAiFi7vCP7pDcYZSzyvuxo/Iwf/ABAQEu8pOwn1wQPTIQcG/Akh/xoy8Mff5+8yJ+yM2fDR/zX+PjrwIPgPKDXP49L22CsL+dgf2gwsIPxWyyjeFvTOz8HFz9Ti1drfJfgl2i4LuQIu1wUxpPfzDRkO2O/O+Skhrxfu3yHyvC/V0fwam3cR6dwNC9jvB/Pf/O8Ez9u53hD4MrcXIScV0d0Lxt3j5z/2HMgFze36XyH66swByPkLDeLuvMQCfWe9Uab65hbuPTwqGdbn6v3l5EYNA9Q2HTZkPvQEEfDVGeol9rMaERoPEws97EMvJCv7G8TkCcjc/BNZKxfj1DICNNfGHxExDCEv7Vrj69gAK90KtqnZCQDIiyzzL9kVxNjp9tLxKRzVI8sqHAME+msS8P/bmfRdwir+Ow0T3LMVyO3jpdTvphUa/SJDufgYCD/q8gfWxwhZCegME/vv0iXWT96hDA0b5uTVUQEr5BDixUPB+AwFA//91isP9firLxU1E+cmOesJBsSQ4iUuMhDO4kLd5DG6CvI9F7nt1ODiGB//co3xP8PzMCQYBkAs64f9DyQBMwn/pvMu0usgOfLSFVp//SsvNyg9VPAG1ee38BPz4bcPHPm8yyma9Q8="
+   "ancla": "arquitecto-ia",
+   "texto": "Gestión de múltiples clientes, Programación de turnos, Supervisión de guardas, Rondas y tareas, Reportes automáticos, Trazabilidad para facturación o cumplimiento.\nPara armar el suyo: /plataforma#arquitecto-ia",
+   "h": "afb4c6a9e21e4890"
   },
   {
    "id": "flujo:turno-reporte",
