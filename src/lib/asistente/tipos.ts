@@ -16,20 +16,48 @@ export type ContextoPagina = {
   /** Analítica abierta en el visor de /vision, si aplica. */
   analitica: { id: string; nombre: string } | null;
   idioma: Idioma;
+  /** Lo que la persona contó de sí misma (memoria persistente en su navegador). */
+  perfil?: Partial<Record<ClavePerfil, string>>;
+  /** Recorrido reciente por el sitio, del más antiguo al más nuevo. */
+  recorrido?: PasoRecorrido[];
+  /** Resumen de mensajes antiguos que ya no viajan completos. */
+  resumenPrevio?: string;
 };
+
+export const CLAVES_PERFIL = [
+  "nombre",
+  "empresa",
+  "cargo",
+  "sector",
+  "tamano",
+  "pais_ciudad",
+  "sedes",
+  "camaras",
+  "necesidad",
+  "interes",
+] as const;
+export type ClavePerfil = (typeof CLAVES_PERFIL)[number];
+
+export type PasoRecorrido = { ruta: string; ancla: string; titulo: string; haceSeg: number };
+
+export type Cita = { documento: string; texto: string; pagina?: number };
 
 /** Acciones que el asistente ejecuta en el navegador. */
 export type Accion =
   | { tipo: "ir_a"; ruta: string; ancla?: string }
   | { tipo: "mostrar_analitica"; id: string }
   | { tipo: "abrir_contacto"; motivo?: string }
-  | { tipo: "resaltar"; ancla: string; nota?: string };
+  | { tipo: "resaltar"; ancla: string; nota?: string }
+  | { tipo: "recordar"; clave: ClavePerfil; valor: string }
+  | { tipo: "olvidar"; clave: ClavePerfil | "todo" }
+  | { tipo: "analizar_video"; id: string };
 
 /** Tarjetas enriquecidas que acompañan a un mensaje del asistente. */
 export type Tarjeta =
   | { tipo: "analitica"; id: string; nombre: string; corta: string; familia: string }
   | { tipo: "enlace"; ruta: string; ancla?: string; titulo: string; descripcion?: string }
-  | { tipo: "contacto"; motivo?: string };
+  | { tipo: "contacto"; motivo?: string }
+  | { tipo: "sugerencias"; opciones: string[] };
 
 export type AdjuntoMeta = { nombre: string; tipo: string; bytes: number };
 
@@ -39,6 +67,10 @@ export type MensajeChat = {
   texto: string;
   tarjetas?: Tarjeta[];
   adjuntos?: AdjuntoMeta[];
+  /** Fragmentos citados de los documentos adjuntos. */
+  citas?: Cita[];
+  /** Mensaje dictado por voz (se muestra con un icono). */
+  porVoz?: boolean;
   /** true si el mensaje terminó con error (se muestra distinto). */
   error?: boolean;
   ts: number;
@@ -48,13 +80,17 @@ export type MensajeChat = {
 export type DocumentoAdjunto = {
   id: string;
   nombre: string;
-  /** MIME final: application/pdf, image/jpeg|png|webp|gif o text/plain. */
+  /** MIME final: application/pdf, image/jpeg|png|webp|gif, text/plain o video/fotogramas. */
   tipo: string;
   /** Bytes originales del archivo (para mostrar y para el límite). */
   bytes: number;
   /** base64 (pdf/imagen) o texto plano (text/*). */
   datos: string;
-  codificacion: "base64" | "texto";
+  codificacion: "base64" | "texto" | "fotogramas";
+  /** Video: fotogramas JPEG (base64) muestreados en el navegador, con su segundo. */
+  fotogramas?: { t: number; datos: string }[];
+  /** Video: duración total en segundos. */
+  duracion?: number;
 };
 
 /** Cuerpo del POST /api/asistente/chat. */
@@ -71,6 +107,7 @@ export type EventoStream =
   | { t: "texto"; d: string }
   | { t: "accion"; accion: Accion }
   | { t: "tarjeta"; tarjeta: Tarjeta }
+  | { t: "cita"; cita: Cita }
   | { t: "fin"; motivo: string }
   | { t: "error"; codigo: CodigoError; mensaje: string };
 
@@ -113,6 +150,11 @@ export const LIMITES = {
   /** Audio para transcribir (STT). */
   audioBytes: 4_000_000,
   ttsCaracteres: 2_500,
+  /** Video: fotogramas por clip y lado mayor de cada uno. */
+  fotogramasMax: 12,
+  fotogramaLado: 768,
+  /** Video local que se puede muestrear (no se sube: solo sus fotogramas). */
+  videoBytes: 400_000_000,
 } as const;
 
 export const TIPOS_IMAGEN = ["image/jpeg", "image/png", "image/webp", "image/gif"] as const;

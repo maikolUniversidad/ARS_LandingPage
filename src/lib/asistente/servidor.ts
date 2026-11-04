@@ -4,7 +4,16 @@
  * Las claves solo se leen aquí (nunca NEXT_PUBLIC_*).
  */
 import { analiticas } from "@/data/analiticas";
-import { LIMITES, TIPOS_IMAGEN, type DocumentoAdjunto, type EstadoServicios, type PeticionChat } from "./tipos";
+import {
+  CLAVES_PERFIL,
+  LIMITES,
+  TIPOS_IMAGEN,
+  type ClavePerfil,
+  type DocumentoAdjunto,
+  type EstadoServicios,
+  type PasoRecorrido,
+  type PeticionChat,
+} from "./tipos";
 
 export const MODELO_POR_DEFECTO = "claude-sonnet-5-5";
 
@@ -70,6 +79,23 @@ function documento(v: unknown): DocumentoAdjunto | null {
   const datos = typeof d.datos === "string" ? d.datos : "";
   const nombre = s(d.nombre, 160) || "documento";
   const bytes = typeof d.bytes === "number" && d.bytes > 0 ? d.bytes : datos.length;
+  if (d.codificacion === "fotogramas") {
+    const lista = Array.isArray(d.fotogramas) ? d.fotogramas : [];
+    const fotogramas = lista
+      .slice(0, LIMITES.fotogramasMax)
+      .map((f) => {
+        const o = (f && typeof f === "object" ? f : {}) as Record<string, unknown>;
+        const t = typeof o.t === "number" && Number.isFinite(o.t) ? Math.max(0, o.t) : 0;
+        const b = typeof o.datos === "string" ? o.datos : "";
+        return B64.test(b.slice(0, 1000)) && b.length > 100 ? { t, datos: b } : null;
+      })
+      .filter((f): f is { t: number; datos: string } => f !== null);
+    if (!fotogramas.length) return null;
+    const duracion = typeof d.duracion === "number" && Number.isFinite(d.duracion) ? d.duracion : undefined;
+    // Para el límite cuentan los bytes reales que viajan (los fotogramas), no el video original.
+    const reales = Math.round(fotogramas.reduce((n, f) => n + f.datos.length, 0) * 0.75);
+    return { id: s(d.id, 60), nombre, tipo: "video/fotogramas", bytes: reales, datos: "", codificacion: "fotogramas", fotogramas, duracion };
+  }
   if (!datos) return null;
   if (codificacion === "texto") {
     return { id: s(d.id, 60), nombre, tipo: "text/plain", bytes, datos: datos.slice(0, LIMITES.textoCaracteres), codificacion };
@@ -78,6 +104,31 @@ function documento(v: unknown): DocumentoAdjunto | null {
   if (tipo !== "application/pdf" && !esImagen) return null;
   if (!B64.test(datos.slice(0, 1000))) return null;
   return { id: s(d.id, 60), nombre, tipo, bytes, datos, codificacion };
+}
+
+function perfilValido(v: unknown): Partial<Record<ClavePerfil, string>> | undefined {
+  if (!v || typeof v !== "object") return undefined;
+  const o = v as Record<string, unknown>;
+  const out: Partial<Record<ClavePerfil, string>> = {};
+  for (const k of CLAVES_PERFIL) {
+    const val = s(o[k], 160).trim();
+    if (val) out[k] = val;
+  }
+  return Object.keys(out).length ? out : undefined;
+}
+
+function recorridoValido(v: unknown): PasoRecorrido[] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const out = v.slice(-12).map((p) => {
+    const o = (p && typeof p === "object" ? p : {}) as Record<string, unknown>;
+    return {
+      ruta: s(o.ruta, 120),
+      ancla: s(o.ancla, 80),
+      titulo: s(o.titulo, 120),
+      haceSeg: typeof o.haceSeg === "number" && o.haceSeg >= 0 ? Math.round(o.haceSeg) : 0,
+    };
+  });
+  return out.filter((p) => p.ruta).length ? out.filter((p) => p.ruta) : undefined;
 }
 
 export type ErrorValidacion = { codigo: "invalido" | "muy_grande"; mensaje: string };
@@ -111,6 +162,9 @@ export function validarPeticion(raw: unknown): PeticionChat | ErrorValidacion {
     seccion: sec ? { id: s(sec.id, 80), titulo: s(sec.titulo, 200) } : null,
     analitica: an && ids.has(anId) ? { id: anId, nombre: s(an.nombre, 160) } : null,
     idioma: c.idioma === "en" ? "en" : "es",
+    perfil: perfilValido(c.perfil),
+    recorrido: recorridoValido(c.recorrido),
+    resumenPrevio: s(c.resumenPrevio, 3000) || undefined,
   };
 
   const docsRaw = Array.isArray(r.documentos) ? r.documentos : [];

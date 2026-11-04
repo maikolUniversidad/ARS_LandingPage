@@ -1,6 +1,6 @@
 "use client";
 
-import type { Accion, ContextoPagina } from "./tipos";
+import type { Accion, ClavePerfil, ContextoPagina } from "./tipos";
 
 /**
  * Conversación en tiempo real con el agente de ElevenLabs (voz ↔ voz, baja
@@ -20,6 +20,8 @@ type ConversacionEL = {
 export type EventosAgente = {
   onEstado: (e: "conectando" | "escuchando" | "hablando" | "desconectado") => void;
   onMensaje: (rol: "user" | "assistant", texto: string) => void;
+  /** Fragmentos de la respuesta del agente mientras se genera (subtítulos). */
+  onParte: (delta: string) => void;
   onAccion: (a: Accion) => void;
   onError: (mensaje: string) => void;
 };
@@ -39,7 +41,10 @@ const s = (v: unknown) => (typeof v === "string" ? v.trim() : "");
 export class AgenteVoz {
   private conv: ConversacionEL | null = null;
 
-  async iniciar(contexto: ContextoPagina, historialResumen: string, ev: EventosAgente) {
+  async iniciar(contexto: ContextoPagina, historialResumen: string, perfil: Partial<Record<ClavePerfil, string>>, ev: EventosAgente) {
+    const perfilTexto = Object.entries(perfil)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join("; ");
     ev.onEstado("conectando");
     const r = await fetch("/api/asistente/voz-sesion", { cache: "no-store" });
     const j = (await r.json()) as { ok: boolean; signedUrl?: string; prompt?: string; mensaje?: string };
@@ -61,6 +66,7 @@ export class AgenteVoz {
 # Estado al iniciar
 ${describirContexto(contexto)}
 Idioma de la interfaz: ${contexto.idioma}.
+Lo que la persona contó de sí misma: ${perfilTexto || "(nada todavía)"}
 Conversación previa en el chat:
 ${historialResumen.slice(0, 1500) || "(sin conversación previa)"}`,
               },
@@ -101,6 +107,9 @@ ${historialResumen.slice(0, 1500) || "(sin conversación previa)"}`,
       onModeChange: ({ mode }) => ev.onEstado(mode === "speaking" ? "hablando" : "escuchando"),
       onMessage: ({ role, message }) => {
         if (message?.trim()) ev.onMensaje(role === "agent" ? "assistant" : "user", message);
+      },
+      onAgentChatResponsePart: (p: { text: string; type: "start" | "delta" | "stop" }) => {
+        if (p.type === "delta" && p.text) ev.onParte(p.text);
       },
       onError: (m: string) => ev.onError(m),
     })) as unknown as ConversacionEL;

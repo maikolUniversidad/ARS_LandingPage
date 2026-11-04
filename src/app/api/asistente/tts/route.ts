@@ -38,6 +38,7 @@ export async function POST(req: Request) {
       text: texto,
       model_id: cfg.modeloTts,
       language_code: idioma,
+      apply_text_normalization: "auto",
       voice_settings: { stability: 0.45, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true, speed: 1.0 },
     }),
     signal: req.signal,

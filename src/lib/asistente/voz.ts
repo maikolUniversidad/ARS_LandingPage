@@ -31,6 +31,8 @@ function nivelDe(an: AnalyserNode, buf: Uint8Array<ArrayBuffer>): number {
 export function textoHablable(t: string): string {
   return t
     .replace(/```[\s\S]*?```/g, " ")
+    .replace(/([\w.+-]+)@([\w-]+)\.([\w.]+)/g, (_m, u: string, d: string, tld: string) => `${u.replace(/\./g, " punto ")} arroba ${d} punto ${tld.replace(/\./g, " punto ")}`)
+    .replace(/\+?57\s?(\d{3})\s?(\d{3})\s?(\d{4})/g, "más cincuenta y siete, $1, $2, $3")
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
     .replace(/https?:\/\/\S+/g, "")
     .replace(/[*_`#>|]/g, "")
@@ -60,6 +62,8 @@ export class ReproductorVoz {
   private urls = new Set<string>();
   estado: EstadoReproductor = "inactivo";
   onEstado?: (e: EstadoReproductor) => void;
+  /** Frase que empieza a sonar (para subtítulos). */
+  onFrase?: (frase: string) => void;
 
   constructor(
     private usarElevenLabs: boolean,
@@ -162,6 +166,7 @@ export class ReproductorVoz {
       while (this.cola.length && gen === this.generacion) {
         const frase = this.cola.shift() as string;
         this.cambiar("hablando");
+        this.onFrase?.(frase);
         if (this.usarElevenLabs) {
           const url = await (this.precarga ?? this.pedirAudio(frase));
           this.precarga = this.cola.length ? this.pedirAudio(this.cola[0]) : null;
@@ -299,9 +304,15 @@ export class GrabadoraVoz {
     this.reco?.abort();
   }
 
+  /** Texto parcial mientras la persona habla (subtítulos en vivo). */
+  onParcial?: (texto: string) => void;
+
   async escuchar(alTranscribir?: () => void): Promise<ResultadoEscucha> {
     this.cancelado = false;
     if (!this.usarElevenLabs || !vozDisponible().grabar) return this.escucharNavegador();
+    // Preferimos Scribe en tiempo real (texto parcial en vivo); si falla, grabación + Scribe por lotes.
+    const vivo = await this.escucharTiempoReal().catch(() => null);
+    if (vivo) return vivo;
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
@@ -373,6 +384,81 @@ export class GrabadoraVoz {
     }
   }
 
+  private async escucharTiempoReal(): Promise<ResultadoEscucha | null> {
+    const r = await fetch("/api/asistente/stt-token", { method: "POST" });
+    if (!r.ok) return null;
+    const { token } = (await r.json()) as { token?: string };
+    if (!token) return null;
+    const { Scribe, RealtimeEvents, CommitStrategy } = await import("@elevenlabs/client");
+    // Micrófono aparte solo para el nivel del orbe (Scribe usa el suyo).
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+      const ctx = audioCtx();
+      if (ctx) {
+        this.analizador = ctx.createAnalyser();
+        this.analizador.fftSize = 512;
+        ctx.createMediaStreamSource(this.stream).connect(this.analizador);
+      }
+    } catch {
+      return { error: "microfono" };
+    }
+    const conexion = await Scribe.connect({
+      token,
+      modelId: "scribe_v2_realtime",
+      commitStrategy: CommitStrategy.VAD,
+      vadSilenceThresholdSecs: 1.1,
+      languageCode: this.idioma,
+      keyterms: ["ARS", "Vigías", "LPR", "EPP", "analítica", "góndola", "aforo"],
+      microphone: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+    });
+    const limpiar = () => {
+      this.stream?.getTracks().forEach((t) => t.stop());
+      this.stream = null;
+      this.analizador = null;
+      this.terminarYa = null;
+    };
+    return new Promise<ResultadoEscucha>((ok) => {
+      let parcial = "";
+      let listo = false;
+      const fin = (res: ResultadoEscucha) => {
+        if (listo) return;
+        listo = true;
+        window.clearTimeout(limite);
+        window.clearTimeout(sinVoz);
+        try {
+          conexion.close();
+        } catch {
+          /* ya cerrada */
+        }
+        limpiar();
+        ok(this.cancelado ? { error: "cancelado" } : res);
+      };
+      const limite = window.setTimeout(() => fin(parcial ? { texto: parcial } : { error: "vacio" }), 30_000);
+      const sinVoz = window.setTimeout(() => !parcial && fin({ error: "vacio" }), 9_000);
+      this.terminarYa = () => {
+        try {
+          conexion.commit();
+        } catch {
+          fin(parcial ? { texto: parcial } : { error: "vacio" });
+        }
+        window.setTimeout(() => fin(parcial ? { texto: parcial } : { error: "vacio" }), 1500);
+      };
+      conexion.on(RealtimeEvents.PARTIAL_TRANSCRIPT, (d: { text?: string }) => {
+        parcial = (d.text ?? "").trim();
+        if (parcial) this.onParcial?.(parcial);
+      });
+      conexion.on(RealtimeEvents.COMMITTED_TRANSCRIPT, (d: { text?: string }) => {
+        const texto = (d.text ?? parcial).trim();
+        if (texto) {
+          this.onParcial?.(texto);
+          fin({ texto });
+        }
+      });
+      conexion.on(RealtimeEvents.ERROR, () => fin(parcial ? { texto: parcial } : { error: "stt" }));
+      conexion.on(RealtimeEvents.AUTH_ERROR, () => fin({ error: "stt" }));
+    });
+  }
+
   private escucharNavegador(): Promise<ResultadoEscucha> {
     const C = claseReconocimiento();
     if (!C) return Promise.resolve({ error: "stt" });
@@ -392,6 +478,7 @@ export class GrabadoraVoz {
         texto = Array.from(e.results)
           .map((r) => r[0]?.transcript ?? "")
           .join(" ");
+        if (texto.trim()) this.onParcial?.(texto.trim());
       };
       reco.onerror = (e) => {
         if (e.error === "not-allowed" || e.error === "service-not-allowed") {
@@ -414,5 +501,56 @@ export class GrabadoraVoz {
         ok({ error: "stt" });
       }
     });
+  }
+}
+
+/* ───────────────────────── Interrupción (barge-in) ───────────────────────── */
+
+/**
+ * Mientras Ars habla, escucha el micrófono (con cancelación de eco) y avisa si
+ * la persona empieza a hablar de forma sostenida, para cortar la voz al
+ * instante y volver a escuchar. Umbral alto para no confundir el propio audio.
+ */
+export class VigiaInterrupcion {
+  private stream: MediaStream | null = null;
+  private raf = 0;
+
+  async iniciar(alInterrumpir: () => void, umbral = 0.22, sostenidoMs = 320) {
+    this.detener();
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: false },
+      });
+    } catch {
+      return;
+    }
+    const ctx = audioCtx();
+    if (!ctx || !this.stream) return;
+    const an = ctx.createAnalyser();
+    an.fftSize = 512;
+    ctx.createMediaStreamSource(this.stream).connect(an);
+    const buf: Uint8Array<ArrayBuffer> = new Uint8Array(new ArrayBuffer(512));
+    let desde = 0;
+    const inicio = performance.now();
+    const vigilar = () => {
+      const ahora = performance.now();
+      // Margen inicial: ignora el arranque del audio de Ars.
+      if (ahora - inicio > 600 && nivelDe(an, buf) > umbral) {
+        if (!desde) desde = ahora;
+        if (ahora - desde > sostenidoMs) {
+          this.detener();
+          alInterrumpir();
+          return;
+        }
+      } else desde = 0;
+      this.raf = requestAnimationFrame(vigilar);
+    };
+    this.raf = requestAnimationFrame(vigilar);
+  }
+
+  detener() {
+    cancelAnimationFrame(this.raf);
+    this.stream?.getTracks().forEach((t) => t.stop());
+    this.stream = null;
   }
 }

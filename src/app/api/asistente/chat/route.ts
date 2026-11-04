@@ -17,12 +17,34 @@ function jsonError(codigo: CodigoError, mensaje: string, status: number) {
   return Response.json({ ok: false, codigo, mensaje }, { status });
 }
 
+const fmtSeg = (t: number) => `${t.toFixed(1)} s`;
+const mmss = (t: number) => `${String(Math.floor(t / 60)).padStart(2, "0")}:${(t % 60).toFixed(1).padStart(4, "0")}`;
+
 function bloquesDocumento(d: DocumentoAdjunto): Bloque[] {
+  // Citas activadas en todos los documentos (la API exige todas o ninguna).
   if (d.codificacion === "texto") {
-    return [{ type: "document", title: d.nombre, source: { type: "text", media_type: "text/plain", data: d.datos } }];
+    return [
+      { type: "document", title: d.nombre, citations: { enabled: true }, source: { type: "text", media_type: "text/plain", data: d.datos } },
+    ];
+  }
+  if (d.codificacion === "fotogramas" && d.fotogramas?.length) {
+    const out: Bloque[] = [
+      {
+        type: "text",
+        text: `<video nombre="${d.nombre.replace(/"/g, "'")}" duracion="${d.duracion ? fmtSeg(d.duracion) : "desconocida"}" fotogramas="${d.fotogramas.length}">Fotogramas muestreados en orden cronológico; cada uno va precedido por su etiqueta de tiempo.`,
+      },
+    ];
+    for (const [i, f] of d.fotogramas.entries()) {
+      out.push({ type: "text", text: `Fotograma ${i + 1} — t=${mmss(f.t)}` });
+      out.push({ type: "image", source: { type: "base64", media_type: "image/jpeg", data: f.datos } });
+    }
+    out.push({ type: "text", text: "</video>" });
+    return out;
   }
   if (d.tipo === "application/pdf") {
-    return [{ type: "document", title: d.nombre, source: { type: "base64", media_type: "application/pdf", data: d.datos } }];
+    return [
+      { type: "document", title: d.nombre, citations: { enabled: true }, source: { type: "base64", media_type: "application/pdf", data: d.datos } },
+    ];
   }
   return [
     { type: "text", text: `Imagen adjunta: ${d.nombre}` },
@@ -100,7 +122,8 @@ export async function POST(req: Request) {
               // Rechazos de seguridad: el servidor reintenta solo con otro modelo.
               betas: ["server-side-fallback-2026-07-01"],
               fallbacks: "default",
-              output_config: { effort: "low" },
+              // Charla: esfuerzo bajo (rápido). Documentos o video: medio, para analizarlos a fondo.
+              output_config: { effort: peticion.documentos.length ? "medium" : "low" },
               tools: HERRAMIENTAS,
               system: [{ type: "text", text: systemEstable(), cache_control: { type: "ephemeral", ttl: "1h" } }],
               // Caché automática de la conversación (último bloque cacheable).
@@ -112,6 +135,18 @@ export async function POST(req: Request) {
           for await (const ev of s) {
             if (ev.type === "content_block_delta" && ev.delta.type === "text_delta") {
               enviar({ t: "texto", d: ev.delta.text });
+            } else if (ev.type === "content_block_delta" && ev.delta.type === "citations_delta") {
+              const c = ev.delta.citation;
+              if (c.type === "char_location" || c.type === "page_location" || c.type === "content_block_location") {
+                enviar({
+                  t: "cita",
+                  cita: {
+                    documento: c.document_title ?? `Documento ${c.document_index + 1}`,
+                    texto: c.cited_text.slice(0, 400),
+                    pagina: c.type === "page_location" ? c.start_page_number : undefined,
+                  },
+                });
+              }
             }
           }
           const final = await s.finalMessage();
