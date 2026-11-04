@@ -13,7 +13,7 @@ import type {
   ResponseInputItem,
   ResponseOutputItem,
 } from "openai/resources/responses/responses";
-import { HERRAMIENTAS, ejecutarHerramienta } from "../herramientas";
+import { HERRAMIENTAS, ejecutarHerramientaAsync } from "../herramientas";
 import { bloqueContexto, systemEstable } from "../prompt";
 import type { DocumentoAdjunto, PeticionChat } from "../tipos";
 import { ErrorProveedor, MAX_VUELTAS, encabezadoVideo, listaAdjuntos, mmss, textoComoDocumento, type Turno } from "./comun";
@@ -128,17 +128,19 @@ export async function turnoOpenai(t: Turno, apiKey: string): Promise<string> {
       }
       motivo = "tool_use";
       entrada.push(...(salida as ResponseInputItem[]));
-      for (const ll of llamadas) {
-        let args: unknown = {};
-        try {
-          args = ll.arguments ? JSON.parse(ll.arguments) : {};
-        } catch {
-          args = null;
-        }
-        const r =
-          args === null
-            ? { resultado: "Argumentos JSON inválidos; vuelve a intentarlo.", esError: true, acciones: [], tarjetas: [] }
-            : ejecutarHerramienta(ll.name, args);
+      const ejecutados = await Promise.all(
+        llamadas.map((ll) => {
+          let args: unknown;
+          try {
+            args = ll.arguments ? JSON.parse(ll.arguments) : {};
+          } catch {
+            return { resultado: "Argumentos JSON inválidos; vuelve a intentarlo.", esError: true, acciones: [], tarjetas: [] };
+          }
+          return ejecutarHerramientaAsync(ll.name, args);
+        }),
+      );
+      for (const [i, ll] of llamadas.entries()) {
+        const r = ejecutados[i];
         for (const accion of r.acciones) enviar({ t: "accion", accion });
         for (const tarjeta of r.tarjetas) enviar({ t: "tarjeta", tarjeta });
         entrada.push({ type: "function_call_output", call_id: ll.call_id, output: r.esError ? `ERROR: ${r.resultado}` : r.resultado });

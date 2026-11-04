@@ -7,7 +7,7 @@
  *    razonamiento se apaga en la charla para responder rápido.
  */
 import Anthropic from "@anthropic-ai/sdk";
-import { HERRAMIENTAS, ejecutarHerramienta } from "../herramientas";
+import { HERRAMIENTAS, ejecutarHerramientaAsync } from "../herramientas";
 import { bloqueContexto, systemEstable } from "../prompt";
 import type { DocumentoAdjunto, PeticionChat } from "../tipos";
 import { ErrorProveedor, MAX_VUELTAS, encabezadoVideo, listaAdjuntos, mmss, textoComoDocumento, type Turno } from "./comun";
@@ -146,8 +146,10 @@ export async function turnoAnthropic(t: Turno, destino: Destino, apiKey: string)
       if (motivo !== "tool_use") break;
 
       const usos = final.content.filter((b): b is Anthropic.Beta.BetaToolUseBlock => b.type === "tool_use");
-      const resultados: Anthropic.Beta.BetaToolResultBlockParam[] = usos.map((u) => {
-        const r = ejecutarHerramienta(u.name, u.input);
+      // En paralelo (la búsqueda semántica es asíncrona); las acciones salen en el orden del modelo.
+      const ejecutados = await Promise.all(usos.map((u) => ejecutarHerramientaAsync(u.name, u.input)));
+      const resultados: Anthropic.Beta.BetaToolResultBlockParam[] = usos.map((u, i) => {
+        const r = ejecutados[i];
         for (const accion of r.acciones) enviar({ t: "accion", accion });
         for (const tarjeta of r.tarjetas) enviar({ t: "tarjeta", tarjeta });
         return { type: "tool_result", tool_use_id: u.id, content: r.resultado, is_error: r.esError || undefined };
