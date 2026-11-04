@@ -36,3 +36,26 @@ window.dispatchEvent(new CustomEvent("ars:asistente", { detail: { mensaje: "Quie
 ## Variables de entorno
 
 Ver la sección «Asistente IA» al final de `.env.example`. Para probar la UI sin claves en desarrollo: `ASISTENTE_DEMO=1` en `.env.local`.
+
+## Avatar «Ars»
+
+Ars se muestra como una **esfera de luz abstracta**, cian sobre azul marino, con dos puntos cálidos que se leen como una mirada amable. No imita a ninguna persona. Se generó con ElevenLabs Creative: imagen con `gpt-image-2.5-sunburst` y loop con `bytedance-seedance-v2-mini` a 480p, 5 s y sin audio, usando la misma imagen como primer y último fotograma. Después se recortó a cuadrado y se cerró la costura con un fundido de 0.4 s (ffmpeg).
+
+| Archivo (`public/asistente/`) | Uso | Peso |
+|---|---|---|
+| `ars-avatar.avif` / `ars-avatar.webp` (512 px) | Póster estático (movimiento reducido o si falla el video) | 29 / 34 KB |
+| `ars-avatar-128.webp` | `AvatarMini` (encabezado, botón) | 4 KB |
+| `ars-reposo.webm` / `ars-reposo.mp4` (360 px, 4.7 s, en loop) | Loop de reposo | 116 / 133 KB |
+| `ars-reposo-poster.webp` | Primer fotograma del loop (`poster` del `<video>`) | 15 KB |
+
+- **`AvatarArs`** (`src/components/asistente/AvatarArs.tsx`) reproduce el loop. Su velocidad cambia con la fase: 1.6× pensando y 1.25× hablando. Encima lleva un brillo que sigue al nivel de audio: cian al escuchar y cálido al hablar. Con `prefers-reduced-motion`, o si el video no carga, muestra el póster.
+- **`OrbeVoz`** monta el avatar dentro de sus anillos cuando `tamano >= 96`, es decir, en el escenario de voz. En ese caso no dibuja el núcleo. Para forzarlo o quitarlo, usa la prop `avatar`.
+- **`AvatarMini`** sirve para el encabezado del panel y el botón flotante. Muestra la imagen fija con un aro que cambia según la fase. Con `animado`, reproduce el loop.
+
+```tsx
+import { AvatarMini } from "./AvatarArs";
+// Encabezado del panel (en lugar de <OrbeVoz … tamano={36} />)
+<AvatarMini fase={vozOn ? p.faseVoz : "inactivo"} tamano={36} />
+// Botón flotante (en lugar de <OrbeVoz … tamano={60} className="relative" />)
+<AvatarMini fase={vozActiva ? faseVoz : "inactivo"} tamano={56} animado className="relative" />
+```

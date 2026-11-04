@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { AvatarArs } from "./AvatarArs";
 
 export type FaseVoz = "inactivo" | "conectando" | "escuchando" | "transcribiendo" | "pensando" | "hablando";
 
@@ -10,6 +11,11 @@ type Props = {
   nivel: () => number;
   tamano?: number;
   className?: string;
+  /**
+   * Muestra el avatar animado de Ars dentro de los anillos (el núcleo dibujado
+   * se omite). Por defecto, solo en tamaños de escenario (≥ 96 px).
+   */
+  avatar?: boolean;
 };
 
 const COLORES: Record<FaseVoz, [string, string]> = {
@@ -24,9 +30,9 @@ const COLORES: Record<FaseVoz, [string, string]> = {
 /**
  * Orbe de voz: anillos que respiran con el nivel de audio. Canvas 2D, sin
  * dependencias. Con `prefers-reduced-motion` se dibuja a baja cadencia y sin
- * ondulación.
+ * ondulación. Con `avatar`, los anillos rodean al avatar animado de Ars.
  */
-export function OrbeVoz({ fase, nivel, tamano = 168, className }: Props) {
+export function OrbeVoz({ fase, nivel, tamano = 168, className, avatar = tamano >= 96 }: Props) {
   const ref = useRef<HTMLCanvasElement>(null);
   const faseRef = useRef(fase);
   const nivelRef = useRef(nivel);
@@ -62,7 +68,8 @@ export function OrbeVoz({ fase, nivel, tamano = 168, className }: Props) {
       ctx.clearRect(0, 0, tamano, tamano);
 
       // Halo
-      const r0 = tamano * 0.3;
+      // Con avatar, los anillos se abren para dejar el disco a la vista.
+      const r0 = tamano * (avatar ? 0.34 : 0.3);
       const halo = ctx.createRadialGradient(c, c, r0 * 0.4, c, c, c);
       halo.addColorStop(0, `${a}88`);
       halo.addColorStop(1, `${a}00`);
@@ -75,7 +82,7 @@ export function OrbeVoz({ fase, nivel, tamano = 168, className }: Props) {
       const anillos = 4;
       for (let k = 0; k < anillos; k++) {
         const fase = t / (f === "pensando" || f === "conectando" ? 380 : 700) + k * 1.3;
-        const base = r0 * (0.78 + k * 0.1) + suave * tamano * 0.11 * (1 - k * 0.18);
+        const base = r0 * (0.78 + k * 0.1) + suave * tamano * (avatar ? 0.07 : 0.11) * (1 - k * 0.18);
         ctx.beginPath();
         const pasos = 72;
         for (let i = 0; i <= pasos; i++) {
@@ -95,17 +102,19 @@ export function OrbeVoz({ fase, nivel, tamano = 168, className }: Props) {
         ctx.stroke();
       }
 
-      // Núcleo
-      const nucleo = ctx.createRadialGradient(c - r0 * 0.25, c - r0 * 0.25, 2, c, c, r0 * 0.82);
-      nucleo.addColorStop(0, "#ffffff");
-      nucleo.addColorStop(0.25, b);
-      nucleo.addColorStop(1, a);
-      ctx.fillStyle = nucleo;
-      ctx.globalAlpha = 0.9;
-      ctx.beginPath();
-      ctx.arc(c, c, r0 * (0.72 + suave * 0.12), 0, Math.PI * 2);
-      ctx.fill();
-      ctx.globalAlpha = 1;
+      // Núcleo (el avatar lo reemplaza)
+      if (!avatar) {
+        const nucleo = ctx.createRadialGradient(c - r0 * 0.25, c - r0 * 0.25, 2, c, c, r0 * 0.82);
+        nucleo.addColorStop(0, "#ffffff");
+        nucleo.addColorStop(0.25, b);
+        nucleo.addColorStop(1, a);
+        ctx.fillStyle = nucleo;
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.arc(c, c, r0 * (0.72 + suave * 0.12), 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
 
       // Arco de "pensando"
       if (f === "pensando" || f === "conectando" || f === "transcribiendo") {
@@ -120,15 +129,27 @@ export function OrbeVoz({ fase, nivel, tamano = 168, className }: Props) {
     };
     raf = requestAnimationFrame(dibujar);
     return () => cancelAnimationFrame(raf);
-  }, [tamano]);
+  }, [tamano, avatar]);
 
-  return (
+  const lienzo = (
     <canvas
       ref={ref}
       aria-hidden="true"
-      className={className}
+      className={avatar ? "absolute inset-0" : className}
       // El tamaño del canvas depende de la prop; Tailwind no puede generarlo dinámicamente.
       style={{ width: tamano, height: tamano }}
     />
+  );
+
+  if (!avatar) return lienzo;
+  return (
+    <span
+      className={`relative grid place-items-center ${className ?? ""}`}
+      // El tamaño depende de la prop; Tailwind no puede generarlo dinámicamente.
+      style={{ width: tamano, height: tamano }}
+    >
+      {lienzo}
+      <AvatarArs fase={fase} nivel={nivel} tamano={Math.round(tamano * 0.52)} />
+    </span>
   );
 }
