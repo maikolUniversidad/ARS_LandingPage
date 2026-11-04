@@ -6,7 +6,7 @@ Texto que se concatena al system prompt (cacheado) del asistente que guía a los
 
 - `conocimiento/*.md`: un documento por tema, en español. Esta es la fuente que se edita.
 - `conocimiento.generated.ts`: se genera a partir de los `.md`. No editar a mano.
-- `generar.mjs`: regenera el archivo `.generated.ts`.
+- `generar.mjs`: regenera `conocimiento.generated.ts` y el índice de búsqueda semántica `indice.generated.ts` (no editar a mano). El índice trocea los `.md` por sección y añade el detalle de `src/data/` (analíticas completas, funcionalidades y casos de `/plataforma`, capacidades de `/laboratorio`, modelos de `/vision-lab`) con embeddings de OpenAI `text-embedding-3-small` (512 dims, int8). Usa `OPENAI_API_KEY` del entorno o de `.env.local` y solo recalcula lo que cambió; sin clave (o con `--sin-embeddings`) el servidor busca por palabras clave. Ver `docs/asistente-plataformas.md`.
 - `index.ts`: API (`DOCUMENTOS`, `construirBaseConocimiento()`, `catalogoAnaliticas()`, `buscarAnalitica()`, `RUTAS_SITIO`). El catálogo de las 45 analíticas se toma de `@/data/analiticas`; no se copia a los `.md`.
 
 ## Añadir o editar conocimiento
@@ -20,8 +20,8 @@ Texto que se concatena al system prompt (cacheado) del asistente que guía a los
    rutas: ["/plataforma"]     # rutas del sitio relacionadas (arreglo JSON)
    ---
    ```
-2. Ejecuta `node src/data/asistente/generar.mjs`.
-3. Haz commit del `.md` y del `conocimiento.generated.ts`.
+2. Ejecuta `node src/data/asistente/generar.mjs` (también cuando cambie `src/data/analiticas.ts`, `integral-security.ts`, `ai-capabilities.ts` o `vision-models.ts`).
+3. Haz commit del `.md`, de `conocimiento.generated.ts` y de `indice.generated.ts`.
 
 Pon un número de orden en el nombre del archivo, igual al campo `orden` (p. ej. `25-modulo-rondas.md`).
 

@@ -14,8 +14,12 @@ Guía de IA que acompaña a la persona en todo el sitio: explica, muestra y llev
 
 ## Cómo funciona
 
-- **Chat**: `POST /api/asistente/chat` llama a Claude (`ASISTENTE_MODELO`, por defecto `claude-sonnet-5-5`) con streaming, `effort: low`, *fallback* de servidor para rechazos y caché de prompt (herramientas + system con la base de conocimiento, TTL 1 h; la conversación con caché automática). El contexto de página y los documentos van en el último mensaje, después del punto de caché.
-- **Herramientas**: `ir_a`, `mostrar_analitica`, `abrir_contacto`, `resaltar`, `recomendar`, `recordar`, `olvidar`, `analizar_video`, `sugerir`, `buscar_analiticas`, `mostrar_servicio` y `buscar_servicios` (las dos últimas para /servicios: llevan a `/servicios/<área>#<módulo>`, emiten `ars:foco-servicio` para volar la escena 3D y resaltan el módulo). El servidor las valida (rutas, anclas e ids reales) y emite eventos `accion`/`tarjeta` que el navegador ejecuta.
+- **Chat**: `POST /api/asistente/chat` → `responder()` en `src/lib/asistente/proveedores/`, que recorre los proveedores con clave en el orden de `ASISTENTE_PROVEEDORES` y pasa al siguiente si uno falla antes de enviar texto:
+  - **Claude** (`anthropic.ts`, destino `claude`; `ASISTENTE_MODELO`, por defecto `claude-sonnet-5-5`): streaming, `effort` bajo (medio con adjuntos), *fallback* de servidor para rechazos, caché de prompt (herramientas + system con la base de conocimiento, TTL 1 h; conversación con caché automática) y citas en documentos.
+  - **DeepSeek** (`anthropic.ts`, destino `deepseek`; `deepseek-flash`): el mismo SDK contra `https://api.deepseek.com/anthropic`. Sin betas ni bloques `document` (los textos viajan como texto), sin razonamiento en la charla para responder rápido. Lee imágenes y fotogramas; **no PDF**, así que con un PDF adjunto se salta.
+  - **GPT** (`openai.ts`; `gpt-5.5`): API de Responses en streaming, mismas herramientas como `function`, `store: false` con razonamiento cifrado entre vueltas y `prompt_cache_key`. Lee PDF (`input_file`), imágenes y fotogramas.
+  - El contexto de página y los documentos van siempre en el último mensaje, después del prefijo estable que se cachea.
+- **Herramientas**: `ir_a`, `mostrar_analitica`, `abrir_contacto`, `resaltar`, `recomendar`, `recordar`, `olvidar`, `analizar_video`, `sugerir`, `buscar_analiticas`, `mostrar_servicio` y `buscar_servicios` (estas dos para /servicios). El servidor las valida (rutas, anclas e ids reales) y emite eventos `accion`/`tarjeta` que el navegador ejecuta.
 - **Memoria**: el widget vive en el layout raíz (sobrevive a la navegación) y guarda en `localStorage`: el historial (`ars-asistente-v1`), el perfil que la persona contó (`ars-asistente-perfil-v1`, visible y borrable en el panel) y su recorrido (`ars-asistente-recorrido-v1`). En charlas largas, los mensajes antiguos viajan condensados. Los documentos solo se guardan en memoria mientras dura la sesión.
 - **Documentos y video**: PDF y texto con citas («Fuentes del documento»), imágenes redimensionadas a 1568 px y video muestreado en el navegador en 4 a 12 fotogramas de 768 px, cada uno con su marca de tiempo; como máximo 4 a la vez y 3 MB en total, para quedar por debajo de los 4.5 MB por petición de Vercel. No se guardan en el servidor.
 - **Voz**:
@@ -40,3 +44,26 @@ Definidos en `src/lib/asistente/eventos-servicios.ts`:
 ## Variables de entorno
 
 Ver la sección «Asistente IA» al final de `.env.example`. Para probar la UI sin claves en desarrollo: `ASISTENTE_DEMO=1` en `.env.local`.
+
+## Avatar «Ars»
+
+Ars se muestra como una **esfera de luz abstracta**, cian sobre azul marino, con dos puntos cálidos que se leen como una mirada amable. No imita a ninguna persona. Se generó con ElevenLabs Creative: imagen con `gpt-image-2.5-sunburst` y loop con `bytedance-seedance-v2-mini` a 480p, 5 s y sin audio, usando la misma imagen como primer y último fotograma. Después se recortó a cuadrado y se cerró la costura con un fundido de 0.4 s (ffmpeg).
+
+| Archivo (`public/asistente/`) | Uso | Peso |
+|---|---|---|
+| `ars-avatar.avif` / `ars-avatar.webp` (512 px) | Póster estático (movimiento reducido o si falla el video) | 29 / 34 KB |
+| `ars-avatar-128.webp` | `AvatarMini` (encabezado, botón) | 4 KB |
+| `ars-reposo.webm` / `ars-reposo.mp4` (360 px, 4.7 s, en loop) | Loop de reposo | 116 / 133 KB |
+| `ars-reposo-poster.webp` | Primer fotograma del loop (`poster` del `<video>`) | 15 KB |
+
+- **`AvatarArs`** (`src/components/asistente/AvatarArs.tsx`) reproduce el loop. Su velocidad cambia con la fase: 1.6× pensando y 1.25× hablando. Encima lleva un brillo que sigue al nivel de audio: cian al escuchar y cálido al hablar. Con `prefers-reduced-motion`, o si el video no carga, muestra el póster.
+- **`OrbeVoz`** monta el avatar dentro de sus anillos cuando `tamano >= 96`, es decir, en el escenario de voz. En ese caso no dibuja el núcleo. Para forzarlo o quitarlo, usa la prop `avatar`.
+- **`AvatarMini`** sirve para el encabezado del panel y el botón flotante. Muestra la imagen fija con un aro que cambia según la fase. Con `animado`, reproduce el loop.
+
+```tsx
+import { AvatarMini } from "./AvatarArs";
+// Encabezado del panel (en lugar de <OrbeVoz … tamano={36} />)
+<AvatarMini fase={vozOn ? p.faseVoz : "inactivo"} tamano={36} />
+// Botón flotante (en lugar de <OrbeVoz … tamano={60} className="relative" />)
+<AvatarMini fase={vozActiva ? faseVoz : "inactivo"} tamano={56} animado className="relative" />
+```

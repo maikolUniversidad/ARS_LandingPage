@@ -2,20 +2,30 @@
 
 import { useEffect, useRef } from "react";
 import type { ChapterStore } from "./chapter-store";
-import { SecurityScene, type Anchor, type Anchors } from "./SecurityScene";
+import type { BoardStrings } from "./models";
+import { LAYER_TINT } from "./story";
+import { ANCHOR_IDS, UnifiedScene, type Anchor, type AnchorId } from "./UnifiedScene";
 
-type LabelKey = keyof Anchors;
-
-const LABEL_STYLE: Record<LabelKey, string> = {
-  intruder: "border-[#ffb547]/70 text-[#ffd391]",
-  core: "border-[#6b8aff]/70 text-[#c9d6ff]",
-  control: "border-[#ff3b5c]/70 text-[#ff9aab]",
-  guard: "border-[#5fd8ff]/70 text-[#aeeaff]",
+/** Color de la etiqueta de cada ancla (capa a la que pertenece). */
+const ANCHOR_TINT: Record<AnchorId, string> = {
+  p0: LAYER_TINT[0],
+  p1: LAYER_TINT[1],
+  p2: LAYER_TINT[2],
+  p3: LAYER_TINT[3],
+  p4: LAYER_TINT[4],
+  guard: LAYER_TINT[0],
+  camera: LAYER_TINT[1],
+  sensor: LAYER_TINT[2],
+  robot: LAYER_TINT[3],
+  central: LAYER_TINT[4],
+  board: "#35e0a1",
 };
+
+export type CanvasLabel = { text: string; meta?: string };
 
 /**
  * Canvas WebGL del home (se carga con `next/dynamic`, sin SSR).
- * Crea UNA SecurityScene, la pausa cuando no se ve y pinta etiquetas HTML
+ * Crea UNA UnifiedScene, la pausa cuando no se ve y pinta etiquetas HTML
  * ancladas a objetos 3D moviendo `transform` por ref (sin re-render).
  */
 export default function HomeCanvas({
@@ -24,6 +34,7 @@ export default function HomeCanvas({
   lowPower,
   active,
   labels,
+  board,
   onFail,
 }: {
   store: ChapterStore;
@@ -31,50 +42,54 @@ export default function HomeCanvas({
   lowPower: boolean;
   /** false cuando la historia salió de pantalla → se detiene el render. */
   active: boolean;
-  labels: Record<LabelKey, string>;
+  labels: Record<AnchorId, CanvasLabel>;
+  board: BoardStrings;
   onFail: () => void;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const sceneRef = useRef<SecurityScene | null>(null);
-  const labelRefs = useRef<Partial<Record<LabelKey, HTMLDivElement | null>>>({});
+  const sceneRef = useRef<UnifiedScene | null>(null);
+  const labelRefs = useRef<Partial<Record<AnchorId, HTMLDivElement | null>>>({});
   const onFailRef = useRef(onFail);
   const activeRef = useRef(active);
+  const boardRef = useRef(board);
 
   useEffect(() => {
     onFailRef.current = onFail;
   }, [onFail]);
+
+  const boardKey = JSON.stringify(board);
+  useEffect(() => {
+    boardRef.current = board;
+  }, [board]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const wrap = wrapRef.current;
     if (!canvas || !wrap) return;
 
-    const placeLabel = (key: LabelKey, a: Anchor) => {
+    const placeLabel = (key: AnchorId, a: Anchor) => {
       const el = labelRefs.current[key];
       if (!el) return;
       // En escritorio no tapar la columna de texto (izq.) ni el riel de capas (der.).
       const w = wrap.clientWidth;
-      const blocked = w >= 900 && (a.x < w * 0.47 || (w >= 1280 && a.x > w - 250));
+      const blocked = w >= 900 && (a.x < w * 0.46 || (w >= 1280 && a.x > w - 240 && !key.startsWith("p")));
       const show = a.visible && !blocked;
       el.style.opacity = show ? "1" : "0";
-      // Mantiene la etiqueta entera dentro de la pantalla.
       const half = el.offsetWidth / 2 + 8;
       const x = Math.min(Math.max(a.x, half), w - half);
       if (show) el.style.transform = `translate3d(${x.toFixed(1)}px, ${a.y.toFixed(1)}px, 0) translate(-50%, -100%)`;
     };
 
-    let scene: SecurityScene;
+    let scene: UnifiedScene;
     try {
-      scene = new SecurityScene(canvas, {
+      scene = new UnifiedScene(canvas, {
         lowPower,
         reducedMotion,
+        board: boardRef.current,
         onContextLost: () => onFailRef.current(),
-        onAnchors: (a) => {
-          placeLabel("intruder", a.intruder);
-          placeLabel("core", a.core);
-          placeLabel("control", a.control);
-          placeLabel("guard", a.guard);
+        onAnchors: (anchors) => {
+          for (const id of ANCHOR_IDS) placeLabel(id, anchors[id]);
         },
       });
     } catch {
@@ -92,7 +107,6 @@ export default function HomeCanvas({
     const ro = new ResizeObserver(resize);
     ro.observe(wrap);
 
-    // Pausa: fuera de pantalla o pestaña oculta.
     const sync = () => {
       if (activeRef.current && document.visibilityState === "visible") scene.start();
       else scene.stop();
@@ -107,7 +121,8 @@ export default function HomeCanvas({
       scene.dispose();
       sceneRef.current = null;
     };
-  }, [store, reducedMotion, lowPower]);
+    // boardKey: recrea la escena si cambia el idioma del tablero.
+  }, [store, reducedMotion, lowPower, boardKey]);
 
   useEffect(() => {
     activeRef.current = active;
@@ -121,16 +136,18 @@ export default function HomeCanvas({
     <div ref={wrapRef} className="absolute inset-0">
       <canvas ref={canvasRef} className="block size-full" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        {(Object.keys(LABEL_STYLE) as LabelKey[]).map((key) => (
+        {ANCHOR_IDS.map((key) => (
           <div
             key={key}
             ref={(el) => {
               labelRefs.current[key] = el;
             }}
-            className={`absolute left-0 top-0 whitespace-nowrap border bg-[#020a18]/75 px-2 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.2em] opacity-0 backdrop-blur-sm transition-opacity duration-300 will-change-transform md:text-[10px] ${LABEL_STYLE[key]}`}
+            style={{ borderColor: `${ANCHOR_TINT[key]}aa`, color: ANCHOR_TINT[key] }}
+            className="absolute left-0 top-0 whitespace-nowrap border bg-[#020a18]/80 px-2 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.18em] opacity-0 backdrop-blur-sm transition-opacity duration-300 will-change-transform md:text-[10px]"
           >
-            <span className="mr-1.5 inline-block size-1.5 animate-pulse bg-current align-middle" />
-            {labels[key]}
+            <span className="mr-1.5 inline-block size-1.5 animate-pulse bg-current align-middle motion-reduce:animate-none" />
+            {labels[key].meta && <span className="mr-1.5 text-white/60">{labels[key].meta}</span>}
+            <span className="text-white/90">{labels[key].text}</span>
           </div>
         ))}
       </div>

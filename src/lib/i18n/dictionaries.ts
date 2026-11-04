@@ -75,7 +75,7 @@ type HomeChapterDict = {
   points: string[];
 };
 
-/** Home 3D — "La seguridad en tres capas" (claves `home.*`). */
+/** Home 3D — "Todas las capas de la seguridad. Una sola traza." (claves `home.*`). */
 export type HomeDict = {
   nav: { vision: string; platform: string; lab: string; contact: string };
   hero: {
@@ -88,32 +88,28 @@ export type HomeDict = {
     scroll: string;
     trust: string[];
   };
-  layers: Array<{ tag: string; name: string }>;
-  chain: { label: string; steps: string[] };
+  status: { live: string; pilot: string; lab: string };
+  layers: Array<{ tag: string; name: string; status: "live" | "pilot" | "lab"; body: string; cta: string }>;
+  trace: {
+    label: string;
+    demo: string;
+    steps: Array<{ time: string; layer: string; text: string; short: string }>;
+  };
   chapters: {
-    capa1: HomeChapterDict;
-    evento: HomeChapterDict;
-    capa2: HomeChapterDict;
-    alerta: HomeChapterDict;
-    capa3: HomeChapterDict;
+    fisica: HomeChapterDict;
+    vision: HomeChapterDict;
+    iot: HomeChapterDict;
+    robotica: HomeChapterDict;
+    central: HomeChapterDict;
+    traza: HomeChapterDict;
     escala: HomeChapterDict;
   };
-  labels: { intruder: string; core: string; control: string; guard: string };
-  evidence: {
-    title: string;
-    priority: string;
-    rows: Array<{ k: string; v: string }>;
-    attach: string;
-    action: string;
-  };
-  stats: Array<{ value: string; label: string }>;
-  ctas: { vision: string; platform: string; projects: string; services: string };
-  recap: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    items: Array<{ tag: string; name: string; body: string; cta: string }>;
-  };
+  visionNote: string;
+  labels: { guard: string; camera: string; sensor: string; robot: string; central: string; board: string };
+  board: { title: string; live: string; done: string; sites: string };
+  stats: { areas: string; modules: string; live: string; analytics: string };
+  ctas: { vision: string; platform: string; lab: string; services: string; trace: string };
+  recap: { eyebrow: string; title: string; body: string };
   contact: {
     eyebrow: string;
     title1: string;
@@ -250,97 +246,59 @@ export const dictionaries: Record<Locale, Dict> = {
     home: {
       nav: { vision: "Visión IA", platform: "Plataforma", lab: "Laboratorio", contact: "Solicitar demo" },
       hero: {
-        eyebrow: "ARS Intelligence · Seguridad con IA",
-        title1: "Tus cámaras ya miran.",
-        title2: "ARS las hace entender.",
-        body: "Convertimos las cámaras que ya tienes en una red de seguridad inteligente: detecta lo que importa, alerta con evidencia y coordina la respuesta de tu equipo. Para pequeñas, medianas y grandes empresas en LATAM.",
-        ctaPrimary: "Ver la IA en acción",
-        ctaSecondary: "Solicitar demo",
-        scroll: "Desliza · así responde ARS cuando algo pasa",
-        trust: ["Sobre tu CCTV actual", "Despliegue < 48 h", "Monitoreo 24/7", "Colombia · Perú · LATAM"],
+        eyebrow: "Laboratorio de tecnología para la seguridad privada",
+        title1: "Todas las capas de la seguridad.",
+        title2: "Una sola traza.",
+        body: "Vigilancia física, cámaras con IA, sensores, robótica y central de operaciones en una sola plataforma. Cada evento queda trazado, del puesto a la gerencia.",
+        ctaPrimary: "Solicitar demo",
+        ctaSecondary: "Ver cómo fluye un evento",
+        scroll: "Desliza · mira cómo se encienden las capas",
+        trust: ["Hecho en Colombia", "Para empresas de seguridad privada", "Latinoamérica y el mundo"],
       },
+      status: { live: "En operación", pilot: "Piloto", lab: "Laboratorio" },
       layers: [
-        { tag: "Capa 01", name: "Prevención y presencia" },
-        { tag: "Capa 02", name: "Detección con IA" },
-        { tag: "Capa 03", name: "Respuesta y operación" },
+        { tag: "Capa 01", name: "Vigilancia física", status: "live", body: "Turnos, rondas con QR, minuta, radio y botón de pánico desde el celular del vigilante, con el supervisor visible en campo.", cta: "Operación en campo" },
+        { tag: "Capa 02", name: "Visión con IA", status: "live", body: "Analíticas sobre las cámaras de cada sede: intrusión, cruce de línea, merodeo, objetos olvidados, conteo y aforo.", cta: "Ver Visión IA" },
+        { tag: "Capa 03", name: "Sensores e IoT", status: "pilot", body: "Sensores, accesos, alarmas y relojes biométricos en el mismo panel que el resto de la operación.", cta: "Monitoreo inteligente" },
+        { tag: "Capa 04", name: "Robótica", status: "lab", body: "Perros robot que recorren y verifican con las mismas analíticas de las cámaras. En desarrollo en nuestro laboratorio.", cta: "Ir al laboratorio" },
+        { tag: "Capa 05", name: "Central y gerencia", status: "live", body: "Mapa en vivo, radio, chat y pánico en una pantalla; la gerencia ve en tiempo real qué está cubierto y qué pasó.", cta: "Centro de operaciones" },
       ],
-      chain: {
-        label: "Cuando algo se acciona",
-        steps: ["Cámara detecta", "IA analiza", "Alerta con evidencia", "Operador actúa"],
+      trace: {
+        label: "Traza del evento",
+        demo: "Escenario de demostración.",
+        steps: [
+          { time: "02:14:07", layer: "Vigilancia física", text: "Ronda: el vigilante escanea el punto 7 de la cerca norte y reporta una novedad con foto.", short: "Ronda reporta" },
+          { time: "02:14:19", layer: "Visión IA", text: "Cámara 04: la analítica de cruce de línea confirma una persona en zona restringida; el operador valida la alerta.", short: "Cámara confirma" },
+          { time: "02:14:31", layer: "Sensores · Piloto", text: "Sensor: puerta de la bodega 2 abierta fuera de horario.", short: "Puerta abierta" },
+          { time: "02:14:58", layer: "Robótica · Laboratorio", text: "Robot: verifica el sector con las mismas analíticas y envía video a la central.", short: "Robot verifica" },
+          { time: "02:15:24", layer: "Central", text: "Central: despacha por radio al supervisor más cercano desde el mapa en vivo.", short: "Central despacha" },
+          { time: "02:31:46", layer: "Gerencia", text: "Cierre: informe con evidencia, responsable y tiempos; la gerencia lo ve en su tablero.", short: "Cierre en gerencia" },
+        ],
       },
       chapters: {
-        capa1: {
-          eyebrow: "Capa 01 · Prevención y presencia",
-          title: "Cada rincón, cubierto antes de que pase algo.",
-          body: "Guardas con rondas inteligentes, puestos validados, zonas críticas definidas y tus cámaras existentes conectadas a una sola plataforma. La operación diaria ya es parte del sistema.",
-          points: ["Rondas con puntos de control", "Turnos y puestos validados", "Cámaras CCTV existentes", "Zonas y perímetros definidos"],
-        },
-        evento: {
-          eyebrow: "02:14 a. m. · Algo se acciona",
-          title: "Alguien cruza el perímetro.",
-          body: "Una persona salta la cerca norte en una zona sin guardas cerca. Ningún operador está mirando esa cámara. Aquí empieza la cadena.",
-          points: ["Cerca norte · Zona 3", "Sin personal en el sector"],
-        },
-        capa2: {
-          eyebrow: "Capa 02 · Detección con IA",
-          title: "La cámara ve. La IA entiende.",
-          body: "La analítica sobre tu CCTV clasifica a la persona, confirma el cruce de línea en la zona restringida y descarta falsos positivos como animales, sombras o lluvia, en menos de un segundo.",
-          points: ["Persona · 97 %", "Cruce de línea + ROI", "Detección < 1 s"],
-        },
-        alerta: {
-          eyebrow: "Capa 02 → 03 · Alerta con evidencia",
-          title: "Una alerta que llega con prueba.",
-          body: "La central recibe snapshot, clip, cámara, zona, hora y prioridad en el mismo instante. El operador no adivina: confirma y decide.",
-          points: ["Snapshot + clip", "Prioridad automática", "Trazabilidad completa"],
-        },
-        capa3: {
-          eyebrow: "Capa 03 · Respuesta y operación",
-          title: "Del aviso a la acción, en minutos.",
-          body: "El operador despacha al guarda más cercano por PTT con la ruta en el mapa. El evento se cierra con observaciones, evidencia y responsable: nada se pierde en un chat.",
-          points: ["Despacho por mapa", "PTT · Push To Talk", "Cierre con evidencia"],
-        },
-        escala: {
-          eyebrow: "Una plataforma · todas tus sedes",
-          title: "Lo que pasa en una sede, lo sabe toda tu operación.",
-          body: "Multi-cliente, multi-sede y multi-zona: cada evento alimenta reportes, indicadores y decisiones para gerencia, auditoría y mejora continua.",
-          points: [],
-        },
+        fisica: { eyebrow: "Capa 01 · Vigilancia física", title: "Todo empieza en el puesto.", body: "Turnos, relevos, rondas con QR y minuta desde el celular, con foto, firma, ubicación y hora. Radio y botón de pánico en el mismo teléfono, y el supervisor siempre visible en campo.", points: ["Rondas con QR", "Minuta digital", "Radio PTT", "Botón de pánico"] },
+        vision: { eyebrow: "Capa 02 · Visión con IA", title: "Las cámaras ya no solo graban. Avisan.", body: "Intrusión, cruce de línea, merodeo, objetos olvidados, conteo y aforo sobre las cámaras que la sede ya tiene. Cada alerta llega con foto y video, y una persona confirma antes de actuar.", points: ["Cruce de línea", "Merodeo", "Objetos olvidados", "Aforo"] },
+        iot: { eyebrow: "Capa 03 · Sensores e IoT", title: "El edificio también reporta.", body: "Sensores, controles de acceso, alarmas y relojes biométricos de todas las sedes en un solo panel. Una puerta abierta fuera de horario se vuelve un evento más de la misma traza.", points: ["Accesos", "Alarmas", "Relojes biométricos"] },
+        robotica: { eyebrow: "Capa 04 · Robótica · Laboratorio", title: "La próxima ronda puede tener cuatro patas.", body: "En nuestro laboratorio desarrollamos perros robot que recorren y verifican con las mismas analíticas de las cámaras. La plataforma está pensada para sumar nuevos dispositivos sin cambiar la forma de operar.", points: ["Mismas analíticas", "Extensible a nuevos dispositivos"] },
+        central: { eyebrow: "Capa 05 · Central y gerencia", title: "Una central que ve todo. Una gerencia que lo sabe al instante.", body: "Mapa en vivo de cada sede y cada persona, radio, chat y pánico en la misma pantalla. La gerencia ve en tiempo real qué está cubierto, qué falta y qué pasó.", points: ["Mapa en vivo", "Despacho por radio", "Tablero de gerencia"] },
+        traza: { eyebrow: "02:14 a. m. · Todo es una traza", title: "Un evento. Cinco capas. Ningún cabo suelto.", body: "Así fluye una alerta en ARS: cada capa suma su evidencia a la misma línea de tiempo, y nada se pierde entre un radio, un chat y una planilla.", points: [] },
+        escala: { eyebrow: "Una plataforma · todas las sedes", title: "La nueva era de la seguridad privada ya opera.", body: "Cada sede, cada cliente y cada turno en la misma plataforma, con multiagentes de IA que proponen y una persona que decide. Desde Colombia para Latinoamérica y el mundo.", points: [] },
       },
-      labels: { intruder: "Persona · 97 %", core: "IA · analizando", control: "Central · alerta P1", guard: "Guarda despachado" },
-      evidence: {
-        title: "Intrusión perimetral",
-        priority: "P1",
-        rows: [
-          { k: "Cámara", v: "CAM-04 · Cerca norte" },
-          { k: "Zona", v: "Zona 3 · Restringida" },
-          { k: "Hora", v: "02:14:07" },
-          { k: "Confianza", v: "97 %" },
-        ],
-        attach: "Snapshot + clip 10 s",
-        action: "Despachar guarda",
-      },
-      stats: [
-        { value: "< 48 h", label: "Despliegue sobre tu CCTV" },
-        { value: "24/7", label: "Monitoreo y respuesta" },
-        { value: "12+", label: "Analíticas de IA" },
-        { value: "< 1 s", label: "Detección de intrusión" },
-      ],
-      ctas: { vision: "Ver analíticas en video real", platform: "Conocer la plataforma", projects: "Ver proyectos", services: "Ver todos los servicios" },
+      visionNote: "Analíticas según el equipo de cada sede",
+      labels: { guard: "Ronda · punto 7", camera: "Cámara 04 · IA", sensor: "Puerta bodega 2", robot: "Robot · laboratorio", central: "Central de operaciones", board: "Tablero de gerencia" },
+      board: { title: "ARS · Operación", live: "En vivo", done: "Evento cerrado", sites: "Sedes" },
+      stats: { areas: "áreas de servicio en una plataforma", modules: "módulos en el catálogo", live: "módulos en operación", analytics: "analíticas de video" },
+      ctas: { vision: "Ver Visión IA", platform: "Ver la plataforma", lab: "Ir al laboratorio", services: "Ver todos los servicios", trace: "Ver cómo fluye un evento" },
       recap: {
-        eyebrow: "La seguridad de ARS en tres capas",
-        title: "Prevenir, detectar, responder. Conectado.",
-        body: "Cada capa funciona sola, pero el valor está en la cadena: lo que la cámara ve se convierte en una acción con responsable y evidencia.",
-        items: [
-          { tag: "Capa 01", name: "Prevención y presencia", body: "Turnos, rondas inteligentes, puestos validados, formularios dinámicos y cámaras existentes en una sola operación.", cta: "Ver operación" },
-          { tag: "Capa 02", name: "Detección con IA", body: "Personas, vehículos, placas, rostros, EPP, intrusión y aglomeraciones sobre tu CCTV, con alertas priorizadas.", cta: "Ver analíticas" },
-          { tag: "Capa 03", name: "Respuesta y operación", body: "Central de monitoreo, despacho por mapa, PTT, cierre con evidencia y reportes para gerencia.", cta: "Ver plataforma" },
-        ],
+        eyebrow: "Una plataforma · cinco capas",
+        title: "No son cinco programas. Es una sola operación.",
+        body: "Cada capa trabaja sola y, al mismo tiempo, alimenta la misma traza. Elige por dónde empezar: la plataforma crece con tu operación.",
       },
       contact: {
         eyebrow: "Hablemos de tu operación",
-        title1: "Tus cámaras.",
-        title2: "Nuestra inteligencia.",
-        body: "Conectamos tus cámaras, guardas y NVRs actuales en menos de 48 horas, sin reemplazar tu hardware. Cuéntanos qué necesitas proteger.",
+        title1: "Lleva tu empresa de seguridad",
+        title2: "a la nueva era.",
+        body: "Cuéntanos cómo opera hoy tu empresa (sedes, puestos, cámaras, central) y te mostramos cómo se ve todo en una sola traza.",
         formTitle: "Cuéntanos qué necesitas",
         whatsapp: "Escribir por WhatsApp",
         email: "Enviar correo",
@@ -471,100 +429,62 @@ export const dictionaries: Record<Locale, Dict> = {
     home: {
       nav: { vision: "AI Vision", platform: "Platform", lab: "Lab", contact: "Request demo" },
       hero: {
-        eyebrow: "ARS Intelligence · AI-powered security",
-        title1: "Your cameras already watch.",
-        title2: "ARS makes them understand.",
-        body: "We turn the cameras you already own into an intelligent security network: it detects what matters, alerts with evidence and coordinates your team's response. For small, mid-size and large companies across LATAM.",
-        ctaPrimary: "See the AI in action",
-        ctaSecondary: "Request demo",
-        scroll: "Scroll · this is how ARS responds when something happens",
-        trust: ["On your existing CCTV", "Deployed in < 48 h", "24/7 monitoring", "Colombia · Peru · LATAM"],
+        eyebrow: "Technology lab for private security",
+        title1: "Every layer of security.",
+        title2: "One trace.",
+        body: "Guarding, AI on cameras, sensors, robotics and the operations center in one platform. Every event is traced, from the post to management.",
+        ctaPrimary: "Request a demo",
+        ctaSecondary: "See how an event flows",
+        scroll: "Scroll · watch the layers come alive",
+        trust: ["Made in Colombia", "For private security companies", "Latin America and the world"],
       },
+      status: { live: "Live", pilot: "Pilot", lab: "In the lab" },
       layers: [
-        { tag: "Layer 01", name: "Prevention & presence" },
-        { tag: "Layer 02", name: "AI detection" },
-        { tag: "Layer 03", name: "Response & operations" },
+        { tag: "Layer 01", name: "Physical guarding", status: "live", body: "Shifts, QR rounds, logbook, radio and panic button from the guard's phone, with the field supervisor always in view.", cta: "Field operations" },
+        { tag: "Layer 02", name: "AI vision", status: "live", body: "Analytics on each site's cameras: intrusion, line crossing, loitering, left objects, people counting and occupancy.", cta: "See AI Vision" },
+        { tag: "Layer 03", name: "Sensors and IoT", status: "pilot", body: "Sensors, access control, alarms and biometric clocks on the same panel as the rest of the operation.", cta: "Smart monitoring" },
+        { tag: "Layer 04", name: "Robotics", status: "lab", body: "Robot dogs that patrol and verify using the same camera analytics. In development in our lab.", cta: "Visit the lab" },
+        { tag: "Layer 05", name: "Operations and management", status: "live", body: "Live map, radio, chat and panic on one screen; management sees in real time what is covered and what happened.", cta: "Operations center" },
       ],
-      chain: {
-        label: "When something is triggered",
-        steps: ["Camera detects", "AI analyzes", "Alert with evidence", "Operator acts"],
+      trace: {
+        label: "Event trace",
+        demo: "Demo scenario.",
+        steps: [
+          { time: "02:14:07", layer: "Physical guarding", text: "Patrol: the guard scans checkpoint 7 on the north fence and reports an incident with a photo.", short: "Patrol reports" },
+          { time: "02:14:19", layer: "AI vision", text: "Camera 04: line-crossing analytics confirms a person in a restricted zone; the operator validates the alert.", short: "Camera confirms" },
+          { time: "02:14:31", layer: "Sensors · Pilot", text: "Sensor: warehouse 2 door opened after hours.", short: "Door opened" },
+          { time: "02:14:58", layer: "Robotics · In the lab", text: "Robot: checks the area with the same analytics and streams video to the center.", short: "Robot verifies" },
+          { time: "02:15:24", layer: "Operations center", text: "Operations center: dispatches the nearest supervisor by radio from the live map.", short: "Center dispatches" },
+          { time: "02:31:46", layer: "Management", text: "Closure: report with evidence, owner and timings; management sees it on its dashboard.", short: "Closed for management" },
+        ],
       },
       chapters: {
-        capa1: {
-          eyebrow: "Layer 01 · Prevention & presence",
-          title: "Every corner covered before anything happens.",
-          body: "Guards on smart patrols, validated posts, defined critical zones and your existing cameras connected to a single platform. Daily operations are already part of the system.",
-          points: ["Patrols with checkpoints", "Validated shifts and posts", "Existing CCTV cameras", "Defined zones and perimeters"],
-        },
-        evento: {
-          eyebrow: "2:14 a.m. · Something is triggered",
-          title: "Someone crosses the perimeter.",
-          body: "A person jumps the north fence in an area with no guards nearby. No operator is watching that camera. This is where the chain begins.",
-          points: ["North fence · Zone 3", "No staff in the sector"],
-        },
-        capa2: {
-          eyebrow: "Layer 02 · AI detection",
-          title: "The camera sees. The AI understands.",
-          body: "Analytics on your CCTV classify the person, confirm the line-cross in the restricted zone and discard false positives such as animals, shadows or rain, in under a second.",
-          points: ["Person · 97%", "Line-cross + ROI", "Detection < 1 s"],
-        },
-        alerta: {
-          eyebrow: "Layer 02 → 03 · Alert with evidence",
-          title: "An alert that arrives with proof.",
-          body: "The control room receives snapshot, clip, camera, zone, time and priority at the same instant. The operator doesn't guess: they confirm and decide.",
-          points: ["Snapshot + clip", "Automatic priority", "Full traceability"],
-        },
-        capa3: {
-          eyebrow: "Layer 03 · Response & operations",
-          title: "From alert to action, in minutes.",
-          body: "The operator dispatches the nearest guard over PTT with the route on the map. The event closes with notes, evidence and an owner: nothing gets lost in a chat.",
-          points: ["Map dispatch", "PTT · Push To Talk", "Closed with evidence"],
-        },
-        escala: {
-          eyebrow: "One platform · all your sites",
-          title: "What happens at one site, your whole operation knows.",
-          body: "Multi-client, multi-site and multi-zone: every event feeds reports, KPIs and decisions for management, audit and continuous improvement.",
-          points: [],
-        },
+        fisica: { eyebrow: "Layer 01 · Physical guarding", title: "It all starts at the post.", body: "Shifts, handovers, QR rounds and logbook from the phone, with photo, signature, location and time. Radio and panic button on the same phone, and the field supervisor always in view.", points: ["QR rounds", "Digital logbook", "PTT radio", "Panic button"] },
+        vision: { eyebrow: "Layer 02 · AI vision", title: "Cameras no longer just record. They alert.", body: "Intrusion, line crossing, loitering, left objects, people counting and occupancy on the cameras a site already has. Every alert arrives with photo and video, and a person confirms before acting.", points: ["Line crossing", "Loitering", "Left objects", "Occupancy"] },
+        iot: { eyebrow: "Layer 03 · Sensors and IoT", title: "The building reports too.", body: "Sensors, access controls, alarms and biometric clocks from every site in a single panel. A door opened after hours becomes one more event in the same trace.", points: ["Access", "Alarms", "Biometric clocks"] },
+        robotica: { eyebrow: "Layer 04 · Robotics · In the lab", title: "The next patrol may walk on four legs.", body: "In our lab we are developing robot dogs that patrol and verify using the same camera analytics. The platform is built to add new devices without changing the way you operate.", points: ["Same analytics", "Extensible to new devices"] },
+        central: { eyebrow: "Layer 05 · Operations and management", title: "A center that sees everything. Management that knows instantly.", body: "A live map of every site and every person, with radio, chat and panic alerts on the same screen. Management sees in real time what is covered, what is missing and what happened.", points: ["Live map", "Radio dispatch", "Management dashboard"] },
+        traza: { eyebrow: "2:14 a.m. · Everything is a trace", title: "One event. Five layers. No loose ends.", body: "This is how an alert flows in ARS: each layer adds its evidence to the same timeline, and nothing gets lost between a radio, a chat and a spreadsheet.", points: [] },
+        escala: { eyebrow: "One platform · every site", title: "The new era of private security is already running.", body: "Every site, every client and every shift on the same platform, with AI multi-agents that propose and a person who decides. From Colombia to Latin America and the world.", points: [] },
       },
-      labels: { intruder: "Person · 97%", core: "AI · analyzing", control: "Control room · P1 alert", guard: "Guard dispatched" },
-      evidence: {
-        title: "Perimeter intrusion",
-        priority: "P1",
-        rows: [
-          { k: "Camera", v: "CAM-04 · North fence" },
-          { k: "Zone", v: "Zone 3 · Restricted" },
-          { k: "Time", v: "02:14:07" },
-          { k: "Confidence", v: "97%" },
-        ],
-        attach: "Snapshot + 10 s clip",
-        action: "Dispatch guard",
-      },
-      stats: [
-        { value: "< 48 h", label: "Deployed on your CCTV" },
-        { value: "24/7", label: "Monitoring and response" },
-        { value: "12+", label: "AI analytics" },
-        { value: "< 1 s", label: "Intrusion detection" },
-      ],
-      ctas: { vision: "See analytics on real video", platform: "Discover the platform", projects: "See projects", services: "See all services" },
+      visionNote: "Analytics depend on each site's equipment",
+      labels: { guard: "Patrol · checkpoint 7", camera: "Camera 04 · AI", sensor: "Warehouse 2 door", robot: "Robot · in the lab", central: "Operations center", board: "Management dashboard" },
+      board: { title: "ARS · Operations", live: "Live", done: "Event closed", sites: "Sites" },
+      stats: { areas: "service areas in one platform", modules: "modules in the catalog", live: "modules live today", analytics: "video analytics" },
+      ctas: { vision: "See AI Vision", platform: "See the platform", lab: "Visit the lab", services: "See all services", trace: "See how an event flows" },
       recap: {
-        eyebrow: "ARS security in three layers",
-        title: "Prevent, detect, respond. Connected.",
-        body: "Each layer works on its own, but the value is in the chain: what the camera sees becomes an action with an owner and evidence.",
-        items: [
-          { tag: "Layer 01", name: "Prevention & presence", body: "Shifts, smart patrols, validated posts, dynamic forms and existing cameras in a single operation.", cta: "See operations" },
-          { tag: "Layer 02", name: "AI detection", body: "People, vehicles, plates, faces, PPE, intrusion and crowding on your CCTV, with prioritized alerts.", cta: "See analytics" },
-          { tag: "Layer 03", name: "Response & operations", body: "Control room, map dispatch, PTT, closure with evidence and reports for management.", cta: "See platform" },
-        ],
+        eyebrow: "One platform · five layers",
+        title: "Not five programs. One operation.",
+        body: "Each layer works on its own and, at the same time, feeds the same trace. Choose where to start: the platform grows with your operation.",
       },
       contact: {
         eyebrow: "Let's talk about your operation",
-        title1: "Your cameras.",
-        title2: "Our intelligence.",
-        body: "We connect your current cameras, guards and NVRs in under 48 hours, without replacing your hardware. Tell us what you need to protect.",
+        title1: "Take your security company",
+        title2: "into the new era.",
+        body: "Tell us how your company runs today (sites, posts, cameras, control room) and we'll show you what it looks like as a single trace.",
         formTitle: "Tell us what you need",
         whatsapp: "Message on WhatsApp",
-        email: "Send an email",
+        email: "Send email",
       },
       staticNote: "Simplified view",
     },

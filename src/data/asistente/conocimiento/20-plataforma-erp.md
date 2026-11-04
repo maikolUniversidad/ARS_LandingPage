@@ -5,7 +5,7 @@ orden: 20
 rutas: ["/plataforma"]
 ---
 
-«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`.
+«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
 
 ## Funcionalidades (A–N) · ancla `/plataforma#feature-<id>`
 
@@ -16,9 +16,9 @@ Grupos: **Operación** (gestión humana, programación y ejecución en campo), *
 - **C · Rondas inteligentes** (`rondas`, Operación): rondas por sede, zona o cliente; puntos de control; tareas por punto; validación por ubicación; evidencia fotográfica; observaciones; control de rondas incompletas; alertas por incumplimiento; historial.
 - **D · Rondas con tareas personalizadas** (`tareas`, Operación): según instalación o riesgo; p. ej. verificar puerta cerrada, revisar perímetro, confirmar iluminación, reportar vehículos sospechosos, validar personal autorizado, tomar foto del punto, formulario de inspección, novedad con evidencia.
 - **E · Formularios dinámicos** (`formularios`, Operación): formularios por operación, cliente, ronda o tipo de novedad; campos de texto, selección, fecha, evidencia, firma o ubicación; validaciones obligatorias; enlazados a reportes y auditoría.
-- **F · Seguimiento en mapa en tiempo real** (`mapa`, Monitoreo): ubicación de guardas, vista por cliente/sede/zona, rutas de ronda, puntos de control, cámaras georreferenciadas, alertas sobre el mapa, historial de recorridos.
-- **G · PTT · Push To Talk** (`ptt`, Operación): comunicación tipo radio digital entre central, supervisores y campo; canales por cliente, sede, zona o equipo; registro de actividad si aplica; integración con eventos o alertas.
-- **H · POT · Acción operativa rápida** (`pot`, Operación): botón de acción rápida para reportar novedad o emergencia, solicitar apoyo, confirmar presencia o tarea, activar protocolo; queda asociado a ubicación, usuario y trazabilidad.
+- **F · Seguimiento en mapa en tiempo real** (`mapa`, Monitoreo): ubicación de guardas, vista por cliente/sede/zona, rutas de ronda, puntos de control, cámaras georreferenciadas, alertas sobre el mapa, historial de recorridos, segmentación por operación.
+- **G · PTT · Push To Talk** (`ptt`, Operación): comunicación inmediata tipo radio digital entre central, supervisores y campo; canales por cliente, sede, zona o equipo; soporte para supervisores; registro de actividad si aplica; integración con eventos o alertas; apoyo a la respuesta coordinada.
+- **H · POT · Acción operativa rápida** (`pot`, Operación): botón de acción rápida (el equivalente operativo a un botón de emergencia o de pánico) para reportar novedad o emergencia, activar una alerta, solicitar apoyo, confirmar presencia o una tarea crítica, activar protocolo; queda asociado a ubicación, usuario y trazabilidad.
 - **I · Central de monitoreo** (`central`, Monitoreo): video wall, monitoreo de cámaras, alertas en tiempo real, seguimiento de eventos, visualización de personal, comunicación con campo, evidencia, priorización de riesgos.
 - **J · Cámaras e IA** (`ia`, Inteligencia): personas (detección, reconocimiento facial contra listas autorizadas/restringidas, caídas, merodeo); vehículos (detección, LPR, clasificación por tipo y color); comportamiento y zonas (cruce de línea, intrusión, ROI, objetos abandonados); industrial (EPP, reglas por cámara, aglomeración, fuego y humo). El detalle de analíticas está en `/vision`.
 - **K · Alertas inteligentes** (`alertas`, Inteligencia): llegan con tipo de evento, prioridad, cámara, zona o sede, guarda relacionado, snapshot, video clip, ubicación, estado de atención e historial de seguimiento.

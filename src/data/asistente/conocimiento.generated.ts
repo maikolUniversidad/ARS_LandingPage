@@ -10,16 +10,26 @@ export const DOCUMENTOS: DocumentoKB[] = [
     rutas: ["/"],
     contenido: `## En una frase
 
-ARS Intelligence es una plataforma de seguridad integral con IA que conecta la operación completa de seguridad —personas, cámaras, IA, turnos, rondas, alertas, mapas, evidencia y reportes— en una sola plataforma. Lema del sitio: «La forma simple de hacer que todo funcione».
+ARS Intelligence es un **laboratorio de tecnología dedicado solo al desarrollo y la innovación en seguridad**, desde Colombia para Latinoamérica y el mundo. Trabaja para **empresas de seguridad privada** y las lleva a una nueva era en la que toda la operación es inteligente. Titular de la portada: «Todas las capas de la seguridad. Una sola traza.» Lema del sitio: «La forma simple de hacer que todo funcione».
 
-## Propuesta de valor (tal como la comunica el sitio)
+## Posicionamiento: todas las capas, una sola traza
 
-- **Seguridad integral, no solo cámaras**: centraliza cámaras, personal, alertas, evidencia y operación para que cada evento tenga contexto, trazabilidad y respuesta. Conecta vigilancia, tecnología, operadores y clientes.
-- **Sin reemplazar hardware**: se integra con la operación actual; conecta cámaras, guardas, NVRs y sistemas existentes. El sitio comunica un tiempo de despliegue de **menos de 48 horas** y un tablero único para gerencia, supervisión y respuesta. Los plazos reales de cada proyecto: a confirmar con el equipo comercial.
-- **La IA apoya al equipo humano**: detecta y prioriza eventos; la decisión y la respuesta siguen siendo del operador y del personal en campo.
-- **Alertas con evidencia**: cada alerta llega con snapshot, clip, ubicación, cámara, hora, responsable y trazabilidad.
-- **Multi-cliente, multi-sede, multi-zona**: una sola arquitectura para muchas operaciones.
-- Indicadores de confianza mostrados en la web: despliegue «< 48h», operación «24/7», cobertura «LATAM», «12+» modelos de IA.
+ARS no es un conjunto de programas separados: une en una sola plataforma con IA todas las capas de lo que pasa en un lugar de seguridad, y hace que todo fluya como debe.
+
+1. **Vigilancia física** (en operación): el vigilante y sus turnos, relevos, rondas con QR, minuta desde el celular, radio PTT y botón de pánico en el mismo teléfono, y el supervisor visible en campo.
+2. **Visión con IA sobre las cámaras** (en operación): las analíticas de \`/vision\` sobre las cámaras que la sede ya tiene; cada alerta llega con foto y video y **una persona confirma antes de actuar**. Las analíticas disponibles dependen del equipo de cada sede.
+3. **Sensores, domótica e IoT** (en **piloto**): sensores, controles de acceso, alarmas y relojes biométricos en el mismo panel. Las alarmas de puerta del acceso inteligente sí están en operación; el módulo IoT como tal está en piloto.
+4. **Robótica** (línea del **laboratorio**, en desarrollo, no es un producto comercial): perros robot que recorren y verifican con las mismas analíticas de las cámaras. La plataforma está pensada para sumar nuevos dispositivos. No prometas fechas, modelos ni disponibilidad; si preguntan, di que es una línea en desarrollo del laboratorio y ofrece hablar con el equipo.
+5. **Central de operaciones y gerencia** (en operación): mapa en vivo de cada sede y cada persona, radio, chat y pánico en la misma pantalla; la gerencia ve en tiempo real qué está cubierto, qué falta y qué pasó.
+
+**Todo es una traza**: cada evento queda trazado de punta a punta, del puesto a la gerencia. Ejemplo de la portada (escenario de demostración, ficticio): una ronda reporta una novedad en la cerca norte → la cámara 04 confirma con cruce de línea y el operador valida → el sensor de la puerta de la bodega avisa → el robot del laboratorio verifica → la central despacha al supervisor por radio → el cierre con evidencia, responsable y tiempos llega al tablero de gerencia.
+
+Otras ideas que comunica el sitio:
+- **La IA apoya al equipo humano**: multiagentes de IA que proponen y una persona que decide.
+- **Alertas con evidencia**: foto, video, ubicación, cámara, hora y responsable asociados al evento.
+- **Multi-cliente, multi-sede**: cada sede, cada cliente y cada turno en la misma plataforma.
+- Cifras de la portada (salen del catálogo de \`/servicios\`): 10 áreas de servicio, los módulos del catálogo y cuántos están en operación, y 8 analíticas de video. No uses otras cifras (no hay respaldo para «< 48 h», «24/7», «12+ modelos» ni porcentajes de precisión).
+- Plazos de despliegue, precios y alcance de cada proyecto: a confirmar con el equipo comercial.
 
 ## Presencia
 
@@ -47,7 +57,7 @@ Además hay demos interactivas: \`/laboratorio\` (modelos de IA en acción, con 
 
 ## Contacto
 
-- Solicitar demo: formulario y botones en la sección \`#cierre\` de la portada (\`/#cierre\`), de \`/plataforma#cierre\` y de \`/vision#cierre\`.
+- Solicitar demo: formulario y botones en la sección \`#contacto\` de la portada (\`/#contacto\`), de \`/plataforma#cierre\` y de \`/vision#cierre\`.
 - WhatsApp de la gerencia comercial: +57 318 0005654.
 - Correo: gerencia.comercial@vigiasdecolombia.com (asunto sugerido «Solicitud de demo - ARS Intelligence»).
 - Dominio del sitio: arsintelligence.com.
@@ -61,21 +71,21 @@ Precios, planes, licencias y condiciones contractuales no están publicados en e
     rutas: ["/","/plataforma","/vision","/servicios","/proyectos","/laboratorio","/vision-lab"],
     contenido: `Usa siempre rutas relativas del sitio (por ejemplo \`/vision#intrusion\`). Solo existen las rutas y anclas listadas aquí; no inventes otras.
 
-## \`/\` — Portada (narrativa cinematográfica)
+## \`/\` — Portada (las capas de la seguridad unidas en una traza)
 
-Recorrido con scroll en 8 escenas más un cierre. Anclas:
+Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y caen hasta volverse una sola plataforma; luego cada capa se enciende y un mismo evento las recorre dejando una traza de luz hasta el tablero de gerencia. Anclas:
 
-- \`#integral\` — 01 Seguridad integral conectada en tiempo real.
-- \`#terreno\` — 02 Operación en campo: guardas, rondas, accesos, zonas críticas, novedades.
-- \`#monitoreo\` — 03 Central de monitoreo que prioriza, interpreta y coordina.
-- \`#ia\` — 04 IA para detectar, priorizar y actuar (personas, vehículos, placas, rostros autorizados o restringidos, ROI, cruce de línea, permanencia, EPP, eventos críticos).
-- \`#alertas\` — 05 Alertas con contexto: snapshot, clip, historial.
-- \`#respuesta\` — 06 Respuesta coordinada: de la alerta a la acción.
-- \`#control\` — 07 Una plataforma para múltiples clientes, sedes y zonas.
-- \`#decisiones\` — 08 Reportes, indicadores y confianza.
-- \`#cierre\` — «Una sola plataforma. Toda tu seguridad.»: botón Solicitar demo (correo), formulario de contacto (nombre, empresa, correo, teléfono, mensaje) e indicadores (< 48h, 24/7, LATAM, 12+ modelos IA).
+- \`#hero\` — «Todas las capas de la seguridad. Una sola traza.»
+- \`#fisica\` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.
+- \`#vision\` — Capa 02 · Visión con IA sobre las cámaras. En operación.
+- \`#iot\` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). Piloto.
+- \`#robotica\` — Capa 04 · Robótica (perros robot con las mismas analíticas). Laboratorio, en desarrollo.
+- \`#central\` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.
+- \`#traza\` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.
+- \`#escala\` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma, cifras del catálogo y botones a demo y a \`/servicios\`.
+- \`#contacto\` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. \`/#cierre\` también lleva aquí.
 
-Enviar aquí: visitante que quiere la visión general o contactar. Para pedir demo, \`/#cierre\`.
+Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas o contactar. Para pedir demo, \`/#contacto\`.
 
 ## \`/plataforma\` — Seguridad integral en una sola plataforma
 
@@ -99,7 +109,7 @@ Anclas:
 - \`#cierre\` — «45 analíticas. Las mismas cámaras.»: correo de demo, WhatsApp, presentación y PowerPoint.
 - \`#<id-analítica>\` — abre esa analítica directamente en el visor, p. ej. \`/vision#intrusion\`, \`/vision#aforo\`, \`/vision#huecos\`. Si el id no existe se abre la analítica por defecto (Mapa de calor).
 
-Nota técnica: existe una analítica con id \`cierre\` («Cierre de puerta sin autorización»), por eso \`/vision#cierre\` también selecciona esa analítica en el visor además de llevar a la sección de cierre. Para contacto en esta página es preferible decir «baja hasta el final de la página» o usar \`/#cierre\`.
+Nota técnica: existe una analítica con id \`cierre\` («Cierre de puerta sin autorización»), por eso \`/vision#cierre\` también selecciona esa analítica en el visor además de llevar a la sección de cierre. Para contacto en esta página es preferible decir «baja hasta el final de la página» o usar \`/#contacto\`.
 
 Enviar aquí: preguntas sobre qué detectan las cámaras, analíticas para retail, prevención, operación, modelos de bajo costo.
 
@@ -141,7 +151,7 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
 
 ## Reglas de navegación
 
-- Pedir demo o hablar con alguien → \`/#cierre\` (formulario) o WhatsApp +57 318 0005654.
+- Pedir demo o hablar con alguien → \`/#contacto\` (formulario) o WhatsApp +57 318 0005654.
 - Una analítica concreta → \`/vision#<id>\` usando el id exacto del catálogo.
 - Una funcionalidad de la plataforma → \`/plataforma#feature-<id>\` o \`/plataforma#funcionalidades\`.
 - Ver IA en vivo con su cámara → \`/laboratorio#demo-stage\`.
@@ -153,7 +163,7 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
     titulo: "Plataforma ARS y ERP operativo",
     orden: 20,
     rutas: ["/plataforma"],
-    contenido: `«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: \`/plataforma\`.
+    contenido: `«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: \`/plataforma\`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
 
 ## Funcionalidades (A–N) · ancla \`/plataforma#feature-<id>\`
 
@@ -164,9 +174,9 @@ Grupos: **Operación** (gestión humana, programación y ejecución en campo), *
 - **C · Rondas inteligentes** (\`rondas\`, Operación): rondas por sede, zona o cliente; puntos de control; tareas por punto; validación por ubicación; evidencia fotográfica; observaciones; control de rondas incompletas; alertas por incumplimiento; historial.
 - **D · Rondas con tareas personalizadas** (\`tareas\`, Operación): según instalación o riesgo; p. ej. verificar puerta cerrada, revisar perímetro, confirmar iluminación, reportar vehículos sospechosos, validar personal autorizado, tomar foto del punto, formulario de inspección, novedad con evidencia.
 - **E · Formularios dinámicos** (\`formularios\`, Operación): formularios por operación, cliente, ronda o tipo de novedad; campos de texto, selección, fecha, evidencia, firma o ubicación; validaciones obligatorias; enlazados a reportes y auditoría.
-- **F · Seguimiento en mapa en tiempo real** (\`mapa\`, Monitoreo): ubicación de guardas, vista por cliente/sede/zona, rutas de ronda, puntos de control, cámaras georreferenciadas, alertas sobre el mapa, historial de recorridos.
-- **G · PTT · Push To Talk** (\`ptt\`, Operación): comunicación tipo radio digital entre central, supervisores y campo; canales por cliente, sede, zona o equipo; registro de actividad si aplica; integración con eventos o alertas.
-- **H · POT · Acción operativa rápida** (\`pot\`, Operación): botón de acción rápida para reportar novedad o emergencia, solicitar apoyo, confirmar presencia o tarea, activar protocolo; queda asociado a ubicación, usuario y trazabilidad.
+- **F · Seguimiento en mapa en tiempo real** (\`mapa\`, Monitoreo): ubicación de guardas, vista por cliente/sede/zona, rutas de ronda, puntos de control, cámaras georreferenciadas, alertas sobre el mapa, historial de recorridos, segmentación por operación.
+- **G · PTT · Push To Talk** (\`ptt\`, Operación): comunicación inmediata tipo radio digital entre central, supervisores y campo; canales por cliente, sede, zona o equipo; soporte para supervisores; registro de actividad si aplica; integración con eventos o alertas; apoyo a la respuesta coordinada.
+- **H · POT · Acción operativa rápida** (\`pot\`, Operación): botón de acción rápida (el equivalente operativo a un botón de emergencia o de pánico) para reportar novedad o emergencia, activar una alerta, solicitar apoyo, confirmar presencia o una tarea crítica, activar protocolo; queda asociado a ubicación, usuario y trazabilidad.
 - **I · Central de monitoreo** (\`central\`, Monitoreo): video wall, monitoreo de cámaras, alertas en tiempo real, seguimiento de eventos, visualización de personal, comunicación con campo, evidencia, priorización de riesgos.
 - **J · Cámaras e IA** (\`ia\`, Inteligencia): personas (detección, reconocimiento facial contra listas autorizadas/restringidas, caídas, merodeo); vehículos (detección, LPR, clasificación por tipo y color); comportamiento y zonas (cruce de línea, intrusión, ROI, objetos abandonados); industrial (EPP, reglas por cámara, aglomeración, fuego y humo). El detalle de analíticas está en \`/vision\`.
 - **K · Alertas inteligentes** (\`alertas\`, Inteligencia): llegan con tipo de evento, prioridad, cámara, zona o sede, guarda relacionado, snapshot, video clip, ubicación, estado de atención e historial de seguimiento.
@@ -370,7 +380,7 @@ Cada analítica puede declarar un estado del equipo de Visión, que se muestra t
 
 1. Sector y tipo de instalación. 2. Número aproximado de sedes y cámaras. 3. Si ya tiene NVR/grabadores y vigilancia física. 4. El problema principal (pérdidas, filas, intrusión, EPP, control de guardas, reportes). 5. Si necesita gestión de turnos y rondas o solo analíticas de video.
 
-Con esas respuestas propone una ruta: analíticas concretas en \`/vision#<id>\`, funcionalidades en \`/plataforma#feature-<id>\` y cierre con demo en \`/#cierre\`.`,
+Con esas respuestas propone una ruta: analíticas concretas en \`/vision#<id>\`, funcionalidades en \`/plataforma#feature-<id>\` y cierre con demo en \`/#contacto\`.`,
   },
   {
     id: "proyectos",
@@ -455,6 +465,28 @@ Algunos modelos marcados «API externa / requiere key» pueden no estar activos 
 - \`/vision\`: portafolio comercial de 45 analíticas con simulación 3D y evidencia real.`,
   },
   {
+    id: "asistente-ars",
+    titulo: "Qué puede hacer el asistente Ars por el visitante",
+    orden: 70,
+    rutas: ["/","/plataforma","/vision","/laboratorio"],
+    contenido: `Úsalo para contestar «¿qué puedes hacer?» o «¿cómo me ayudas?». Ofrece una o dos de estas opciones, según la página y lo que la persona ya contó. No las recites todas.
+
+## Capacidades
+
+- **Guiar por el sitio**: llevar a la página, sección o analítica correcta y resaltar lo que se está explicando.
+- **Recomendar según el caso**: con el sector, las sedes, las cámaras y el problema principal, proponer funcionalidades de \`/plataforma\` y analíticas de \`/vision\`.
+- **Alcance orientativo**: un borrador de alcance con tamaño de la operación, funcionalidades, analíticas, unidades a cotizar, etapas (demo → levantamiento → piloto → despliegue) e indicadores para medir el resultado. No es una cotización y no trae precios; el equipo comercial confirma alcance, compatibilidad, plazos y costo.
+- **Comparar analíticas**: una tabla lado a lado (qué detecta, cómo se activa, estado, prueba real, para qué sectores).
+- **Analizar una foto o un video propio**: la persona adjunta una foto de su instalación o un clip de cámara. Ars señala zonas ciegas, accesos, EPP o flujos, y qué analíticas lo detectarían y en qué segundo. El archivo se usa solo en esa conversación: no se guarda en el servidor y los videos ni siquiera se suben (el navegador extrae unos fotogramas). No identifica a personas.
+- **Leer documentos**: pliegos, términos de referencia o RFP en PDF o texto. Ars resume, cita la página y lo conecta con ARS.
+- **Preparar el contacto**: un resumen de la visita (necesidad, tamaño, intereses, plazo) que llega escrito en el formulario. La persona lo revisa, añade su nombre y correo y lo envía ella misma.
+- **Voz**: conversación hablada con subtítulos, si el sitio la tiene activa.
+
+## Privacidad del asistente
+
+Lo que la persona cuenta para personalizar (sector, sedes, cámaras…) se guarda solo en su navegador y lo puede ver y borrar en el panel. Las búsquedas en la documentación envían solo el texto de la pregunta a un servicio de búsqueda semántica, nunca los archivos adjuntos.`,
+  },
+  {
     id: "preguntas-frecuentes",
     titulo: "Preguntas frecuentes",
     orden: 90,
@@ -499,9 +531,18 @@ Colombia y Perú, según el sitio. Ver \`/proyectos\`.
 Sí, tres opciones:
 1. Probar ya la IA con tu cámara o un video: \`/laboratorio#demo-stage\`.
 2. Ver cada analítica funcionando: \`/vision#visor\`.
-3. Demo guiada con el equipo: formulario en \`/#cierre\`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.
+3. Demo guiada con el equipo: formulario en \`/#contacto\`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.
 
 **¿Hay versión en inglés?**
-El sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de \`/vision\` se presenta en español.`,
+El sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de \`/vision\` se presenta en español.
+
+**¿Me pueden dar un estimado?**
+Ars puede armar un alcance orientativo (funcionalidades, analíticas, unidades a cotizar y etapas) con el sector, las sedes, las cámaras y el objetivo. No incluye precios. La cotización formal la hace el equipo comercial después de la demo o del levantamiento.
+
+**¿Puedo mostrarle una foto o un video de mis cámaras?**
+Sí, se adjunta en el chat. Ars explica qué detectaría ARS y con qué analítica. El archivo se usa solo en esa conversación y no se guarda en el servidor; en un video, el navegador envía solo unos fotogramas. Para ver los modelos corriendo en vivo sobre tu propia cámara está \`/laboratorio#demo-stage\`.
+
+**¿En qué se diferencian dos analíticas parecidas (p. ej. intrusión, merodeo y acceso no autorizado)?**
+Ars puede compararlas en una tabla: qué detecta cada una, cómo se activa, estado y prueba real. Resumen rápido: **intrusión** mide qué tan adentro de una zona prohibida está la persona (tres franjas, con aviso según la gravedad); **merodeo** avisa de quien da vueltas sin entrar ni irse; **acceso no autorizado** combina la puerta de una zona interna con el reconocimiento de personal y avisa si cruza alguien que no es del equipo. Ver \`/vision#intrusion\`, \`/vision#merodeo\` y \`/vision#acceso\`.`,
   },
 ];

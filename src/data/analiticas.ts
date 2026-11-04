@@ -12,7 +12,7 @@
  * - `estado`: madurez declarada por el equipo de Visión; se muestra tal cual.
  */
 
-import datos from "./analiticas.generado.json";
+import datos from "./analiticas.generado.json" with { type: "json" };
 
 export type EstadoSim = "vigila" | "detecta" | "alerta" | "ok";
 

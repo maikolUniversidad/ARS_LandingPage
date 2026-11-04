@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "ARS Intelligence — Monitoreo inteligente con IA";
+export const alt = "ARS Intelligence — Todas las capas de la seguridad. Una sola traza.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -50,7 +50,7 @@ export default function OpengraphImage() {
               letterSpacing: -1,
             }}
           >
-            Seguridad integral
+            Todas las capas
           </div>
           <div
             style={{
@@ -62,7 +62,7 @@ export default function OpengraphImage() {
               color: "rgba(255,255,255,0.82)",
             }}
           >
-            conectada con IA.
+            Una sola traza.
           </div>
         </div>
 
@@ -76,11 +76,13 @@ export default function OpengraphImage() {
             color: "rgba(255,255,255,0.7)",
           }}
         >
-          <span>Video analítica</span>
+          <span>Vigilancia</span>
           <span>·</span>
-          <span>Alertas en tiempo real</span>
+          <span>Visión IA</span>
           <span>·</span>
-          <span>LATAM</span>
+          <span>IoT</span>
+          <span>·</span>
+          <span>Central</span>
         </div>
       </div>
     ),
