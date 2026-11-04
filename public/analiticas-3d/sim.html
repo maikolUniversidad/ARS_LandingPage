@@ -95,11 +95,11 @@ html,body{margin:0;height:100%;background:#DDE3EE;font-family:"Archivo","Helveti
   <div class="tiempo"><i></i></div>
   <span class="ayuda3d">Arrastre para girar</span>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/SkeletonUtils.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
+<script src="vendor/SkeletonUtils.js"></script>
+<script src="vendor/RoomEnvironment.js"></script>
 <script src="RGBELoader.js"></script>
 <script src="persona.js"></script>
 <script src="motor.js"></script>
@@ -118,9 +118,11 @@ html,body{margin:0;height:100%;background:#DDE3EE;font-family:"Archivo","Helveti
   // Protocolo con la página que embebe (postMessage, origen "*", solo datos sin secretos):
   //   padre → iframe  {tipo:"vigias-sim-ir", id, pip?, vista?}   cambia de analítica (y de vista "cctv"|"maqueta") SIN recargar el motor.
   //   padre → iframe  {tipo:"vigias-sim-t", t, play, rate?}  segundo del video real: la simulación lo sigue (t:null suelta el reloj).
-  //   iframe → padre  {tipo:"vigias-sim", id, listo|montado|fase+idx|error}
+  //   padre → iframe  {tipo:"vigias-sim-hola"}  el padre ya escucha: si el motor arrancó antes (p. ej. antes de hidratar) se repite {listo:true}.
+  //   padre → iframe  {tipo:"vigias-sim-pausa", pausa}  el iframe salió (true) o volvió (false) a la pantalla: se detiene/retoma el render.
+  //   iframe → padre  {tipo:"vigias-sim", id, listo|montado|fase+idx|error}   error: "sin-webgl" | "sin-escena" | "cuadro" (la escena falló dos veces)
   var q=new URLSearchParams(location.search),id=q.get("id")||"calor",sinPip=q.get("pip")==="0",vista=q.get("vista")==="cctv"?"cctv":"maqueta";
-  var reloj={t:null,play:false,rate:1,w:0};
+  var reloj={t:null,play:false,rate:1,w:0},pausaPadre=false;
   var raiz=document.getElementById("escena"),reposo=raiz.querySelector(".reposo");
   var ES=window.ESCENAS||[],porId={};ES.forEach(function(s){porId[s.id]=s});
   function avisar(m){try{if(parent&&parent!==window)parent.postMessage(Object.assign({tipo:"vigias-sim",id:id},m),"*")}catch(e){}}
@@ -134,6 +136,8 @@ html,body{margin:0;height:100%;background:#DDE3EE;font-family:"Archivo","Helveti
   function montar(){raiz.classList.toggle("sinpip",!!def.sinPip);MOTOR.vista=vista;MOTOR.montar(raiz,def);MOTOR.ponerVista(vista)}
   MOTOR.tExt=function(){if(reloj.t==null)return null;return reloj.play?reloj.t+(performance.now()-reloj.w)/1000*reloj.rate:reloj.t};
   window.addEventListener("message",function(ev){var d=ev.data;if(!d)return;
+    if(d.tipo==="vigias-sim-hola"){if(MOTOR.listo)avisar({listo:true});return}
+    if(d.tipo==="vigias-sim-pausa"){pausaPadre=!!d.pausa;aplicarPausa();return}
     if(d.tipo==="vigias-sim-t"){if(d.t==null||!isFinite(d.t)){reloj.t=null;return}reloj.t=+d.t;reloj.play=!!d.play;reloj.rate=+d.rate||1;reloj.w=performance.now();return}
     if(d.tipo!=="vigias-sim-ir")return;
     if(typeof d.pip==="boolean")sinPip=!d.pip;
@@ -141,8 +145,11 @@ html,body{margin:0;height:100%;background:#DDE3EE;font-family:"Archivo","Helveti
     if((d.id||id)===id&&!d.reiniciar&&MOTOR.listo)return;
     var nd=defDe(d.id||id);if(!nd){avisar({error:"sin-escena",pedido:String(d.id)});return}
     if(nd.id!==id)reloj.t=null;id=nd.id;def=nd;if(MOTOR.listo){montar();avisar({montado:true})}});
-  MOTOR.arrancar(function(){montar();avisar({listo:true});window.addEventListener("resize",function(){MOTOR.tamano()})});
-  document.addEventListener("visibilitychange",function(){if(document.hidden)MOTOR.detener();else if(MOTOR.listo)montar()});
+  // Pausa real del render (sin remontar): pestaña oculta o iframe fuera de pantalla (lo avisa el padre).
+  function aplicarPausa(){if(document.hidden||pausaPadre)MOTOR.pausar();else MOTOR.reanudar()}
+  MOTOR.onError=function(){reposo.textContent="La simulación 3D se detuvo. Recargue la página para intentarlo de nuevo.";raiz.classList.remove("viva");avisar({error:"cuadro"})};
+  MOTOR.arrancar(function(){montar();avisar({listo:true});aplicarPausa();window.addEventListener("resize",function(){MOTOR.tamano()})});
+  document.addEventListener("visibilitychange",aplicarPausa);
 })();
 </script>
 </body>

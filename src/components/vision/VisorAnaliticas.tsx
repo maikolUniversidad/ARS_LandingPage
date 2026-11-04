@@ -170,7 +170,9 @@ export function VisorAnaliticas({ actual, onElegir, textos }: Props) {
 
         {/* Lámina */}
         <article className="mt-3 border border-border/60 bg-card shadow-[0_40px_80px_-50px_rgba(0,12,40,0.9)]" aria-live="polite">
-          <ParejaSimVideo key={actual.id} actual={actual} textos={textos} onPaso={onPaso} />
+          {/* Sin `key`: el iframe 3D se crea UNA vez y cambia de analítica por postMessage (Sim3D).
+              El estado propio de la pareja (vista, reloj, paso) ya va marcado con el id de la analítica. */}
+          <ParejaSimVideo actual={actual} textos={textos} onPaso={onPaso} />
 
           {/* Qué hace + cómo se activa */}
           <div className="grid gap-8 border-t border-border/40 px-5 py-6 md:px-8 md:py-7 lg:grid-cols-[1.1fr_1fr] lg:gap-12">

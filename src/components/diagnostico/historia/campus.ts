@@ -21,6 +21,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import type { AreaId, Capitulo } from "@/data/diagnostico/tipos";
 import type { EscenaId } from "@/data/servicios/tipos";
 import { COLOR, Kit, arco, easeInOut, mulberry32, v3, type Flujo } from "../../servicios/escenas/_edificio-motor";
+import { createSafeRenderer, type SafeRenderer } from "@/lib/three/safe-renderer";
 import { avance, madurezCapitulo } from "./calculos";
 import { construirSilueta, crearMateriales, type MaterialesDistrito, type Silueta } from "./siluetas";
 
@@ -36,6 +37,8 @@ export type OpcionesCampus = {
   /** Distrito bajo el puntero (coordenadas de cliente) o null. */
   onHover?: (id: AreaId | null, x: number, y: number) => void;
   onSeleccion?: (id: AreaId, x: number, y: number) => void;
+  /** El contexto WebGL se perdió y no volvió: el componente muestra el respaldo. */
+  onFallo?: () => void;
 };
 
 export type InstanciaCampus = {
@@ -78,13 +81,22 @@ type Distrito = {
 };
 
 export function crearCampus(op: OpcionesCampus): InstanciaCampus {
+  const sr = createSafeRenderer({ canvas: op.canvas, lowPower: op.lowPower, onFatal: () => op.onFallo?.() });
+  if (!sr) throw new Error("WebGL no disponible");
+  try {
+    return montarCampus(op, sr);
+  } catch (e) {
+    // Si la construcción falla no se deja un contexto WebGL huérfano.
+    sr.dispose(true);
+    throw e;
+  }
+}
+
+function montarCampus(op: OpcionesCampus, sr: SafeRenderer): InstanciaCampus {
   const { canvas, lowPower, reducedMotion } = op;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !lowPower, alpha: false, powerPreference: "high-performance" });
-  const maxDpr = Math.min(window.devicePixelRatio || 1, lowPower ? 1.5 : 2);
-  let dpr = maxDpr;
-  renderer.setPixelRatio(dpr);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  const renderer = sr.renderer;
+  let dpr = sr.maxDpr;
   renderer.setClearColor(COLOR.deep, 1);
 
   const scene = new THREE.Scene();
@@ -544,17 +556,20 @@ export function crearCampus(op: OpcionesCampus): InstanciaCampus {
     cancelAnimationFrame(raf);
     raf = 0;
   };
-  const onPerdido = (e: Event) => {
-    e.preventDefault();
+  // Contexto perdido: se detiene el bucle; si vuelve se reanuda y si no, el helper
+  // avisa `onFallo` para pasar al respaldo estático.
+  sr.onLost = () => {
     perdido = true;
     parar();
   };
-  const onRecuperado = () => {
+  sr.onRestored = () => {
     perdido = false;
     if (activa) arrancar();
+    else {
+      actualizar(0);
+      renderer.render(scene, camera);
+    }
   };
-  canvas.addEventListener("webglcontextlost", onPerdido);
-  canvas.addEventListener("webglcontextrestored", onRecuperado);
 
   return {
     setCapitulo(c) {
@@ -595,8 +610,6 @@ export function crearCampus(op: OpcionesCampus): InstanciaCampus {
       canvas.removeEventListener("pointerup", onUp);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
-      canvas.removeEventListener("webglcontextlost", onPerdido);
-      canvas.removeEventListener("webglcontextrestored", onRecuperado);
       canvas.style.cursor = "";
       const mats = new Set<THREE.Material>();
       scene.traverse((o) => {
@@ -609,7 +622,7 @@ export function crearCampus(op: OpcionesCampus): InstanciaCampus {
       for (const m of mats) m.dispose();
       kit.disposeTexturas();
       instPapeles.dispose();
-      renderer.dispose();
+      sr.dispose();
     },
   };
 }

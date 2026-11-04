@@ -83,11 +83,12 @@ export default function HomeCanvas({
 
     let scene: UnifiedScene;
     try {
-      scene = new UnifiedScene(canvas, {
+      scene = UnifiedScene.create(canvas, {
         lowPower,
         reducedMotion,
         board: boardRef.current,
-        onContextLost: () => onFailRef.current(),
+        // El contexto se perdió y no volvió en ~3 s (si vuelve antes, la escena sigue sola).
+        onFatal: () => onFailRef.current(),
         onAnchors: (anchors) => {
           for (const id of ANCHOR_IDS) placeLabel(id, anchors[id]);
         },

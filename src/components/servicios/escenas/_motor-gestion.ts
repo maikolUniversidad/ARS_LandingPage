@@ -18,6 +18,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { createSafeRenderer, type SafeRenderer } from "@/lib/three/safe-renderer";
 import type { FabricaEscena, InstanciaEscena, OpcionesEscena } from "./contrato";
 
 // ───────────────────────── Paleta y utilidades ─────────────────────────
@@ -362,14 +363,23 @@ export function crearEscena(construir: (kit: Kit) => Construida, config: ConfigE
 }
 
 function motor(opciones: OpcionesEscena, construir: (kit: Kit) => Construida, config: ConfigEscena): InstanciaEscena {
+  const sr = createSafeRenderer({ canvas: opciones.canvas, lowPower: opciones.lowPower, onFatal: () => opciones.onFallo?.() });
+  if (!sr) throw new Error("WebGL no disponible");
+  try {
+    return montar(opciones, construir, config, sr);
+  } catch (e) {
+    // Si la construcción falla no se deja un contexto WebGL huérfano.
+    sr.dispose(true);
+    throw e;
+  }
+}
+
+function montar(opciones: OpcionesEscena, construir: (kit: Kit) => Construida, config: ConfigEscena, sr: SafeRenderer): InstanciaEscena {
   const { canvas, lowPower, reducedMotion } = opciones;
   const acento = new THREE.Color(opciones.acento);
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !lowPower, alpha: false, powerPreference: "high-performance" });
-  const maxDpr = Math.min(window.devicePixelRatio || 1, lowPower ? 1.5 : 2);
-  let dpr = maxDpr;
-  renderer.setPixelRatio(dpr);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  const renderer = sr.renderer;
+  let dpr = sr.maxDpr;
   renderer.setClearColor(PAL.fondo, 1);
 
   const scene = new THREE.Scene();
@@ -768,6 +778,8 @@ function motor(opciones: OpcionesEscena, construir: (kit: Kit) => Construida, co
 
   // ── Bucle ──
   let activa = true;
+  /** Contexto WebGL perdido: no se dibuja hasta que el navegador lo restaure. */
+  let perdido = false;
   let raf = 0;
   let last = performance.now();
   let t = reducedMotion ? (config.tiempoQuieto ?? 3) : 0;
@@ -872,16 +884,23 @@ function motor(opciones: OpcionesEscena, construir: (kit: Kit) => Construida, co
 
   const iniciar = () => {
     cancelAnimationFrame(raf);
+    if (perdido) return;
     last = performance.now();
     raf = requestAnimationFrame(loop);
   };
 
-  const onContextLost = (e: Event) => {
-    e.preventDefault();
-    activa = false;
+  // Contexto perdido: se detiene el bucle; si vuelve se reanuda y si no, el helper
+  // avisa `onFallo` para pasar al respaldo estático.
+  sr.onLost = () => {
+    perdido = true;
     cancelAnimationFrame(raf);
   };
-  canvas.addEventListener("webglcontextlost", onContextLost, false);
+  sr.onRestored = () => {
+    perdido = false;
+    sucio = true;
+    if (activa) iniciar();
+    else renderer.render(scene, camera);
+  };
 
   canvas.style.cursor = "grab";
   iniciar();
@@ -908,7 +927,7 @@ function motor(opciones: OpcionesEscena, construir: (kit: Kit) => Construida, co
         volar(foco ? escena.encuadres[foco] : escena.general, true);
       }
       sucio = true;
-      if (!activa) renderer.render(scene, camera);
+      if (!activa && !perdido) renderer.render(scene, camera);
     },
     setActiva(a) {
       if (a === activa) return;
@@ -926,7 +945,6 @@ function motor(opciones: OpcionesEscena, construir: (kit: Kit) => Construida, co
       canvas.removeEventListener("pointerup", onUp);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
-      canvas.removeEventListener("webglcontextlost", onContextLost, false);
       controls.removeEventListener("start", onStart);
       controls.removeEventListener("end", onEnd);
       controls.dispose();
@@ -946,14 +964,8 @@ function motor(opciones: OpcionesEscena, construir: (kit: Kit) => Construida, co
       texturas.forEach((tx) => tx.dispose());
       glow.dispose();
       ringTex.dispose();
-      const gl = renderer.getContext();
-      renderer.dispose();
-      // Si el canvas salió del DOM (desmontaje real) se libera el contexto ya, en vez de
-      // esperar al recolector (evita "Too many active WebGL contexts" al navegar entre
-      // áreas). Si el mismo canvas se reutiliza (cambio de escena), se deja vivo.
-      setTimeout(() => {
-        if (!canvas.isConnected) gl.getExtension("WEBGL_lose_context")?.loseContext();
-      }, 0);
+      // Libera el renderer y, si el canvas salió del DOM, también el contexto.
+      sr.dispose();
     },
   };
 }
