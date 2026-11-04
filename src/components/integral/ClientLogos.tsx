@@ -10,7 +10,8 @@ import { cn } from "@/lib/utils";
  * Aventura no tienen logo de uso libre → se dibujan como marca tipográfica.
  *
  * Cada logo trae proporciones y aire interno distintos, así que `alto` ajusta su
- * tamaño para que todos pesen parecido dentro de tarjetas idénticas. Dos filas
+ * tamaño para que todos pesen parecido. Van sin tarjeta, en monocromo claro
+ * (escala de grises + inversión, que conserva el contraste interno de cada logo). Dos filas
  * en sentidos opuestos, bordes difuminados, pausa al pasar el mouse y, con
  * «reducir movimiento», una sola fila estática que se puede desplazar.
  */
@@ -44,9 +45,8 @@ function Tarjeta({ c, oculta }: { c: Client; oculta?: boolean }) {
   return (
     <li
       aria-hidden={oculta || undefined}
-      className="group/logo relative mr-5 flex h-24 w-48 shrink-0 md:mr-6 items-center justify-center overflow-hidden rounded-2xl bg-white px-6 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)] ring-1 ring-white/10 transition-transform duration-300 hover:-translate-y-1 md:h-28 md:w-56"
+      className="group/logo relative mr-4 flex h-20 w-44 shrink-0 items-center justify-center px-4 md:mr-8 md:h-24 md:w-52"
     >
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#2348d4]/40 to-transparent opacity-0 transition-opacity duration-300 group-hover/logo:opacity-100" />
       {c.logo ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -55,10 +55,10 @@ function Tarjeta({ c, oculta }: { c: Client; oculta?: boolean }) {
           loading="lazy"
           decoding="async"
           draggable={false}
-          className={cn("w-auto max-w-[85%] object-contain grayscale-[25%] transition duration-300 group-hover/logo:grayscale-0", c.alto)}
+          className={cn("w-auto max-w-[90%] object-contain opacity-55 [filter:grayscale(1)_invert(1)_brightness(1.2)] transition-opacity duration-300 group-hover/logo:opacity-100", c.alto)}
         />
       ) : (
-        <span className="text-center font-heading text-lg font-extrabold uppercase leading-none tracking-[0.12em] text-[#0b1a3a]">
+        <span className="text-center font-heading text-lg font-extrabold uppercase leading-none tracking-[0.12em] text-white/55 transition-colors duration-300 group-hover/logo:text-white">
           {c.name}
         </span>
       )}
