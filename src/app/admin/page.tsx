@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useDataStore } from "@/lib/data-store";
 import {
@@ -14,7 +14,6 @@ import {
 } from "@/data/projects";
 import { colombiaDepartments, peruRegions } from "@/data/subdivisions";
 import {
-  allMunicipalities,
   municipalitiesByDept,
   type Municipality,
 } from "@/data/municipalities";
@@ -104,9 +103,14 @@ export default function AdminPage() {
     hydrated,
   } = store;
 
-  const [selectedCityId, setSelectedCityId] = useState<string | null>(
+  const [rawSelectedCityId, setSelectedCityId] = useState<string | null>(
     cities[0]?.id ?? null
   );
+  // Si la ciudad elegida ya no existe (borrada o depurada), caemos a la primera.
+  const selectedCityId =
+    rawSelectedCityId && cities.some((c) => c.id === rawSelectedCityId)
+      ? rawSelectedCityId
+      : cities[0]?.id ?? null;
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
   const [showJsonPanel, setShowJsonPanel] = useState(false);
   const [importText, setImportText] = useState("");
@@ -136,16 +140,13 @@ export default function AdminPage() {
     () => cities.filter((c) => c.id.startsWith("new-city-") || c.name === "Nueva ciudad").map((c) => c.id),
     [cities]
   );
-  // Run cleanup once on mount
+  // Run cleanup once, after hydration from localStorage
   const cleanupRef = useRef(false);
-  if (!cleanupRef.current && placeholderCityIds.length > 0 && hydrated) {
+  useEffect(() => {
+    if (cleanupRef.current || !hydrated || placeholderCityIds.length === 0) return;
     cleanupRef.current = true;
-    placeholderCityIds.forEach((id) => store.removeCity(id));
-    if (selectedCityId && placeholderCityIds.includes(selectedCityId)) {
-      const remaining = cities.filter((c) => !placeholderCityIds.includes(c.id));
-      setSelectedCityId(remaining[0]?.id ?? null);
-    }
-  }
+    placeholderCityIds.forEach((id) => removeCity(id));
+  }, [hydrated, placeholderCityIds, removeCity]);
 
   function handleAddMunicipality(m: Municipality) {
     // Generate a stable ID from the country + dept + name
@@ -459,13 +460,14 @@ export default function AdminPage() {
             />
           ) : (
             <CityEditor
+              key={selectedCity.id}
               city={selectedCity}
               cityProjects={cityProjects}
               onSave={(c) => upsertCity(c)}
               onDelete={() => {
                 if (confirm(`¿Eliminar "${selectedCity.name}" y sus ${cityProjects.length} proyectos?`)) {
                   removeCity(selectedCity.id);
-                  setSelectedCityId(cities[0]?.id ?? null);
+                  setSelectedCityId(null);
                 }
               }}
               onNewProject={handleNewProject}
@@ -510,9 +512,7 @@ function CityEditor({
   onDeleteProject: (id: string) => void;
 }) {
   const [draft, setDraft] = useState<City>(city);
-
-  // Re-sync draft when the selected city changes
-  useMemo(() => setDraft(city), [city.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  // El padre pasa key={city.id}: al cambiar de ciudad se remonta y el borrador se reinicia.
 
   const departments =
     draft.country === "CO"
@@ -634,7 +634,7 @@ function CityEditor({
 
         {cityProjects.length === 0 ? (
           <div className="mt-6 border border-dashed border-border/60 p-10 text-center font-mono text-[11px] uppercase tracking-[0.25em] text-foreground/40">
-            Sin proyectos en esta ciudad. Click en "Nuevo proyecto" para crear uno.
+            Sin proyectos en esta ciudad. Click en &quot;Nuevo proyecto&quot; para crear uno.
           </div>
         ) : (
           <ul className="mt-4 grid gap-2">
@@ -730,7 +730,7 @@ function ProjectForm({
   onClose: () => void;
 }) {
   const [draft, setDraft] = useState<Project>(project);
-  useMemo(() => setDraft(project), [project.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  // El padre pasa key={project.id}: al cambiar de proyecto se remonta y el borrador se reinicia.
 
   function toggleIntegration(tag: IntegrationTag) {
     setDraft((d) => ({
