@@ -9,6 +9,8 @@
  * para que el bloque del system prompt sea cacheable.
  */
 import { analiticas, familias } from "@/data/analiticas";
+import { AREAS, type EstadoModulo } from "@/data/servicios";
+import { FOCOS_ESCENA } from "@/components/servicios/escenas/contrato";
 import { DOCUMENTOS } from "./conocimiento.generated";
 import type { DocumentoKB, ResultadoAnalitica, RutaSitio } from "./tipos";
 
@@ -16,6 +18,31 @@ export type { AnclaSitio, DocumentoKB, ResultadoAnalitica, RutaSitio } from "./t
 export { DOCUMENTOS };
 
 const ANALITICAS_ANCLAS = analiticas.map((a) => a.id).join(", ");
+
+/** Anclas del hub /servicios (contrato con la página). */
+const ANCLAS_HUB_SERVICIOS = [
+  { id: "dia", descripcion: "Un día en ARS: el recorrido de una jornada por todas las áreas" },
+  { id: "areas", descripcion: "Las áreas de servicio de ARS (una tarjeta por área)" },
+  { id: "por-que", descripcion: "Por qué ARS: pilares transversales" },
+  { id: "buscar", descripcion: "Buscador de servicios y módulos" },
+  { id: "cierre", descripcion: "Solicitar demo / hablar con un asesor" },
+];
+
+/** /servicios y una ruta por área (anclas = ids de módulo), generadas desde el catálogo. */
+const RUTAS_SERVICIOS: RutaSitio[] = [
+  {
+    ruta: "/servicios",
+    titulo: "Servicios · El sistema operativo de una empresa de seguridad",
+    descripcion: `Catálogo completo de ARS: ${AREAS.length} áreas y ${AREAS.reduce((n, a) => n + a.modulos.length, 0)} módulos. Cada área tiene su página /servicios/<área> con escena 3D y un ancla por módulo.`,
+    anclas: ANCLAS_HUB_SERVICIOS,
+  },
+  ...AREAS.map((a) => ({
+    ruta: `/servicios/${a.id}`,
+    titulo: `${a.nombre} · Servicios ARS`,
+    descripcion: `${a.frase}. ${a.descripcion}`,
+    anclas: a.modulos.map((m) => ({ id: m.id, descripcion: m.nombre })),
+  })),
+];
 
 export const RUTAS_SITIO: RutaSitio[] = [
   {
@@ -92,7 +119,58 @@ export const RUTAS_SITIO: RutaSitio[] = [
       "Playground técnico: modelos, fuentes, reglas ROI/línea, eventos y JSON; IA real en el navegador o modo demo.",
     anclas: [],
   },
+  ...RUTAS_SERVICIOS,
 ];
+
+const ETIQUETA_ESTADO: Record<EstadoModulo, string> = {
+  vivo: "vivo",
+  piloto: "en piloto",
+  proximamente: "próximamente",
+  "hoja-de-ruta": "hoja de ruta",
+};
+
+const unaLinea = (t: string, max = 220) => {
+  const limpio = t.replace(/\s+/g, " ").trim();
+  return limpio.length > max ? `${limpio.slice(0, max - 1)}…` : limpio;
+};
+
+/**
+ * Catálogo compacto de servicios (áreas + módulos) para el system prompt.
+ * Determinista: depende solo de AREAS.
+ */
+export function catalogoServicios(): string {
+  const lineas: string[] = [
+    "Formato por módulo: id · nombre · estado (nota) · foco 3D — frase. Resumen. Innovación. Funciones. Roles. Canales. Palabras clave.",
+    "Para mostrarlo: mostrar_servicio { area, modulo } (lleva a /servicios/<área>#<módulo> y vuela la escena 3D a su foco).",
+  ];
+  for (const a of AREAS) {
+    const focos = FOCOS_ESCENA[a.escena] ?? {};
+    lineas.push(
+      "",
+      `## ${a.letra} · ${a.nombre} — área «${a.id}» (/servicios/${a.id}), escena 3D «${a.escena}»`,
+      `${a.frase}. ${unaLinea(a.descripcion, 300)}`,
+      `Esencia: ${unaLinea(a.esencia, 300)}`,
+    );
+    for (const m of a.modulos) {
+      const estado = `${ETIQUETA_ESTADO[m.estado]}${m.notaEstado ? ` (${unaLinea(m.notaEstado, 120)})` : ""}`;
+      const foco = focos[m.foco] ? `${m.foco} = ${focos[m.foco]}` : m.foco;
+      const funciones = m.funciones
+        .map((f) => `${f.titulo}${f.nuevo ? " [nuevo]" : ""}: ${unaLinea(f.detalle, 140)}`)
+        .join("; ");
+      const filas = [
+        `- ${m.id} · ${m.nombre} · ${estado} · foco ${foco} — ${unaLinea(m.frase, 160)}`,
+        `  Resumen: ${unaLinea(m.resumen, 400)}`,
+        `  Innovación: ${unaLinea(m.innovacion, 240)}`,
+        funciones ? `  Funciones: ${funciones}` : "",
+        m.roles.length ? `  Roles: ${m.roles.join(", ")}` : "",
+        m.canales.length ? `  Canales: ${m.canales.join(", ")}` : "",
+        m.palabrasClave.length ? `  Palabras clave: ${m.palabrasClave.join(", ")}` : "",
+      ];
+      lineas.push(...filas.filter(Boolean));
+    }
+  }
+  return lineas.join("\n");
+}
 
 /** Listado compacto de las analíticas, agrupado por familia. Determinista. */
 export function catalogoAnaliticas(): string {
@@ -127,6 +205,7 @@ export function construirBaseConocimiento(): string {
   if (cache === null) {
     const partes = DOCUMENTOS.map(documentoATexto);
     partes.push(`# Catálogo de analíticas de video (/vision)\n\n${catalogoAnaliticas()}`);
+    partes.push(`# Catálogo de servicios de ARS (/servicios)\n\n${catalogoServicios()}`);
     cache = partes.join("\n\n---\n\n");
   }
   return cache;

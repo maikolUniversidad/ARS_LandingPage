@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight, ChevronDown, FileText, ScanEye } from "lucide-react";
+import { ArrowUpRight, Boxes, ChevronDown, FileText, ScanEye } from "lucide-react";
 import { useTextosAsistente } from "@/lib/asistente/i18n";
 import type { Accion, Cita, Tarjeta } from "@/lib/asistente/tipos";
 import { FormularioContacto } from "./FormularioContacto";
@@ -14,7 +14,69 @@ type Props = {
 };
 
 const clave = (x: Tarjeta) =>
-  x.tipo === "analitica" ? `a:${x.id}` : x.tipo === "enlace" ? `e:${x.ruta}#${x.ancla ?? ""}` : x.tipo;
+  x.tipo === "analitica"
+    ? `a:${x.id}`
+    : x.tipo === "enlace"
+      ? `e:${x.ruta}#${x.ancla ?? ""}`
+      : x.tipo === "servicio"
+        ? `s:${x.modulo}`
+        : x.tipo;
+
+type TarjetaDeServicio = Extract<Tarjeta, { tipo: "servicio" }>;
+
+/** Color del rótulo de estado (vivo / piloto / próximamente / hoja de ruta). */
+const ESTILO_ESTADO: Record<TarjetaDeServicio["estado"], string> = {
+  vivo: "border-emerald-400/40 bg-emerald-400/10 text-emerald-200",
+  piloto: "border-amber-300/40 bg-amber-300/10 text-amber-100",
+  proximamente: "border-sky-300/40 bg-sky-300/10 text-sky-100",
+  "hoja-de-ruta": "border-white/20 bg-white/5 text-foreground/70",
+};
+
+/** Módulo del catálogo de servicios: color del área, estado y primera captura. Al tocarla lo muestra en 3D. */
+function TarjetaServicio({ tarjeta: x, ejecutar }: { tarjeta: TarjetaDeServicio; ejecutar: (a: Accion) => void }) {
+  const { t } = useTextosAsistente();
+  return (
+    <button
+      type="button"
+      onClick={() => ejecutar({ tipo: "mostrar_servicio", area: x.area, modulo: x.modulo, foco: x.foco })}
+      style={{ "--acento": x.color } as React.CSSProperties}
+      className="group relative flex w-full items-stretch gap-3 overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-[#142664]/60 to-[#020a18]/70 p-3 text-left transition-colors hover:border-[var(--acento)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--acento)]"
+    >
+      <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-[var(--acento)]" />
+      {x.imagen ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={x.imagen.src}
+          alt={x.imagen.alt}
+          loading="lazy"
+          className="h-16 w-24 shrink-0 rounded-lg border border-white/10 object-cover"
+        />
+      ) : (
+        <span className="grid h-16 w-10 shrink-0 place-items-center rounded-lg bg-[var(--acento)]/15 text-[var(--acento)]">
+          <Boxes className="size-4" aria-hidden="true" />
+        </span>
+      )}
+      <span className="min-w-0 flex-1">
+        <span className="flex flex-wrap items-center gap-1.5">
+          <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-[var(--acento)]">
+            {t("asistente.tarjeta.servicio")} · {x.nombreArea}
+          </span>
+          <span
+            title={x.notaEstado}
+            className={`rounded-full border px-1.5 py-px font-mono text-[9px] uppercase tracking-[0.15em] ${ESTILO_ESTADO[x.estado]}`}
+          >
+            {t(`asistente.estado.${x.estado}`)}
+          </span>
+        </span>
+        <span className="mt-0.5 block text-sm font-bold text-foreground">{x.nombre}</span>
+        <span className="mt-0.5 line-clamp-2 block text-xs text-foreground/60">{x.frase}</span>
+      </span>
+      <span className="self-center font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--acento)] group-hover:text-white">
+        {t("asistente.tarjeta.ver")} →
+      </span>
+    </button>
+  );
+}
 
 /** Tarjetas enriquecidas bajo un mensaje: analíticas, enlaces, contacto y respuestas rápidas. */
 export function Tarjetas({ tarjetas, ejecutar, alEnviar }: Props) {
@@ -59,6 +121,8 @@ export function Tarjetas({ tarjetas, ejecutar, alEnviar }: Props) {
                     {t("asistente.tarjeta.ver")} →
                   </span>
                 </button>
+              ) : x.tipo === "servicio" ? (
+                <TarjetaServicio tarjeta={x} ejecutar={ejecutar} />
               ) : x.tipo === "enlace" ? (
                 <button
                   type="button"

@@ -4,11 +4,13 @@
  * Las claves solo se leen aquí (nunca NEXT_PUBLIC_*).
  */
 import { analiticas } from "@/data/analiticas";
+import { areaPorId, moduloPorId } from "@/data/servicios";
 import {
   CLAVES_PERFIL,
   LIMITES,
   TIPOS_IMAGEN,
   type ClavePerfil,
+  type ContextoServicio,
   type DocumentoAdjunto,
   type EstadoServicios,
   type PasoRecorrido,
@@ -131,6 +133,17 @@ function recorridoValido(v: unknown): PasoRecorrido[] | undefined {
   return out.filter((p) => p.ruta).length ? out.filter((p) => p.ruta) : undefined;
 }
 
+function servicioValido(v: unknown): ContextoServicio | null {
+  if (!v || typeof v !== "object") return null;
+  const o = v as Record<string, unknown>;
+  const area = s(o.area, 80);
+  if (!areaPorId(area)) return null;
+  const mod = s(o.modulo, 80);
+  const modulo = mod && moduloPorId(mod)?.area.id === area ? mod : undefined;
+  const titulo = s(o.titulo, 160).trim() || undefined;
+  return { area, modulo, titulo, pregunta: o.pregunta === true || undefined };
+}
+
 export type ErrorValidacion = { codigo: "invalido" | "muy_grande"; mensaje: string };
 
 export function validarPeticion(raw: unknown): PeticionChat | ErrorValidacion {
@@ -161,6 +174,7 @@ export function validarPeticion(raw: unknown): PeticionChat | ErrorValidacion {
     tituloDocumento: s(c.tituloDocumento, 200),
     seccion: sec ? { id: s(sec.id, 80), titulo: s(sec.titulo, 200) } : null,
     analitica: an && ids.has(anId) ? { id: anId, nombre: s(an.nombre, 160) } : null,
+    servicio: servicioValido(c.servicio),
     idioma: c.idioma === "en" ? "en" : "es",
     perfil: perfilValido(c.perfil),
     recorrido: recorridoValido(c.recorrido),

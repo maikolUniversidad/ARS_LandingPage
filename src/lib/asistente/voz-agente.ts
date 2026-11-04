@@ -31,6 +31,9 @@ export function describirContexto(c: ContextoPagina): string {
     `La persona está en ${c.ruta}${c.ancla ? `#${c.ancla}` : ""} (${c.tituloDocumento}).`,
     c.seccion ? `Sección visible: ${c.seccion.titulo || c.seccion.id}.` : "",
     c.analitica ? `Tiene abierta la analítica ${c.analitica.nombre} (id ${c.analitica.id}).` : "",
+    c.servicio
+      ? `Está en el área de servicios ${c.servicio.area}${c.servicio.modulo ? `, viendo el módulo ${c.servicio.titulo || c.servicio.modulo} (id ${c.servicio.modulo})` : ""}.`
+      : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -93,6 +96,12 @@ ${historialResumen.slice(0, 1500) || "(sin conversación previa)"}`,
         abrir_contacto: (p: Record<string, unknown>) => {
           ev.onAccion({ tipo: "abrir_contacto", motivo: s(p.motivo) || undefined });
           return ok("Listo, el formulario de contacto está abierto en el chat.");
+        },
+        mostrar_servicio: (p: Record<string, unknown>) => {
+          const area = s(p.area);
+          if (!area) return ok("Falta el área.");
+          ev.onAccion({ tipo: "mostrar_servicio", area, modulo: s(p.modulo) || undefined, foco: s(p.foco) || undefined });
+          return ok(`Listo, la persona ya ve /servicios/${area}${s(p.modulo) ? `#${s(p.modulo)}` : ""} con su escena 3D enfocada.`);
         },
         resaltar: (p: Record<string, unknown>) => {
           ev.onAccion({ tipo: "resaltar", ancla: s(p.ancla), nota: s(p.nota) || undefined });

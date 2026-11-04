@@ -10,9 +10,12 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { analiticas, familias } from "@/data/analiticas";
 import { RUTAS_SITIO, buscarAnalitica } from "@/data/asistente";
+import { AREAS, areaPorId, buscarModulos, moduloPorId, type Area, type Modulo } from "@/data/servicios";
+import { FOCOS_ESCENA } from "@/components/servicios/escenas/contrato";
 import { CLAVES_PERFIL, type Accion, type ClavePerfil, type Tarjeta } from "./tipos";
 
 export const RUTAS_VALIDAS = RUTAS_SITIO.map((r) => r.ruta);
+export const AREAS_VALIDAS = AREAS.map((a) => a.id);
 
 const porId = new Map(analiticas.map((a) => [a.id, a]));
 const nombreFamilia = new Map(familias.map((f) => [f.id, f.nombre]));
@@ -76,11 +79,16 @@ export const HERRAMIENTAS: Anthropic.Beta.BetaTool[] = [
   {
     name: "recomendar",
     description:
-      "Muestra tarjetas con enlaces (analíticas y/o páginas) debajo de tu respuesta SIN navegar. Úsala para sugerir 1 a 4 lugares relevantes.",
+      "Muestra tarjetas con enlaces (analíticas, módulos de servicio y/o páginas) debajo de tu respuesta SIN navegar. Úsala para sugerir 1 a 4 lugares relevantes.",
     input_schema: {
       type: "object",
       properties: {
         analiticas: { type: "array", items: { type: "string" }, description: "Ids de analíticas a sugerir." },
+        servicios: {
+          type: "array",
+          items: { type: "string" },
+          description: "Ids de módulos del catálogo de servicios (p. ej. 'vision-artificial'). Cada tarjeta lleva a su área y lo muestra en 3D.",
+        },
         paginas: {
           type: "array",
           items: {
@@ -154,6 +162,36 @@ export const HERRAMIENTAS: Anthropic.Beta.BetaTool[] = [
       additionalProperties: false,
     },
   },
+  // ── Servicios (/servicios). Van al final para no invalidar la caché de las anteriores. ──
+  {
+    name: "mostrar_servicio",
+    description:
+      "MUESTRA un servicio de ARS: lleva a la persona a /servicios/<area> (y al módulo, si lo das), vuela la escena 3D del área a su foco y resalta el módulo. Úsala SIEMPRE que la persona pregunte por un servicio, área o módulo (p. ej. reconocimiento facial, nómina, edificio inteligente, ZKTeco, radio, rondas), y en cada paso de un recorrido guiado. Usa ids exactos del catálogo de servicios; si dudas, usa buscar_servicios.",
+    input_schema: {
+      type: "object",
+      properties: {
+        area: { type: "string", enum: AREAS_VALIDAS, description: "Id del área (slug de /servicios/<area>)." },
+        modulo: { type: "string", description: "Id del módulo dentro del área (ancla de la sección)." },
+        foco: {
+          type: "string",
+          description: "Clave de foco de la escena 3D del área, solo si quieres un encuadre distinto al del módulo.",
+        },
+      },
+      required: ["area"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "buscar_servicios",
+    description:
+      "Busca en el catálogo de servicios de ARS (áreas y módulos) por palabras clave (p. ej. 'facial', 'nómina', 'pánico', 'ZKTeco'). Devuelve hasta 6 módulos con área, id, nombre, frase y estado.",
+    input_schema: {
+      type: "object",
+      properties: { consulta: { type: "string" } },
+      required: ["consulta"],
+      additionalProperties: false,
+    },
+  },
 ];
 
 export type ResultadoHerramienta = {
@@ -204,6 +242,49 @@ function tarjetaRuta(ruta: string, ancla?: string): Tarjeta | null {
     titulo: a ? limpio(a.descripcion) : r.titulo,
     descripcion: a ? r.titulo : resumen(r.descripcion),
   };
+}
+
+function tarjetaServicio(area: Area, modulo: Modulo): Tarjeta {
+  const captura = modulo.capturas[0];
+  return {
+    tipo: "servicio",
+    area: area.id,
+    nombreArea: area.nombre,
+    modulo: modulo.id,
+    nombre: modulo.nombre,
+    frase: modulo.frase,
+    estado: modulo.estado,
+    notaEstado: modulo.notaEstado,
+    color: area.color,
+    foco: modulo.foco,
+    imagen: captura ? { src: captura.src, alt: captura.alt } : undefined,
+  };
+}
+
+const ESTADO_TEXTO: Record<Modulo["estado"], string> = {
+  vivo: "vivo",
+  piloto: "en piloto",
+  proximamente: "próximamente",
+  "hoja-de-ruta": "hoja de ruta",
+};
+
+/** Resuelve área + módulo + foco de una llamada a mostrar_servicio (tolerante). */
+export function resolverServicio(
+  areaId: string | undefined,
+  moduloId: string | undefined,
+  focoPedido: string | undefined,
+): { area: Area; modulo?: Modulo; foco?: string } | { error: string } {
+  const delModulo = moduloId ? moduloPorId(moduloId) : undefined;
+  if (moduloId && !delModulo) {
+    const sug = buscarModulos(moduloId.replace(/-/g, " "), 3).map((x) => `${x.area.id}/${x.modulo.id}`);
+    return { error: `No existe el módulo "${moduloId}".${sug.length ? ` Quizá: ${sug.join(", ")}` : ""}` };
+  }
+  // Si el módulo es de otra área, manda el módulo.
+  const area = delModulo?.area ?? (areaId ? areaPorId(areaId) : undefined);
+  if (!area) return { error: `Área inválida. Áreas válidas: ${AREAS_VALIDAS.join(", ")}` };
+  const focos = FOCOS_ESCENA[area.escena] ?? {};
+  const foco = focoPedido && focos[focoPedido] ? focoPedido : delModulo?.modulo.foco;
+  return { area, modulo: delModulo?.modulo, foco: foco && focos[foco] ? foco : undefined };
 }
 
 const error = (resultado: string): ResultadoHerramienta => ({ resultado, esError: true, acciones: [], tarjetas: [] });
@@ -264,6 +345,11 @@ export function ejecutarHerramienta(nombre: string, entrada: unknown): Resultado
         const t = typeof id === "string" ? tarjetaAnalitica(id) : null;
         if (t) tarjetas.push(t);
       }
+      const servicios = Array.isArray(e.servicios) ? e.servicios : [];
+      for (const id of servicios.slice(0, 4)) {
+        const m = typeof id === "string" ? moduloPorId(id) : undefined;
+        if (m) tarjetas.push(tarjetaServicio(m.area, m.modulo));
+      }
       const paginas = Array.isArray(e.paginas) ? e.paginas : [];
       for (const p of paginas.slice(0, 4)) {
         const po = obj(p);
@@ -314,6 +400,38 @@ export function ejecutarHerramienta(nombre: string, entrada: unknown): Resultado
       const r = buscarAnalitica(q);
       return {
         resultado: r.length ? JSON.stringify(r) : "Sin coincidencias. Revisa el catálogo del system prompt.",
+        esError: false,
+        acciones: [],
+        tarjetas: [],
+      };
+    }
+    case "mostrar_servicio": {
+      const r = resolverServicio(str(e.area, 80), str(e.modulo, 80)?.replace(/^#/, ""), str(e.foco, 60));
+      if ("error" in r) return error(r.error);
+      const { area, modulo, foco } = r;
+      const focoTxt = foco ? (FOCOS_ESCENA[area.escena]?.[foco] ?? foco) : "vista general del área";
+      return {
+        resultado: modulo
+          ? `Listo: la persona ya ve /servicios/${area.id}#${modulo.id} («${modulo.nombre}», estado: ${ESTADO_TEXTO[modulo.estado]}${modulo.notaEstado ? ` — ${modulo.notaEstado}` : ""}). La escena 3D «${area.escena}» está enfocada en: ${focoTxt}. Narra lo que muestra la escena y explica el módulo.`
+          : `Listo: la persona ya ve /servicios/${area.id} («${area.nombre}»). La escena 3D «${area.escena}» muestra: ${focoTxt}.`,
+        esError: false,
+        acciones: [{ tipo: "mostrar_servicio", area: area.id, modulo: modulo?.id, foco }],
+        tarjetas: modulo ? [tarjetaServicio(area, modulo)] : [],
+      };
+    }
+    case "buscar_servicios": {
+      const q = str(e.consulta, 120);
+      if (!q) return error("Falta la consulta.");
+      const r = buscarModulos(q, 6).map(({ area, modulo }) => ({
+        area: area.id,
+        id: modulo.id,
+        nombre: modulo.nombre,
+        frase: modulo.frase,
+        estado: modulo.estado,
+        ...(modulo.notaEstado ? { notaEstado: modulo.notaEstado } : {}),
+      }));
+      return {
+        resultado: r.length ? JSON.stringify(r) : "Sin coincidencias. Revisa el catálogo de servicios del system prompt.",
         esError: false,
         acciones: [],
         tarjetas: [],

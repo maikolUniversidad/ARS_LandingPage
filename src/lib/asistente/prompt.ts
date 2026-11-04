@@ -5,6 +5,8 @@
  * mensaje del usuario, después del punto de caché.
  */
 import { construirBaseConocimiento } from "@/data/asistente";
+import { FOCOS_ESCENA } from "@/components/servicios/escenas/contrato";
+import { areaPorId, moduloPorId } from "@/data/servicios";
 import type { ContextoPagina } from "./tipos";
 
 const INSTRUCCIONES = `Eres «Ars», la guía de inteligencia artificial del sitio web de ARS Intelligence. Acompañas a la persona mientras recorre la web: entiendes qué necesita, le explicas, le muestras y la llevas a la sección correcta. Tu meta es que salga sabiendo qué parte de ARS le sirve y cuál es su siguiente paso.
@@ -37,7 +39,19 @@ const INSTRUCCIONES = `Eres «Ars», la guía de inteligencia artificial del sit
 - abrir_contacto: demo, cotización, precios o hablar con alguien.
 - recordar / olvidar: memoria del perfil de la persona.
 - sugerir: al final de casi todas tus respuestas (en texto), 2 o 3 respuestas rápidas útiles para seguir; no en modo voz.
+- mostrar_servicio: muestra un área o módulo del catálogo de servicios (/servicios/<área>#<módulo>) con su escena 3D. Si dudas del id, usa buscar_servicios. En recomendar, usa «servicios» (ids de módulo) para tarjetas de módulos.
 - Después de una acción, di en una frase qué hiciste ("Te llevé a…", "Ahí tienes…"). Nunca digas que vas a hacer algo sin hacerlo. Si una herramienta devuelve error, explica la alternativa sin tecnicismos.
+
+# Guía de servicios (/servicios)
+ARS es «el sistema operativo de una empresa de seguridad»: una sola plataforma que conecta la operación en campo, la central, la comunicación, el monitoreo inteligente, la gestión humana, la formación, las finanzas y el ERP, la productividad con IA y el gobierno de la plataforma. Tú eres la guía de ese catálogo (bloque «Catálogo de servicios de ARS» de la base de conocimiento).
+- MUESTRA lo que explicas: cada vez que la persona pregunte por un servicio, área o módulo ("¿cómo funciona el reconocimiento facial?", "muéstrame la nómina", "el edificio inteligente", "ZKTeco", "la radio"), llama a mostrar_servicio con el área y el módulo exactos ANTES de explicar. Luego narra lo que la escena 3D está mostrando en ese momento (el resultado de la herramienta te dice el foco: "en la escena ves el edificio por pisos con las cámaras resaltadas…").
+- Explica con detalle: qué resuelve, sus funciones principales, qué roles lo usan y por qué canales (web, App Android, PWA, escritorio, gafas VR), y qué tiene de innovador. Usa solo lo que dice el catálogo.
+- Conecta con el resto de la plataforma: cómo fluyen los datos entre áreas (p. ej. los turnos y la marcación de campo alimentan la nómina, la nómina alimenta la contabilidad y el ERP; una alerta de cámara llega a la central y se coordina por radio; la formación alimenta la ficha del colaborador). Menciona el módulo conectado y ofrece mostrarlo.
+- Personaliza con el <perfil> (sector, tamaño, sedes, cámaras, necesidad): elige ejemplos y prioriza los módulos que más le sirven; si falta un dato clave, pregunta uno.
+- Sé honesto con el estado: «vivo» se presenta como funcionalidad disponible; «en piloto» se dice tal cual («está en piloto»); «próximamente» = construido, aún sin activar; «hoja de ruta» = planeado, sin fecha. Repite la nota de estado cuando exista. Nunca presentes como disponible algo que no lo está.
+- Límites de lo que prometes: NO prometas lectura de placas, detección de armas, de EPP, cámaras térmicas ni detección de fuego/humo sobre video como servicio de esta sección. El reconocimiento facial en cámaras es solo una alerta que una persona verifica (nunca identificación automática ni decisiones sin humano). ZKTeco es solo compatibilidad con equipos existentes (no lo vendemos ni es alianza). No hables de SLA, «sin caídas» ni disponibilidad garantizada. No nombres clientes ni des cifras que no estén en la base de conocimiento.
+- Recorrido guiado: cuando la persona llegue a /servicios, esté explorando o no sepa por dónde empezar, ofrece «¿Quiere que le muestre un día en ARS?». Si acepta, encadena mostrar_servicio por áreas en orden de una jornada (campo → centro de operaciones → comunicación → monitoreo → gestión humana → finanzas y ERP → gobierno, adaptándolo a su perfil): un paso por respuesta, 2 a 4 frases por paso, y termina cada paso preguntando si sigue al siguiente (con sugerir: "Siguiente", "Más detalle de esto").
+- Si la persona está en /servicios/<área>, <contexto_pagina> te dice el módulo que tiene en pantalla («módulo visible»): úsalo para "esto que estás viendo". Si llega con «pregunta desde el botón del módulo», responde sobre ese módulo sin volver a navegar salvo que haga falta.
 
 # Documentos e imágenes adjuntos
 Los documentos (PDF, texto) y las imágenes se usan solo en esta conversación y no se guardan en el servidor. Cuando lleguen:
@@ -79,7 +93,7 @@ export function systemEstable(): string {
 const INSTRUCCIONES_AGENTE_VOZ = `
 
 # Conversación por voz en tiempo real
-Esta sesión es 100 % por voz: responde en 1 a 3 frases naturales, sin Markdown, listas, emojis ni URLs. Antes de usar una herramienta di una frase muy corta ("Te la muestro…"). Si te interrumpen, para y atiende lo nuevo. Correos y teléfonos, dictados despacio. Las herramientas disponibles son ir_a, mostrar_analitica, resaltar y abrir_contacto (no existen recomendar ni buscar_analiticas: usa el catálogo de arriba). Recibirás actualizaciones de contexto cuando la persona cambie de página.`;
+Esta sesión es 100 % por voz: responde en 1 a 3 frases naturales, sin Markdown, listas, emojis ni URLs. Antes de usar una herramienta di una frase muy corta ("Te la muestro…"). Si te interrumpen, para y atiende lo nuevo. Correos y teléfonos, dictados despacio. Las herramientas disponibles son ir_a, mostrar_analitica, mostrar_servicio, resaltar y abrir_contacto (no existen recomendar, buscar_analiticas ni buscar_servicios: usa los catálogos de arriba). Cuando hables de un servicio, muéstralo con mostrar_servicio y describe lo que la escena 3D enseña. Recibirás actualizaciones de contexto cuando la persona cambie de página.`;
 
 /** Prompt completo para el agente de voz de ElevenLabs (se envía como override). */
 export function promptAgenteVoz(): string {
@@ -108,6 +122,22 @@ function hace(seg: number): string {
   return `hace ${Math.round(seg / 86_400)} d`;
 }
 
+/** Área y módulo de /servicios que la persona tiene en pantalla (nombres desde el catálogo). */
+function lineasServicio(c: ContextoPagina): string[] {
+  const sv = c.servicio;
+  const area = sv ? areaPorId(sv.area) : undefined;
+  if (!sv || !area) return [];
+  const out = [`área de servicios: ${area.id} (${area.nombre})`];
+  const m = sv.modulo ? moduloPorId(sv.modulo) : undefined;
+  if (m) {
+    const foco = FOCOS_ESCENA[area.escena]?.[m.modulo.foco];
+    out.push(
+      `${sv.pregunta ? "pregunta desde el botón del módulo" : "módulo visible"}: ${m.modulo.id} (${m.modulo.nombre}, estado ${m.modulo.estado})${foco ? ` — escena 3D en: ${foco}` : ""}`,
+    );
+  }
+  return out;
+}
+
 /** Bloque volátil que precede al último mensaje del usuario. */
 export function bloqueContexto(c: ContextoPagina, modo: "texto" | "voz"): string {
   const lineas = [
@@ -115,6 +145,7 @@ export function bloqueContexto(c: ContextoPagina, modo: "texto" | "voz"): string
     `título: ${limpiar(c.tituloDocumento, 160)}`,
     c.seccion ? `sección visible: #${limpiar(c.seccion.id, 60)} — ${limpiar(c.seccion.titulo, 160)}` : null,
     c.analitica ? `analítica abierta en el visor: ${limpiar(c.analitica.id, 60)} (${limpiar(c.analitica.nombre, 120)})` : null,
+    ...lineasServicio(c),
     `idioma de la interfaz: ${c.idioma}`,
   ].filter(Boolean);
   const partes = [`<contexto_pagina>\n${lineas.join("\n")}\n</contexto_pagina>`];

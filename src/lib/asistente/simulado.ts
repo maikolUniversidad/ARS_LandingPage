@@ -4,6 +4,7 @@
  * tarjetas para probar la UI sin gastar ni tener claves. Nunca en producción.
  */
 import { buscarAnalitica } from "@/data/asistente";
+import { AREAS, buscarModulos, type Area, type Modulo } from "@/data/servicios";
 import { ejecutarHerramienta } from "./herramientas";
 import type { EventoStream, PeticionChat } from "./tipos";
 
@@ -12,6 +13,26 @@ export function demoActivo(): boolean {
 }
 
 const norm = (s: string) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+
+/** Palabras de relleno que no ayudan a encontrar un módulo. */
+const RELLENO = new Set(
+  "muestrame ensename mostrar muestra ver quiero como funciona funcionan explicame cuentame que es el la los las un una unos unas de del al en con por para y o me mi su sus servicio servicios modulo modulos area sobre esto ese esa"
+    .split(" "),
+);
+
+/** Módulo del catálogo de servicios que la persona pide, si la coincidencia es clara. */
+function servicioPedido(q: string): { area: Area; modulo: Modulo } | undefined {
+  const terminos = q
+    .replace(/[^a-z0-9\s-]/g, " ")
+    .split(/\s+/)
+    .filter((t) => t.length > 2 && !RELLENO.has(t));
+  if (!terminos.length) return undefined;
+  const hit = buscarModulos(terminos.join(" "), 1)[0];
+  if (!hit) return undefined;
+  // Exige que algún término esté en el nombre, el id o las palabras clave (no solo en el resumen).
+  const fuerte = norm([hit.modulo.nombre, hit.modulo.id, ...hit.modulo.palabrasClave].join(" "));
+  return terminos.some((t) => fuerte.includes(t)) ? hit : undefined;
+}
 
 type Paso = { nombre: string; entrada: unknown };
 type Guion = { texto: string; herramienta?: Paso; extra?: Paso[]; despues?: string; cita?: { documento: string; texto: string } };
@@ -65,6 +86,25 @@ function guion(p: PeticionChat): Guion {
     if (/tiendas|retail/.test(q)) extra.push({ nombre: "recordar", entrada: { clave: "sector", valor: "retail" } });
     extra.push({ nombre: "sugerir", entrada: { opciones: ["Muéstrame la analítica de filas", "¿Cómo controlo el hurto?"] } });
     return { texto: "Anotado. Con eso te recomiendo empezar por filas, aforo y hurto, y la central de monitoreo para ver todas las sedes.", extra, herramienta: { nombre: "recomendar", entrada: { analiticas: ["filas", "aforo", "hurto"] } } };
+  }
+  if (/dia en ars|recorrido guiado|tour/.test(q) && AREAS.length) {
+    const area = AREAS[0];
+    return {
+      texto: `Empecemos el día en ARS por **${area.nombre}**: ${area.frase}.`,
+      herramienta: { nombre: "mostrar_servicio", entrada: { area: area.id, modulo: area.modulos[0]?.id } },
+      despues: "(Modo demo: con ANTHROPIC_API_KEY te llevaría área por área narrando la escena 3D.)",
+      extra: [{ nombre: "sugerir", entrada: { opciones: ["Siguiente", "Más detalle de esto"] } }],
+    };
+  }
+  const servicio = /analitica/.test(q) ? undefined : servicioPedido(q);
+  if (servicio) {
+    const { area, modulo } = servicio;
+    return {
+      texto: `Claro, te muestro **${modulo.nombre}** (${area.nombre}).`,
+      herramienta: { nombre: "mostrar_servicio", entrada: { area: area.id, modulo: modulo.id } },
+      despues: `${modulo.frase}. ${modulo.resumen}${modulo.estado === "vivo" ? "" : ` (Estado: ${modulo.estado}${modulo.notaEstado ? ` — ${modulo.notaEstado}` : ""}.)`}`,
+      extra: [{ nombre: "sugerir", entrada: { opciones: ["¿Cómo se conecta con lo demás?", "Muéstrame un día en ARS", "Quiero una demo"] } }],
+    };
   }
   if (/esta pagina|estoy viendo|what am i/.test(q)) {
     return { texto: `Estás en ${p.contexto.ruta}${p.contexto.analitica ? `, con la analítica «${p.contexto.analitica.nombre}» abierta` : ""}. Lo que ves ahora: ${pagina}.` };

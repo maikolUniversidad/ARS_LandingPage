@@ -58,7 +58,7 @@ Precios, planes, licencias y condiciones contractuales no están publicados en e
     id: "mapa-del-sitio",
     titulo: "Mapa del sitio y a dónde llevar al visitante",
     orden: 10,
-    rutas: ["/","/plataforma","/vision","/proyectos","/laboratorio","/vision-lab"],
+    rutas: ["/","/plataforma","/vision","/servicios","/proyectos","/laboratorio","/vision-lab"],
     contenido: `Usa siempre rutas relativas del sitio (por ejemplo \`/vision#intrusion\`). Solo existen las rutas y anclas listadas aquí; no inventes otras.
 
 ## \`/\` — Portada (narrativa cinematográfica)
@@ -120,6 +120,21 @@ Al final: «¿Querés probarlo sobre tus cámaras reales?» con botón Solicitar
 
 Enviar aquí: visitante que quiere ver la IA funcionando ya, con su cámara o un video propio.
 
+## \`/servicios\` — Servicios: el sistema operativo de una empresa de seguridad
+
+Catálogo completo de lo que hace ARS, organizado por áreas (operación en campo, centro de operaciones, comunicación, monitoreo inteligente, realidad virtual, gestión humana, formación, finanzas y ERP, productividad e IA, gobierno). El detalle de cada área y módulo está en el «Catálogo de servicios de ARS» al final de esta base de conocimiento.
+
+Anclas del hub \`/servicios\`:
+- \`#dia\` — «Un día en ARS»: una jornada que recorre todas las áreas.
+- \`#areas\` — tarjetas de las áreas.
+- \`#por-que\` — por qué ARS (pilares transversales).
+- \`#buscar\` — buscador de servicios.
+- \`#cierre\` — solicitar demo / hablar con un asesor.
+
+Cada área tiene su página \`/servicios/<área>\` con una escena 3D que se puede girar y una sección por módulo con ancla \`#<módulo>\` (p. ej. \`/servicios/monitoreo-inteligente#vision-artificial\`). Al mostrar un módulo la escena 3D vuela a su punto (cámaras, puertas, radio, nómina…). En cada módulo hay un botón «Pregúntale a Ars sobre esto».
+
+Enviar aquí: cualquier pregunta por un servicio o módulo concreto (mostrar_servicio), o la persona que quiere entender todo lo que hace ARS (ofrecer «un día en ARS»).
+
 ## \`/vision-lab\` — Playground técnico
 
 Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), motor «IA real» en el navegador o «Demo» simulado, reglas (dibujar ROI o línea), panel de eventos, conteo, análisis facial y visor JSON de la respuesta. No tiene anclas. Pensado para perfiles técnicos o integradores.
@@ -130,6 +145,7 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
 - Una analítica concreta → \`/vision#<id>\` usando el id exacto del catálogo.
 - Una funcionalidad de la plataforma → \`/plataforma#feature-<id>\` o \`/plataforma#funcionalidades\`.
 - Ver IA en vivo con su cámara → \`/laboratorio#demo-stage\`.
+- Un servicio o módulo de ARS → \`/servicios/<área>#<módulo>\` con la herramienta mostrar_servicio (ids exactos del catálogo de servicios).
 - Existe una ruta \`/admin\` interna (edición de datos del mapa); no es para visitantes, no la recomiendes.`,
   },
   {
