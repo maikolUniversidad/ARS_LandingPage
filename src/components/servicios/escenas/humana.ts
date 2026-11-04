@@ -7,7 +7,7 @@
  *  documental (papeles sueltos que la IA ordena en carpetas), selección (embudo de
  *  candidatos → contrato firmado), colaboradores (ficha que se llena sola), nómina
  *  (turnos del calendario → cinta de pago → monedas), costos (centros de costo de
- *  ARS y de Avancys que se alinean), portal (el cliente mira la carpeta a través de
+ *  ARS y del ERP del cliente que se alinean), portal (el cliente mira la carpeta a través de
  *  un portal) y jurídica (expediente con línea de tiempo reporte → descargo → decisión).
  */
 import * as THREE from "three";
@@ -508,7 +508,7 @@ function nomina(kit: Kit, g: THREE.Group): Animar {
   };
 }
 
-/** Centros de costo de ARS y su reflejo en Avancys alineándose. */
+/** Centros de costo de ARS y su reflejo en el ERP del cliente alineándose. */
 function costos(kit: Kit, g: THREE.Group): Animar {
   const alturas = [1.6, 2.6, 1.2, 3.1, 2.0];
   const ars = new THREE.Group();
@@ -531,7 +531,7 @@ function costos(kit: Kit, g: THREE.Group): Animar {
   g.add(ars, erp);
   const etA = kit.texto("ARS", 0.4);
   etA.position.set(-2.9, 0.5, 0.4);
-  const etE = kit.texto("Avancys", 0.4, "#9fe8ff");
+  const etE = kit.texto("ERP", 0.4, "#9fe8ff");
   etE.position.set(2.9, 3.6, 0.4);
   g.add(etA, etE);
   const cuadre = kit.linea(

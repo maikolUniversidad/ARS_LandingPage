@@ -7,7 +7,7 @@
  * que se encienden), órdenes (una orden del ERP que se vuelve un puesto agendado),
  * contabilidad (libro mayor que sube, enlazado al riel), asistente (pregunta en
  * español → gráfica), DIAN (facturas apiladas con sello; próximamente: tenue y
- * punteado) y ERP (ARS y Avancys se acoplan en una sola pantalla).
+ * punteado) y ERP (ARS y el ERP del cliente se acoplan en una sola pantalla).
  */
 import * as THREE from "three";
 import {
@@ -333,7 +333,7 @@ function dian(kit: Kit, g: THREE.Group): Animar {
   };
 }
 
-/** ARS y Avancys se acoplan en una sola pantalla. */
+/** ARS y el ERP del cliente se acoplan en una sola pantalla. */
 function erp(kit: Kit, g: THREE.Group): Animar {
   const pantalla = (color: number, nombre: string, css: string) => {
     const p = kit.panel(2.1, 1.5, { relleno: 0.45, colorBorde: color, colorRelleno: PAL.imperial, tint: false });
@@ -347,7 +347,7 @@ function erp(kit: Kit, g: THREE.Group): Animar {
     return p.grupo;
   };
   const ars = pantalla(PAL.bright, "ARS", "#d5e0ff");
-  const avancys = pantalla(PAL.cyan, "Avancys", "#9fe8ff");
+  const pantallaErp = pantalla(PAL.cyan, "Su ERP", "#9fe8ff");
   const marco = kit.linea(puntosRect(4.5, 1.9, 0.14), kit.ml(PAL.verde, 0, { tint: false }));
   marco.position.set(0, 2.3, 0.02);
   g.add(marco);
@@ -362,9 +362,9 @@ function erp(kit: Kit, g: THREE.Group): Animar {
     const une = smooth(ventana(u, 0.08, 0.38, 0.82, 0.96));
     const sep = 2.4 * (1 - une) + 1.06;
     ars.position.set(-sep, 2.3 + 0.4 * (1 - une), 0);
-    avancys.position.set(sep, 2.3 - 0.3 * (1 - une), 0);
+    pantallaErp.position.set(sep, 2.3 - 0.3 * (1 - une), 0);
     ars.rotation.y = 0.35 * (1 - une);
-    avancys.rotation.y = -0.35 * (1 - une);
+    pantallaErp.rotation.y = -0.35 * (1 - une);
     const listo = ramp(une, 0.92, 1);
     op(marco.material, listo);
     op(costura.material, listo * (0.6 + 0.4 * Math.sin(t * 6)));

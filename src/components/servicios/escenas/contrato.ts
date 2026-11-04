@@ -95,7 +95,7 @@ export const FOCOS_ESCENA: Record<EscenaId, Record<string, string>> = {
     seleccion: "Selección y contratación",
     colaboradores: "Colaboradores y fichas",
     nomina: "Nómina desde los turnos",
-    costos: "Costos y Avancys",
+    costos: "Costos y ERP",
     documental: "Área documental",
     arbol: "Árbol documental 3D",
     portal: "Portal del cliente",
@@ -115,7 +115,7 @@ export const FOCOS_ESCENA: Record<EscenaId, Record<string, string>> = {
     contabilidad: "Contabilidad conectada",
     asistente: "Asistente IA de contabilidad",
     dian: "Facturas DIAN y RADIAN",
-    erp: "Avancys dentro de ARS",
+    erp: "Interoperador de datos",
   },
   productividad: {
     tareas: "Seguimiento de tareas",

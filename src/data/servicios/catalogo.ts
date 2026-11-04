@@ -61,7 +61,7 @@ export const AREAS: Area[] = [
         innovacion:
           "«Turnos realizados» responde la pregunta que más importa en una operación de seguridad —¿quién estaba en el puesto?— con tablero, calendario y línea de tiempo, independiente de lo que se había planeado.",
         funciones: [
-          { titulo: "Estructura Cliente → Sede → Puesto", detalle: "Carga desde Excel o sincronizada con el ERP Avancys, con vista previa de lo que se crea, cambia o desactiva antes de aplicarlo." },
+          { titulo: "Estructura Cliente → Sede → Puesto", detalle: "Carga desde Excel o sincronizada con el ERP de la empresa por el Agente interoperador de datos, con vista previa de lo que se crea, cambia o desactiva antes de aplicarlo." },
           { titulo: "Generar programación", detalle: "El mes completo con domingos, festivos y continuidad; modalidades, patrones y grupos de turnos fijos (2x2x3) editables." },
           { titulo: "Programaciones especiales", detalle: "Reglas del pliego de condiciones por cliente, grupos dinámicos y plantillas especiales; una generación se puede deshacer." },
           { titulo: "Rotación de personal", detalle: "Borrador, vista previa y confirmación, respetando el pliego, el patrón de la modalidad y las horas." },
@@ -79,7 +79,7 @@ export const AREAS: Area[] = [
           cap("30-turnos-realizados", 1170, 232, "Tablero de turnos realizados con horas, turnos, vigilantes, puestos con registro y días con relevo", "Turnos realizados: horas, turnos y puestos con registro del mes, comparados con el periodo anterior."),
           cap("34-alertas-turnos", 1512, 436, "Pantalla de alertas de turnos con contadores de extras, autocierres, sin salida, sin entrada y no iniciados", "Alertas de turnos: extras sin autorizar, cierres automáticos a las 12 h y marcas faltantes."),
         ],
-        palabrasClave: ["turnos", "programación", "malla de turnos", "cuadro de turnos", "festivos", "rotación", "disponibles", "novedades", "turnos realizados", "horas extra", "pliego", "Avancys"],
+        palabrasClave: ["turnos", "programación", "malla de turnos", "cuadro de turnos", "festivos", "rotación", "disponibles", "novedades", "turnos realizados", "horas extra", "pliego", "ERP"],
         foco: "puesto",
       },
       {
@@ -983,11 +983,11 @@ export const AREAS: Area[] = [
         nombre: "Empleados: ficha, préstamos y contratos",
         frase: "Cada persona, con toda su historia laboral",
         resumen:
-          "El maestro de personas de la nómina, sincronizado con el ERP Avancys: quién está activo, sus préstamos con la tabla de cuotas, todos los contratos que ha tenido y todas sus novedades con la razón de si entran o no a la nómina. El salario del personal administrativo solo lo ve quien tiene permiso expreso.",
+          "El maestro de personas de la nómina, sincronizado con el ERP de la empresa: quién está activo, sus préstamos con la tabla de cuotas, todos los contratos que ha tenido y todas sus novedades con la razón de si entran o no a la nómina. El salario del personal administrativo solo lo ve quien tiene permiso expreso.",
         innovacion:
           "Cada consulta de datos personales queda registrada —quién, cuándo y de quién— sin guardar lo consultado.",
         funciones: [
-          { titulo: "Maestro de empleados", detalle: "Fuente manual, Excel o Avancys, con buscador y filtros." },
+          { titulo: "Maestro de empleados", detalle: "Fuente manual, Excel o el ERP conectado, con buscador y filtros." },
           { titulo: "Préstamos amarrados a la persona", detalle: "Detalle y tabla de cuotas, descontados al liquidar con tope sobre el neto." },
           { titulo: "Historial de contratos", detalle: "Cuántos contratos, días trabajados y primer ingreso." },
           { titulo: "Novedades de ARS y del ERP", detalle: "Con la razón de si entran o no a la nómina.", nuevo: true },
@@ -999,7 +999,7 @@ export const AREAS: Area[] = [
         roles: ["Nómina", "Administración"],
         canales: OFICINA,
         capturas: [],
-        palabrasClave: ["empleados", "préstamos", "contratos", "historia laboral", "Avancys", "novedades"],
+        palabrasClave: ["empleados", "préstamos", "contratos", "historia laboral", "ERP", "novedades"],
         foco: "colaboradores",
       },
       {
@@ -1022,14 +1022,14 @@ export const AREAS: Area[] = [
           { titulo: "Contratos terminados", detalle: "Se liquidan hasta su fecha de fin.", nuevo: true },
         ],
         estado: "vivo",
-        notaEstado: "Trabaja junto al ERP Avancys",
+        notaEstado: "Trabaja junto al ERP de la empresa",
         roles: ["Nómina", "Administración"],
         canales: OFICINA,
         capturas: [
           cap("74-nomina-calculo", 1512, 276, "Cálculo de nómina con empleados, horas diurnas, nocturnas, dominicales, festivas, extras y total de horas", "Nómina calculada desde los turnos: horas por tipo antes de liquidar."),
           cap("75-nomina-parametrizador", 1512, 741, "Parametrizador de novedades con el catálogo de conceptos de nómina, su naturaleza, IBC y si son salariales", "Parametrizador: cada concepto con su naturaleza, IBC y carácter salarial."),
         ],
-        palabrasClave: ["nómina", "liquidación", "recargos", "horas extra", "dominicales", "festivos", "desprendibles", "PILA", "parametrizador", "Avancys"],
+        palabrasClave: ["nómina", "liquidación", "recargos", "horas extra", "dominicales", "festivos", "desprendibles", "PILA", "parametrizador", "ERP"],
         foco: "nomina",
       },
       {
@@ -1081,24 +1081,24 @@ export const AREAS: Area[] = [
         foco: "nomina",
       },
       {
-        id: "costos-y-comparacion-con-avancys",
+        id: "costos-y-comparacion-con-el-erp",
         ficha: 7,
-        nombre: "Costos y comparación con Avancys",
+        nombre: "Costos y comparación con el ERP",
         frase: "Cuánto cuesta cada centro de costo, y si el ERP coincide",
         resumen:
-          "Sepa cuánto le cuesta cada cliente, centro de costo y puesto: la distribución de conceptos por puesto con versiones por fecha, el costo de cada corrida con el devengado del ERP al lado y una comparación persona a persona con Avancys.",
+          "Sepa cuánto le cuesta cada cliente, centro de costo y puesto: la distribución de conceptos por puesto con versiones por fecha, el costo de cada corrida con el devengado del ERP al lado y una comparación persona a persona con el ERP.",
         innovacion: "La diferencia con el ERP se ve por empresa usuaria, centro de costo y persona, antes de cerrar el mes.",
         funciones: [
           { titulo: "Distribución de conceptos por puesto", detalle: "Cliente → contrato → puesto, editable, con versiones por fecha y la del ERP como referencia.", nuevo: true },
           { titulo: "Empresas usuarias y centros de costo", detalle: "Traídos del ERP con los puestos que cargan a cada uno." },
           { titulo: "Costo por centro de costo", detalle: "Devengado y aportes por separado, con el devengado del ERP al lado.", nuevo: true },
-          { titulo: "Comparar con Avancys", detalle: "Base común persona a persona, incluidos los ajustes del periodo." },
+          { titulo: "Comparar con el ERP", detalle: "Base común persona a persona, incluidos los ajustes del periodo." },
         ],
         estado: "vivo",
         roles: ["Nómina", "Administración"],
         canales: OFICINA,
         capturas: [],
-        palabrasClave: ["costos", "centro de costo", "Avancys", "ERP", "comparación", "rentabilidad por cliente"],
+        palabrasClave: ["costos", "centro de costo", "ERP", "comparación", "rentabilidad por cliente"],
         foco: "costos",
       },
       {
@@ -1445,9 +1445,9 @@ export const AREAS: Area[] = [
     corto: "Finanzas",
     frase: "Sus números al día y conectados con su operación",
     descripcion:
-      "Clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada con la operación, asistente contable con IA, facturas DIAN y el ERP Avancys dentro de ARS.",
+      "Clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada con la operación, asistente contable con IA, facturas DIAN y el Agente interoperador de datos, que conecta ARS con el ERP o el sistema que ya use cada empresa, por completo o por partes.",
     esencia:
-      "Lo contratado, lo programado, lo pagado en nómina y lo facturado se ven en el mismo lugar, sin reemplazar el ERP ni duplicar datos.",
+      "Lo contratado, lo programado, lo pagado en nómina y lo facturado se ven en el mismo lugar, sin reemplazar el ERP ni duplicar datos: ARS se moldea al sistema que ya existe, no al revés.",
     color: "#4fd1c5",
     escena: "finanzas",
     ...medios("finanzas-y-erp"),
@@ -1480,9 +1480,9 @@ export const AREAS: Area[] = [
         foco: "clientes",
       },
       {
-        id: "ordenes-de-servicio-avancys",
+        id: "ordenes-de-servicio-del-erp",
         ficha: 2,
-        nombre: "Órdenes de servicio desde Avancys",
+        nombre: "Órdenes de servicio desde su ERP",
         frase: "De la orden del ERP al puesto programado",
         resumen:
           "La orden de servicio que ya se vendió en el ERP llega a la operación: cliente, sede, puesto, modalidad y personal asignado, con una vista previa por pestañas antes de aplicar cualquier cambio. Nunca se borra historial y se avisa de los vigilantes que quedarían sin puesto.",
@@ -1498,7 +1498,7 @@ export const AREAS: Area[] = [
         roles: ["Administración", "Líder de programación"],
         canales: OFICINA,
         capturas: [],
-        palabrasClave: ["órdenes de servicio", "Avancys", "ERP", "Odoo", "sincronización", "integración"],
+        palabrasClave: ["órdenes de servicio", "ERP", "sincronización", "integración", "interoperabilidad"],
         foco: "ordenes",
       },
       {
@@ -1507,7 +1507,7 @@ export const AREAS: Area[] = [
         nombre: "Contabilidad conectada con la operación",
         frase: "Sus números al día y conectados con su operación",
         resumen:
-          "Consulte la contabilidad de la empresa sin abrir el ERP: una copia de solo lectura de Avancys, actualizada cada 15 minutos y cuadrada mes a mes. Tablero, 15 reportes con Excel y, lo que solo ARS puede mostrar, lo contratado frente a lo facturado por cliente y la nómina frente al gasto de personal.",
+          "Consulte la contabilidad de la empresa sin abrir el ERP: una copia de solo lectura del ERP de la empresa, actualizada cada 15 minutos y cuadrada mes a mes. Tablero, 15 reportes con Excel y, lo que solo ARS puede mostrar, lo contratado frente a lo facturado por cliente y la nómina frente al gasto de personal.",
         innovacion: "De cada cifra se llega al comprobante, al tercero y al libro mayor con un clic, y el cruce con la operación sale solo.",
         funciones: [
           { titulo: "Tablero", detalle: "Ingresos, costos, resultado, caja y bancos, cartera y resumen del mes escrito por IA." },
@@ -1518,13 +1518,13 @@ export const AREAS: Area[] = [
           { titulo: "Conexión con ARS", detalle: "Contratado frente a facturado por cliente y nómina frente a contabilidad." },
         ],
         estado: "vivo",
-        notaEstado: "Para empresas que llevan su contabilidad en Avancys",
+        notaEstado: "Para empresas cuyo ERP contable está conectado con ARS",
         roles: ["Contabilidad", "Administración", "Nómina (consulta)"],
         canales: OFICINA,
         capturas: [
           cap("111-contabilidad-reportes", 1512, 741, "Índice de los 15 reportes contables en cuatro grupos: libros, estados financieros, gestión e impuestos", "Los 15 reportes contables, todos descargables en Excel."),
         ],
-        palabrasClave: ["contabilidad", "estados financieros", "balance", "cartera", "cuentas por pagar", "exógena", "Avancys", "Odoo"],
+        palabrasClave: ["contabilidad", "estados financieros", "balance", "cartera", "cuentas por pagar", "exógena", "ERP"],
         foco: "contabilidad",
       },
       {
@@ -1573,38 +1573,40 @@ export const AREAS: Area[] = [
         foco: "dian",
       },
       {
-        id: "avancys-turnos-y-servicios",
+        id: "agente-interoperador-de-datos",
         ficha: 6,
-        nombre: "Avancys dentro de ARS: turnos y servicios",
-        frase: "El ERP que ya usa, con mejor pantalla y la misma lógica",
+        nombre: "Agente interoperador de datos",
+        frase: "Cualquier sistema, dato u organización, interoperando con ARS",
         resumen:
-          "Programe, cierre turnos y facture desde pantallas hechas para trabajar rápido, sin reemplazar el ERP ni duplicar datos. La programación se pinta en una cuadrícula con alertas de sin descanso, doble turno y ausencia antes de guardar en el ERP.",
-        innovacion: "Cada persona opera con su propio usuario del ERP: lo que hace queda a su nombre con la nota «Hecho desde ARS».",
+          "Un agente de IA que recopila los datos y los documentos de la empresa —de su ERP, sus bases de datos, sus hojas de cálculo o sus archivos—, los analiza, los gestiona, los organiza y los homologa para que cualquier sistema u organización interopere fácilmente con ARS. Busca siempre la conexión más directa: por API, por conexión de backend y, si ninguna es posible, por protocolos de carga programados, para que la información fluya siempre, sea la integración completa o parcial.",
+        innovacion: "ARS se moldea al producto que la empresa ya tiene: puede quedar totalmente integrado o participar solo en las partes del proceso que se necesiten.",
         funciones: [
-          { titulo: "Tablero", detalle: "Horas contratadas frente a programadas, ausencias y turnos por cerrar." },
-          { titulo: "Programación en cuadrícula", detalle: "Pintar o arrastrar con alertas antes de guardar en el ERP." },
-          { titulo: "Turnos y puestos", detalle: "Calendario por empleado o puesto y ficha del puesto." },
-          { titulo: "Facturación masiva", detalle: "Calcular líneas, aprobar, prefacturar y validar." },
-          { titulo: "Doble llave", detalle: "Rol de ARS cruzado con los permisos del usuario del ERP; nunca borra sin confirmación." },
-          { titulo: "Excel y PDF", detalle: "Por el gestor de descargas.", nuevo: true },
+          { titulo: "Recopilación de datos y documentos", detalle: "Toma la información de donde esté: ERP, bases de datos, Excel, CSV, XML, PDF y documentos escaneados." },
+          { titulo: "Análisis y homologación", detalle: "Entiende cada fuente, organiza los datos y homologa clientes, empleados, contratos, sedes y centros de costo con los de ARS." },
+          { titulo: "Conexión por API", detalle: "La vía preferida cuando el sistema la ofrece: sincronización continua y en ambos sentidos." },
+          { titulo: "Conexión por backend", detalle: "Cuando no hay API, se conecta a nivel de servicios o de base de datos con permisos controlados." },
+          { titulo: "Protocolos de carga", detalle: "Si no hay conexión directa, cargas programadas y validadas de archivos, con vista previa antes de aplicar." },
+          { titulo: "Integración completa o parcial", detalle: "Todo el ERP dentro de ARS, o ARS participando solo en turnos, nómina, facturación o contabilidad." },
+          { titulo: "Trazabilidad del flujo", detalle: "Estado de cada sincronización, errores, advertencias e historial de corridas." },
         ],
         estado: "vivo",
-        notaEstado: "Consultar, en producción; operar, en piloto",
-        roles: ["Programación", "Coordinación", "Nómina", "Contabilidad", "Administración"],
+        roles: ["Administración", "Tecnología", "Contabilidad", "Nómina"],
         canales: OFICINA,
         capturas: [],
-        palabrasClave: ["Avancys", "ERP", "Odoo", "turnos", "facturación", "prefacturación"],
+        palabrasClave: ["interoperabilidad", "integración", "API", "backend", "ERP", "homologación", "migración de datos", "carga de archivos", "agente de IA"],
         foco: "erp",
       },
       {
-        id: "avancys-todas-las-areas",
+        id: "su-erp-dentro-de-ars",
         ficha: 7,
-        nombre: "Avancys dentro de ARS: todas las áreas del ERP",
-        frase: "El ERP completo, dentro de ARS",
+        nombre: "Su ERP dentro de ARS",
+        frase: "El ERP que ya usa, con mejor pantalla y la misma lógica",
         resumen:
-          "Nómina, contabilidad, compras, comercial, operación y soporte del ERP en una sola puerta, con vistas de lista, kanban, tabla dinámica, gráfico y calendario, y exporte a Excel y PDF. Cada rol ve solo su área y cada tabla dice si está igual al ERP.",
+          "Gracias al Agente interoperador de datos, nómina, contabilidad, compras, comercial, operación y soporte del ERP quedan en una sola puerta, sin reemplazarlo ni duplicar datos, con vistas de lista, kanban, tabla dinámica, gráfico y calendario, y exporte a Excel y PDF. Cada rol ve solo su área y cada tabla dice si está igual al ERP.",
         innovacion: "La misma lógica del ERP con una experiencia moderna, y un aviso si alguien cambió el registro mientras usted lo editaba.",
         funciones: [
+          { titulo: "Programación en cuadrícula", detalle: "Pintar o arrastrar con alertas de sin descanso, doble turno y ausencia antes de guardar en el ERP." },
+          { titulo: "Facturación masiva", detalle: "Calcular líneas, aprobar, prefacturar y validar." },
           { titulo: "Ocho áreas del ERP", detalle: "Turnos, nómina, contabilidad, compras, comercial, operación, otras apps y administración." },
           { titulo: "Mejor experiencia", detalle: "Lista, kanban, tabla dinámica, gráfico y calendario, con filtros y agrupación." },
           { titulo: "Seguridad en dos llaves", detalle: "Permisos por sección y acción en ARS cruzados con los del ERP." },
@@ -1616,7 +1618,7 @@ export const AREAS: Area[] = [
         roles: ["Por área: nómina, finanzas, compras, comercial, operación y administración"],
         canales: OFICINA,
         capturas: [],
-        palabrasClave: ["Avancys", "ERP", "Odoo", "compras", "inventario", "CRM del ERP", "cotizador del ERP"],
+        palabrasClave: ["ERP", "compras", "inventario", "turnos", "facturación", "prefacturación", "CRM del ERP", "cotizador del ERP"],
         foco: "erp",
       },
       {
@@ -1625,10 +1627,10 @@ export const AREAS: Area[] = [
         nombre: "Cotizador, CRM y embudo de ventas propios",
         frase: "Cotizaciones, tarifas por modalidad y embudo de ventas dentro de ARS",
         resumen:
-          "Hoy el cotizador, el CRM y las ventas del ERP Avancys se consultan desde ARS. Está en la hoja de ruta un cotizador con tarifas por modalidad y un embudo de ventas propios de la plataforma.",
+          "Hoy el cotizador, el CRM y las ventas del ERP de la empresa se consultan desde ARS. Está en la hoja de ruta un cotizador con tarifas por modalidad y un embudo de ventas propios de la plataforma.",
         innovacion: "Cotizar con las mismas modalidades y tarifas con las que luego se programa y se factura.",
         funciones: [
-          { titulo: "Cotizador del ERP en ARS", detalle: "Disponible hoy dentro de Avancys en ARS." },
+          { titulo: "Cotizador del ERP en ARS", detalle: "Disponible hoy con el ERP conectado a ARS." },
           { titulo: "Cotizador y embudo propios", detalle: "En la hoja de ruta." },
         ],
         estado: "hoja-de-ruta",
@@ -2006,10 +2008,10 @@ export const PILARES: Pilar[] = [
     icono: "KeyRound",
   },
   {
-    titulo: "IA que propone, persona que decide",
+    titulo: "Multiagentes de IA en cada área",
     detalle:
-      "La lectura de documentos del personal, la transcripción de reuniones y los asistentes de nómina, contabilidad y tareas corren en servidores propios. La IA responde con los permisos de quien pregunta y nada importante se guarda sin confirmación.",
-    icono: "Server",
+      "Contamos con multiagentes de inteligencia artificial trabajando dentro de cada una de las áreas para complementar sus procesos: proponen, revisan y organizan, y la persona decide. La lectura de documentos del personal, la transcripción de reuniones y los asistentes de nómina, contabilidad y tareas corren en servidores propios. La IA responde con los permisos de quien pregunta y nada importante se guarda sin confirmación.",
+    icono: "BrainCircuit",
   },
   {
     titulo: "Un sistema, cuatro canales y las gafas",
@@ -2024,9 +2026,9 @@ export const PILARES: Pilar[] = [
     icono: "Fingerprint",
   },
   {
-    titulo: "Conectada con lo que ya se usa",
+    titulo: "Agente interoperador de datos",
     detalle:
-      "El ERP Avancys se consulta y se opera desde ARS con el usuario de cada persona; se integran las cámaras y grabadores existentes, Telegram para alertas por zona, y Excel y PDF en todos los reportes.",
-    icono: "Plug",
+      "Recopila datos y documentos, los analiza, organiza y homologa para que cualquier sistema, dato u organización interopere con ARS: por API, por backend o, si no se puede, por protocolos de carga, en una integración completa o parcial. Se suman las cámaras y grabadores existentes, Telegram para alertas por zona, y Excel y PDF en todos los reportes.",
+    icono: "Workflow",
   },
 ];
