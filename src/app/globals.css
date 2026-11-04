@@ -255,3 +255,9 @@
     animation: none !important;
   }
 }
+
+/* Home 3D — indicador de scroll */
+@keyframes home-scroll {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}

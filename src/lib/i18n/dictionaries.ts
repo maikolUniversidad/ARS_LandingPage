@@ -64,6 +64,65 @@ export type Dict = {
       requestInfo: string;
     };
   };
+  home: HomeDict;
+};
+
+type HomeChapterDict = {
+  eyebrow: string;
+  title: string;
+  body: string;
+  points: string[];
+};
+
+/** Home 3D — "La seguridad en tres capas" (claves `home.*`). */
+export type HomeDict = {
+  nav: { vision: string; platform: string; lab: string; contact: string };
+  hero: {
+    eyebrow: string;
+    title1: string;
+    title2: string;
+    body: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    scroll: string;
+    trust: string[];
+  };
+  layers: Array<{ tag: string; name: string }>;
+  chain: { label: string; steps: string[] };
+  chapters: {
+    capa1: HomeChapterDict;
+    evento: HomeChapterDict;
+    capa2: HomeChapterDict;
+    alerta: HomeChapterDict;
+    capa3: HomeChapterDict;
+    escala: HomeChapterDict;
+  };
+  labels: { intruder: string; core: string; control: string; guard: string };
+  evidence: {
+    title: string;
+    priority: string;
+    rows: Array<{ k: string; v: string }>;
+    attach: string;
+    action: string;
+  };
+  stats: Array<{ value: string; label: string }>;
+  ctas: { vision: string; platform: string; projects: string };
+  recap: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    items: Array<{ tag: string; name: string; body: string; cta: string }>;
+  };
+  contact: {
+    eyebrow: string;
+    title1: string;
+    title2: string;
+    body: string;
+    formTitle: string;
+    whatsapp: string;
+    email: string;
+  };
+  staticNote: string;
 };
 
 export const dictionaries: Record<Locale, Dict> = {
@@ -186,6 +245,106 @@ export const dictionaries: Record<Locale, Dict> = {
         requestInfo: "Solicitar información",
       },
     },
+    home: {
+      nav: { vision: "Visión IA", platform: "Plataforma", lab: "Laboratorio", contact: "Solicitar demo" },
+      hero: {
+        eyebrow: "ARS Intelligence · Seguridad con IA",
+        title1: "Tus cámaras ya miran.",
+        title2: "ARS las hace entender.",
+        body: "Convertimos las cámaras que ya tienes en una red de seguridad inteligente: detecta lo que importa, alerta con evidencia y coordina la respuesta de tu equipo. Para pequeñas, medianas y grandes empresas en LATAM.",
+        ctaPrimary: "Ver la IA en acción",
+        ctaSecondary: "Solicitar demo",
+        scroll: "Desliza · así responde ARS cuando algo pasa",
+        trust: ["Sobre tu CCTV actual", "Despliegue < 48 h", "Monitoreo 24/7", "Colombia · Perú · LATAM"],
+      },
+      layers: [
+        { tag: "Capa 01", name: "Prevención y presencia" },
+        { tag: "Capa 02", name: "Detección con IA" },
+        { tag: "Capa 03", name: "Respuesta y operación" },
+      ],
+      chain: {
+        label: "Cuando algo se acciona",
+        steps: ["Cámara detecta", "IA analiza", "Alerta con evidencia", "Operador actúa"],
+      },
+      chapters: {
+        capa1: {
+          eyebrow: "Capa 01 · Prevención y presencia",
+          title: "Cada rincón, cubierto antes de que pase algo.",
+          body: "Guardas con rondas inteligentes, puestos validados, zonas críticas definidas y tus cámaras existentes conectadas a una sola plataforma. La operación diaria ya es parte del sistema.",
+          points: ["Rondas con puntos de control", "Turnos y puestos validados", "Cámaras CCTV existentes", "Zonas y perímetros definidos"],
+        },
+        evento: {
+          eyebrow: "02:14 a. m. · Algo se acciona",
+          title: "Alguien cruza el perímetro.",
+          body: "Una persona salta la cerca norte en una zona sin guardas cerca. Ningún operador está mirando esa cámara. Aquí empieza la cadena.",
+          points: ["Cerca norte · Zona 3", "Sin personal en el sector"],
+        },
+        capa2: {
+          eyebrow: "Capa 02 · Detección con IA",
+          title: "La cámara ve. La IA entiende.",
+          body: "La analítica sobre tu CCTV clasifica a la persona, confirma el cruce de línea en la zona restringida y descarta falsos positivos como animales, sombras o lluvia, en menos de un segundo.",
+          points: ["Persona · 97 %", "Cruce de línea + ROI", "Detección < 1 s"],
+        },
+        alerta: {
+          eyebrow: "Capa 02 → 03 · Alerta con evidencia",
+          title: "Una alerta que llega con prueba.",
+          body: "La central recibe snapshot, clip, cámara, zona, hora y prioridad en el mismo instante. El operador no adivina: confirma y decide.",
+          points: ["Snapshot + clip", "Prioridad automática", "Trazabilidad completa"],
+        },
+        capa3: {
+          eyebrow: "Capa 03 · Respuesta y operación",
+          title: "Del aviso a la acción, en minutos.",
+          body: "El operador despacha al guarda más cercano por PTT con la ruta en el mapa. El evento se cierra con observaciones, evidencia y responsable: nada se pierde en un chat.",
+          points: ["Despacho por mapa", "PTT · Push To Talk", "Cierre con evidencia"],
+        },
+        escala: {
+          eyebrow: "Una plataforma · todas tus sedes",
+          title: "Lo que pasa en una sede, lo sabe toda tu operación.",
+          body: "Multi-cliente, multi-sede y multi-zona: cada evento alimenta reportes, indicadores y decisiones para gerencia, auditoría y mejora continua.",
+          points: [],
+        },
+      },
+      labels: { intruder: "Persona · 97 %", core: "IA · analizando", control: "Central · alerta P1", guard: "Guarda despachado" },
+      evidence: {
+        title: "Intrusión perimetral",
+        priority: "P1",
+        rows: [
+          { k: "Cámara", v: "CAM-04 · Cerca norte" },
+          { k: "Zona", v: "Zona 3 · Restringida" },
+          { k: "Hora", v: "02:14:07" },
+          { k: "Confianza", v: "97 %" },
+        ],
+        attach: "Snapshot + clip 10 s",
+        action: "Despachar guarda",
+      },
+      stats: [
+        { value: "< 48 h", label: "Despliegue sobre tu CCTV" },
+        { value: "24/7", label: "Monitoreo y respuesta" },
+        { value: "12+", label: "Analíticas de IA" },
+        { value: "< 1 s", label: "Detección de intrusión" },
+      ],
+      ctas: { vision: "Ver analíticas en video real", platform: "Conocer la plataforma", projects: "Ver proyectos" },
+      recap: {
+        eyebrow: "La seguridad de ARS en tres capas",
+        title: "Prevenir, detectar, responder. Conectado.",
+        body: "Cada capa funciona sola, pero el valor está en la cadena: lo que la cámara ve se convierte en una acción con responsable y evidencia.",
+        items: [
+          { tag: "Capa 01", name: "Prevención y presencia", body: "Turnos, rondas inteligentes, puestos validados, formularios dinámicos y cámaras existentes en una sola operación.", cta: "Ver operación" },
+          { tag: "Capa 02", name: "Detección con IA", body: "Personas, vehículos, placas, rostros, EPP, intrusión y aglomeraciones sobre tu CCTV, con alertas priorizadas.", cta: "Ver analíticas" },
+          { tag: "Capa 03", name: "Respuesta y operación", body: "Central de monitoreo, despacho por mapa, PTT, cierre con evidencia y reportes para gerencia.", cta: "Ver plataforma" },
+        ],
+      },
+      contact: {
+        eyebrow: "Hablemos de tu operación",
+        title1: "Tus cámaras.",
+        title2: "Nuestra inteligencia.",
+        body: "Conectamos tus cámaras, guardas y NVRs actuales en menos de 48 horas, sin reemplazar tu hardware. Cuéntanos qué necesitas proteger.",
+        formTitle: "Cuéntanos qué necesitas",
+        whatsapp: "Escribir por WhatsApp",
+        email: "Enviar correo",
+      },
+      staticNote: "Vista simplificada",
+    },
   },
   en: {
     nav: {
@@ -305,6 +464,106 @@ export const dictionaries: Record<Locale, Dict> = {
         cameras: "cameras",
         requestInfo: "Request information",
       },
+    },
+    home: {
+      nav: { vision: "AI Vision", platform: "Platform", lab: "Lab", contact: "Request demo" },
+      hero: {
+        eyebrow: "ARS Intelligence · AI-powered security",
+        title1: "Your cameras already watch.",
+        title2: "ARS makes them understand.",
+        body: "We turn the cameras you already own into an intelligent security network: it detects what matters, alerts with evidence and coordinates your team's response. For small, mid-size and large companies across LATAM.",
+        ctaPrimary: "See the AI in action",
+        ctaSecondary: "Request demo",
+        scroll: "Scroll · this is how ARS responds when something happens",
+        trust: ["On your existing CCTV", "Deployed in < 48 h", "24/7 monitoring", "Colombia · Peru · LATAM"],
+      },
+      layers: [
+        { tag: "Layer 01", name: "Prevention & presence" },
+        { tag: "Layer 02", name: "AI detection" },
+        { tag: "Layer 03", name: "Response & operations" },
+      ],
+      chain: {
+        label: "When something is triggered",
+        steps: ["Camera detects", "AI analyzes", "Alert with evidence", "Operator acts"],
+      },
+      chapters: {
+        capa1: {
+          eyebrow: "Layer 01 · Prevention & presence",
+          title: "Every corner covered before anything happens.",
+          body: "Guards on smart patrols, validated posts, defined critical zones and your existing cameras connected to a single platform. Daily operations are already part of the system.",
+          points: ["Patrols with checkpoints", "Validated shifts and posts", "Existing CCTV cameras", "Defined zones and perimeters"],
+        },
+        evento: {
+          eyebrow: "2:14 a.m. · Something is triggered",
+          title: "Someone crosses the perimeter.",
+          body: "A person jumps the north fence in an area with no guards nearby. No operator is watching that camera. This is where the chain begins.",
+          points: ["North fence · Zone 3", "No staff in the sector"],
+        },
+        capa2: {
+          eyebrow: "Layer 02 · AI detection",
+          title: "The camera sees. The AI understands.",
+          body: "Analytics on your CCTV classify the person, confirm the line-cross in the restricted zone and discard false positives such as animals, shadows or rain, in under a second.",
+          points: ["Person · 97%", "Line-cross + ROI", "Detection < 1 s"],
+        },
+        alerta: {
+          eyebrow: "Layer 02 → 03 · Alert with evidence",
+          title: "An alert that arrives with proof.",
+          body: "The control room receives snapshot, clip, camera, zone, time and priority at the same instant. The operator doesn't guess: they confirm and decide.",
+          points: ["Snapshot + clip", "Automatic priority", "Full traceability"],
+        },
+        capa3: {
+          eyebrow: "Layer 03 · Response & operations",
+          title: "From alert to action, in minutes.",
+          body: "The operator dispatches the nearest guard over PTT with the route on the map. The event closes with notes, evidence and an owner: nothing gets lost in a chat.",
+          points: ["Map dispatch", "PTT · Push To Talk", "Closed with evidence"],
+        },
+        escala: {
+          eyebrow: "One platform · all your sites",
+          title: "What happens at one site, your whole operation knows.",
+          body: "Multi-client, multi-site and multi-zone: every event feeds reports, KPIs and decisions for management, audit and continuous improvement.",
+          points: [],
+        },
+      },
+      labels: { intruder: "Person · 97%", core: "AI · analyzing", control: "Control room · P1 alert", guard: "Guard dispatched" },
+      evidence: {
+        title: "Perimeter intrusion",
+        priority: "P1",
+        rows: [
+          { k: "Camera", v: "CAM-04 · North fence" },
+          { k: "Zone", v: "Zone 3 · Restricted" },
+          { k: "Time", v: "02:14:07" },
+          { k: "Confidence", v: "97%" },
+        ],
+        attach: "Snapshot + 10 s clip",
+        action: "Dispatch guard",
+      },
+      stats: [
+        { value: "< 48 h", label: "Deployed on your CCTV" },
+        { value: "24/7", label: "Monitoring and response" },
+        { value: "12+", label: "AI analytics" },
+        { value: "< 1 s", label: "Intrusion detection" },
+      ],
+      ctas: { vision: "See analytics on real video", platform: "Discover the platform", projects: "See projects" },
+      recap: {
+        eyebrow: "ARS security in three layers",
+        title: "Prevent, detect, respond. Connected.",
+        body: "Each layer works on its own, but the value is in the chain: what the camera sees becomes an action with an owner and evidence.",
+        items: [
+          { tag: "Layer 01", name: "Prevention & presence", body: "Shifts, smart patrols, validated posts, dynamic forms and existing cameras in a single operation.", cta: "See operations" },
+          { tag: "Layer 02", name: "AI detection", body: "People, vehicles, plates, faces, PPE, intrusion and crowding on your CCTV, with prioritized alerts.", cta: "See analytics" },
+          { tag: "Layer 03", name: "Response & operations", body: "Control room, map dispatch, PTT, closure with evidence and reports for management.", cta: "See platform" },
+        ],
+      },
+      contact: {
+        eyebrow: "Let's talk about your operation",
+        title1: "Your cameras.",
+        title2: "Our intelligence.",
+        body: "We connect your current cameras, guards and NVRs in under 48 hours, without replacing your hardware. Tell us what you need to protect.",
+        formTitle: "Tell us what you need",
+        whatsapp: "Message on WhatsApp",
+        email: "Send an email",
+      },
+      staticNote: "Simplified view",
     },
   },
 };
