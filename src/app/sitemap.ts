@@ -4,7 +4,7 @@ import { AREAS } from "@/data/servicios";
 const SITE_URL = "https://arsintelligence.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/servicios", "/plataforma", "/vision", "/laboratorio", "/proyectos", "/vision-lab"];
+  const routes = ["", "/servicios", "/arquitectura", "/plataforma", "/vision", "/laboratorio", "/proyectos", "/vision-lab"];
   const servicios = AREAS.map((a) => `/servicios/${a.id}`);
   return [
     ...routes.map((path) => ({
