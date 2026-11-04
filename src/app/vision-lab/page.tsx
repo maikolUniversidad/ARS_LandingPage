@@ -281,6 +281,12 @@ export default function VisionLabPage() {
           <nav className="flex items-center gap-2">
             <LanguageSwitcher />
             <Link
+              href="/servicios"
+              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground lg:flex"
+            >
+              <span className="text-accent">✦</span> Servicios
+            </Link>
+            <Link
               href="/plataforma"
               className="bevel-btn group hidden items-center gap-2 border border-accent/60 bg-accent/15 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-accent/25 sm:flex"
             >
@@ -300,6 +306,7 @@ export default function VisionLabPage() {
             </Link>
             <MobileMenu
               links={[
+                { label: "Servicios", href: "/servicios" },
                 { label: "Plataforma", href: "/plataforma" },
                 { label: "Laboratorio", href: "/laboratorio" },
                 { label: "Inicio", href: "/" },
