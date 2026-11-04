@@ -131,7 +131,7 @@ export function ParejaSimVideo({ actual, textos, onPaso }: Props) {
       <div className="grid gap-px bg-border/40 lg:grid-cols-2">
         {/* Simulación 3D */}
         <figure className="m-0 bg-card">
-          <figcaption className="flex min-h-11 items-center justify-between gap-3 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/60">
+          <figcaption className="flex min-h-10 items-center justify-between gap-3 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.15em] sm:min-h-11 sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.25em] text-foreground/60">
             <span className="flex items-center gap-2">
               <span className="size-1.5 bg-accent" aria-hidden />
               {textos.simulacion}
@@ -144,7 +144,7 @@ export function ParejaSimVideo({ actual, textos, onPaso }: Props) {
                   aria-pressed={vista === k}
                   onClick={() => setVistaElegida({ id: actual.id, vista: k })}
                   className={cn(
-                    "px-2.5 py-1 text-[9px] font-bold tracking-[0.18em] transition-colors",
+                    "whitespace-nowrap px-2 py-1 text-[9px] font-bold tracking-[0.1em] transition-colors sm:px-2.5 sm:tracking-[0.18em]",
                     vista === k ? "bg-foreground text-background" : "text-foreground/60 hover:text-foreground",
                   )}
                 >
@@ -166,14 +166,14 @@ export function ParejaSimVideo({ actual, textos, onPaso }: Props) {
             />
             {enEvento && <span className="pointer-events-none absolute inset-0 animate-pulse shadow-[inset_0_0_0_3px_#E5484D]" aria-hidden />}
           </div>
-          <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.2em] text-foreground/45">
+          <p className="hidden px-4 py-2 font-mono text-[9px] sm:block uppercase tracking-[0.2em] text-foreground/45">
             {vista === "cctv" && conVideo ? textos.mismaCamara : textos.girar}
           </p>
         </figure>
 
         {/* Video real */}
         <figure className="m-0 bg-card">
-          <figcaption className="flex min-h-11 items-center justify-between gap-3 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/60">
+          <figcaption className="flex min-h-10 items-center justify-between gap-3 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.15em] sm:min-h-11 sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.25em] text-foreground/60">
             <span className="flex shrink-0 items-center gap-2">
               <span
                 className="size-1.5"
@@ -261,7 +261,7 @@ export function ParejaSimVideo({ actual, textos, onPaso }: Props) {
             )}
             {enEvento && <span className="pointer-events-none absolute inset-0 animate-pulse shadow-[inset_0_0_0_3px_#E5484D]" aria-hidden />}
           </div>
-          <p className="truncate px-4 py-2 font-mono text-[9px] uppercase tracking-[0.2em] text-foreground/45">
+          <p className="hidden truncate px-4 py-2 font-mono text-[9px] sm:block uppercase tracking-[0.2em] text-foreground/45">
             {v?.fuente ? `${textos.fuente}: ${v.fuente}${v.licencia ? ` · ${v.licencia}` : ""}` : " "}
           </p>
         </figure>
