@@ -261,3 +261,9 @@
   0% { transform: translateY(-100%); }
   100% { transform: translateY(200%); }
 }
+
+/* Carrusel de logos de clientes: la fila está duplicada, así que recorrer la mitad cierra el bucle sin costura. */
+@keyframes logos-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
