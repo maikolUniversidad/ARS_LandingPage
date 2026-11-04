@@ -15,12 +15,12 @@ Guía de IA que acompaña a la persona en todo el sitio: explica, muestra y llev
 ## Cómo funciona
 
 - **Chat**: `POST /api/asistente/chat` llama a Claude (`ASISTENTE_MODELO`, por defecto `claude-sonnet-5-5`) con streaming, `effort: low`, *fallback* de servidor para rechazos y caché de prompt (herramientas + system con la base de conocimiento, TTL 1 h; la conversación con caché automática). El contexto de página y los documentos van en el último mensaje, después del punto de caché.
-- **Herramientas**: `ir_a`, `mostrar_analitica`, `abrir_contacto`, `resaltar`, `recomendar`, `recordar`, `olvidar`, `analizar_video`, `sugerir` y `buscar_analiticas`. El servidor las valida (rutas, anclas e ids reales) y emite eventos `accion`/`tarjeta` que el navegador ejecuta.
+- **Herramientas**: `ir_a`, `mostrar_analitica`, `abrir_contacto`, `resaltar`, `recomendar`, `recordar`, `olvidar`, `analizar_video`, `sugerir`, `buscar_analiticas`, `mostrar_servicio` y `buscar_servicios` (las dos últimas para /servicios: llevan a `/servicios/<área>#<módulo>`, emiten `ars:foco-servicio` para volar la escena 3D y resaltan el módulo). El servidor las valida (rutas, anclas e ids reales) y emite eventos `accion`/`tarjeta` que el navegador ejecuta.
 - **Memoria**: el widget vive en el layout raíz (sobrevive a la navegación) y guarda en `localStorage`: el historial (`ars-asistente-v1`), el perfil que la persona contó (`ars-asistente-perfil-v1`, visible y borrable en el panel) y su recorrido (`ars-asistente-recorrido-v1`). En charlas largas, los mensajes antiguos viajan condensados. Los documentos solo se guardan en memoria mientras dura la sesión.
 - **Documentos y video**: PDF y texto con citas («Fuentes del documento»), imágenes redimensionadas a 1568 px y video muestreado en el navegador en 4 a 12 fotogramas de 768 px, cada uno con su marca de tiempo; como máximo 4 a la vez y 3 MB en total, para quedar por debajo de los 4.5 MB por petición de Vercel. No se guardan en el servidor.
 - **Voz**:
   - *Manos libres*: transcribe en vivo con Scribe Realtime (subtítulos mientras hablas; si falla, graba y transcribe por lotes), corta tras ~1.1 s de silencio, responde Claude y lo lee con TTS de ElevenLabs por frases (con precarga). Al terminar vuelve a escuchar. Si hablas encima o tocas el orbe, Ars se calla al instante. Si falta ElevenLabs, usa el reconocimiento y la voz del navegador.
-  - *Tiempo real* (si existe `ELEVENLABS_AGENT_ID`): el agente de ElevenLabs con las mismas herramientas como *client tools*. El servidor le envía el mismo prompt y la misma base de conocimiento como *override*, y cada cambio de página llega al agente como *contextual update*.
+  - *Tiempo real* (si existe `ELEVENLABS_AGENT_ID`): el agente de ElevenLabs con las mismas herramientas como *client tools* (`ir_a`, `mostrar_analitica`, `mostrar_servicio`, `resaltar`, `abrir_contacto`; también hay que declararlas en la configuración del agente en ElevenLabs). El servidor le envía el mismo prompt y la misma base de conocimiento como *override*, y cada cambio de página llega al agente como *contextual update*.
 
 ## Abrir el asistente desde otro componente
 
@@ -28,6 +28,14 @@ Guía de IA que acompaña a la persona en todo el sitio: explica, muestra y llev
 window.dispatchEvent(new CustomEvent("ars:asistente", { detail: { mensaje: "Quiero una demo" } }));
 // o { detail: { voz: true } } para abrir directamente en modo voz
 ```
+
+## Eventos con las páginas de /servicios
+
+Definidos en `src/lib/asistente/eventos-servicios.ts`:
+
+- `ars:foco-servicio` (asistente → página) `{ modulo?, foco? }`: desplazar a `<section id={modulo}>` y volar la escena 3D.
+- `ars:preguntar` (página → asistente) `{ texto, modulo? }`: abre el panel y envía el texto con el módulo como contexto.
+- `ars:voz-activa` (asistente → sitio) `{ activa }`: Ars empezó o dejó de hablar (atenuar la música ambiente).
 
 ## Variables de entorno
 

@@ -111,6 +111,16 @@ const es = {
   "asistente.sug.ciudades": "¿En qué ciudades operan?",
   "asistente.sug.probar": "¿Qué modelo pruebo primero?",
   "asistente.sug.documento": "Te paso un documento: dime qué módulo me sirve",
+  "asistente.bienvenida.servicios":
+    "Hola, soy Ars 👋 Este es el catálogo completo de ARS. Pregúntame por cualquier servicio y te lo muestro en 3D, o te enseño un día en ARS de punta a punta.",
+  "asistente.sug.esteModulo": "Explícame lo que estoy viendo",
+  "asistente.sug.diaArs": "Muéstrame un día en ARS",
+  "asistente.sug.conecta": "¿Cómo se conecta con el resto de la plataforma?",
+  "asistente.tarjeta.servicio": "Servicio",
+  "asistente.estado.vivo": "Disponible",
+  "asistente.estado.piloto": "En piloto",
+  "asistente.estado.proximamente": "Próximamente",
+  "asistente.estado.hoja-de-ruta": "Hoja de ruta",
 } as const;
 
 export type ClaveAsistente = keyof typeof es;
@@ -219,6 +229,16 @@ const en: Record<ClaveAsistente, string> = {
   "asistente.sug.ciudades": "Which cities do you operate in?",
   "asistente.sug.probar": "Which model should I try first?",
   "asistente.sug.documento": "I'll send a document: tell me which module fits",
+  "asistente.bienvenida.servicios":
+    "Hi, I'm Ars 👋 This is the full ARS catalog. Ask me about any service and I'll show it to you in 3D, or walk you through a day at ARS end to end.",
+  "asistente.sug.esteModulo": "Explain what I'm looking at",
+  "asistente.sug.diaArs": "Show me a day at ARS",
+  "asistente.sug.conecta": "How does it connect to the rest of the platform?",
+  "asistente.tarjeta.servicio": "Service",
+  "asistente.estado.vivo": "Available",
+  "asistente.estado.piloto": "Pilot",
+  "asistente.estado.proximamente": "Coming soon",
+  "asistente.estado.hoja-de-ruta": "Roadmap",
 };
 
 const dic = { es, en } as const;

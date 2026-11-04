@@ -1,7 +1,7 @@
 "use client";
 
 import { analiticas } from "@/data/analiticas";
-import type { ContextoPagina, Idioma } from "./tipos";
+import type { ContextoPagina, ContextoServicio, Idioma } from "./tipos";
 
 const porId = new Map(analiticas.map((a) => [a.id, a.nombre]));
 
@@ -43,6 +43,29 @@ export function seccionVisible(): { id: string; titulo: string } | null {
   return { id: mejor.el.id, titulo };
 }
 
+/**
+ * En /servicios/<area>: el área (por la URL) y el módulo más visible entre
+ * las secciones con `data-modulo` (contrato con las páginas de servicios).
+ */
+export function servicioVisible(ruta: string): ContextoServicio | null {
+  const m = /^\/servicios\/([^/?#]+)/.exec(ruta);
+  if (!m || typeof window === "undefined") return null;
+  const area = decodeURIComponent(m[1]);
+  const vh = window.innerHeight;
+  let mejor: { el: Element; visible: number } | null = null;
+  for (const el of document.querySelectorAll("[data-modulo]")) {
+    if (el.closest("[data-asistente-raiz]")) continue;
+    const r = el.getBoundingClientRect();
+    const visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+    if (visible <= 0) continue;
+    if (!mejor || visible > mejor.visible) mejor = { el, visible };
+  }
+  if (!mejor) return { area };
+  const modulo = mejor.el.getAttribute("data-modulo") || mejor.el.id || undefined;
+  const titulo = tituloDe(mejor.el) || undefined;
+  return { area, modulo, titulo };
+}
+
 export function leerContexto(ruta: string, idioma: Idioma): ContextoPagina {
   const ancla = typeof window === "undefined" ? "" : decodeURIComponent(window.location.hash.slice(1));
   const analitica = ruta.startsWith("/vision") && porId.has(ancla) ? { id: ancla, nombre: porId.get(ancla) ?? ancla } : null;
@@ -52,6 +75,7 @@ export function leerContexto(ruta: string, idioma: Idioma): ContextoPagina {
     tituloDocumento: typeof document === "undefined" ? "" : document.title,
     seccion: seccionVisible(),
     analitica,
+    servicio: servicioVisible(ruta),
     idioma,
   };
 }
