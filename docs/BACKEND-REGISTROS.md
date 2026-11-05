@@ -2,7 +2,8 @@
 
 **Para:** equipo del servidor de ARS (ERP / plataforma).
 **Qué es:** el contrato para que cada lead del sitio web quede guardado en el ERP: los mensajes de **«Contáctenos»** y los **diagnósticos con IA** de `/diagnostico` (perfil de la empresa, conversación, adjuntos y reporte).
-**Versión del contrato:** `1`. El sitio la manda en la cabecera `X-ARS-Version` y en el campo `version`.
+**Versión del contrato:** `2`. El sitio la manda en la cabecera `X-ARS-Version` y en el campo `version`.
+La versión 2 (5-nov-2026) suma el tipo `propuesta` (§4.4); `contacto` y `diagnostico` no cambian.
 
 Código del sitio: `src/lib/registros/` (módulo), `src/app/api/contact/route.ts`, `src/app/api/diagnostico/route.ts` y `src/app/api/registros/**` (API pull).
 
@@ -14,8 +15,8 @@ Código del sitio: `src/lib/registros/` (módulo), `src/app/api/contact/route.ts
 |---|---|
 | **Push** (principal) | El sitio hace `POST` de cada registro nuevo a una URL que **ustedes exponen**. El cuerpo va firmado con HMAC-SHA256 y lleva `Idempotency-Key`. |
 | **Pull** (complementario) | El ERP puede leer y actualizar los registros con `GET/PATCH /api/registros` del sitio, con un token Bearer. Solo sirve donde el sitio tiene disco persistente (ver §2.2). |
-| **Respaldo** | Si su servidor no responde, el sitio guarda el registro en un JSON local marcado `pendiente` y lo reenvía después (`POST /api/registros/reintentar`). |
-| **Tipos de registro** | `contacto` (id `CONT-2026-XXXXXX`) y `diagnostico` (id `DIAG-2026-XXXXXX`). |
+| **Respaldo** | Si su servidor no responde, el sitio guarda el registro en un JSON local marcado `pendiente` y lo reenvía después: solo, cada 5 min (`REGISTROS_REINTENTO_MS`), y a pedido con `POST /api/registros/reintentar`. |
+| **Tipos de registro** | `contacto` (id `CONT-2026-XXXXXX`), `diagnostico` (id `DIAG-2026-XXXXXX`) y `propuesta` (id `PROP-2026-XXXXXX`, la «Propuesta ARS» de la sección `#contacto`). |
 
 Lo que necesitamos de ustedes:
 
@@ -49,7 +50,8 @@ flowchart LR
 2. Si `REGISTROS_COPIA_LOCAL=siempre` (por defecto), escribe la copia local con `sincronizacion.remoto = "pendiente"`.
 3. Hace `POST` a su endpoint. Espera hasta `ARS_REGISTROS_TIMEOUT_MS` (8 s) por intento, con **3 intentos en total** (1 + 2 reintentos, esperas de ~0,5 s y ~2 s). Reintenta ante errores de red, timeouts, `408`, `429` y `5xx`. **No** reintenta otros `4xx`.
 4. Actualiza la copia local a `enviado` o la deja en `pendiente` con el último error.
-5. Si no se pudo guardar en ningún lado, el registro completo va al log del servidor (`[registros] REGISTRO NO GUARDADO …`) para recuperarlo a mano.
+5. Si no se pudo guardar en ningún lado, el registro completo va al log del servidor (`[registros] REGISTRO NO GUARDADO …`) para recuperarlo a mano. Si el push está apagado (faltan las variables) y `NODE_ENV=production`, el registro completo también va al log (`[registros] PUSH APAGADO, registro solo en la copia local …`), porque la copia local sola no es durable donde el disco es efímero.
+6. Mientras el servidor esté arriba, cada `REGISTROS_REINTENTO_MS` (5 min) reenvía solo lo `pendiente` que tenga más de 1 minuto (lo más reciente lo sigue enviando su propia petición). Si su servidor no responde, la pasada se corta y sigue en la siguiente. Lo que su servidor rechazó de forma definitiva (4xx salvo 408/429) no se reenvía solo: queda `pendiente` con el error para revisarlo y mandarlo con `POST /api/registros/reintentar`. Lo arranca `src/instrumentation.ts` y solo corre si el push está configurado.
 
 La respuesta al usuario espera como mucho `REGISTROS_ESPERA_MS` (2,5 s) a la primera confirmación, sea la copia local o su servidor. Los reintentos siguen en segundo plano con `after()` de Next.js. En la respuesta, `registro.guardado: true` significa que el registro quedó guardado en algún lado.
 
@@ -78,7 +80,7 @@ POST https://<su-servidor>/api/registros-web      (la ruta la eligen ustedes)
 | `Content-Type` | `application/json; charset=utf-8` | |
 | `X-ARS-Firma` | `sha256=8a1f…e4` | HMAC-SHA256 en hex de `` `${timestamp}.${cuerpo}` `` con el secreto (`ARS_REGISTROS_SECRET`). |
 | `X-ARS-Timestamp` | `1793849102` | Segundos Unix al firmar. Rechacen si difiere más de **5 minutos** de su reloj (anti-replay). |
-| `X-ARS-Version` | `1` | Versión del contrato. |
+| `X-ARS-Version` | `2` | Versión del contrato. |
 | `Idempotency-Key` | `DIAG-2026-M4X9PA` | Es el id del registro. Es el mismo en todos los reintentos. |
 | `User-Agent` | `ARS-Landing-Registros/1` | |
 
@@ -225,9 +227,9 @@ Los tipos de referencia (TypeScript) están en `src/lib/registros/tipos.ts` y `s
 
 | Campo | Tipo | Notas |
 |---|---|---|
-| `id` | string | `^(CONT\|DIAG)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$`. Lleva el año UTC de creación y 6 caracteres Crockford base32 aleatorios. Es la clave primaria. |
-| `tipo` | `"contacto"` \| `"diagnostico"` | |
-| `version` | `1` | |
+| `id` | string | `^(CONT\|DIAG\|PROP)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$`. Lleva el año UTC de creación y 6 caracteres Crockford base32 aleatorios. Es la clave primaria. |
+| `tipo` | `"contacto"` \| `"diagnostico"` \| `"propuesta"` | Cuadra con el prefijo del id. |
+| `version` | `2` | Los registros anteriores al 5-nov-2026 llevan `1`. |
 | `creado`, `actualizado` | ISO 8601 | |
 | `estado` | `nuevo` \| `contactado` \| `en-propuesta` \| `ganado` \| `perdido` \| `descartado` | Siempre llega como `nuevo`. Después lo maneja el ERP. |
 | `historialEstados` | `[{estado, fecha, nota?}]` | |
@@ -279,7 +281,8 @@ Los tipos de referencia (TypeScript) están en `src/lib/registros/tipos.ts` y `s
 |---|---|---|
 | `fuente` | `"ia"` \| `"demo"` | `demo` = simulado sin IA (pruebas). **No lo traten como lead real** salvo que el entorno sea `production` y quieran revisarlo. |
 | `empresa` | string | Atajo de `perfil.nombre`. |
-| `contacto` | `{nombre?, cargo?, email?, telefono?}` \| null | Persona que hizo la entrevista, si dejó sus datos. |
+| `contacto` | `{nombre?, cargo?, email?, telefono?}` \| null | Persona que hizo la entrevista, si dejó sus datos **y aceptó la autorización**. Sin autorización llega `null` (y `perfil` sin `contacto`). |
+| `autorizacion` | `{texto, version, fecha}` \| null | Evidencia de la autorización de datos (Ley 1581 de 2012) que aceptó la persona antes del análisis: el texto exacto de esa versión (lo pone el servidor, no el navegador), la versión (`2026-11-05`) y la fecha ISO. `null` si siguió sin dejar sus datos. Campo nuevo y opcional dentro de la versión 1 del contrato: guárdenlo tal cual en el JSON. |
 | `perfil` | `PerfilEmpresa` | `nombre`, `sector`, `tamano` (`1-50` \| `51-200` \| `201-1000` \| `1000+`), `ciudad?`, `sedes?`, `personal?`, `dolores[]`, `herramientasActuales[]`, `prioridades[]`, `servicios?[]`, `incidentes?[]`, `plazo?`, `presupuesto?`, `notas?`, `contacto?` |
 | `conversacion` | `[{rol: "user"\|"assistant", texto}]` | Hasta 40 turnos, 1500 caracteres cada uno. |
 | `adjuntos` | `[{id, nombre, tipo, resumen, hallazgos[]}]` | `tipo`: `imagen` \| `video` \| `documento` \| `audio`. **Solo metadatos y lo que entendió la IA: el archivo no se guarda ni se envía.** |
@@ -393,6 +396,33 @@ Tamaño típico: un contacto pesa ~1 KB; un diagnóstico, entre 15 y 60 KB. El s
 
 ---
 
+### 4.4 `RegistroPropuesta`
+
+La «Propuesta ARS» (sección `#contacto` de la home): la persona cuenta cómo opera, la IA le hace 2–3 preguntas de
+seguimiento, le arma una propuesta y la persona la envía a un asesor (`POST /api/propuesta/enviar`). El registro se
+crea **al enviarla**; para enviarla tiene que aceptar la autorización de datos, así que `contacto` siempre viene.
+El mismo envío manda el correo al asesor con el PDF (si hay `RESEND_API_KEY`); el PDF y las vistas 3D **no** van en el
+registro.
+
+| Campo | Tipo | Notas |
+|---|---|---|
+| `referencia` | string | La referencia comercial que la persona ve en su PDF (p. ej. `ARS-2611-7K3Q`). Conviene poder buscar por ella. |
+| `empresa` | string | |
+| `ciudad` | string \| null | |
+| `contacto` | `{nombre, cargo \| null, email, telefono \| null}` | Los datos de la persona van **solo aquí**: no se repiten en `respuestas` ni en `propuesta`. |
+| `autorizacion` | `{texto, version, fecha}` \| null | Evidencia de la autorización Ley 1581 (el texto que aceptó). |
+| `respuestas` | objeto | Lo que respondió de su operación: `vigilantes` (`1-50 \| 51-200 \| 201-1000 \| 1000+`), `sedes`, `servicios[]`, `central` (`si \| no \| en-proyecto`), `aplicaciones[]`, `erp`, `datos[]`, `integraciones` (texto libre), `dolores[]`, `reportes[]`, `plazo`, `notas` (texto libre). |
+| `seguimiento` | `[{id, pregunta, respuesta}]` | Preguntas de la IA y lo que contestó (texto libre). |
+| `resumen` | `{titular, areas[], modulos[], plazo \| null, fases}` | Para listados. `areas` son ids; `modulos` son nombres legibles. |
+| `propuesta` | objeto | La propuesta tal como la vio: `id`, `fecha`, `empresa`, `situacion`, `titular`, `arsSuple[]`, `seQueda[]`, `modulos[{area, modulo, porQue}]`, `lineaDeTrabajo[{nombre, duracion, objetivo, entregables[], modulos[]}]`, `integraciones[{sistema, modo, detalle}]`, `reportes[{nombre, para, frecuencia, contenido}]`, `impacto[{indicador, hoy, conArs}]`, `siguientesPasos[]`, `analiticas?[]`, `indicadores?[]`, `estrategiaErp?`, `escenario?`, `aviso`. Áreas y módulos van por id. |
+| `nombres` | `{areas: {id: nombre}, modulos: {id: nombre}}` | Nombres legibles de los ids que usa `propuesta`. |
+| `entrega` | `{pdf: boolean, vistas3d: number}` | Lo que recibió el asesor por correo. |
+
+Para anonimizar (habeas data): además de `contacto.*`, el texto libre puede nombrar a la persona: `respuestas.notas`,
+`respuestas.integraciones`, cada `seguimiento[].respuesta` y `propuesta.situacion` (lo redacta la IA con lo que contó).
+
+Tamaño típico: 8 a 25 KB.
+
 ## 5. SQL sugerido
 
 Las columnas planas sirven para buscar y filtrar. El registro completo va en `datos` (JSON), que es la fuente de verdad. Así, si el contrato suma campos (`version` 2), no se pierde nada.
@@ -403,8 +433,8 @@ Las columnas planas sirven para buscar y filtrar. El registro completo va en `da
 CREATE TYPE estado_registro AS ENUM ('nuevo','contactado','en-propuesta','ganado','perdido','descartado');
 
 CREATE TABLE registros_web (
-  id              varchar(20)  PRIMARY KEY,               -- CONT-2026-XXXXXX / DIAG-2026-XXXXXX
-  tipo            varchar(12)  NOT NULL CHECK (tipo IN ('contacto','diagnostico')),
+  id              varchar(20)  PRIMARY KEY,               -- CONT-2026-XXXXXX / DIAG-2026-XXXXXX / PROP-2026-XXXXXX
+  tipo            varchar(12)  NOT NULL CHECK (tipo IN ('contacto','diagnostico','propuesta')),
   version         smallint     NOT NULL,
   creado          timestamptz  NOT NULL,
   recibido        timestamptz  NOT NULL DEFAULT now(),
@@ -456,7 +486,7 @@ RETURNING id;
 ```sql
 CREATE TABLE registros_web (
   id              VARCHAR(20)  NOT NULL PRIMARY KEY,
-  tipo            ENUM('contacto','diagnostico') NOT NULL,
+  tipo            ENUM('contacto','diagnostico','propuesta') NOT NULL,
   version         SMALLINT     NOT NULL,
   creado          DATETIME(3)  NOT NULL,                  -- guarden en UTC
   recibido        DATETIME(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -595,6 +625,8 @@ Se configuran en Vercel (Project → Settings → Environment Variables) o en `.
 | `REGISTROS_DIR` | No | `.data/registros` | Carpeta de la copia local (en Docker, móntenla como volumen). |
 | `REGISTROS_COPIA_LOCAL` | No | `siempre` | `siempre` = copia local aunque el push funcione; `respaldo` = solo si el push falla. |
 | `REGISTROS_ESPERA_MS` | No | `2500` | Cuánto espera la respuesta al usuario a la confirmación (0–15000). |
+| `REGISTROS_REINTENTO_MS` | No | `300000` | Reintento de fondo de lo `pendiente` (mín. 30000; `0` = apagado). |
+| `REGISTROS_ENTORNO` | No | `VERCEL_ENV` o `NODE_ENV` | `production`, `preview` o `development` en `origen.entorno`. Para que las pruebas no se cuelen como leads reales. |
 | `REGISTROS_API_TOKEN` | Para la API pull | — | Bearer de `/api/registros`. Sin ella, la API responde 503. |
 | `REGISTROS_SAL_IP` | No | `ARS_REGISTROS_SECRET` | Sal del hash de la IP. |
 | `RESEND_API_KEY`, `CONTACT_TO`, `RESEND_FROM` | Ya existían | | El aviso por correo de contacto y diagnóstico se sigue enviando aunque el registro se guarde. |
@@ -635,7 +667,9 @@ ARS_REGISTROS_SECRET=secreto-prueba-ars
 REGISTROS_API_TOKEN=token-pull-prueba
 ```
 
-Levanten un receptor mínimo con el código de §3.5 en el puerto 4599 y ejecuten `npm run dev`. Después:
+Levanten un receptor mínimo con el código de §3.5 en el puerto 4599 (o el que trae el repo, sin dependencias:
+`ARS_REGISTROS_TOKEN=… ARS_REGISTROS_SECRET=… node scripts/receptor-registros-prueba.mjs 4599`, que además muestra lo
+recibido en `GET http://localhost:4599/recibidos`) y ejecuten `npm run dev`. Después:
 
 ```bash
 curl -s -X POST http://localhost:3000/api/contact -H "Content-Type: application/json" \

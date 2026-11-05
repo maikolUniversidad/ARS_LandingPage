@@ -7,22 +7,26 @@ import type {
   PeticionDiagnostico,
   TipoAdjunto,
 } from "@/data/diagnostico/tipos";
+import { autorizacionDe } from "@/data/diagnostico/autorizacion";
 import { ipDe } from "@/lib/asistente/servidor";
-import { configRegistros } from "./config";
+import { CONTACT_EMAIL } from "@/lib/contact";
+import { configRegistros, entornoRegistro } from "./config";
+import { cuerpoPropuesta, type DatosPropuesta } from "./propuesta";
 import {
   VERSION_REGISTRO,
   type OrigenRegistro,
   type RegistroContacto,
   type RegistroDiagnostico,
+  type RegistroPropuesta,
   type TipoRegistro,
 } from "./tipos";
 
 /** Alfabeto Crockford (sin I, L, O, U): legible por teléfono. */
 const ALFABETO = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
-const PREFIJO: Record<TipoRegistro, string> = { contacto: "CONT", diagnostico: "DIAG" };
-export const ID_RE = /^(CONT|DIAG)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$/;
+const PREFIJO: Record<TipoRegistro, string> = { contacto: "CONT", diagnostico: "DIAG", propuesta: "PROP" };
+export const ID_RE = /^(CONT|DIAG|PROP)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$/;
 
-/** CONT-2026-7K3QF2 / DIAG-2026-M4X9PA (32^6 ≈ 1.000 millones por año). */
+/** CONT-2026-7K3QF2 / DIAG-2026-M4X9PA / PROP-2026-9T4HKB (32^6 ≈ 1.000 millones por año). */
 export function nuevoId(tipo: TipoRegistro, fecha = new Date()): string {
   const bytes = randomBytes(6);
   const sufijo = Array.from(bytes, (b) => ALFABETO[b % 32]).join("");
@@ -51,7 +55,7 @@ export function origenDe(req: Request, pagina?: unknown): OrigenRegistro {
     sitio: texto(req.headers.get("x-forwarded-host") ?? req.headers.get("host"), 200) || null,
     ipHash: createHash("sha256").update(`${cfg.salIp}:${ip}`).digest("hex").slice(0, 32),
     userAgent: texto(req.headers.get("user-agent"), 300) || null,
-    entorno: process.env.VERCEL_ENV || process.env.NODE_ENV || "development",
+    entorno: entornoRegistro(),
   };
 }
 
@@ -135,14 +139,21 @@ export function registroDiagnostico(
   raw: unknown,
 ): RegistroDiagnostico {
   const adjuntos = peticion.adjuntos?.length ? peticion.adjuntos : adjuntosDe(raw);
-  const contacto = peticion.perfil.contacto ?? contactoDe(raw);
-  const perfil = contacto ? { ...peticion.perfil, contacto } : peticion.perfil;
+  // Los datos de contacto solo se guardan con la autorización de datos aceptada (Ley 1581).
+  const autorizacion = autorizacionDe(peticion.autorizacion, CONTACT_EMAIL);
+  const contacto = autorizacion ? (peticion.perfil.contacto ?? contactoDe(raw)) : null;
+  const { contacto: _sinAutorizacion, ...perfilSinContacto } = peticion.perfil;
+  void _sinAutorizacion;
+  const perfil = contacto ? { ...perfilSinContacto, contacto } : perfilSinContacto;
+  // El reporte copia el perfil: sin autorización tampoco lleva el contacto.
+  const reporte = contacto ? diagnostico : { ...diagnostico, perfil: { ...diagnostico.perfil, contacto: undefined } };
   const pagina = raw && typeof raw === "object" ? (raw as Record<string, unknown>).pagina : undefined;
   return {
     ...base("diagnostico", req, pagina ?? "/diagnostico"),
     fuente: diagnostico.fuente,
     empresa: perfil.nombre,
     contacto,
+    autorizacion,
     perfil,
     conversacion: peticion.conversacion,
     adjuntos,
@@ -153,6 +164,14 @@ export function registroDiagnostico(
       areasRecomendadas: diagnostico.recomendaciones.map((r) => r.areaId),
       prioridadAlta: diagnostico.recomendaciones.filter((r) => r.prioridad === "alta").map((r) => r.areaId),
     },
-    diagnostico,
+    diagnostico: reporte,
   };
+}
+
+/* ───────────── Propuesta ARS ───────────── */
+
+/** Registro de una propuesta enviada a un asesor (/api/propuesta/enviar). Ver `./propuesta.ts`. */
+export function registroPropuesta(req: Request, datos: DatosPropuesta & { pagina?: unknown }): RegistroPropuesta {
+  const { pagina, ...resto } = datos;
+  return { ...base("propuesta", req, pagina), ...cuerpoPropuesta(resto) };
 }

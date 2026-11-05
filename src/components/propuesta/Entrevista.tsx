@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { ArrowLeft, ArrowRight, CornerDownLeft } from "lucide-react";
+import { TEXTO_AUTORIZACION_PROPUESTA } from "@/data/propuesta/autorizacion";
 import type { Respuestas } from "@/data/propuesta/tipos";
 import { cn } from "@/lib/utils";
 import { SIN_CONTORNO } from "./util";
@@ -230,8 +231,7 @@ function CamposPantalla({ id, r, cambiar, e }: { id: PantallaId; r: Respuestas; 
             <CampoTexto etiqueta="Teléfono / WhatsApp" tipo="tel" inputMode="tel" valor={r.telefono} onCambio={(v) => cambiar({ telefono: v })} error={e.telefono} autoComplete="tel" opcional />
           </div>
           <Casilla marcado={r.autoriza} onCambio={(v) => cambiar({ autoriza: v })} error={e.autoriza}>
-            Autorizo a ARS Intelligence a tratar mis datos personales para preparar esta propuesta y contactarme, conforme a la Ley 1581 de 2012 y su política de
-            tratamiento de datos. Puedo consultar, actualizar o pedir la supresión de mis datos en cualquier momento.
+            {TEXTO_AUTORIZACION_PROPUESTA}
           </Casilla>
         </>
       );

@@ -1,9 +1,12 @@
 /**
  * POST /api/propuesta/enviar — envía la Propuesta ARS a un asesor comercial.
  *
- * Valida y limpia la petición, genera el PDF en el servidor y lo manda por Resend
- * a CONTACT_TO (reply-to: la persona) como lead de propuesta. Sin RESEND_API_KEY
- * deja el lead en el log del servidor y responde ok, igual que /api/contact.
+ * Valida y limpia la petición, genera el PDF en el servidor y hace dos cosas a la vez:
+ *  - guarda la propuesta como registro en el ERP de ARS (`PROP-…`, ver src/lib/registros): quién la
+ *    pidió, lo que respondió y la propuesta completa. Es lo que el equipo ve en «Interesados»;
+ *  - la manda por Resend a CONTACT_TO (reply-to: la persona) con el PDF adjunto. Sin RESEND_API_KEY
+ *    no hay correo y el registro es lo que queda (el log solo lleva los ids, sin datos personales).
+ * Solo falla si no quedó en ningún lado: ni correo ni registro. Igual que /api/contact.
  */
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
@@ -25,8 +28,10 @@ import type {
   RespuestaSeguimiento,
 } from "@/data/propuesta/tipos";
 import { AREA_IDS, type AreaId } from "@/data/diagnostico/tipos";
+import { autorizacionPropuesta } from "@/data/propuesta/autorizacion";
 import { limitado } from "@/lib/asistente/servidor";
 import { CONTACT_EMAIL } from "@/lib/contact";
+import { guardarRegistro, registroPropuesta } from "@/lib/registros";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -262,14 +267,14 @@ const fila = (k: string, v: string) =>
 const items = (xs: string[]) => (xs.length ? `<ul style="margin:4px 0 0 18px;padding:0">${xs.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "—");
 const h = (t: string) => `<h3 style="margin:22px 0 6px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#2348d4">${esc(t)}</h3>`;
 
-function correoHtml(p: Propuesta, r: Respuestas, seg: RespuestaSeguimiento[], conPdf: boolean): string {
+function correoHtml(p: Propuesta, r: Respuestas, seg: RespuestaSeguimiento[], conPdf: boolean, registroId: string): string {
   const modulos = p.modulos.map((m) => `${nombreModulo(m.modulo)} (${nombreArea(m.area)}): ${m.porQue}`);
   const fases = p.lineaDeTrabajo.map((f) => `${f.nombre} — ${f.duracion}: ${f.objetivo}`);
   const integ = p.integraciones.map((i) => `${i.sistema} · ${MODO[i.modo].texto}: ${i.detalle}`);
   return `<!doctype html><html><body style="margin:0;background:#f3f6fb;font-family:Lato,Arial,sans-serif;font-size:14px;line-height:1.5;color:#0b1530">
 <div style="max-width:640px;margin:0 auto;padding:24px">
 <div style="background:#142664;color:#ffffff;border-radius:10px;padding:20px 24px">
-<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9eb0c0">Nueva propuesta ARS · ${esc(p.id)}</div>
+<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9eb0c0">Nueva propuesta ARS · ${esc(p.id)} · Registro ${esc(registroId)}</div>
 <div style="font-size:22px;font-weight:900;margin-top:6px">${esc(p.empresa)}</div>
 <div style="font-style:italic;color:#d5e0ff;margin-top:6px">${esc(p.titular)}</div>
 </div>
@@ -297,9 +302,10 @@ ${seg.length ? `${h("Preguntas de seguimiento")}${seg.map((q) => `<p style="marg
 </div></div></body></html>`;
 }
 
-function correoTexto(p: Propuesta, r: Respuestas, seg: RespuestaSeguimiento[]): string {
+function correoTexto(p: Propuesta, r: Respuestas, seg: RespuestaSeguimiento[], registroId: string): string {
   return [
     `Nueva propuesta ARS · ${p.empresa} · ${p.id}`,
+    `Registro en ARS: ${registroId}`,
     "",
     `Contacto: ${r.nombre} (${r.cargo}) · ${r.email} · ${r.telefono || "—"} · ${r.ciudad}`,
     `Plazo: ${r.plazo || "—"}`,
@@ -344,7 +350,6 @@ export async function POST(req: Request) {
   if (!EMAIL_RE.test(respuestas.email)) return error("Revise el correo electrónico.", 422);
   if (respuestas.nombre.length < 2 && propuesta.contacto.nombre.length < 2) return error("Falta el nombre de contacto.", 422);
 
-  const recibido = new Date().toISOString();
   const asunto = `Nueva propuesta ARS · ${propuesta.empresa} · ${propuesta.id}`;
 
   let pdf: Buffer | null = null;
@@ -356,23 +361,32 @@ export async function POST(req: Request) {
     console.error("[propuesta/enviar] No se pudo generar el PDF:", e);
   }
 
+  // El registro en ARS (más la copia local) arranca ya, sin esperar al correo.
+  const registro = registroPropuesta(req, {
+    propuesta,
+    respuestas,
+    seguimiento,
+    autorizacion: autorizacionPropuesta(respuestas.autoriza),
+    pdf: pdf !== null,
+    vistas3d: capturas3d.length,
+    nombreArea,
+    nombreModulo,
+    pagina: body.pagina,
+  });
+  const guardando = guardarRegistro(registro);
+
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) {
-    console.info("[propuesta/enviar] Nuevo lead de propuesta (sin RESEND_API_KEY):", {
-      asunto,
-      id: propuesta.id,
-      empresa: propuesta.empresa,
-      contacto: { nombre: respuestas.nombre, cargo: respuestas.cargo, email: respuestas.email, telefono: respuestas.telefono, ciudad: respuestas.ciudad },
-      plazo: respuestas.plazo,
-      modulos: propuesta.modulos.map((m) => nombreModulo(m.modulo)),
-      seguimiento,
-      vistas3d: capturas3d.length,
-      pdfBytes: pdf?.length ?? 0,
-      recibido,
-    });
+    const guardado = await guardando;
+    // Solo el id del registro (lo genera el servidor): los datos de la persona quedan en el registro, no en el log.
+    console.info(
+      `[propuesta/enviar] Nueva propuesta ${registro.id}; sin RESEND_API_KEY no se envió correo.` +
+        (guardado.guardado ? "" : " El registro aún no se confirmó: ver [registros] en el log."),
+    );
     return responder({ ok: true });
   }
 
+  let correo = true;
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -382,19 +396,26 @@ export async function POST(req: Request) {
         to: process.env.CONTACT_TO ?? CONTACT_EMAIL,
         reply_to: respuestas.email,
         subject: asunto,
-        html: correoHtml(propuesta, respuestas, seguimiento, pdf !== null),
-        text: correoTexto(propuesta, respuestas, seguimiento),
+        html: correoHtml(propuesta, respuestas, seguimiento, pdf !== null, registro.id),
+        text: correoTexto(propuesta, respuestas, seguimiento, registro.id),
         ...(pdf ? { attachments: [{ filename: nombreArchivo(propuesta.empresa), content: pdf.toString("base64") }] } : {}),
       }),
     });
     if (!res.ok) {
       console.error("[propuesta/enviar] Resend error:", res.status, await res.text());
-      return error("No pudimos enviar la propuesta. Intente de nuevo o escríbanos por WhatsApp.", 502);
+      correo = false;
     }
   } catch (e) {
     console.error("[propuesta/enviar] Resend exception:", e);
+    correo = false;
+  }
+
+  // Solo fallamos si la propuesta no quedó en ningún lado: ni correo ni registro.
+  const guardado = await guardando;
+  if (!correo && !guardado.guardado) {
     return error("No pudimos enviar la propuesta. Intente de nuevo o escríbanos por WhatsApp.", 502);
   }
+  if (!correo) console.warn(`[propuesta/enviar] ${registro.id}: el correo falló, pero la propuesta quedó en el registro de ARS.`);
 
   return responder({ ok: true });
 }

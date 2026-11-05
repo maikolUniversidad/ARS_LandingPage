@@ -15,6 +15,8 @@
  * Las cifras son ESTIMACIONES ilustrativas (siempre con la etiqueta «estimado»).
  */
 
+import type { AceptacionAutorizacion } from "./autorizacion";
+
 /** Ids de las 11 áreas del catálogo (src/data/servicios/catalogo.ts). */
 export type AreaId =
   | "operacion-en-campo"
@@ -234,6 +236,8 @@ export type PeticionDiagnostico = {
   conversacion: TurnoEntrevista[];
   /** Adjuntos analizados durante la entrevista (metadatos + lo que entendió la IA). */
   adjuntos?: AdjuntoTurno[];
+  /** Autorización de datos (Ley 1581) que aceptó la persona; sin ella el registro va sin contacto. */
+  autorizacion?: AceptacionAutorizacion;
 };
 
 /** Estado del guardado en el módulo de ARS (ver docs/BACKEND-REGISTROS.md). */

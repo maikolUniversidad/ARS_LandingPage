@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { limitado } from "@/lib/asistente/servidor";
 import { enviarCorreoEquipo } from "@/lib/registros/correo";
 import { guardarRegistro, registroContacto } from "@/lib/registros";
 
@@ -43,6 +44,10 @@ export async function POST(req: Request) {
   }
   if (message.length < 5) {
     return NextResponse.json({ ok: false, error: "Mensaje muy corto" }, { status: 422 });
+  }
+  // Cada envío crea un registro en el ERP de ARS: tope por IP para que un bot no lo llene.
+  if (limitado(req, "contacto", 8, 10 * 60_000)) {
+    return NextResponse.json({ ok: false, error: "Recibimos varios mensajes seguidos. Intenta de nuevo en unos minutos." }, { status: 429 });
   }
 
   const registro = registroContacto(req, {
