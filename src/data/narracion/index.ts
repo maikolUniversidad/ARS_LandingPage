@@ -1,5 +1,5 @@
-import { GUIONES_ARQUITECTURA } from "./guiones-arquitectura";
 import { GUIONES_ACADEMIA } from "./guiones-academia";
+import { GUIONES_ARQUITECTURA } from "./guiones-arquitectura";
 import { GUIONES_HOME } from "./guiones-home";
 import { GUIONES_PLATAFORMA } from "./guiones-plataforma";
 import { GUIONES_SERVICIOS_AREAS } from "./guiones-servicios-areas";
