@@ -1,5 +1,5 @@
 /**
- * Siluetas procedurales de los 10 distritos del campus (una por escena de /servicios).
+ * Siluetas procedurales de los 11 distritos del campus (una por escena de /servicios).
  *
  * Cada distrito comparte un puñado de materiales (líneas, acentos, rellenos,
  * planos aditivos y brillos) para que el campus pueda «encenderlo» o «apagarlo»
@@ -415,6 +415,50 @@ function gobierno(c: Ctx): Silueta {
   };
 }
 
+/** K · Infraestructura: fila de racks con luces de estado y una nube a la que sale un hilo de datos. */
+function infraestructura(c: Ctx): Silueta {
+  const xs = [-2.1, -0.7, 0.7, 2.1];
+  const altos = [2.6, 3.1, 3.1, 2.6];
+  const luces: THREE.Mesh[] = [];
+  xs.forEach((x, i) => {
+    caja(c, 1.1, altos[i], 1.3, x, 0, 0);
+    // bandejas: una línea por unidad y una pantallita de estado por bandeja
+    const pares: THREE.Vector3[] = [];
+    for (let y = 0.35; y < altos[i] - 0.1; y += 0.4) {
+      pares.push(v3(x - 0.5, y, 0.66), v3(x + 0.5, y, 0.66));
+      luces.push(plano(c, 0.7, 0.1, x, y + 0.2, 0.67));
+    }
+    segmentos(c, pares, c.m.linea);
+  });
+  // la nube del cliente arriba (tres lóbulos) y el hilo saliente desde el rack central
+  const nube = new THREE.Group();
+  [
+    [-0.55, 0, 0.5],
+    [0.1, 0.25, 0.65],
+    [0.7, 0, 0.45],
+  ].forEach(([x, y, r]) => {
+    const l = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(circulo(r, 0, 28).map((p) => v3(p.x + x, p.z + y, 0))), c.m.acento);
+    nube.add(l);
+  });
+  nube.position.set(0, 5.6, 0);
+  c.g.add(nube);
+  brillo(c, 0, 5.7, 0, 1.6);
+  const hilo = new THREE.CatmullRomCurve3([v3(0.7, 3.1, 0.3), v3(0.6, 4.2, 0.3), v3(0.1, 5.2, 0)]);
+  linea(c, hilo.getPoints(24), c.m.acento);
+  const f = flujoLocal(c, hilo, 8, 0.5);
+  // marcador del piso: los datos se quedan aquí
+  linea(c, circulo(3.0, 0.06, 48), c.m.acento, true);
+  return {
+    grupo: c.g,
+    alto: 6.6,
+    flujos: [f],
+    animar(t, on) {
+      luces.forEach((l, i) => l.scale.set(0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * (1.3 + (i % 5) * 0.4) + i * 1.7)) * (0.4 + on * 0.6), 1, 1));
+      nube.position.y = 5.6 + Math.sin(t * 0.8) * 0.12;
+    },
+  };
+}
+
 const FABRICAS: Record<EscenaId, (c: Ctx) => Silueta> = {
   campo,
   centro,
@@ -426,8 +470,7 @@ const FABRICAS: Record<EscenaId, (c: Ctx) => Silueta> = {
   finanzas,
   productividad,
   gobierno,
-  // TODO(infra): silueta propia de racks; mientras tanto, la de gobierno.
-  infraestructura: gobierno,
+  infraestructura,
 };
 
 export function construirSilueta(kit: Kit, escena: EscenaId, m: MaterialesDistrito, origen: THREE.Vector3, color: THREE.Color): Silueta {
