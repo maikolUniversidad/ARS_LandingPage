@@ -267,3 +267,41 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+/*
+ * CTA destacado (cierre de la home): borde con un brillo que gira alrededor
+ * de la tarjeta del autodiagnóstico. Con movimiento reducido queda el borde fijo.
+ */
+@property --cta-giro {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes cta-giro {
+  to { --cta-giro: 360deg; }
+}
+@keyframes cta-latido {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(107, 138, 255, 0.55); }
+  50%      { box-shadow: 0 0 0 10px rgba(107, 138, 255, 0); }
+}
+.cta-destacado {
+  position: relative;
+  isolation: isolate;
+  padding: 2px;
+  background: conic-gradient(from var(--cta-giro), rgba(107, 138, 255, 0.25) 0deg, #9fb4ff 60deg, #ffffff 90deg, #6b8aff 120deg, rgba(107, 138, 255, 0.25) 200deg, rgba(107, 138, 255, 0.25) 360deg);
+  animation: cta-giro 6s linear infinite;
+}
+.cta-destacado::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  z-index: -1;
+  background: radial-gradient(60% 50% at 30% 20%, rgba(35, 72, 212, 0.55), transparent 70%);
+  filter: blur(18px);
+  pointer-events: none;
+}
+.cta-latido { animation: cta-latido 2.4s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .cta-destacado,
+  .cta-latido { animation: none !important; }
+}

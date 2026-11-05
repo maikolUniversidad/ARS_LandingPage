@@ -8,6 +8,8 @@ import { SiteNav } from "@/components/SiteNav";
 import { CargaTecnologica } from "@/components/carga/CargaTecnologica";
 import { RUTA_DIAGNOSTICO } from "@/lib/navegacion";
 import { ExperienciaPropuesta } from "@/components/propuesta/ExperienciaPropuesta";
+import { ContactForm } from "@/components/ContactForm";
+import { Mail, MessageSquare } from "lucide-react";
 import { mailtoUrl, whatsappUrl } from "@/lib/contact";
 import { isModestDevice, noopSubscribe, supportsWebGL } from "@/lib/three/webgl";
 import { useI18n } from "@/lib/i18n/context";
@@ -886,6 +888,11 @@ function Recap({ h }: { h: HomeDict }) {
 }
 
 function Contact({ h }: { h: HomeDict }) {
+  const { locale } = useI18n();
+  const conExperiencia = locale === "es";
+  // Mientras la experiencia está en su inicio, el formulario va a su lado; al empezar, la experiencia toma todo el ancho.
+  const [enInicio, setEnInicio] = useState(true);
+  const lado = conExperiencia && enInicio;
   return (
     <section id="contacto" data-narracion="home/contacto" aria-labelledby="contacto-title" className="relative isolate overflow-hidden bg-[#020a18] py-20 md:py-28">
       {/* Alias de la antigua ancla `/#cierre` (enlaces y asistente previos). */}
@@ -898,39 +905,101 @@ function Contact({ h }: { h: HomeDict }) {
       <div className="mx-auto max-w-7xl px-4 md:px-10">
         <div className="grid gap-8 text-white md:grid-cols-[1.2fr_1fr] md:items-end md:gap-16">
           <div>
-          <div className="font-mono text-[11px] uppercase tracking-[0.35em] text-white/70">{h.contact.eyebrow}</div>
-          <h2 id="contacto-title" className="mt-5 font-heading text-4xl font-black leading-[1.03] tracking-tight md:text-6xl">
-            {h.contact.title1}
-            <br />
-            <span className="text-white/80">{h.contact.title2}</span>
-          </h2>
+            <div className="font-mono text-[11px] uppercase tracking-[0.35em] text-white/70">{h.contact.eyebrow}</div>
+            <h2 id="contacto-title" className="mt-5 font-heading text-4xl font-black leading-[1.03] tracking-tight md:text-6xl">
+              {h.contact.title1}
+              <br />
+              <span className="text-white/80">{h.contact.title2}</span>
+            </h2>
           </div>
           <div>
-          <p className="max-w-lg text-base leading-relaxed text-white/85 md:text-lg">{h.contact.body}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href={whatsappUrl("Hola ARS Intelligence, quiero hablar con un asesor.")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bevel-btn inline-flex items-center gap-3 bg-white px-6 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#142664] hover:bg-white/90"
-            >
-              ▸ {h.contact.whatsapp}
-            </a>
-            <a
-              href={mailtoUrl()}
-              className="bevel-btn inline-flex items-center gap-3 border border-white/40 px-6 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-white hover:bg-white/10"
-            >
-              ◇ {h.contact.email}
-            </a>
-          </div>
+            <p className="max-w-lg text-base leading-relaxed text-white/85 md:text-lg">{h.contact.body}</p>
+            {conExperiencia && (
+              <ol className="mt-6 grid gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/80 sm:grid-cols-2">
+                <li className="flex items-center gap-2">
+                  <span className="grid size-6 place-items-center bg-white text-[10px] font-bold text-[#142664]">1</span>
+                  Autodiagnóstico con IA
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="grid size-6 place-items-center border border-white/50 text-[10px] font-bold">2</span>
+                  Contacto directo
+                </li>
+              </ol>
+            )}
           </div>
         </div>
-        {/* Propuesta ARS: entrevista guiada → propuesta con IA → PDF → asesor. */}
-        <div id="propuesta" className="scroll-mt-20">
-          <ExperienciaPropuesta className="mt-10 md:mt-14" />
+
+        <div className={cn("mt-10 grid gap-6 md:mt-14", lado && "lg:grid-cols-[1.55fr_1fr] lg:items-stretch")}>
+          {conExperiencia && (
+            /* Propuesta ARS: entrevista guiada → propuesta con IA → PDF → asesor. */
+            <div id="propuesta" className={cn("scroll-mt-20", enInicio && "cta-destacado")}>
+              <ExperienciaPropuesta className="h-full [&>section]:h-full [&>section]:bg-[#020a18]/85" onEnInicio={setEnInicio} formularioAparte />
+            </div>
+          )}
+          {(lado || !conExperiencia) && <ContactoDirecto h={h} />}
         </div>
+        {conExperiencia && !enInicio && (
+          <div className="mt-6 flex flex-wrap items-center gap-3 border border-white/15 bg-[#020a18]/45 px-5 py-4 text-white backdrop-blur">
+            <span className="mr-auto text-sm text-white/80">¿Prefiere hablar directo con un asesor?</span>
+            <CanalesDirectos h={h} compacto />
+          </div>
+        )}
       </div>
     </section>
+  );
+}
+
+function CanalesDirectos({ h, compacto }: { h: HomeDict; compacto?: boolean }) {
+  const base = cn(
+    "bevel-btn inline-flex items-center justify-center gap-3 whitespace-nowrap font-mono text-xs font-bold uppercase tracking-[0.2em] transition-colors",
+    compacto ? "px-5 py-3" : "min-h-12 flex-1 basis-[13rem] px-5 py-3.5",
+  );
+  return (
+    <div className={cn("flex flex-wrap gap-3", !compacto && "w-full")}>
+      <a
+        href={whatsappUrl("Hola ARS Intelligence, quiero hablar con un asesor.")}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(base, "bg-[#25d366] text-[#04210f] hover:bg-[#3ee07a]")}
+      >
+        <WhatsAppIcon className="size-4" /> {h.contact.whatsapp}
+      </a>
+      <a href={mailtoUrl()} className={cn(base, "border border-white/50 text-white hover:bg-white/10")}>
+        <Mail className="size-4" aria-hidden="true" /> {h.contact.email}
+      </a>
+    </div>
+  );
+}
+
+function ContactoDirecto({ h }: { h: HomeDict }) {
+  const es = useI18n().locale === "es";
+  return (
+    <aside aria-labelledby="contacto-directo" className="flex flex-col border border-white/20 bg-[#020a18]/70 p-5 text-white backdrop-blur sm:p-7 md:p-8">
+      <span className="inline-flex w-fit items-center gap-2 border border-white/30 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-white/80">
+        <MessageSquare className="size-3.5" aria-hidden="true" /> {es ? "Contacto directo" : "Direct contact"}
+      </span>
+      <h3 id="contacto-directo" className="mt-5 font-heading text-2xl font-black leading-tight tracking-tight md:text-3xl">
+        {h.contact.formTitle}
+      </h3>
+      <p className="mt-2 text-[15px] leading-relaxed text-[#c5d2ee]/90">
+        {es ? "Escríbanos ahora o déjenos sus datos y un asesor lo contacta." : "Message us now or leave your details and an advisor will reach out."}
+      </p>
+      <div className="mt-5">
+        <CanalesDirectos h={h} />
+      </div>
+      <div className="my-6 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-white/50">
+        <span className="h-px flex-1 bg-white/20" /> {es ? "o déjenos sus datos" : "or leave your details"} <span className="h-px flex-1 bg-white/20" />
+      </div>
+      <ContactForm sinWhatsapp />
+    </aside>
+  );
+}
+
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29-.17-1.41-.07-.13-.27-.2-.57-.35M12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.83 9.83 0 0 1 9.89 9.89c0 5.45-4.44 9.88-9.9 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.17-1.24-6.16-3.48-8.4" />
+    </svg>
   );
 }
 

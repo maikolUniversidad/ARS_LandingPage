@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
-import { ArrowLeft, ArrowRight, Clock, FileText, GitBranch, Network, PieChart } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, FileText, GitBranch, Network, PieChart, Sparkles } from "lucide-react";
 import type { PreguntaSeguimiento, Propuesta, Respuestas, RespuestaSeguimiento } from "@/data/propuesta/tipos";
 import { ContactForm } from "@/components/ContactForm";
 import { useI18n } from "@/lib/i18n/context";
@@ -51,7 +51,15 @@ const RECIBE = [
  * seguimiento de Ars → «armando» → propuesta animada → PDF / envío a un asesor.
  * En inglés muestra el formulario de contacto simple.
  */
-export function ExperienciaPropuesta({ className }: { className?: string }) {
+type PropsExperiencia = {
+  className?: string;
+  /** Avisa si el módulo está en su pantalla de inicio (la home acomoda el formulario a su lado). */
+  onEnInicio?: (enInicio: boolean) => void;
+  /** El formulario de contacto ya se muestra aparte: oculta «Prefiero solo dejar mis datos». */
+  formularioAparte?: boolean;
+};
+
+export function ExperienciaPropuesta({ className, onEnInicio, formularioAparte }: PropsExperiencia) {
   const { locale } = useI18n();
   if (locale === "en") {
     return (
@@ -60,10 +68,10 @@ export function ExperienciaPropuesta({ className }: { className?: string }) {
       </div>
     );
   }
-  return <ExperienciaEs className={className} />;
+  return <ExperienciaEs className={className} onEnInicio={onEnInicio} formularioAparte={formularioAparte} />;
 }
 
-function ExperienciaEs({ className }: { className?: string }) {
+function ExperienciaEs({ className, onEnInicio, formularioAparte }: PropsExperiencia) {
   const [fase, setFase] = useState<Fase>("inicio");
   const [respuestas, setRespuestas] = useState<Respuestas>(RESPUESTAS_VACIAS);
   const [paso, setPaso] = useState(0);
@@ -138,6 +146,10 @@ function ExperienciaEs({ className }: { className?: string }) {
     });
   }, []);
 
+  useEffect(() => {
+    onEnInicio?.(fase === "inicio");
+  }, [fase, onEnInicio]);
+
   const cambiar = useCallback((p: Partial<Respuestas>) => setRespuestas((r) => ({ ...r, ...p })), []);
 
   const cambiarPaso = (n: number) => {
@@ -173,7 +185,7 @@ function ExperienciaEs({ className }: { className?: string }) {
         <Inicio
           continuar={cargado && paso > 0 && !propuesta ? respuestas.empresa || respuestas.nombre || "su entrevista" : null}
           onEmpezar={() => ir("entrevista")}
-          onDatos={() => ir("datos")}
+          onDatos={formularioAparte ? undefined : () => ir("datos")}
           verPropuesta={propuesta ? () => ir("propuesta") : undefined}
         />
       )}
@@ -241,18 +253,22 @@ function ExperienciaEs({ className }: { className?: string }) {
   );
 }
 
-function Inicio({ continuar, onEmpezar, onDatos, verPropuesta }: { continuar: string | null; onEmpezar: () => void; onDatos: () => void; verPropuesta?: () => void }) {
+function Inicio({ continuar, onEmpezar, onDatos, verPropuesta }: { continuar: string | null; onEmpezar: () => void; onDatos?: () => void; verPropuesta?: () => void }) {
   return (
     <section aria-labelledby="propuesta-inicio" className="relative overflow-hidden border border-white/15 bg-[#020a18]/55 p-5 backdrop-blur sm:p-7 md:p-10">
       <div className="grid gap-8 @4xl:grid-cols-[1.3fr_1fr] @4xl:items-center">
         <div>
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.3em] text-[#6b8aff]">Propuesta ARS · con inteligencia artificial</p>
+          <span className="cta-latido inline-flex items-center gap-2 bg-[#2348d4] px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-white">
+            <Sparkles className="size-3.5" aria-hidden="true" /> Recomendado · Autodiagnóstico con IA
+          </span>
+          <p className="mt-5 font-mono text-[10.5px] uppercase tracking-[0.3em] text-[#6b8aff]">Propuesta ARS · con inteligencia artificial</p>
           <h3 id="propuesta-inicio" tabIndex={-1} style={SIN_CONTORNO} className="mt-4 font-heading text-3xl font-black leading-[1.05] tracking-tight text-white outline-none md:text-5xl">
             Cuéntenos su operación.{" "}
             <span className="font-serif font-normal italic text-[#b9c8ff]">Ars le arma la propuesta.</span>
           </h3>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#c5d2ee]/90 md:text-base">
-            Unas preguntas sobre su empresa, sus aplicaciones y lo que le duele. Al final recibe una propuesta hecha para usted:
+            Responda unas preguntas sobre su empresa, sus sistemas y lo que le duele.{" "}
+            <strong className="font-semibold text-white">Ars evalúa en qué áreas le podemos ayudar</strong> y al final recibe una propuesta hecha para usted:
           </p>
           <ul className="mt-6 grid gap-3 @xl:grid-cols-2">
             {RECIBE.map(({ icono: I, titulo, texto }, i) => (
@@ -272,9 +288,10 @@ function Inicio({ continuar, onEmpezar, onDatos, verPropuesta }: { continuar: st
             <button
               type="button"
               onClick={onEmpezar}
-              className="bevel-btn inline-flex min-h-12 items-center justify-center gap-3 bg-[#d5e0ff] px-7 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#020a18] transition-colors hover:bg-white"
+              className="bevel-btn group inline-flex min-h-12 items-center justify-center gap-3 bg-white px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#020a18] shadow-[0_0_32px_rgba(107,138,255,0.55)] transition-colors hover:bg-[#d5e0ff]"
             >
-              {continuar ? "Continuar donde iba" : "Empezar"} <ArrowRight className="size-4" aria-hidden="true" />
+              {continuar ? "Continuar donde iba" : "Hacer mi autodiagnóstico"}{" "}
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </button>
             <span className="inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.2em] text-white/55">
               <Clock className="size-3.5" aria-hidden="true" /> Unos 3 minutos
@@ -286,9 +303,9 @@ function Inicio({ continuar, onEmpezar, onDatos, verPropuesta }: { continuar: st
               Ver la propuesta que ya armó
             </button>
           )}
-          <button type="button" onClick={onDatos} className="mt-5 block min-h-11 text-[13.5px] text-white/55 underline decoration-white/25 underline-offset-4 hover:text-white">
+          {onDatos && <button type="button" onClick={onDatos} className="mt-5 block min-h-11 text-[13.5px] text-white/55 underline decoration-white/25 underline-offset-4 hover:text-white">
             Prefiero solo dejar mis datos
-          </button>
+          </button>}
         </div>
 
         <div aria-hidden="true" className="hidden @4xl:block">
