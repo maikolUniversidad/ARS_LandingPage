@@ -258,7 +258,7 @@ Los tipos de referencia (TypeScript) están en `src/lib/registros/tipos.ts` y `s
   "historialEstados": [{ "estado": "nuevo", "fecha": "2026-11-05T03:25:01.788Z" }],
   "origen": {
     "pagina": "/contacto",
-    "sitio": "arsintelligence.co",
+    "sitio": "ars-intelligence.com",
     "ipHash": "c35ce363f81234b146523be04d93de37",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) …",
     "entorno": "production"
@@ -301,7 +301,7 @@ Ejemplo real (generado en modo demo; las listas de `diagnostico` se recortaron a
   "historialEstados": [{ "estado": "nuevo", "fecha": "2026-11-05T03:25:02.472Z" }],
   "origen": {
     "pagina": "/diagnostico",
-    "sitio": "arsintelligence.co",
+    "sitio": "ars-intelligence.com",
     "ipHash": "c35ce363f81234b146523be04d93de37",
     "userAgent": "Mozilla/5.0 …",
     "entorno": "production"
@@ -522,7 +522,7 @@ El ERP puede leer y actualizar los registros del **almacén local** del sitio. S
 | `POST /api/registros/reintentar` | Reenvía a su endpoint los registros `pendiente` (hasta 50 por llamada). Respuesta: `{revisados, enviados[], fallidos[]}`. |
 
 ```bash
-SITIO=https://arsintelligence.co
+SITIO=https://ars-intelligence.com
 TOKEN=...   # REGISTROS_API_TOKEN
 
 # Sin token → 401

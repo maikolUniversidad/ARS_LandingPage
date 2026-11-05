@@ -30,7 +30,7 @@ export type EstadoRegistro = (typeof ESTADOS_REGISTRO)[number];
 export type OrigenRegistro = {
   /** Ruta de la página (p. ej. "/diagnostico" o "/contacto"), si se conoce. */
   pagina: string | null;
-  /** Host del sitio que lo recibió (p. ej. "arsintelligence.co"). */
+  /** Host del sitio que lo recibió (p. ej. "ars-intelligence.com"). */
   sitio: string | null;
   /** SHA-256 (truncado a 32 hex) de IP + sal secreta. */
   ipHash: string;
