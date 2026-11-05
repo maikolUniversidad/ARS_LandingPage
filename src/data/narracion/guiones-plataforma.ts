@@ -9,7 +9,7 @@ export const GUIONES_PLATAFORMA: Record<string, string> = {
   "plataforma/en-movimiento":
     "Ahora véalas trabajar. Estos clips están grabados directamente en la plataforma, sin animaciones de mentira: así se mueve la operación del día a día. Si alguno le llama la atención, tóquelo y lo ve en grande.",
   "plataforma/recorrido":
-    "Le propongo un recorrido por las diez áreas. Voy a pasar por cada una y le cuento en una frase qué resuelve. Si quiere detenerse en alguna, elíjala y le espero.",
+    "Le propongo un recorrido por las once áreas. Voy a pasar por cada una y le cuento en una frase qué resuelve. Si quiere detenerse en alguna, elíjala y le espero.",
   "plataforma/recorrido/operacion-en-campo":
     "Operación en campo: todo lo que pasa en el puesto, de la marcación a la ronda, registrado desde el celular del vigilante y convertido en reportes.",
   "plataforma/recorrido/centro-de-operaciones":
@@ -30,6 +30,8 @@ export const GUIONES_PLATAFORMA: Record<string, string> = {
     "Productividad e inteligencia artificial: tareas, reuniones con transcripción, tickets y automatizaciones, con asistentes que proponen y personas que deciden.",
   "plataforma/recorrido/gobierno-y-seguridad":
     "Gobierno y seguridad: la torre de control, la auditoría de cada acción y la configuración de cada empresa, con ingreso de doble factor.",
+  "plataforma/recorrido/infraestructura":
+    "Infraestructura: nuestro propio centro de datos en Colombia, con tarjetas gráficas para la inteligencia artificial en local, y un monitor que vigila también su nube o el equipo que dejamos en su sede.",
   "plataforma/arquitecto-ia":
     "Aquí puede hacer algo distinto. Cuéntele a nuestro arquitecto, con sus propias palabras, cómo opera hoy y qué le duele, y le arma una propuesta: qué módulos resuelven cada problema y en qué orden implementarlos. Es orientativa, y la ajustamos juntos con su equipo.",
   "plataforma/ciclo":

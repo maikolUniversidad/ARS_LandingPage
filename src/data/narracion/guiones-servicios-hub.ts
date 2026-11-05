@@ -8,7 +8,7 @@ export const GUIONES_SERVICIOS_HUB: Record<string, string> = {
   "servicios/dia":
     "Para entenderlo mejor, piense en un día normal. Se programa el turno, el vigilante marca y hace sus rondas, la central responde cuando algo pasa y, al final, ese mismo turno se convierte en nómina y en cuentas claras para el cliente. Todo en el mismo lugar.",
   "servicios/areas":
-    "Estas son las diez áreas. Cada una se recorre en tres dimensiones, módulo por módulo, con pantallas y clips reales. Si no sabe por dónde empezar, le sugiero operación en campo: ahí nace todo lo demás.",
+    "Estas son las once áreas. Cada una se recorre en tres dimensiones, módulo por módulo, con pantallas y clips reales. Si no sabe por dónde empezar, le sugiero operación en campo: ahí nace todo lo demás.",
   "servicios/por-que":
     "¿Y por qué nosotros? Porque esta plataforma la pensamos desde adentro, desde cómo se opera de verdad una empresa de seguridad. Cada persona ve solo lo que le toca, y cada acción importante queda registrada.",
   "servicios/buscar":
