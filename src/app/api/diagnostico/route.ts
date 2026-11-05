@@ -28,7 +28,8 @@ export async function POST(req: Request) {
   if (!cfg.anthropicKey && !demo) {
     return responder({ ok: false, mensaje: "El diagnóstico aún no está configurado en este servidor." }, 503);
   }
-  if (!demo && limitado(req, "diagnostico", 5, 10 * 60_000)) {
+  // Cada diagnóstico (también en demo) crea un registro en el ERP de ARS: el demo tiene un tope más holgado.
+  if (demo ? limitado(req, "diagnostico-demo", 20, 10 * 60_000) : limitado(req, "diagnostico", 5, 10 * 60_000)) {
     return responder({ ok: false, mensaje: "Ya hiciste varios diagnósticos seguidos. Intenta de nuevo en unos minutos." }, 429);
   }
 

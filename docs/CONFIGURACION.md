@@ -43,6 +43,8 @@ npm run dev
 | `REGISTROS_DIR` | Registros | Carpeta de la copia local | No | `.data/registros` |
 | `REGISTROS_COPIA_LOCAL` | Registros | `siempre` o `respaldo` (solo si el push falla) | No | `siempre` |
 | `REGISTROS_ESPERA_MS` | Registros | Cuánto espera la respuesta al usuario a que se confirme el guardado | No | `2500` |
+| `REGISTROS_REINTENTO_MS` | Registros | Cada cuánto el servidor reintenta solo, en segundo plano, los registros `pendiente` (mín. 30000; `0` = apagado) | No | `300000` (5 min) |
+| `REGISTROS_ENTORNO` | Registros | `production`, `preview` o `development` en `origen.entorno`; manda sobre `VERCEL_ENV`/`NODE_ENV` (para pruebas) | No | `VERCEL_ENV`, si no `NODE_ENV` |
 | `REGISTROS_API_TOKEN` | Registros | Bearer de la API pull `/api/registros` para el ERP | No | La API responde 503 |
 | `REGISTROS_SAL_IP` | Registros | Sal del hash de la IP en los registros | No | `ARS_REGISTROS_SECRET` |
 | `NEXT_PUBLIC_ROBOFLOW_PUBLISHABLE_KEY` | Roboflow | Detector de EPP en el navegador (clave pública) | No | Se usa la que trae el código |

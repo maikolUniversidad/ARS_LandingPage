@@ -14,7 +14,7 @@ Código del sitio: `src/lib/registros/` (módulo), `src/app/api/contact/route.ts
 |---|---|
 | **Push** (principal) | El sitio hace `POST` de cada registro nuevo a una URL que **ustedes exponen**. El cuerpo va firmado con HMAC-SHA256 y lleva `Idempotency-Key`. |
 | **Pull** (complementario) | El ERP puede leer y actualizar los registros con `GET/PATCH /api/registros` del sitio, con un token Bearer. Solo sirve donde el sitio tiene disco persistente (ver §2.2). |
-| **Respaldo** | Si su servidor no responde, el sitio guarda el registro en un JSON local marcado `pendiente` y lo reenvía después (`POST /api/registros/reintentar`). |
+| **Respaldo** | Si su servidor no responde, el sitio guarda el registro en un JSON local marcado `pendiente` y lo reenvía después: solo, cada 5 min (`REGISTROS_REINTENTO_MS`), y a pedido con `POST /api/registros/reintentar`. |
 | **Tipos de registro** | `contacto` (id `CONT-2026-XXXXXX`) y `diagnostico` (id `DIAG-2026-XXXXXX`). |
 
 Lo que necesitamos de ustedes:
@@ -49,7 +49,8 @@ flowchart LR
 2. Si `REGISTROS_COPIA_LOCAL=siempre` (por defecto), escribe la copia local con `sincronizacion.remoto = "pendiente"`.
 3. Hace `POST` a su endpoint. Espera hasta `ARS_REGISTROS_TIMEOUT_MS` (8 s) por intento, con **3 intentos en total** (1 + 2 reintentos, esperas de ~0,5 s y ~2 s). Reintenta ante errores de red, timeouts, `408`, `429` y `5xx`. **No** reintenta otros `4xx`.
 4. Actualiza la copia local a `enviado` o la deja en `pendiente` con el último error.
-5. Si no se pudo guardar en ningún lado, el registro completo va al log del servidor (`[registros] REGISTRO NO GUARDADO …`) para recuperarlo a mano.
+5. Si no se pudo guardar en ningún lado, el registro completo va al log del servidor (`[registros] REGISTRO NO GUARDADO …`) para recuperarlo a mano. Si el push está apagado (faltan las variables) y `NODE_ENV=production`, el registro completo también va al log (`[registros] PUSH APAGADO, registro solo en la copia local …`), porque la copia local sola no es durable donde el disco es efímero.
+6. Mientras el servidor esté arriba, cada `REGISTROS_REINTENTO_MS` (5 min) reenvía solo lo `pendiente` que tenga más de 1 minuto (lo más reciente lo sigue enviando su propia petición). Si su servidor no responde, la pasada se corta y sigue en la siguiente. Lo que su servidor rechazó de forma definitiva (4xx salvo 408/429) no se reenvía solo: queda `pendiente` con el error para revisarlo y mandarlo con `POST /api/registros/reintentar`. Lo arranca `src/instrumentation.ts` y solo corre si el push está configurado.
 
 La respuesta al usuario espera como mucho `REGISTROS_ESPERA_MS` (2,5 s) a la primera confirmación, sea la copia local o su servidor. Los reintentos siguen en segundo plano con `after()` de Next.js. En la respuesta, `registro.guardado: true` significa que el registro quedó guardado en algún lado.
 
@@ -595,6 +596,8 @@ Se configuran en Vercel (Project → Settings → Environment Variables) o en `.
 | `REGISTROS_DIR` | No | `.data/registros` | Carpeta de la copia local (en Docker, móntenla como volumen). |
 | `REGISTROS_COPIA_LOCAL` | No | `siempre` | `siempre` = copia local aunque el push funcione; `respaldo` = solo si el push falla. |
 | `REGISTROS_ESPERA_MS` | No | `2500` | Cuánto espera la respuesta al usuario a la confirmación (0–15000). |
+| `REGISTROS_REINTENTO_MS` | No | `300000` | Reintento de fondo de lo `pendiente` (mín. 30000; `0` = apagado). |
+| `REGISTROS_ENTORNO` | No | `VERCEL_ENV` o `NODE_ENV` | `production`, `preview` o `development` en `origen.entorno`. Para que las pruebas no se cuelen como leads reales. |
 | `REGISTROS_API_TOKEN` | Para la API pull | — | Bearer de `/api/registros`. Sin ella, la API responde 503. |
 | `REGISTROS_SAL_IP` | No | `ARS_REGISTROS_SECRET` | Sal del hash de la IP. |
 | `RESEND_API_KEY`, `CONTACT_TO`, `RESEND_FROM` | Ya existían | | El aviso por correo de contacto y diagnóstico se sigue enviando aunque el registro se guarde. |
@@ -635,7 +638,9 @@ ARS_REGISTROS_SECRET=secreto-prueba-ars
 REGISTROS_API_TOKEN=token-pull-prueba
 ```
 
-Levanten un receptor mínimo con el código de §3.5 en el puerto 4599 y ejecuten `npm run dev`. Después:
+Levanten un receptor mínimo con el código de §3.5 en el puerto 4599 (o el que trae el repo, sin dependencias:
+`ARS_REGISTROS_TOKEN=… ARS_REGISTROS_SECRET=… node scripts/receptor-registros-prueba.mjs 4599`, que además muestra lo
+recibido en `GET http://localhost:4599/recibidos`) y ejecuten `npm run dev`. Después:
 
 ```bash
 curl -s -X POST http://localhost:3000/api/contact -H "Content-Type: application/json" \
