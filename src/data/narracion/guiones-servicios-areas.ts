@@ -96,7 +96,7 @@ export const GUIONES_SERVICIOS_AREAS: Record<string, string> = {
   [idModulo(E, "sede-inteligente")]:
     "Un día y una noche en una torre de ejemplo, contados por quienes la cuidan. Usted abre la maqueta con las manos, la mira en rayos X y entra a escala real: el relevo, la ronda sin señal, la alerta de la noche y la revista. Aquí la seguridad la hacen personas; Ars hace que cada paso quede probado.",
   [idModulo(E, "academia-de-vigilantes-vr")]:
-    "Detrás de un portal de energía está la academia de vigilantes. El instructor le muestra la selección, el mapa de cursos de cada cargo, el aula y el polígono de práctica. Al final, el certificado sale con un código QR que usted mismo comprueba.",
+    "Detrás de un portal de energía está la Academia de vigilantes. Con las gafas puestas, el vigilante practica lo que no se puede ensayar en la calle: su dotación, el manejo seguro del arma en el polígono, la decisión de usar o no la fuerza desde la garita, y un turno completo atendiendo gente en la portería. El instructor explica el porqué, y el certificado sale con un código QR que se puede comprobar. Entre a la Academia para conocerla por dentro.",
   [idModulo(E, "mesa-directiva-con-ia")]:
     "Los indicadores de ventas, nómina, operaciones y contabilidad, sobre una mesa redonda en 3D. Pida que opine la junta, y nueve directores simulados por inteligencia artificial debaten y entregan un acta cuyo plan de acción llega a sus tareas.",
   [idModulo(E, "vigia-asistente-de-voz")]:
