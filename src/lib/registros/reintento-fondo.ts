@@ -27,6 +27,11 @@ export function intervaloReintento(valor: string | undefined = process.env.REGIS
   return Math.min(86_400_000, Math.max(30_000, n));
 }
 
+/** true si el último error guardado fue un rechazo definitivo de ARS (4xx salvo 408 y 429): no se reenvía solo. */
+export function rechazoDefinitivo(error: string | null | undefined): boolean {
+  return /^HTTP 4(?!08|29)\d\d\b/.test(error ?? "");
+}
+
 type Ciclo = { reloj: ReturnType<typeof setInterval>; corriendo: boolean };
 
 // En globalThis: un solo ciclo por proceso aunque el módulo se cargue más de una vez.

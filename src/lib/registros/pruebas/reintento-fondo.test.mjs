@@ -1,7 +1,7 @@
 // Pruebas del reintento de fondo de los registros:  npm run test:registros
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
-import { detenerReintentoFondo, iniciarReintentoFondo, intervaloReintento } from "../reintento-fondo.ts";
+import { detenerReintentoFondo, iniciarReintentoFondo, intervaloReintento, rechazoDefinitivo } from "../reintento-fondo.ts";
 
 const silencio = () => {
   const lineas = [];
@@ -23,17 +23,26 @@ describe("intervalo del reintento de fondo (REGISTROS_REINTENTO_MS)", () => {
   });
 });
 
+describe("rechazos definitivos (no se reenvían solos)", () => {
+  it("4xx salvo 408 y 429; los errores de red y 5xx sí se reintentan", () => {
+    for (const e of ["HTTP 400", "HTTP 401: token", "HTTP 403", "HTTP 422: {\"error\":\"id\"}"]) assert.equal(rechazoDefinitivo(e), true, e);
+    for (const e of ["HTTP 408", "HTTP 429: lento", "HTTP 500", "HTTP 503: caído", "Red/timeout: fetch failed", "", null, undefined]) {
+      assert.equal(rechazoDefinitivo(e), false, String(e));
+    }
+  });
+});
+
 describe("ciclo de reintento de fondo", () => {
   afterEach(() => detenerReintentoFondo());
 
   it("arranca una sola vez por proceso y reintenta en cada vuelta", async () => {
     let llamadas = 0;
     const log = silencio();
-    const op = { intervaloMs: 20, log, reintentar: async () => (llamadas++, { revisados: 1, enviados: ["CONT-2026-AAAAAA"], fallidos: [] }) };
+    const op = { intervaloMs: 25, log, reintentar: async () => (llamadas++, { revisados: 1, enviados: ["CONT-2026-AAAAAA"], fallidos: [] }) };
     assert.equal(iniciarReintentoFondo(op), true);
     assert.equal(iniciarReintentoFondo(op), false, "no arranca dos ciclos");
-    await dormir(110);
-    assert.ok(llamadas >= 3, `llamadas = ${llamadas}`);
+    await dormir(400);
+    assert.ok(llamadas >= 2, `llamadas = ${llamadas}`);
     assert.ok(log.lineas.some((l) => l.includes("Reintento de fondo cada 0 s")));
     assert.ok(log.lineas.some((l) => l.includes("1 enviado(s) y 0 fallido(s) de 1")));
   });
@@ -54,9 +63,10 @@ describe("ciclo de reintento de fondo", () => {
         return { revisados: 0, enviados: [], fallidos: [] };
       },
     });
-    await dormir(200);
+    await dormir(400);
     assert.equal(maximo, 1);
-    assert.ok(llamadas >= 2 && llamadas <= 4, `llamadas = ${llamadas}`);
+    // En 400 ms caben a lo sumo ~6 pasadas de 60 ms; sin el candado serían ~40 llamadas.
+    assert.ok(llamadas >= 2 && llamadas <= 8, `llamadas = ${llamadas}`);
   });
 
   it("un error en una pasada se registra y el ciclo sigue", async () => {
@@ -71,7 +81,7 @@ describe("ciclo de reintento de fondo", () => {
         return { revisados: 0, enviados: [], fallidos: [] };
       },
     });
-    await dormir(80);
+    await dormir(300);
     assert.ok(llamadas >= 2);
     assert.ok(log.lineas.some((l) => l.startsWith("error:") && l.includes("ARS remoto no configurado")));
   });

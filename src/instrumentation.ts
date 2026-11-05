@@ -14,7 +14,8 @@ export async function register() {
   const { reintentarPendientes } = await import("./lib/registros");
   iniciarReintentoFondo({
     intervaloMs,
-    // 1 minuto de gracia para lo que su propia petición aún está enviando; si ARS no responde, se corta y sigue en el próximo ciclo.
-    reintentar: () => reintentarPendientes(50, { edadMinimaMs: 60_000, cortarAlPrimerFallo: true }),
+    // 1 minuto de gracia para lo que su propia petición aún está enviando; si ARS no responde, se corta y sigue en el
+    // próximo ciclo. Lo que ARS rechazó (4xx) no se reenvía solo: queda para POST /api/registros/reintentar.
+    reintentar: () => reintentarPendientes(50, { edadMinimaMs: 60_000, cortarAlPrimerFallo: true, omitirRechazados: true }),
   });
 }

@@ -14,6 +14,7 @@ import { after } from "next/server";
 import type { RegistroGuardado } from "@/data/diagnostico/tipos";
 import { configRegistros, type ConfigRegistros } from "./config";
 import { AlmacenLocal } from "./local";
+import { rechazoDefinitivo } from "./reintento-fondo";
 import { AlmacenArsRemoto, ErrorDefinitivo } from "./remoto";
 import type { Registro, RegistroLocal, Sincronizacion } from "./tipos";
 
@@ -92,10 +93,13 @@ async function persistir(registro: Registro, confirmar: () => void): Promise<boo
     console.error(`[registros] REGISTRO NO GUARDADO ${registro.id}:`, JSON.stringify(registro));
     return false;
   }
-  if (!remoto) {
+  if (!remoto && process.env.NODE_ENV === "production") {
     // Sin push, la copia local no es durable donde el disco es efímero (Vercel, emptyDir en Kubernetes):
-    // el log sigue siendo el respaldo, como antes de los registros.
-    console.warn(`[registros] REGISTRO NO GUARDADO EN ARS (push apagado; solo copia local en ${cfg.dir}) ${registro.id}:`, JSON.stringify(registro));
+    // el log sigue siendo el respaldo, como antes de los registros. Marca distinta de «REGISTRO NO GUARDADO»
+    // (esa queda solo para lo que no se guardó en ningún lado).
+    console.warn(`[registros] PUSH APAGADO, registro solo en la copia local (${cfg.dir}) ${registro.id}:`, JSON.stringify(registro));
+  } else if (!remoto) {
+    console.info(`[registros] ${registro.id} guardado en local (${cfg.dir}); ARS remoto no configurado.`);
   }
   return true;
 }
@@ -132,7 +136,10 @@ export type OpcionesReintento = {
   edadMinimaMs?: number;
   /** Corta la pasada al primer fallo temporal (ARS caído): el resto queda para la próxima. */
   cortarAlPrimerFallo?: boolean;
+  /** Salta lo que ARS ya rechazó de forma definitiva (4xx salvo 408/429): no tiene sentido reenviarlo solo. */
+  omitirRechazados?: boolean;
 };
+
 
 /** Reenvía a ARS los registros locales con sincronización «pendiente». */
 export async function reintentarPendientes(
@@ -148,6 +155,7 @@ export async function reintentarPendientes(
   const pendientes = (await local.todos())
     .filter((r) => r.sincronizacion?.remoto === "pendiente")
     .filter((r) => !opciones.edadMinimaMs || !(edad(r) < opciones.edadMinimaMs))
+    .filter((r) => !opciones.omitirRechazados || !rechazoDefinitivo(r.sincronizacion?.ultimoError))
     .slice(0, maximo);
   const enviados: string[] = [];
   const fallidos: string[] = [];
