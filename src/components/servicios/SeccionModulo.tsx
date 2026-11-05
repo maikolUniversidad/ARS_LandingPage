@@ -7,7 +7,7 @@ import { ClipVisible } from "./ClipVisible";
 import { preguntarAArs } from "./eventos";
 import { Galeria } from "./Galeria";
 import { RevealOnScroll } from "@/components/integral/RevealOnScroll";
-import { EstadoBadge, Pildora, rgba } from "./ui";
+import { CtaLink, EstadoBadge, Pildora, rgba } from "./ui";
 
 type Props = {
   modulo: Modulo;
@@ -81,6 +81,13 @@ export function SeccionModulo({ modulo, indice, total, acento, etiquetaFoco, act
           </div>
           <p className="mt-3 font-serif text-[17px] italic leading-relaxed text-white md:text-lg">{modulo.innovacion}</p>
         </aside>
+        {modulo.enlace && (
+          <div className="mt-5">
+            <CtaLink href={modulo.enlace.href} primary>
+              {modulo.enlace.texto}
+            </CtaLink>
+          </div>
+        )}
       </RevealOnScroll>
 
       {/* Funciones */}

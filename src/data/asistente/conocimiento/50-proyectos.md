@@ -10,7 +10,7 @@ Página `/proyectos`: «La plataforma, operando en terreno». Muestra cómo se c
 ## Cómo se usa
 
 - **Mapa** (`#mapa`): un marcador por ciudad con su número de proyectos; tocar una ciudad filtra los casos y volver a tocarla quita el filtro.
-- **Filtros**: estado (En operación, Piloto, En desarrollo), país (Colombia, Perú) y área de servicio (las 10 áreas del catálogo).
+- **Filtros**: estado (En operación, Piloto, En desarrollo), país (Colombia, Perú) y área de servicio (las 11 áreas del catálogo).
 - **Ficha**: se abre desde cada tarjeta y tiene enlace propio (`/proyectos#<id>`). Muestra cliente (tipo, sin nombre), sector, ciudad, escala, el reto, cómo se resolvió, lo que cambia y la lista de **módulos del catálogo**, cada uno enlazado a `/servicios/<area>#<modulo>`. Cierra con «Hacer el diagnóstico» (`/diagnostico`), «Quiero algo así» (WhatsApp) y «Ver la plataforma» (`/plataforma`).
 - **Cómo empieza un proyecto** (`#como-empieza`): diagnóstico → piloto en una sede → operación y escala.
 

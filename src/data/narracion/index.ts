@@ -1,3 +1,5 @@
+import { GUIONES_ACADEMIA } from "./guiones-academia";
+import { GUIONES_ARQUITECTURA } from "./guiones-arquitectura";
 import { GUIONES_HOME } from "./guiones-home";
 import { GUIONES_PLATAFORMA } from "./guiones-plataforma";
 import { GUIONES_SERVICIOS_AREAS } from "./guiones-servicios-areas";
@@ -21,4 +23,6 @@ export const GUIONES: Record<string, string> = {
   ...GUIONES_PROYECTOS,
   ...GUIONES_PROPUESTA,
   ...GUIONES_PUENTE,
+  ...GUIONES_ARQUITECTURA,
+  ...GUIONES_ACADEMIA,
 };

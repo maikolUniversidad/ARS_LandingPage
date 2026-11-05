@@ -22,6 +22,8 @@ export const IDS_HOME = [
   "home/traza",
   "home/escala",
   "home/recap",
+  "home/despliegue",
+  "home/capacitacion",
   "home/contacto",
 ] as const;
 
@@ -63,6 +65,32 @@ export const IDS_LABORATORIO = [
   "laboratorio/modelos",
   "laboratorio/demo",
   "laboratorio/cierre",
+] as const;
+
+/** Secciones de /arquitectura, en orden. */
+export const IDS_ARQUITECTURA = [
+  "arquitectura/hero",
+  "arquitectura/diagrama",
+  "arquitectura/sigue-un-dato",
+  "arquitectura/interoperabilidad",
+  "arquitectura/voz",
+  "arquitectura/por-que-erp",
+  "arquitectura/cierre",
+] as const;
+
+/** Secciones de /academia (capacitación de vigilantes en realidad virtual), en orden. */
+export const IDS_ACADEMIA = [
+  "academia/hero",
+  "academia/por-que",
+  "academia/curso",
+  "academia/modulo-1",
+  "academia/modulo-2",
+  "academia/modulo-3",
+  "academia/modulo-4",
+  "academia/personajes",
+  "academia/plataforma",
+  "academia/legal",
+  "academia/cierre",
 ] as const;
 
 /** /proyectos: la portada y el mapa (pantalla fija, sin scroll). */

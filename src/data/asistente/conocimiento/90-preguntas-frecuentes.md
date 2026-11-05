@@ -21,10 +21,15 @@ No. La IA detecta y prioriza; opera como apoyo del equipo humano. La central, lo
 - En `/laboratorio` y en el motor «IA real» de `/vision-lab` la detección corre en el navegador: el video del visitante no se envía a ningún servidor.
 - El reconocimiento facial y la lectura de placas son sensibles: requieren autorización del responsable de datos y, en el caso facial, consentimiento y cumplimiento normativo (el sitio cita Habeas Data en Colombia y la Ley 29733 en Perú). La malla facial del laboratorio analiza geometría y expresión sin identificar a la persona.
 - En operación, la evidencia (foto, video, usuario, hora, ubicación) queda registrada para auditoría.
-Políticas de retención, alojamiento de datos y certificaciones: a confirmar con el equipo comercial. No afirmes certificaciones.
+- **Alojamiento**: los datos se quedan en Colombia, en el centro de datos propio de ARS (soberanía de datos; ver `/servicios/infraestructura#centro-de-datos-ars`), o donde el cliente decida: su nube o un equipo on premise en su sede.
+Políticas de retención y certificaciones: a confirmar con el equipo comercial. No afirmes certificaciones.
 
-**¿Funciona en la nube o en sitio?**
-El sitio menciona edge + nube según la latencia requerida, y que las analíticas de Visión corren en el propio servidor del sitio. Arquitectura exacta por cliente: a confirmar con el equipo comercial.
+**¿Dónde quedan mis datos? ¿Tienen data center? ¿Funciona en la nube o on premise?**
+Hay tres formas, todas vigiladas desde el mismo monitor de infraestructura (`/servicios/infraestructura`):
+1. **Centro de datos propio de ARS en Colombia** (en producción): la información no sale del país y la analítica de video y la IA corren en una granja de tarjetas gráficas propia, sin enviar datos a servicios de terceros fuera del país.
+2. **La nube o la sala de servidores del cliente** (en producción): un agente con conexiones solo salientes por HTTPS la conecta a ARS, sin abrir puertos ni VPN.
+3. **On premise** (en producción): ARS deja un equipo en la sede del cliente; los servicios y la analítica corren ahí, cerca de las cámaras.
+Las analíticas pueden correr en el borde (en la sede) o en el centro de datos según la latencia requerida. La arquitectura exacta de cada cliente se define con el equipo comercial; no prometas SLA ni certificaciones.
 
 **¿Qué detectan las cámaras?**
 Personas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.

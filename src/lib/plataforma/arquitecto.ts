@@ -31,7 +31,7 @@ export const IDS_MODULOS = MODULOS_PERMITIDOS.map(({ modulo }) => modulo.id);
 const PERMITIDOS = new Set(IDS_MODULOS);
 export const TOTAL_MODULOS = todosLosModulos().length;
 
-/** Orden del área en el catálogo (A=0 … J=9), para ordenar fases y tarjetas. */
+/** Orden del área en el catálogo (A=0 … K=10), para ordenar fases y tarjetas. */
 const ORDEN_AREA = new Map<string, number>();
 todosLosModulos().forEach(({ area }) => {
   if (!ORDEN_AREA.has(area.id)) ORDEN_AREA.set(area.id, ORDEN_AREA.size);
@@ -156,6 +156,11 @@ const REGLAS: Regla[] = [
     dolor: "Varias empresas o equipos necesitan ver solo lo suyo, con permisos claros.",
     ids: ["configuracion-multiempresa", "torre-de-control", "ingreso-y-doble-factor"],
   },
+  {
+    re: /d[oó]nde (quedan|est[aá]n|se guardan) (los|mis|nuestros) datos|soberan[ií]a|data ?cent(er|ro)|centro de datos|on[ -]?premise|servidor(es)? propio|en (su|nuestra|la) nube|nube|cloud|gpus?|respaldo|backup|where (is|does) (my|our) data|sovereignty/i,
+    dolor: "La información debe quedarse en Colombia, en una nube propia o dentro de la sede, y la infraestructura tiene que poder vigilarse.",
+    ids: ["centro-de-datos-ars", "ubicaciones-y-agente-remoto", "equipo-on-premise", "respaldos-verificados"],
+  },
 ];
 
 const POR_PRIORIDAD = new Map(REGLAS.filter((r) => r.prioridad).map((r) => [r.prioridad as PrioridadOp, r]));
@@ -164,8 +169,8 @@ const POR_PRIORIDAD = new Map(REGLAS.filter((r) => r.prioridad).map((r) => [r.pr
 const FASES: { nombre: string; areas: string[]; resultado: string }[] = [
   {
     nombre: "Base operativa",
-    areas: ["operacion-en-campo", "gobierno-y-seguridad"],
-    resultado: "Clientes, sedes y puestos cargados; el trabajo de campo queda registrado desde el celular.",
+    areas: ["operacion-en-campo", "gobierno-y-seguridad", "infraestructura"],
+    resultado: "Clientes, sedes y puestos cargados; el trabajo de campo queda registrado desde el celular, y la plataforma corre donde deben quedar sus datos.",
   },
   {
     nombre: "Control en tiempo real",
@@ -205,6 +210,9 @@ const INDICADORES: Record<string, IndicadorPropuesta> = {
   "seguimiento-de-tareas": { nombre: "Seguimiento", antes: "Pendientes perdidos en correos y chats", despues: "Tareas con responsable y fecha" },
   "juridica-no-conformes-y-descargos": { nombre: "Procesos disciplinarios", antes: "Descargos y sanciones sin trámite ordenado", despues: "Cada caso con su trámite, soportes y trazabilidad" },
   "configuracion-multiempresa": { nombre: "Permisos", antes: "Todos ven todo, o nadie ve nada", despues: "Cada empresa y cada rol ve solo lo suyo" },
+  "centro-de-datos-ars": { nombre: "Dónde quedan los datos", antes: "Videos y documentos en servicios de terceros, sin saber en qué país", despues: "Información procesada y resguardada en Colombia, en infraestructura propia" },
+  "equipo-on-premise": { nombre: "Datos dentro de la sede", antes: "Si los datos no pueden salir del edificio, no hay plataforma", despues: "Un equipo de ARS en la sede, vigilado desde el mismo monitor" },
+  "respaldos-verificados": { nombre: "Respaldos", antes: "Copias que nadie revisa hasta el día que se necesitan", despues: "Respaldos verificados con copia fuera del sitio y aviso si fallan" },
 };
 
 const TAMANO_TXT: Record<TamanoOp, string> = {

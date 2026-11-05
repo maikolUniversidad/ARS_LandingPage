@@ -396,9 +396,9 @@ export function DocumentoPdf({ d, origen }: { d: Diagnostico; origen: string }) 
 
         {/* 03 · Mapa de áreas */}
         <View break>
-          <TituloSeccion numero="03" eyebrow="Mapa de las 10 áreas" titulo="Dónde actuar primero" />
+          <TituloSeccion numero="03" eyebrow="Mapa de las 11 áreas" titulo="Dónde actuar primero" />
           <Text style={[s.p, { marginBottom: 8 }]}>
-            ARS cubre diez áreas de la operación. Encendimos las {recs.length} que más impacto tienen para {p.nombre}; las demás quedan listas para
+            ARS cubre once áreas de la operación. Encendimos las {recs.length} que más impacto tienen para {p.nombre}; las demás quedan listas para
             cuando las necesite.
           </Text>
           <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>

@@ -1,8 +1,8 @@
 # Narración de Ars · /servicios/[area]
 
-Clips de voz de Ars para las 10 áreas de `/servicios/<area>`: una intro por área (`idIntroArea`) y un capítulo por módulo (`idModulo`), con los ids reales de `src/data/servicios/catalogo.ts`.
+Clips de voz de Ars para las 11 áreas de `/servicios/<area>`: una intro por área (`idIntroArea`) y un capítulo por módulo (`idModulo`), con los ids reales de `src/data/servicios/catalogo.ts`.
 
-- **Guiones:** `src/data/narracion/guiones-servicios-areas.ts` (`GUIONES_SERVICIOS_AREAS`, 81 entradas).
+- **Guiones:** `src/data/narracion/guiones-servicios-areas.ts` (`GUIONES_SERVICIOS_AREAS`, 93 entradas).
 - **Audio:** `public/audio/narracion/servicios/<areaId>/<intro|moduloId>.mp3` (ruta = `urlNarracion(id)`).
 - **Voz:** «Sofía – Confianza & Calidez» (`b2htR0pMe28pYwCY9gnP`), modelo `eleven_v4`, una toma por clip.
 - **Flow de ElevenLabs:** `38YscQmZrBp2G4qCmJZg` («ARS · Narración servicios por área»), donde están las 81 generaciones.
@@ -144,3 +144,44 @@ El área `realidad-virtual` se reescribió con el documento «ARS · Sala de rea
 | `servicios/realidad-virtual/sala-vr-nativa-meta-quest` | guion nuevo, sin audio |
 
 Costo estimado al recargar: ≈1.430 créditos (≈0,26 USD), misma voz y modelo, una toma por clip, y el mismo post-proceso de ffmpeg.
+
+## Área K · Infraestructura (5-nov-2026)
+
+Nueva área `infraestructura` («Infraestructura y centro de datos»): 10 clips nuevos (intro + 9 módulos) con los guiones del bloque K de `guiones-servicios-areas.ts`. Misma voz («Sofía – Confianza & Calidez», `b2htR0pMe28pYwCY9gnP`), modelo `eleven_v4`, flow `38YscQmZrBp2G4qCmJZg`, una toma por clip, texto exacto del guion y el mismo post-proceso ffmpeg (mono, 44,1 kHz, 96 kbps CBR, `loudnorm=I=-16:TP=-1.5:LRA=7`, `-map_metadata -1`). Audio en `public/audio/narracion/servicios/infraestructura/`.
+
+| id | s | créditos |
+|---|---:|---:|
+| `servicios/infraestructura/intro` | 19.76 | 320 |
+| `servicios/infraestructura/centro-de-datos-ars` | 19.20 | 302 |
+| `servicios/infraestructura/granja-de-gpu-ia-local` | 15.68 | 246 |
+| `servicios/infraestructura/monitor-de-infraestructura-en-vivo` | 17.36 | 259 |
+| `servicios/infraestructura/cluster-y-nodos` | 13.60 | 216 |
+| `servicios/infraestructura/sitios-red-y-dns` | 13.44 | 198 |
+| `servicios/infraestructura/ubicaciones-y-agente-remoto` | 17.84 | 273 |
+| `servicios/infraestructura/equipo-on-premise` | 14.08 | 237 |
+| `servicios/infraestructura/respaldos-verificados` | 14.16 | 210 |
+| `servicios/infraestructura/alertas-e-informes-de-infraestructura` | 16.48 | 251 |
+| **Total (10 clips)** | **161.6** (≈ 2 min 42 s) | **≈ 2.512** |
+
+### Clips regenerados («diez áreas» → «once áreas»)
+
+Con la llegada del área K, dos guiones cambiaron solo la palabra «diez» por «once» y se regeneraron sobre su misma ruta:
+
+| id | archivo | s | créditos |
+|---|---|---:|---:|
+| `servicios/areas` (`guiones-servicios-hub.ts`) | `public/audio/narracion/servicios/areas.mp3` | 14.56 | 200 |
+| `plataforma/recorrido` (`guiones-plataforma.ts`) | `public/audio/narracion/plataforma/recorrido.mp3` | 10.00 | 160 |
+
+### Clip nuevo del recorrido de /plataforma
+
+| id | archivo | s | créditos |
+|---|---|---:|---:|
+| `plataforma/recorrido/infraestructura` (`guiones-plataforma.ts`, guion nuevo) | `public/audio/narracion/plataforma/recorrido/infraestructura.mp3` | 11.76 | 200 |
+
+### Costo y verificación
+
+- Estimación previa del intro (`estimate_only`): 320 créditos, no cobra.
+- 13 clips TTS (10 del área K, 2 regenerados y 1 del recorrido): **≈ 3.072 créditos (≈ USD 0,56)**; sin regeneraciones.
+- 2 transcripciones de verificación (`eleven_scribe_v1`): 0 créditos. Las dos salen idénticas al guion:
+  - `servicios/infraestructura/intro`: «Ars tiene su propio centro de datos…»: «Ars» es una sola palabra (2,88–3,20 s).
+  - `servicios/infraestructura/equipo-on-premise`: «Ars va hasta allá»: una palabra (2,80–3,12 s).

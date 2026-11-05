@@ -68,3 +68,16 @@ Generado el 4-nov-2026. Guiones en `src/data/narracion/guiones-home.ts`, `guione
 ## Regeneración por posicionamiento ERP (2026-11-04)
 
 `plataforma/recorrido/finanzas-y-erp` se reescribió («Ars también es su ERP… y si ya tiene otros sistemas, todo se centraliza aquí o fluye entre ellos») y se regeneró con la misma voz, modelo y post-proceso (188 créditos). Ver `docs/posicionamiento-erp.md` y la lista completa en `NARRACION-servicios-areas.md`.
+
+## Sección «Despliegue y gobernanza de datos» (2026-11-05)
+
+Nueva sección del home entre `home/recap` y `home/capacitacion` (`src/components/home/SeccionDespliegue.tsx`). No hizo falta tocar `home/recap` ni `home/contacto`.
+
+| id | duración (s) | créditos |
+|---|---:|---:|
+| `home/despliegue` | 32.80 | 521 |
+
+- Misma voz («Sofía – Confianza & Calidez», `b2htR0pMe28pYwCY9gnP`), modelo `eleven_v4`, una toma, vía el conector MCP de ElevenLabs, en el flow `1VhTgXKB2AgxaFLEEHjU` (generación `ipogznke7U7mFJExO3D3`).
+- Texto enviado = guion, con «ARS» escrito «Ars» para la voz. Sin etiquetas de dirección.
+- Post-proceso igual al resto: recorte de silencio (−50 dB, ≤0,15 s), `loudnorm=I=-16:TP=-1.5:LRA=7`, mono, 44,1 kHz, 96 kbps, `-map_metadata -1`. Medido: -16,4 LUFS integrado.
+- Primera toma descartada (`fY0YAEG6obU7ohfTiDBh`, 588 créditos): decía que solo la nube ARS estaba en operación y las demás formas en piloto. El catálogo pasó todos los módulos del área K a producción (commit `b0709a3`), así que se quitó esa frase y se regeneró. Total de la sección: 1.109 créditos.

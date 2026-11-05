@@ -1,7 +1,7 @@
 /**
  * Contrato de datos de la sección /servicios (catálogo completo de ARS).
  *
- * Fuente: inventario de servicios del 4-nov-2026 (69 fichas en 10 áreas).
+ * Fuente: inventario de servicios del 4-nov-2026 (69 fichas en 10 áreas) + K · Infraestructura (5-nov-2026).
  * Solo contenido publicable: nada de las «Notas internas — NO publicar».
  *
  * Lo consumen:
@@ -32,7 +32,8 @@ export type EscenaId =
   | "formacion" // G · formación: aula holográfica, módulos de curso, certificado con QR
   | "finanzas" // H · finanzas y ERP: flujo de datos entre bloques (turnos → nómina → contabilidad → ERP)
   | "productividad" // I · productividad e IA: red neuronal/grafo de tareas y automatizaciones
-  | "gobierno"; // J · gobierno: torre de control, escudo, capas de permisos y canales (web, Android, PWA, escritorio, gafas)
+  | "gobierno" // J · gobierno: torre de control, escudo, capas de permisos y canales (web, Android, PWA, escritorio, gafas)
+  | "infraestructura"; // K · infraestructura: centro de datos con racks, granja de GPU, clúster, nube del cliente y equipo on premise
 
 export type Captura = {
   /** Ruta pública, p. ej. "/servicios/capturas/40-sala-de-control.jpg" */
@@ -88,14 +89,41 @@ export type Modulo = {
    * Debe ser una de las claves que expone la escena (ver FOCOS_ESCENA en escenas/contrato.ts).
    */
   foco: string;
+  /** Página propia del módulo, si la tiene (p. ej. la Academia en /academia). */
+  enlace?: EnlaceTexto;
 };
 
 export type Cifra = { valor: string; etiqueta: string };
 
+/** Enlace con texto (CTA o chip enlazado). */
+export type EnlaceTexto = { href: string; texto: string };
+
+/**
+ * Bloque destacado de un área: un acceso evidente a una página propia
+ * (p. ej. la Academia ARS en /academia), entre el hero y los módulos.
+ */
+export type Destacado = {
+  /** "grande": banner con escena; "compacto": franja de una línea con CTA. */
+  variante: "grande" | "compacto";
+  eyebrow: string;
+  titulo: string;
+  texto: string;
+  /** Chips (opcionalmente enlazados), p. ej. los módulos de un curso. */
+  chips?: { texto: string; href?: string }[];
+  cta: EnlaceTexto;
+  secundario?: EnlaceTexto;
+  /** Matiz honesto del estado (piloto, qué se puede vivir hoy). */
+  nota?: string;
+  /** Color de acento (hex); por defecto el del área. */
+  color?: string;
+  /** Escena visual a la derecha (solo variante "grande"). */
+  escena?: "academia-portal";
+};
+
 export type Area = {
   /** slug de la URL: /servicios/<id> */
   id: string;
-  /** Letra del inventario (A–J). */
+  /** Letra del inventario (A–K). */
   letra: string;
   nombre: string;
   /** Nombre corto para menús. */
@@ -114,6 +142,8 @@ export type Area = {
   ambiente?: string;
   /** Icono lucide-react (nombre del export, p. ej. "Radio"). */
   icono: string;
+  /** Acceso destacado a una página propia, entre el hero y los módulos. */
+  destacado?: Destacado;
   modulos: Modulo[];
 };
 

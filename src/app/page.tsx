@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { HomeExperience, type HomeCounts } from "@/components/home/HomeExperience";
 import { buildErpGroups } from "@/components/home/erp-groups";
+import { buildModulosDespliegue } from "@/components/home/modulos-despliegue";
 import { AREAS } from "@/data/servicios/catalogo";
 
 const TITLE = "ARS Intelligence · Operación y ERP de seguridad, una traza";
@@ -35,6 +36,9 @@ const COUNTS: HomeCounts = {
 /** Módulos del ERP de gestión con su estado real del catálogo. */
 const ERP_GROUPS = buildErpGroups();
 
+/** Módulos que cita la sección «Despliegue y gobernanza de datos», con su estado real. */
+const MODULOS_DESPLIEGUE = buildModulosDespliegue();
+
 export default function Home() {
-  return <HomeExperience counts={COUNTS} erpGroups={ERP_GROUPS} />;
+  return <HomeExperience counts={COUNTS} erpGroups={ERP_GROUPS} modulosDespliegue={MODULOS_DESPLIEGUE} />;
 }

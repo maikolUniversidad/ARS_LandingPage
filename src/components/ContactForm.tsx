@@ -11,7 +11,7 @@ type Status = "idle" | "sending" | "ok" | "error";
  * email vía Resend si está configurado). Incluye honeypot anti-spam y un
  * fallback a WhatsApp.
  */
-export function ContactForm() {
+export function ContactForm({ sinWhatsapp }: { sinWhatsapp?: boolean } = {}) {
   const { locale } = useI18n();
   const isES = locale === "es";
   const [status, setStatus] = useState<Status>("idle");
@@ -129,7 +129,7 @@ export function ContactForm() {
           <span>▸</span>
           {status === "sending" ? tx.sending : tx.send}
         </button>
-        <a
+        {!sinWhatsapp && <a
           href={whatsappUrl("Hola ARS Intelligence, quiero más información.")}
           target="_blank"
           rel="noopener noreferrer"
@@ -137,7 +137,7 @@ export function ContactForm() {
         >
           <span className="text-accent">◇</span>
           {tx.whatsapp}
-        </a>
+        </a>}
       </div>
     </form>
   );

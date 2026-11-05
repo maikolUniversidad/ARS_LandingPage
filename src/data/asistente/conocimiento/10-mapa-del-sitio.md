@@ -20,7 +20,7 @@ Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y 
 - `#erp` — «Debajo de todo, un ERP hecho para la seguridad.»: el suelo se abre y se ve el ERP de gestión (contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría) alimentado por las cinco capas; un turno cumplido llega a la nómina, la ronda y el evento al informe del cliente, el servicio prestado a la prefactura y todo a la contabilidad.
 - `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.
 - `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma (la operación encima, el ERP de gestión debajo), cifras del catálogo y botones a demo y a `/servicios`.
-- `#la-base` — sección «La base: un ERP hecho para la seguridad»: dos niveles (Operación arriba, Gestión abajo) con los módulos reales del catálogo y su estado, cada uno enlazado a `/servicios/<área>#<módulo>`, y el botón «Ver la arquitectura completa» (`/arquitectura`).
+- `#la-base` — sección «La base: un ERP hecho para la seguridad»: dos niveles (Operación arriba, Gestión abajo) con los módulos reales del catálogo y su estado, cada uno enlazado a `/servicios/<área>#<módulo>`, una nota de soberanía de datos (centro de datos propio en Colombia, nube del cliente u on premise) con enlace a `/servicios/infraestructura`, y el botón «Ver la arquitectura completa» (`/arquitectura`).
 - `#contacto` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. `/#cierre` también lleva aquí.
 
 Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas (y cómo la operación alimenta el ERP de gestión: `/#la-base`) o contactar. Para pedir demo, `/#contacto`.
@@ -84,7 +84,7 @@ Enviar aquí: visitante que quiere ver la IA funcionando ya, con su cámara o un
 
 ## `/servicios` — Servicios: el sistema operativo de una empresa de seguridad
 
-Catálogo completo de lo que hace ARS, organizado por áreas (operación en campo, centro de operaciones, comunicación, monitoreo inteligente, realidad virtual, gestión humana, formación, finanzas y ERP, productividad e IA, gobierno). El detalle de cada área y módulo está en el «Catálogo de servicios de ARS» al final de esta base de conocimiento.
+Catálogo completo de lo que hace ARS, organizado por áreas (operación en campo, centro de operaciones, comunicación, monitoreo inteligente, realidad virtual, gestión humana, formación, finanzas y ERP, productividad e IA, gobierno, e infraestructura y centro de datos). El detalle de cada área y módulo está en el «Catálogo de servicios de ARS» al final de esta base de conocimiento.
 
 Anclas del hub `/servicios`:
 - `#dia` — «Un día en ARS»: una jornada que recorre todas las áreas.

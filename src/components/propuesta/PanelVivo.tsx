@@ -101,7 +101,7 @@ export function PanelVivo({ respuestas: r, pct }: { respuestas: Respuestas; pct:
       <GrafoApps apps={apps} className="mt-2" />
 
       <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.28em] text-[#9eb0c0]">Áreas de ARS que aplican</p>
-      <ul className="mt-2 grid grid-cols-10 gap-1">
+      <ul className="mt-2 grid grid-cols-11 gap-1">
         {AREA_IDS.map((id) => {
           const a = areaInfo(id);
           const on = areas.includes(id);
@@ -127,7 +127,7 @@ export function PanelVivo({ respuestas: r, pct }: { respuestas: Respuestas; pct:
       </ul>
       <p className="mt-2 text-[12px] text-[#9eb0c0]/90" aria-live="polite">
         {areas.length
-          ? `${areas.length} de 10 áreas: ${areas.map((id) => areaInfo(id).corto).join(", ")}.`
+          ? `${areas.length} de ${AREA_IDS.length} áreas: ${areas.map((id) => areaInfo(id).corto).join(", ")}.`
           : "Las áreas de ARS se encienden según lo que nos cuente."}
       </p>
     </aside>

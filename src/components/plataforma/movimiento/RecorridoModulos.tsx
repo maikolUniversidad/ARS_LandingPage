@@ -25,7 +25,7 @@ const tiempoArea = (capturas: number) =>
   Math.min(15000, Math.max(9000, capturas * TIEMPO_PANTALLA));
 
 /**
- * Sección «Recorrido» (#recorrido): las 10 áreas en un riel (pestañas), un portátil
+ * Sección «Recorrido» (#recorrido): las 11 áreas en un riel (pestañas), un portátil
  * en perspectiva 3D con sus capturas reales y, al lado, la frase y los módulos
  * destacados. Avanza solo hasta que la persona interactúa; flechas, Inicio y Fin.
  */

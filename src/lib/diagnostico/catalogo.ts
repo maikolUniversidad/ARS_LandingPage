@@ -34,6 +34,7 @@ const CLAVES: Record<AreaId, string[]> = {
   "finanzas-y-erp": ["factura", "contab", "costo", "erp", "cartera", "dian", "pago", "finanz", "siigo", "sap", "world office", "cotiza", "venta", "crm", "plata", "dinero"],
   "productividad-e-ia": ["informe", "reporte", "automatiz", "excel", "tarea", "inteligencia artificial", " ia", "papeleo", "reunion", "ticket", "formulario", "tiempo", "manual"],
   "gobierno-y-seguridad": ["permiso", "auditoria", "trazabil", "rol", "normativ", "habeas", "datos personales", "multiempresa", "doble factor", "app", "celular"],
+  infraestructura: ["servidor", "data center", "centro de datos", "nube", "cloud", "on premise", "soberan", "infraestructura", "backup", "respaldo", "dns", "gpu", "hosting", "kubernetes", "caida del sistema"],
 };
 
 /** Puntaje por área según el texto libre (dolores, herramientas, sector...). */
