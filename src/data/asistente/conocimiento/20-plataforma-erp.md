@@ -7,6 +7,8 @@ rutas: ["/plataforma"]
 
 «Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
 
+**ARS es un ERP, y además se adapta.** Además de la operación, ARS es el ERP de la empresa de seguridad: clientes, contratos y planes, órdenes de servicio, nómina, costos, facturación, contabilidad con asistente de IA, cotizador y CRM (detalle en `/servicios/finanzas-y-erp` y `/servicios/gestion-humana`). Si la empresa ya tiene su propio sistema u otros contratados, el Agente interoperador de datos y las integraciones hacen que todo se centralice en ARS o fluya entre sistemas, según los módulos que contrate.
+
 ## Funcionalidades (A–N) · ancla `/plataforma#feature-<id>`
 
 Grupos: **Operación** (gestión humana, programación y ejecución en campo), **Monitoreo** (visualización, central y trazabilidad), **Inteligencia** (IA y alertas con contexto), **Reportes** (indicadores, multisede y arquitectura).

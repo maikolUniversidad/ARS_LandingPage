@@ -47,7 +47,7 @@ Verbos que resumen la plataforma: Opera · Monitorea · Comunica · Evidencia ·
 
 ## Los dos grandes bloques de producto
 
-- **Plataforma de operación (tipo ERP operativo de seguridad)** en `/plataforma`: turnos, personal, rondas, formularios, mapa, PTT, central de monitoreo, alertas, evidencia, reportes, multisede.
+- **Plataforma de operación y ERP de la empresa de seguridad** en `/plataforma`: turnos, personal, rondas, formularios, mapa, PTT, central de monitoreo, alertas, evidencia, reportes, multisede, y el ERP (clientes y contratos, nómina, costos, facturación, contabilidad, cotizador y CRM). Si la empresa ya tiene otros sistemas, ARS los centraliza o hace que la información fluya entre ellos.
 - **Módulo de Visión (analíticas de video)** en `/vision`: 45 analíticas en 4 familias que corren sobre las cámaras ya instaladas.
 
 Además hay demos interactivas: `/laboratorio` (modelos de IA en acción, con cámara o video propio) y `/vision-lab` (playground técnico).
@@ -55,8 +55,8 @@ Además hay demos interactivas: `/laboratorio` (modelos de IA en acción, con c�
 ## Contacto
 
 - Solicitar demo: formulario y botones en la sección `#contacto` de la portada (`/#contacto`), de `/plataforma#cierre` y de `/vision#cierre`.
-- WhatsApp de la gerencia comercial: +57 318 0005654.
-- Correo: gerencia.comercial@vigiasdecolombia.com (asunto sugerido «Solicitud de demo - ARS Intelligence»).
+- WhatsApp de la gerencia comercial: +57 312 462 3357.
+- Correo: j.muriel@ars-group.co (asunto sugerido «Solicitud de demo - ARS Intelligence»).
 - Dominio del sitio: arsintelligence.com.
 
 Precios, planes, licencias y condiciones contractuales no están publicados en el sitio: a confirmar con el equipo comercial.

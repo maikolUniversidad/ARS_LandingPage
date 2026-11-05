@@ -70,17 +70,16 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Qué es ARS Intelligence › Los dos grandes bloques de producto",
    "ruta": "/",
-   "texto": "- **Plataforma de operación (tipo ERP operativo de seguridad)** en `/plataforma`: turnos, personal, rondas, formularios, mapa, PTT, central de monitoreo, alertas, evidencia, reportes, multisede.\n- **Módulo de Visión (analíticas de video)** en `/vision`: 45 analíticas en 4 familias que corren sobre las cámaras ya instaladas.\n\nAdemás hay demos interactivas: `/laboratorio` (modelos de IA en acción, con cámara o video propio) y `/vision-lab` (playground técnico).",
-   "h": "0791bb7163fad1ec",
-   "v": "ywQOCAsF8x7t5ve1HL4QHO/3wPwC99fgEuPGC9P/HMkjDfLz9hUeBjggv/j29NXp+QHI/QMi4+rMIivxDuMpLenjthzv5/kiF+saDdI34vrwDfENFNXK/Mv19g4EDCwKOurxNhu32bLU0W8h89jsrPsgJ/QQ8Bzt9hm/A/DnBd3p8ArpFOb36Bzx9A0I4QICv+XQ/RgM++zk1vMI3Rf73voO8iTQBd0Egi+4KODm/r/s9QTe2RHm2PLttfHKTvdJJW1Ew+oh8ur8BnYH/+wWJNTpUP5cENsTyS7bB83k7/X4ZB+yS67+JPfs+wr73wHPIBIZ8iwRFNwy9CU3MCEB2Mbr0tf9JtjRB/EJPNPlGjMPIPwBMuAXRPQC+BkZFxLguho1KQDuBtctFP7xIAktzQAx9hjxwerrI+LJvzDKL9sisRK8vsP8BA+NMvoM9gPUByrg5PjjmwId/gfHOysQyeXs5frK2uERo/ppFx///v8xyDDqAs3lzxgs3Rn1FwXc9QPUQv/u9fwFyvzlQ+APCRH/uxvhKSQ+HNkjlzAg7+IfAh4tRAr2+vIrHgPn4xo3U/PRLOcvvzAJLt4Is+rq1ebLBgi6QLnoee0GSSIw20Io58n7DQwLKNngrPPnCQ8AIfnOLBB/yyMUKOMlN+8NDefLzfMZHAD5Jv71/TrgGP4="
+   "texto": "- **Plataforma de operación y ERP de la empresa de seguridad** en `/plataforma`: turnos, personal, rondas, formularios, mapa, PTT, central de monitoreo, alertas, evidencia, reportes, multisede, y el ERP (clientes y contratos, nómina, costos, facturación, contabilidad, cotizador y CRM). Si la empresa ya tiene otros sistemas, ARS los centraliza o hace que la información fluya entre ellos.\n- **Módulo de Visión (analíticas de video)** en `/vision`: 45 analíticas en 4 familias que corren sobre las cámaras ya instaladas.\n\nAdemás hay demos interactivas: `/laboratorio` (modelos de IA en acción, con cámara o video propio) y `/vision-lab` (playground técnico).",
+   "h": "c69188f1660e4409"
   },
   {
    "id": "kb:que-es-ars:5",
    "fuente": "kb",
    "titulo": "Qué es ARS Intelligence › Contacto",
    "ruta": "/",
-   "texto": "- Solicitar demo: formulario y botones en la sección `#contacto` de la portada (`/#contacto`), de `/plataforma#cierre` y de `/vision#cierre`.\n- WhatsApp de la gerencia comercial: +57 318 0005654.\n- Correo: gerencia.comercial@vigiasdecolombia.com (asunto sugerido «Solicitud de demo - ARS Intelligence»).\n- Dominio del sitio: arsintelligence.com.\n\nPrecios, planes, licencias y condiciones contractuales no están publicados en el sitio: a confirmar con el equipo comercial.",
-   "h": "03cf4fe7e76fef1f"
+   "texto": "- Solicitar demo: formulario y botones en la sección `#contacto` de la portada (`/#contacto`), de `/plataforma#cierre` y de `/vision#cierre`.\n- WhatsApp de la gerencia comercial: +57 312 462 3357.\n- Correo: j.muriel@ars-group.co (asunto sugerido «Solicitud de demo - ARS Intelligence»).\n- Dominio del sitio: arsintelligence.com.\n\nPrecios, planes, licencias y condiciones contractuales no están publicados en el sitio: a confirmar con el equipo comercial.",
+   "h": "b92163143d2237c4"
   },
   {
    "id": "kb:mapa-del-sitio:0",
@@ -189,17 +188,16 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › Reglas de navegación",
    "ruta": "/",
-   "texto": "- Pedir demo o hablar con alguien → `/#contacto` (formulario) o WhatsApp +57 318 0005654.\n- Una analítica concreta → `/vision#<id>` usando el id exacto del catálogo.\n- Una funcionalidad de la plataforma → `/plataforma#feature-<id>` o `/plataforma#funcionalidades`.\n- Ver IA en vivo con su cámara → `/laboratorio#demo-stage`.\n- Un servicio o módulo de ARS → `/servicios/<área>#<módulo>` con la herramienta mostrar_servicio (ids exactos del catálogo de servicios).\n- Existe una ruta `/admin` interna (edición de datos del mapa); no es para visitantes, no la recomiendes.",
-   "h": "31df29dcd1560efd"
+   "texto": "- Pedir demo o hablar con alguien → `/#contacto` (formulario) o WhatsApp +57 312 462 3357.\n- Una analítica concreta → `/vision#<id>` usando el id exacto del catálogo.\n- Una funcionalidad de la plataforma → `/plataforma#feature-<id>` o `/plataforma#funcionalidades`.\n- Ver IA en vivo con su cámara → `/laboratorio#demo-stage`.\n- Un servicio o módulo de ARS → `/servicios/<área>#<módulo>` con la herramienta mostrar_servicio (ids exactos del catálogo de servicios).\n- Existe una ruta `/admin` interna (edición de datos del mapa); no es para visitantes, no la recomiendes.",
+   "h": "9c0c4eb5c9db5c95"
   },
   {
    "id": "kb:plataforma-erp:0",
    "fuente": "kb",
    "titulo": "Plataforma ARS y ERP operativo",
    "ruta": "/plataforma",
-   "texto": "«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.",
-   "h": "06618dd42dbb9df1",
-   "v": "4ggpHQ0E3jTq6trsHdUiDfvkxvzwA9zf8grn9L0CH8kcFC4BEf4eFyAO5/wC/uD2LRDK6SAt+efhDSX/+NIQLe3kwhz6+v4d8/Mb/P1M/uf35Oj798rH+eb19QYGFCjwBeLxGCOu48Ks1VYIKdIEyQQmHfsV40YFDQ258OP1yfD00+/yHPXz7zPdDwwR5soDgevMCQn8/gQLFRAI6xsS4v4O1A8G6/vWgUut8dQH6dH6GvzR9gHq/PnbrfToW+dALjE43t4b1OXzAHgD1fwW9+7tZAIy7/EJxTAC1cfPBt/fUUDEO8UAFOUKFAgU3xEA8gz+4hoKEt08EQJAKyAI7M/s3NwPNuMIDgYjHOoPLjkkDd0mQt3pMQrtGgNCBwXh7wcHNPf19tU9EgHnFE8GxugZ7vn/2d30INjK1iTYFdc+yPO07NTmISPPH8ENCxUGES0u3BjVswsGz9C7PkH12cAB0w76zNcQ7vck7hcN2P8JzSvX/vP/5PwpCQ8NDvrn70HKKgj0HQn7xA/YDO0B0vwJvDvnCiUn4gX3wzkgGPAB6fcJSA8HGf0v//TZxzEDRvbfL/IR2EMHEAonx8j17bH1DxPuT8X4WcoEX0EYBkQgy77+FxTzNA4Euu8BBtwBJeX+BidB/T3yJRMtOPYL4ujEuez2DeL1FBrs80vRFPs="
+   "texto": "«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.\n\n**ARS es un ERP, y además se adapta.** Además de la operación, ARS es el ERP de la empresa de seguridad: clientes, contratos y planes, órdenes de servicio, nómina, costos, facturación, contabilidad con asistente de IA, cotizador y CRM (detalle en `/servicios/finanzas-y-erp` y `/servicios/gestion-humana`). Si la empresa ya tiene su propio sistema u otros contratados, el Agente interoperador de datos y las integraciones hacen que todo se centralice en ARS o fluya entre sistemas, según los módulos que contrate.",
+   "h": "cb303531d5e47cb6"
   },
   {
    "id": "kb:plataforma-erp:1",
@@ -295,24 +293,24 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › La idea central",
    "ruta": "/servicios",
-   "texto": "ARS no es «un producto de cámaras»: es **el sistema operativo de una empresa de seguridad privada**. En una sola plataforma la empresa contrata, programa, paga y capacita a su gente; la supervisa en campo con GPS, rondas, zonas y reportes con foto, firma, ubicación y hora; se comunica por radio desde el celular con cada transmisión grabada; vigila con cámaras, sensores y acceso facial; responde las emergencias desde una sala de control; le rinde cuentas al cliente con un portal propio; consulta su contabilidad y su ERP desde la misma pantalla, y puede recorrer su central y una sede de ejemplo en realidad virtual.",
-   "h": "0b7502a8ae4a58ff"
+   "texto": "ARS no es «un producto de cámaras»: es **el sistema operativo de una empresa de seguridad privada**. En una sola plataforma la empresa contrata, programa, paga y capacita a su gente; la supervisa en campo con GPS, rondas, zonas y reportes con foto, firma, ubicación y hora; se comunica por radio desde el celular con cada transmisión grabada; vigila con cámaras, sensores y acceso facial; responde las emergencias desde una sala de control; le rinde cuentas al cliente con un portal propio; lleva sus clientes, contratos, facturación, costos y contabilidad en el mismo ERP, y puede recorrer su central y una sede de ejemplo en realidad virtual.",
+   "h": "39f06f9b931d678d"
   },
   {
    "id": "kb:servicios-ars:2",
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Las 10 áreas",
    "ruta": "/servicios",
-   "texto": "- **A · Operación en campo** (`operacion-en-campo`): turnos y programación, asistencia y relevos con selfie y verificación facial, rondas con QR, revistas y reportes de supervisión, visitantes y bicicletas, armas, vehículos y caninos.\n- **B · Centro de operaciones** (`centro-de-operaciones`): Sala de Control con mapa en vivo, zonas con alerta de salida de zona, sala del coordinador, recorridos GPS de supervisores, cumplimiento persona por persona y alias de clientes y sedes.\n- **C · Comunicación y emergencias** (`comunicacion-y-emergencias`): radio PTT en el celular y la web, chat corporativo, conversación con la Central, consola de grabaciones, reporte por sede, botón de pánico y notificaciones.\n- **D · Monitoreo inteligente** (`monitoreo-inteligente`): visión artificial sobre las cámaras existentes, acceso inteligente con listas y consentimientos, IoT, levantamiento 2D/3D de sedes.\n- **E · Realidad virtual** (`realidad-virtual`): Central Viva en 3D, demostración de la Sede Inteligente, Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz.\n- **F · Gestión humana** (`gestion-humana`): selección, colaboradores, nómina desde los turnos, costos, Área Documental con IA, portal documental para el cliente y Jurídica.\n- **G · Formación** (`formacion`): cursos con certificados QR, diseñador de cursos con IA, video por temas, auditoría de reglas y evaluaciones.\n- **H · Finanzas y ERP** (`finanzas-y-erp`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), el **Agente interoperador de datos** y el ERP de la empresa dentro de ARS.\n- **I · Productividad e IA** (`productividad-e-ia`): tareas, reuniones con transcripción, tickets, formularios dinámicos, automatizaciones y Centro de IA.\n- **J · Gobierno, seguridad y canales** (`gobierno-y-seguridad`): Torre de Control, auditoría, configuración multiempresa, ingreso con cédula y doble factor, app Android, app instalable (PWA) y app de escritorio para la central.",
-   "h": "258aa523d856ab28"
+   "texto": "- **A · Operación en campo** (`operacion-en-campo`): turnos y programación, asistencia y relevos con selfie y verificación facial, rondas con QR, revistas y reportes de supervisión, visitantes y bicicletas, armas, vehículos y caninos.\n- **B · Centro de operaciones** (`centro-de-operaciones`): Sala de Control con mapa en vivo, zonas con alerta de salida de zona, sala del coordinador, recorridos GPS de supervisores, cumplimiento persona por persona y alias de clientes y sedes.\n- **C · Comunicación y emergencias** (`comunicacion-y-emergencias`): radio PTT en el celular y la web, chat corporativo, conversación con la Central, consola de grabaciones, reporte por sede, botón de pánico y notificaciones.\n- **D · Monitoreo inteligente** (`monitoreo-inteligente`): visión artificial sobre las cámaras existentes, acceso inteligente con listas y consentimientos, IoT, levantamiento 2D/3D de sedes.\n- **E · Realidad virtual** (`realidad-virtual`): Central Viva en 3D, demostración de la Sede Inteligente, Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz.\n- **F · Gestión humana** (`gestion-humana`): selección, colaboradores, nómina desde los turnos, costos, Área Documental con IA, portal documental para el cliente y Jurídica.\n- **G · Formación** (`formacion`): cursos con certificados QR, diseñador de cursos con IA, video por temas, auditoría de reglas y evaluaciones.\n- **H · Finanzas y ERP** (`finanzas-y-erp`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), cotizador y CRM propios, y el **Agente interoperador de datos**, que centraliza en ARS o hace fluir la información de los sistemas que la empresa ya tenga.\n- **I · Productividad e IA** (`productividad-e-ia`): tareas, reuniones con transcripción, tickets, formularios dinámicos, automatizaciones y Centro de IA.\n- **J · Gobierno, seguridad y canales** (`gobierno-y-seguridad`): Torre de Control, auditoría, configuración multiempresa, ingreso con cédula y doble factor, app Android, app instalable (PWA) y app de escritorio para la central.",
+   "h": "ea87bcae1d1a4224"
   },
   {
    "id": "kb:servicios-ars:3",
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Un día en ARS (cómo se encadenan las áreas)",
    "ruta": "/servicios",
-   "texto": "1. **Programar.** Programación arma el mes sobre la estructura Cliente → Sede → Puesto (área A), con las órdenes de servicio que vienen del ERP (área H). Cada vigilante ve su mes en el celular.\n2. **Marcar y supervisar.** El vigilante inicia el turno con selfie y ubicación, hace sus rondas con QR y su minuta; el supervisor recorre su zona y llena revistas con foto y firma (A). El coordinador ve en su sala qué turno quedó sin cubrir y decide quién cubre (B).\n3. **Vigilar y responder.** La Central mira el mapa vivo, las cámaras y sus alertas de IA (B, D), habla por radio y, si alguien presiona el botón de pánico, atiende la emergencia con una ventana que deja la bitácora escrita (C).\n4. **Pagar y rendir cuentas.** Lo trabajado alimenta la nómina (F), los documentos del personal quedan auditados y el cliente los consulta en su portal (F), la contabilidad muestra lo contratado frente a lo facturado (H) y la dirección revisa los indicadores, incluso en la Mesa Directiva en 3D (E). La auditoría (J) deja rastro de las acciones sensibles.",
-   "h": "1d0bd6fca0bbe34e"
+   "texto": "1. **Programar.** Programación arma el mes sobre la estructura Cliente → Sede → Puesto (área A), con las órdenes de servicio vendidas en ARS o en el sistema que la empresa ya usa (área H). Cada vigilante ve su mes en el celular.\n2. **Marcar y supervisar.** El vigilante inicia el turno con selfie y ubicación, hace sus rondas con QR y su minuta; el supervisor recorre su zona y llena revistas con foto y firma (A). El coordinador ve en su sala qué turno quedó sin cubrir y decide quién cubre (B).\n3. **Vigilar y responder.** La Central mira el mapa vivo, las cámaras y sus alertas de IA (B, D), habla por radio y, si alguien presiona el botón de pánico, atiende la emergencia con una ventana que deja la bitácora escrita (C).\n4. **Pagar y rendir cuentas.** Lo trabajado alimenta la nómina (F), los documentos del personal quedan auditados y el cliente los consulta en su portal (F), la contabilidad muestra lo contratado frente a lo facturado (H) y la dirección revisa los indicadores, incluso en la Mesa Directiva en 3D (E). La auditoría (J) deja rastro de las acciones sensibles.",
+   "h": "8b564a1138db3573"
   },
   {
    "id": "kb:servicios-ars:3.1",
@@ -333,21 +331,37 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
   {
    "id": "kb:servicios-ars:5",
    "fuente": "kb",
+   "titulo": "Servicios de ARS · el catálogo completo › ARS es un ERP, y además se adapta (posicionamiento)",
+   "ruta": "/servicios",
+   "texto": "Cuando pregunten si ARS es un ERP, si reemplaza su sistema o si «funciona con lo que ya tenemos», el mensaje es este:",
+   "h": "2178bd167493ad22"
+  },
+  {
+   "id": "kb:servicios-ars:5.1",
+   "fuente": "kb",
+   "titulo": "Servicios de ARS · el catálogo completo › ARS es un ERP, y además se adapta (posicionamiento)",
+   "ruta": "/servicios",
+   "texto": "- **ARS es un ERP completo para la empresa de seguridad**: clientes, contratos y planes, órdenes de servicio, nómina (con prima, vacaciones y liquidación de contratos), costos por centro de costo, facturación, contabilidad con asistente de IA, cotizador y CRM, además de toda la operación (turnos, campo, central, documentos, formación). Una empresa puede llevar todo en ARS.\n- **Y además se adapta**: sin importar si la empresa tiene su propio sistema o ya tiene contratados otros, creamos los mecanismos (el Agente interoperador de datos, integraciones y sincronización) para que todo se **centralice en ARS** o **fluya** entre sistemas durante el proceso, según los módulos que contrate.\n- Nunca digas que ARS «no es un ERP», que «no reemplaza el ERP» ni que siempre se acomoda al sistema del cliente: ARS puede ser el ERP de la empresa o convivir con el que ya tiene; lo decide la empresa según los módulos que contrate.\n- Respeta los estados: las facturas electrónicas DIAN y RADIAN están en piloto; el detalle de cada módulo (por ejemplo, que la contabilidad se alimenta del sistema contable que la empresa conecta) sale del catálogo.",
+   "h": "e379f94d353f2c37"
+  },
+  {
+   "id": "kb:servicios-ars:6",
+   "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Agente interoperador de datos (cómo explicarlo)",
    "ruta": "/servicios",
    "texto": "Cuando pregunten por integraciones, por el ERP, por migrar información o por «¿funciona con mi sistema?», explica el **Agente interoperador de datos**:",
    "h": "f84e1c64c316508e"
   },
   {
-   "id": "kb:servicios-ars:5.1",
+   "id": "kb:servicios-ars:6.1",
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Agente interoperador de datos (cómo explicarlo)",
    "ruta": "/servicios",
-   "texto": "- Es un agente de IA que **recopila los datos y los documentos** de la empresa (su ERP, bases de datos, Excel, CSV, XML, PDF y documentos escaneados), los **analiza, gestiona, organiza y homologa** (clientes, empleados, contratos, sedes, centros de costo) para que cualquier sistema, dato u organización **interopere fácilmente con ARS**.\n- **Cómo conecta**, en este orden de preferencia: 1) **por API**, con sincronización continua; 2) **por conexión de backend** (servicios o base de datos con permisos controlados) cuando no hay API; 3) si ninguna es posible, **protocolos de carga** programados y validados, con vista previa antes de aplicar. Así la información **siempre fluye**.\n- **Integración completa o parcial:** ARS **se moldea al producto que la empresa ya tiene**. Puede quedar totalmente integrado (el ERP completo operado desde ARS) o participar solo en algunas partes del proceso (por ejemplo turnos, nómina, facturación o contabilidad).\n- Enlaza al módulo `/servicios/finanzas-y-erp#agente-interoperador-de-datos`.\n- **Nunca nombres un ERP, proveedor o producto de terceros concreto** (ni el de un cliente). Habla siempre de «el ERP o sistema que ya usa la empresa».",
-   "h": "ba1b74629475333a"
+   "texto": "- Es un agente de IA que **recopila los datos y los documentos** de la empresa (su sistema propio o los que tenga contratados, bases de datos, Excel, CSV, XML, PDF y documentos escaneados), los **analiza, gestiona, organiza y homologa** (clientes, empleados, contratos, sedes, centros de costo) para que cualquier sistema, dato u organización **interopere fácilmente con ARS**.\n- **Cómo conecta**, en este orden de preferencia: 1) **por API**, con sincronización continua; 2) **por conexión de backend** (servicios o base de datos con permisos controlados) cuando no hay API; 3) si ninguna es posible, **protocolos de carga** programados y validados, con vista previa antes de aplicar. Así la información **se centraliza en ARS o fluye** entre sistemas.\n- **Integración completa o parcial:** ARS es el ERP y **además se adapta a lo que la empresa ya tiene**. Todo puede quedar centralizado en ARS, o ARS puede participar solo en algunas partes del proceso (por ejemplo turnos, nómina, facturación o contabilidad) mientras la información fluye con los demás sistemas, según los módulos que contrate.\n- Enlaza al módulo `/servicios/finanzas-y-erp#agente-interoperador-de-datos`.\n- **Nunca nombres un ERP, proveedor o producto de terceros concreto** (ni el de un cliente). Habla siempre de «el sistema que ya usa la empresa» o «los sistemas que tenga contratados».",
+   "h": "63f98d839a35a8a6"
   },
   {
-   "id": "kb:servicios-ars:6",
+   "id": "kb:servicios-ars:7",
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Multiagentes por área",
    "ruta": "/servicios",
@@ -355,7 +369,7 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "d28b595ddee8a4da"
   },
   {
-   "id": "kb:servicios-ars:7",
+   "id": "kb:servicios-ars:8",
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Cómo hablar de los estados",
    "ruta": "/servicios",
@@ -363,12 +377,12 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "a3ba48583adfb73c"
   },
   {
-   "id": "kb:servicios-ars:8",
+   "id": "kb:servicios-ars:9",
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Guía de lo que no se promete",
    "ruta": "/servicios",
-   "texto": "- **Cámaras:** habla solo de las analíticas del catálogo de servicios (intrusión, cruce de línea, merodeo, objetos olvidados, conteo, aforo, mapa de calor, atributos estimados de persona). No ofrezcas en este catálogo lectura de placas, detección de armas, EPP, visión térmica, clasificación vehicular ni detección de fuego o humo; si preguntan, di que se evalúan caso a caso con el equipo comercial y remite a `/vision` para ver su estado. El reconocimiento facial por cámara es una **alerta de personas desconocidas o de una lista, que verifica un operador**, nunca una identificación automática. Las analíticas dependen del equipo instalado en cada sede.\n- **Turnos:** la verificación facial del relevo compara con la foto registrada; no hables de «antisuplantación». Los relojes biométricos ZKTeco se mencionan como **compatibilidad**. El relevo entre empresas es para supervisores de un mismo grupo empresarial.\n- **Radio:** en el teléfono funciona con la app Android, con varios perfiles en un teléfono y manos libres.\n- **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.\n- **Servidores propios:** dilo para documentos del personal, reuniones y datos de personal; no lo generalices a toda la plataforma.\n- **Realidad virtual:** la Sede Inteligente es una **demostración con datos simulados**; también se vive con gafas Meta Quest y con la app nativa para Quest. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.\n- **Nómina y contabilidad:** trabajan junto al ERP de la empresa, conectado por el Agente interoperador de datos; la contabilidad es una copia de consulta del ERP. No des cifras de coincidencia con el ERP. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. Las facturas DIAN y RADIAN están en piloto y pasan a producción en los próximos meses; ARS no emite facturas.\n- **Puertas con reconocimiento facial y escaneo 3D de sedes:** disponibles; el reconocimiento facial abre o alerta y una persona verifica.\n- **Cifras:** no des números de usuarios, vigilantes, clientes, sedes, documentos ni porcentajes de uso. No nombres clientes.\n- Si algo no está en el catálogo, di que se confirma con el equipo comercial y ofrece agendar una demo.",
-   "h": "9d8edf8857fe71d9"
+   "texto": "- **Cámaras:** habla solo de las analíticas del catálogo de servicios (intrusión, cruce de línea, merodeo, objetos olvidados, conteo, aforo, mapa de calor, atributos estimados de persona). No ofrezcas en este catálogo lectura de placas, detección de armas, EPP, visión térmica, clasificación vehicular ni detección de fuego o humo; si preguntan, di que se evalúan caso a caso con el equipo comercial y remite a `/vision` para ver su estado. El reconocimiento facial por cámara es una **alerta de personas desconocidas o de una lista, que verifica un operador**, nunca una identificación automática. Las analíticas dependen del equipo instalado en cada sede.\n- **Turnos:** la verificación facial del relevo compara con la foto registrada; no hables de «antisuplantación». Los relojes biométricos ZKTeco se mencionan como **compatibilidad**. El relevo entre empresas es para supervisores de un mismo grupo empresarial.\n- **Radio:** en el teléfono funciona con la app Android, con varios perfiles en un teléfono y manos libres.\n- **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.\n- **Servidores propios:** dilo para documentos del personal, reuniones y datos de personal; no lo generalices a toda la plataforma.\n- **Realidad virtual:** la Sede Inteligente es una **demostración con datos simulados**; también se vive con gafas Meta Quest y con la app nativa para Quest. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.\n- **Nómina y contabilidad:** son parte del ERP de ARS. Si la empresa ya liquida o contabiliza en otro sistema, el Agente interoperador de datos centraliza esa información en ARS o la hace fluir entre los dos, y ARS muestra las diferencias antes de pagar o cerrar; el módulo de contabilidad se alimenta del sistema contable que la empresa conecta (copia de consulta actualizada cada 15 minutos). No des cifras de coincidencia entre sistemas. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. La facturación (líneas, aprobación, prefacturación y validación) está en ARS; la bandeja de facturas electrónicas DIAN y RADIAN está en piloto y pasa a producción en los próximos meses. No afirmes que ARS transmite facturas electrónicas a la DIAN: si lo preguntan, se confirma con el equipo comercial.\n- **Puertas con reconocimiento facial y escaneo 3D de sedes:** disponibles; el reconocimiento facial abre o alerta y una persona verifica.\n- **Cifras:** no des números de usuarios, vigilantes, clientes, sedes, documentos ni porcentajes de uso. No nombres clientes.\n- Si algo no está en el catálogo, di que se confirma con el equipo comercial y ofrece agendar una demo.",
+   "h": "a453eda55195005b"
   },
   {
    "id": "kb:vision-analiticas:0",
@@ -625,25 +639,32 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
-   "texto": "**¿Qué detectan las cámaras?**\nPersonas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.\n\n**¿Las analíticas están todas disponibles hoy?**\nTodas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.\n\n**¿Sirve para empresas de seguridad con muchos clientes?**\nSí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#casos`.\n\n**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**\nEl sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT. Integraciones específicas con terceros: a confirmar con el equipo comercial.\n\n**¿Dónde operan?**\nColombia y Perú, según el sitio. Ver `/proyectos`.",
-   "h": "0847e0ad62cefe1d"
+   "texto": "**¿Qué detectan las cámaras?**\nPersonas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.\n\n**¿Las analíticas están todas disponibles hoy?**\nTodas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.\n\n**¿Sirve para empresas de seguridad con muchos clientes?**\nSí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#casos`.",
+   "h": "a0f31be216167e99"
   },
   {
    "id": "kb:preguntas-frecuentes:0.3",
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
-   "texto": "**¿Puedo ver una demo?**\nSí, tres opciones:\n1. Probar ya la IA con tu cámara o un video: `/laboratorio#demo-stage`.\n2. Ver cada analítica funcionando: `/vision#visor`.\n3. Demo guiada con el equipo: formulario en `/#contacto`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.\n\n**¿Hay versión en inglés?**\nEl sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de `/vision` se presenta en español.\n\n**¿Me pueden dar un estimado?**\nArs puede armar un alcance orientativo (funcionalidades, analíticas, unidades a cotizar y etapas) con el sector, las sedes, las cámaras y el objetivo. No incluye precios. La cotización formal la hace el equipo comercial después de la demo o del levantamiento.\n\n**¿Puedo mostrarle una foto o un video de mis cámaras?**\nSí, se adjunta en el chat. Ars explica qué detectaría ARS y con qué analítica. El archivo se usa solo en esa conversación y no se guarda en el servidor; en un video, el navegador envía solo unos fotogramas. Para ver los modelos corriendo en vivo sobre tu propia cámara está `/laboratorio#demo-stage`.",
-   "h": "717faf57e51f2f9f"
+   "texto": "**¿ARS es un ERP? ¿Tengo que dejar el sistema que ya uso?**\nARS es un ERP completo para la empresa de seguridad: clientes, contratos y planes, órdenes de servicio, nómina, costos, facturación, contabilidad con asistente de IA, cotizador y CRM, junto con toda la operación. Y además se adapta: si la empresa ya tiene su propio sistema u otros contratados, creamos los mecanismos (Agente interoperador de datos, integraciones y sincronización) para que todo se centralice en ARS o fluya entre sistemas, según los módulos que contrate. Ver `/servicios/finanzas-y-erp`.\n\n**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, otro software de gestión)?**\nEl sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT; con el software de gestión que la empresa ya use, el Agente interoperador de datos conecta por API, por backend o por cargas programadas. El alcance con un sistema concreto: a confirmar con el equipo comercial.\n\n**¿Dónde operan?**\nColombia y Perú, según el sitio. Ver `/proyectos`.",
+   "h": "fd666fc6564c7f00"
   },
   {
    "id": "kb:preguntas-frecuentes:0.4",
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
-   "texto": "**¿En qué se diferencian dos analíticas parecidas (p. ej. intrusión, merodeo y acceso no autorizado)?**\nArs puede compararlas en una tabla: qué detecta cada una, cómo se activa, estado y prueba real. Resumen rápido: **intrusión** mide qué tan adentro de una zona prohibida está la persona (tres franjas, con aviso según la gravedad); **merodeo** avisa de quien da vueltas sin entrar ni irse; **acceso no autorizado** combina la puerta de una zona interna con el reconocimiento de personal y avisa si cruza alguien que no es del equipo. Ver `/vision#intrusion`, `/vision#merodeo` y `/vision#acceso`.",
-   "h": "61b0a6dc8e5823e0",
-   "v": "8DEWBggF3OgZGgEVEfnwA94a0AAiQefrCfXuF+DkD+Hn9vnm3xEZ/xo33Ozc3drt6w3F+AFa+fzl7gP98+EaFOn/zgwc/ywT/tn1EgUP+QgJAeEGGf+h0Qy67y3xDygcJeLrGg+82+ck7h8TDNln1hAfLfHf6DfA+w8T8enkEeXW3QDcHt8HCiHt0QoC2hUe5fILEx0aIvvj9/cSFQX12uoB9gX1EALyyz26KO3xLuDe9gi5yAQT9hjQ2AjQAhZBHwgcpwD94dz45l3vACBBCtvzL8FA9uw63Cb7GNsX6iTsNS66Hq3xD/Db+d0M2uziBvAPGeUJCOc//Ckf8R3v8ub17N4NKNzc/fsF/frpFiYH++r2Ldv/EOoQGgYCJ+r45wEBAAkLE+wc/hDxNSEH6wQ8IQ7b5PPi9+LRzUTQJOc1zezK3cMACUXPP+kJ++7x90Pd9+P0vyMTGBXYJiMR6tr20xv23fcF9Pg9BBEJ4ucezRHI+976BAMeIk38M/Py/vcFDubz6ADs7M4DQw8vEQb1t/bTMxQiARkk/icBK9Ys/RUISu3a+usg+QQBvAI0/ejv+BMg3xP44PQq4wHoyQrsEA/XMdbhNQP9Eujq/h4JGNToJg36Hgn28e0G8BLgFeUcDUl/EzMGAbsJL/EpB/vAGBHcAAAo8Rj52O389+4="
+   "texto": "**¿Puedo ver una demo?**\nSí, tres opciones:\n1. Probar ya la IA con tu cámara o un video: `/laboratorio#demo-stage`.\n2. Ver cada analítica funcionando: `/vision#visor`.\n3. Demo guiada con el equipo: formulario en `/#contacto`, WhatsApp +57 312 462 3357 o correo j.muriel@ars-group.co.\n\n**¿Hay versión en inglés?**\nEl sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de `/vision` se presenta en español.\n\n**¿Me pueden dar un estimado?**\nArs puede armar un alcance orientativo (funcionalidades, analíticas, unidades a cotizar y etapas) con el sector, las sedes, las cámaras y el objetivo. No incluye precios. La cotización formal la hace el equipo comercial después de la demo o del levantamiento.",
+   "h": "002874a6583fafef"
+  },
+  {
+   "id": "kb:preguntas-frecuentes:0.5",
+   "fuente": "kb",
+   "titulo": "Preguntas frecuentes",
+   "ruta": "/",
+   "texto": "**¿Puedo mostrarle una foto o un video de mis cámaras?**\nSí, se adjunta en el chat. Ars explica qué detectaría ARS y con qué analítica. El archivo se usa solo en esa conversación y no se guarda en el servidor; en un video, el navegador envía solo unos fotogramas. Para ver los modelos corriendo en vivo sobre tu propia cámara está `/laboratorio#demo-stage`.\n\n**¿En qué se diferencian dos analíticas parecidas (p. ej. intrusión, merodeo y acceso no autorizado)?**\nArs puede compararlas en una tabla: qué detecta cada una, cómo se activa, estado y prueba real. Resumen rápido: **intrusión** mide qué tan adentro de una zona prohibida está la persona (tres franjas, con aviso según la gravedad); **merodeo** avisa de quien da vueltas sin entrar ni irse; **acceso no autorizado** combina la puerta de una zona interna con el reconocimiento de personal y avisa si cruza alguien que no es del equipo. Ver `/vision#intrusion`, `/vision#merodeo` y `/vision#acceso`.",
+   "h": "5d4ed2c81e33681d"
   },
   {
    "id": "analitica:seguimiento",
