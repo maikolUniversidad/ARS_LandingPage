@@ -314,7 +314,7 @@ function Hallazgos({ diagnostico: d }: Props) {
   );
 }
 
-/* ───────────────────────── 03 · Mapa de las 10 áreas ───────────────────────── */
+/* ───────────────────────── 03 · Mapa de las 11 áreas ───────────────────────── */
 
 const ESTILO_PRIORIDAD = {
   alta: "bg-white text-[#020a18]",
@@ -326,12 +326,12 @@ function MapaAreas({ diagnostico: d }: Props) {
   const mapa = mapaAreas(d);
   const recs = recomendacionesOrdenadas(d);
   return (
-    <Seccion numero="03" eyebrow="Mapa de las 10 áreas" titulo="Dónde actuar primero">
+    <Seccion numero="03" eyebrow="Mapa de las 11 áreas" titulo="Dónde actuar primero">
       <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/70">
-        ARS cubre diez áreas de la operación. Encendimos las {recs.length} que más impacto tienen para {d.perfil.nombre}; las demás quedan
+        ARS cubre once áreas de la operación. Encendimos las {recs.length} que más impacto tienen para {d.perfil.nombre}; las demás quedan
         listas para cuando las necesite.
       </p>
-      <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-5">
+      <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
         {mapa.map(({ area, rec }) => (
           <li
             key={area.id}

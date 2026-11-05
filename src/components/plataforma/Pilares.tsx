@@ -16,12 +16,12 @@ export function Pilares() {
     locale === "en"
       ? {
           eyebrow: "Under the hood",
-          title: "One platform, not ten systems stitched together.",
+          title: "One platform, not eleven systems stitched together.",
           note: "Pillar descriptions are in Spanish, as in our product inventory.",
         }
       : {
           eyebrow: "Debajo de todo",
-          title: "Una sola plataforma, no diez sistemas pegados.",
+          title: "Una sola plataforma, no once sistemas pegados.",
           note: null,
         };
 

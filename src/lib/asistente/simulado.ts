@@ -77,6 +77,17 @@ function guion(p: PeticionChat): Guion {
       herramienta: { nombre: "sugerir", entrada: { opciones: en ? ["Give me a tour of this page", "I want a demo"] : ["Haz un recorrido por esta página", "Quiero una demo"] } },
     };
   }
+  // Dónde quedan los datos: centro de datos en Colombia, nube del cliente u on premise (área K).
+  if (/donde (quedan|estan|se guardan|guardan)[^?]*datos|data ?cent(er|ro)|centro de datos|on ?premise|soberan|where is (my|our) data/.test(q)) {
+    const modulo = /on ?premise/.test(q) ? "equipo-on-premise" : "centro-de-datos-ars";
+    return {
+      texto: en
+        ? "Your data stays in Colombia: ARS runs its own data center, with a GPU farm for on-site analytics and AI. It can also run in your cloud or on an on-premise unit at your site."
+        : "Sus datos se quedan en Colombia: ARS tiene su propio centro de datos, con granja de tarjetas gráficas para la analítica y la IA en local. También puede operar en su nube o en un equipo on premise en su sede.",
+      herramienta: { nombre: "mostrar_servicio", entrada: { area: "infraestructura", modulo } },
+      extra: [{ nombre: "sugerir", entrada: { opciones: en ? ["How does on premise work?", "I want a demo"] : ["¿Cómo funciona on premise?", "Quiero una demo"] } }],
+    };
+  }
   if (/central|monitoreo|alertas|inicio|home/.test(q)) {
     return {
       texto: en ? "Sure, I'll take you to the control room." : "Claro, te llevo a la central de monitoreo.",

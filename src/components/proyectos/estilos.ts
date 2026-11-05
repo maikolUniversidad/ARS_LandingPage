@@ -16,6 +16,7 @@ export const AREA_CLASES: Record<string, { punto: string; borde: string; texto: 
   "finanzas-y-erp": { punto: "bg-[#4fd1c5]", borde: "border-[#4fd1c5]/50", texto: "text-[#4fd1c5]" },
   "productividad-e-ia": { punto: "bg-[#a3e635]", borde: "border-[#a3e635]/50", texto: "text-[#a3e635]" },
   "gobierno-y-seguridad": { punto: "bg-[#cfd8e3]", borde: "border-[#cfd8e3]/50", texto: "text-[#cfd8e3]" },
+  infraestructura: { punto: "bg-[#3fe0c5]", borde: "border-[#3fe0c5]/50", texto: "text-[#3fe0c5]" },
 };
 
 const AREA_POR_DEFECTO = { punto: "bg-[#6b8aff]", borde: "border-[#6b8aff]/50", texto: "text-[#6b8aff]" };

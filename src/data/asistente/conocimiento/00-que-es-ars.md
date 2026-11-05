@@ -27,7 +27,7 @@ Otras ideas que comunica el sitio:
 - **La IA apoya al equipo humano**: multiagentes de IA que proponen y una persona que decide.
 - **Alertas con evidencia**: foto, video, ubicación, cámara, hora y responsable asociados al evento.
 - **Multi-cliente, multi-sede**: cada sede, cada cliente y cada turno en la misma plataforma.
-- Cifras de la portada (salen del catálogo de `/servicios`): 10 áreas de servicio, los módulos del catálogo y cuántos están en operación, y 8 analíticas de video. No uses otras cifras (no hay respaldo para «< 48 h», «24/7», «12+ modelos» ni porcentajes de precisión).
+- Cifras de la portada (salen del catálogo de `/servicios`): 11 áreas de servicio, los módulos del catálogo y cuántos están en operación, y 8 analíticas de video. No uses otras cifras (no hay respaldo para «< 48 h», «24/7», «12+ modelos» ni porcentajes de precisión).
 - Plazos de despliegue, precios y alcance de cada proyecto: a confirmar con el equipo comercial.
 
 ## Presencia

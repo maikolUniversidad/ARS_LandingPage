@@ -4,7 +4,7 @@
  * Experiencia interactiva en 3 partes que comparten SOLO estos tipos:
  *  1. Entrevista con IA (src/components/diagnostico/entrevista/*, /api/diagnostico):
  *     pregunta por la empresa, muestra cosas mientras tanto y produce un `Diagnostico`.
- *  2. Historia 3D (src/components/diagnostico/historia/*): un campus 3D con las 10 áreas
+ *  2. Historia 3D (src/components/diagnostico/historia/*): un campus 3D con las 11 áreas
  *     de ARS; narra los `capitulos` del diagnóstico (antes → después), vuela la cámara
  *     a cada área y enciende los servicios recomendados.
  *  3. Reporte (src/components/diagnostico/reporte/*): vista previa bonita + PDF descargable
@@ -15,7 +15,7 @@
  * Las cifras son ESTIMACIONES ilustrativas (siempre con la etiqueta «estimado»).
  */
 
-/** Ids de las 10 áreas del catálogo (src/data/servicios/catalogo.ts). */
+/** Ids de las 11 áreas del catálogo (src/data/servicios/catalogo.ts). */
 export type AreaId =
   | "operacion-en-campo"
   | "centro-de-operaciones"

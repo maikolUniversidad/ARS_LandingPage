@@ -17,7 +17,7 @@ const ES = {
   },
   recorrido: {
     etiqueta: "Recorrido por la plataforma",
-    titulo: "Diez áreas, una sola plataforma",
+    titulo: "Once áreas, una sola plataforma",
     bajada:
       "Elija un área y vea sus pantallas reales. Use las flechas del teclado para recorrerlas.",
     areas: "Áreas de la plataforma",
@@ -52,7 +52,7 @@ const EN: Textos = {
   },
   recorrido: {
     etiqueta: "Platform tour",
-    titulo: "Ten areas, one platform",
+    titulo: "Eleven areas, one platform",
     bajada: "Pick an area and see its real screens. Use the arrow keys to move through them.",
     areas: "Platform areas",
     modulos: "Featured modules",
