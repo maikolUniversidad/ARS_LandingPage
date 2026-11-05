@@ -105,7 +105,7 @@ function Encabezado({ origen, empresa }: { origen: string; empresa: string }) {
 function Pie({ fecha }: { fecha: string }) {
   return (
     <View style={s.pie} fixed>
-      <Text>ARS Intelligence · arsintelligence.com · {fechaLarga(fecha)}</Text>
+      <Text>ARS Intelligence · ars-intelligence.com · {fechaLarga(fecha)}</Text>
       <Text render={({ pageNumber, totalPages }) => `Página ${pageNumber} de ${totalPages}`} />
     </View>
   );

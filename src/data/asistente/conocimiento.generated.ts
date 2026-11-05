@@ -64,7 +64,7 @@ Además hay demos interactivas: \`/laboratorio\` (modelos de IA en acción, con 
 - Solicitar demo: formulario y botones en la sección \`#contacto\` de la portada (\`/#contacto\`), de \`/plataforma#cierre\` y de \`/vision#cierre\`.
 - WhatsApp de la gerencia comercial: +57 312 462 3357.
 - Correo: j.muriel@ars-group.co (asunto sugerido «Solicitud de demo - ARS Intelligence»).
-- Dominio del sitio: arsintelligence.com.
+- Dominio del sitio: ars-intelligence.com.
 
 Precios, planes, licencias y condiciones contractuales no están publicados en el sitio: a confirmar con el equipo comercial.`,
   },

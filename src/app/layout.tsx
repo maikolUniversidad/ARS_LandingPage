@@ -28,7 +28,7 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const SITE_URL = "https://arsintelligence.com";
+const SITE_URL = "https://ars-intelligence.com";
 const SITE_NAME = "ARS Intelligence";
 const TITLE = "ARS Intelligence — Todas las capas de la seguridad, una sola traza";
 const DESCRIPTION =

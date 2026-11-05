@@ -93,8 +93,8 @@ Copia `.env.example` a `.env.local` y sigue [docs/CONFIGURACION.md](docs/CONFIGU
 - [ ] Quitar/proteger el link público **"Admin"** en `/proyectos`.
 - [ ] Reemplazar los **datos placeholder de `/proyectos`** (direcciones, nº de
       cámaras, stats) por datos reales.
-- [ ] Confirmar el **dominio** (`arsintelligence.com`) en la config de SEO
-      (`layout.tsx`, `sitemap.ts`, `robots.ts`).
+- [x] **Dominio** confirmado: `ars-intelligence.com` (con guion) en la config de SEO
+      (`layout.tsx`, `page.tsx`, `sitemap.ts`, `robots.ts`). Sin guion es un dominio ajeno.
 - [ ] Conseguir **autorización de uso de marca** de los logos de clientes.
 - [ ] (Opcional) Videos reales para las escenas 2–8 del home (hoy usan visuales generadas).
 

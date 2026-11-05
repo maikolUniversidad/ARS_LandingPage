@@ -86,8 +86,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Qué es ARS Intelligence › Contacto",
    "ruta": "/",
-   "texto": "- Diagnóstico de la empresa con IA (llamado principal del menú): `/diagnostico`.\n- Solicitar demo: formulario y botones en la sección `#contacto` de la portada (`/#contacto`), de `/plataforma#cierre` y de `/vision#cierre`.\n- WhatsApp de la gerencia comercial: +57 312 462 3357.\n- Correo: j.muriel@ars-group.co (asunto sugerido «Solicitud de demo - ARS Intelligence»).\n- Dominio del sitio: arsintelligence.com.\n\nPrecios, planes, licencias y condiciones contractuales no están publicados en el sitio: a confirmar con el equipo comercial.",
-   "h": "4b34b8451523dfb9"
+   "texto": "- Diagnóstico de la empresa con IA (llamado principal del menú): `/diagnostico`.\n- Solicitar demo: formulario y botones en la sección `#contacto` de la portada (`/#contacto`), de `/plataforma#cierre` y de `/vision#cierre`.\n- WhatsApp de la gerencia comercial: +57 312 462 3357.\n- Correo: j.muriel@ars-group.co (asunto sugerido «Solicitud de demo - ARS Intelligence»).\n- Dominio del sitio: ars-intelligence.com.\n\nPrecios, planes, licencias y condiciones contractuales no están publicados en el sitio: a confirmar con el equipo comercial.",
+   "h": "83f23b61e04e5e4b"
   },
   {
    "id": "kb:mapa-del-sitio:0",
