@@ -75,8 +75,9 @@ Nueva sección del home entre `home/recap` y `home/capacitacion` (`src/component
 
 | id | duración (s) | créditos |
 |---|---:|---:|
-| `home/despliegue` | 36.96 | 588 |
+| `home/despliegue` | 32.80 | 521 |
 
-- Misma voz («Sofía – Confianza & Calidez», `b2htR0pMe28pYwCY9gnP`), modelo `eleven_v4`, una toma, vía el conector MCP de ElevenLabs, en el mismo flow `1VhTgXKB2AgxaFLEEHjU` (generación `fY0YAEG6obU7ohfTiDBh`).
+- Misma voz («Sofía – Confianza & Calidez», `b2htR0pMe28pYwCY9gnP`), modelo `eleven_v4`, una toma, vía el conector MCP de ElevenLabs, en el flow `1VhTgXKB2AgxaFLEEHjU` (generación `ipogznke7U7mFJExO3D3`).
 - Texto enviado = guion, con «ARS» escrito «Ars» para la voz. Sin etiquetas de dirección.
-- Post-proceso igual al resto: recorte de silencio (−50 dB, ≤0,15 s), `loudnorm=I=-16:TP=-1.5:LRA=7`, mono, 44,1 kHz, 96 kbps, `-map_metadata -1`. Medido: −16,5 LUFS integrado. Dura ≈37 s, un poco más que la media, porque nombra las cuatro formas de desplegar y aclara que hoy la nube ARS está en operación y las demás en piloto.
+- Post-proceso igual al resto: recorte de silencio (−50 dB, ≤0,15 s), `loudnorm=I=-16:TP=-1.5:LRA=7`, mono, 44,1 kHz, 96 kbps, `-map_metadata -1`. Medido: -16,4 LUFS integrado.
+- Primera toma descartada (`fY0YAEG6obU7ohfTiDBh`, 588 créditos): decía que solo la nube ARS estaba en operación y las demás formas en piloto. El catálogo pasó todos los módulos del área K a producción (commit `b0709a3`), así que se quitó esa frase y se regeneró. Total de la sección: 1.109 créditos.
