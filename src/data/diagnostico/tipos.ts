@@ -16,6 +16,8 @@
  */
 
 /** Ids de las 10 áreas del catálogo (src/data/servicios/catalogo.ts). */
+import type { AceptacionAutorizacion } from "./autorizacion";
+
 export type AreaId =
   | "operacion-en-campo"
   | "centro-de-operaciones"
@@ -233,6 +235,8 @@ export type PeticionDiagnostico = {
   conversacion: TurnoEntrevista[];
   /** Adjuntos analizados durante la entrevista (metadatos + lo que entendió la IA). */
   adjuntos?: AdjuntoTurno[];
+  /** Autorización de datos (Ley 1581) que aceptó la persona; sin ella el registro va sin contacto. */
+  autorizacion?: AceptacionAutorizacion;
 };
 
 /** Estado del guardado en el módulo de ARS (ver docs/BACKEND-REGISTROS.md). */

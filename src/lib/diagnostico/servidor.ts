@@ -45,7 +45,9 @@ export function validarPeticionDiagnostico(raw: unknown): PeticionDiagnostico | 
     })
     .filter((m) => m.texto.trim());
   const adjuntos = adjuntosTurno(r.adjuntos);
-  return { perfil: perfilCompleto(parcial), conversacion, ...(adjuntos.length ? { adjuntos } : {}) };
+  const a = r.autorizacion && typeof r.autorizacion === "object" ? (r.autorizacion as Record<string, unknown>) : null;
+  const autorizacion = a && a.aceptada === true && typeof a.version === "string" ? { version: a.version.slice(0, 40), aceptada: true } : undefined;
+  return { perfil: perfilCompleto(parcial), conversacion, ...(adjuntos.length ? { adjuntos } : {}), ...(autorizacion ? { autorizacion } : {}) };
 }
 
 /* ───────────── Modo demo ───────────── */

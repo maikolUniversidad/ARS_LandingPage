@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, CloudCheck, Loader2, RotateCcw } from "lucide-react";
+import type { AceptacionAutorizacion } from "@/data/diagnostico/autorizacion";
 import type { AdjuntoTurno, AreaId, Diagnostico, PerfilEmpresa, RegistroGuardado, TurnoEntrevista } from "@/data/diagnostico/tipos";
 import { Icono, rgba } from "@/components/servicios/ui";
 import { areaInfo, areasCandidatas, perfilCompleto } from "@/lib/diagnostico/catalogo";
@@ -23,6 +24,7 @@ export function Analizando({
   perfil,
   conversacion,
   adjuntos,
+  autorizacion,
   areasVistas,
   onListo,
   onVolver,
@@ -30,6 +32,7 @@ export function Analizando({
   perfil: Partial<PerfilEmpresa>;
   conversacion: TurnoEntrevista[];
   adjuntos?: AdjuntoTurno[];
+  autorizacion?: AceptacionAutorizacion;
   areasVistas: AreaId[];
   onListo: (d: Diagnostico, registro?: RegistroGuardado) => void;
   onVolver: () => void;
@@ -59,7 +62,10 @@ export function Analizando({
     const ctrl = new AbortController();
     inicio.current = Date.now();
     // perfilCompleto solo rellena los campos básicos: se conservan los ampliados (personal, contacto…).
-    pedirDiagnostico({ perfil: { ...perfil, ...perfilCompleto(perfil) }, conversacion, adjuntos: adjuntos?.length ? adjuntos : undefined }, ctrl.signal)
+    pedirDiagnostico(
+      { perfil: { ...perfil, ...perfilCompleto(perfil) }, conversacion, adjuntos: adjuntos?.length ? adjuntos : undefined, autorizacion },
+      ctrl.signal,
+    )
       .then((r) => {
         if (r.ok) {
           guardarDiagnostico(r.diagnostico);
@@ -71,7 +77,7 @@ export function Analizando({
         /* abortado */
       });
     return () => ctrl.abort();
-  }, [perfil, conversacion, adjuntos, intento]);
+  }, [perfil, conversacion, adjuntos, autorizacion, intento]);
 
   // Avance visual de los pasos: el último espera a que llegue el resultado.
   useEffect(() => {

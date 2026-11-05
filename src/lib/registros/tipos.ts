@@ -3,6 +3,7 @@
  * Contrato compartido con el servidor de ARS: ver docs/BACKEND-REGISTROS.md.
  * Si cambias algo aquí, sube `VERSION_REGISTRO` y actualiza el documento.
  */
+import type { AutorizacionDatos } from "@/data/diagnostico/autorizacion";
 import type {
   AdjuntoTurno,
   AreaId,
@@ -66,7 +67,10 @@ export type RegistroDiagnostico = BaseRegistro & {
   fuente: "ia" | "demo";
   /** Nombre de la empresa (atajo de `perfil.nombre`). */
   empresa: string;
+  /** Solo si la persona aceptó la autorización de datos; si no, null. */
   contacto: ContactoDiagnostico | null;
+  /** Evidencia de la autorización Ley 1581 (texto aceptado, versión y fecha); null si no la aceptó. */
+  autorizacion: AutorizacionDatos | null;
   perfil: PerfilEmpresa;
   conversacion: TurnoEntrevista[];
   /** Solo metadatos y lo que entendió la IA; el archivo no se guarda. */
