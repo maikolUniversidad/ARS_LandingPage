@@ -280,7 +280,8 @@ Los tipos de referencia (TypeScript) están en `src/lib/registros/tipos.ts` y `s
 |---|---|---|
 | `fuente` | `"ia"` \| `"demo"` | `demo` = simulado sin IA (pruebas). **No lo traten como lead real** salvo que el entorno sea `production` y quieran revisarlo. |
 | `empresa` | string | Atajo de `perfil.nombre`. |
-| `contacto` | `{nombre?, cargo?, email?, telefono?}` \| null | Persona que hizo la entrevista, si dejó sus datos. |
+| `contacto` | `{nombre?, cargo?, email?, telefono?}` \| null | Persona que hizo la entrevista, si dejó sus datos **y aceptó la autorización**. Sin autorización llega `null` (y `perfil` sin `contacto`). |
+| `autorizacion` | `{texto, version, fecha}` \| null | Evidencia de la autorización de datos (Ley 1581 de 2012) que aceptó la persona antes del análisis: el texto exacto de esa versión (lo pone el servidor, no el navegador), la versión (`2026-11-05`) y la fecha ISO. `null` si siguió sin dejar sus datos. Campo nuevo y opcional dentro de la versión 1 del contrato: guárdenlo tal cual en el JSON. |
 | `perfil` | `PerfilEmpresa` | `nombre`, `sector`, `tamano` (`1-50` \| `51-200` \| `201-1000` \| `1000+`), `ciudad?`, `sedes?`, `personal?`, `dolores[]`, `herramientasActuales[]`, `prioridades[]`, `servicios?[]`, `incidentes?[]`, `plazo?`, `presupuesto?`, `notas?`, `contacto?` |
 | `conversacion` | `[{rol: "user"\|"assistant", texto}]` | Hasta 40 turnos, 1500 caracteres cada uno. |
 | `adjuntos` | `[{id, nombre, tipo, resumen, hallazgos[]}]` | `tipo`: `imagen` \| `video` \| `documento` \| `audio`. **Solo metadatos y lo que entendió la IA: el archivo no se guarda ni se envía.** |

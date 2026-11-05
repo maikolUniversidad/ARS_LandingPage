@@ -2,11 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState, type DragEvent } from "react";
 import { ArrowRight, Check, Mic, Sparkles, X } from "lucide-react";
-import type { AdjuntoTurno, CampoPerfil, Diagnostico, PerfilEmpresa, RegistroGuardado, TurnoEntrevista } from "@/data/diagnostico/tipos";
+import type { AceptacionAutorizacion } from "@/data/diagnostico/autorizacion";
+import type { AdjuntoTurno, CampoPerfil, ContactoDiagnostico, Diagnostico, PerfilEmpresa, RegistroGuardado, TurnoEntrevista } from "@/data/diagnostico/tipos";
 import { cn } from "@/lib/utils";
 import { Analizando } from "./Analizando";
 import { Compositor } from "./Compositor";
 import { ModoConversacion } from "./ModoConversacion";
+import { PasoDatos } from "./PasoDatos";
 import { INFO_CAMPO, porcentaje } from "./perfil";
 import { BarraPerfil, PerfilVivo } from "./PerfilVivo";
 import { CapaSoltar, TarjetaAdjunto, TarjetaPedido } from "./TarjetaAdjunto";
@@ -14,7 +16,7 @@ import { TarjetasServicio } from "./TarjetasServicio";
 import { useEntrevista } from "./useEntrevista";
 import { useVozEntrevista } from "./useVozEntrevista";
 
-type Analisis = { perfil: Partial<PerfilEmpresa>; conversacion: TurnoEntrevista[]; adjuntos: AdjuntoTurno[] };
+type Analisis = { perfil: Partial<PerfilEmpresa>; conversacion: TurnoEntrevista[]; adjuntos: AdjuntoTurno[]; autorizacion?: AceptacionAutorizacion };
 
 /** Entrevista multimodal con IA (texto, voz, fotos, video y documentos) que arma el perfil y lanza el diagnóstico. */
 export function Entrevista({ onDiagnostico }: { onDiagnostico: (d: Diagnostico, registro?: RegistroGuardado) => void }) {
@@ -23,6 +25,8 @@ export function Entrevista({ onDiagnostico }: { onDiagnostico: (d: Diagnostico, 
   const [entrada, setEntrada] = useState("");
   const [seleccion, setSeleccion] = useState<string[]>([]);
   const [analisis, setAnalisis] = useState<Analisis | null>(null);
+  /** Paso de datos y autorización (Ley 1581) entre «Analizar» y el análisis. */
+  const [pidiendoDatos, setPidiendoDatos] = useState(false);
   const [hoja, setHoja] = useState(false);
   const [arrastrando, setArrastrando] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
@@ -54,8 +58,20 @@ export function Entrevista({ onDiagnostico }: { onDiagnostico: (d: Diagnostico, 
   const analizar = useCallback(() => {
     e.cancelar();
     voz.colgar();
-    setAnalisis({ perfil: e.perfilActual(), conversacion: e.conversacion(), adjuntos: e.adjuntosTurno() });
+    setPidiendoDatos(true);
   }, [e, voz]);
+
+  /** Sin autorización, el contacto no viaja: el servidor guarda el registro con `contacto: null`. */
+  const conDatos = useCallback(
+    (contacto: ContactoDiagnostico | undefined, autorizacion: AceptacionAutorizacion | undefined) => {
+      const { contacto: _previo, ...resto } = e.perfilActual();
+      void _previo;
+      const perfil: Partial<PerfilEmpresa> = autorizacion && contacto ? { ...resto, contacto } : resto;
+      setPidiendoDatos(false);
+      setAnalisis({ perfil, conversacion: e.conversacion(), adjuntos: e.adjuntosTurno(), autorizacion });
+    },
+    [e],
+  );
 
   const alElegirChip = (c: string) => {
     if (e.listo && /diagn[oó]stico/i.test(c)) return analizar();
@@ -97,12 +113,17 @@ export function Entrevista({ onDiagnostico }: { onDiagnostico: (d: Diagnostico, 
     },
   };
 
+  if (pidiendoDatos) {
+    return <PasoDatos empresa={e.perfil.nombre} inicial={e.perfil.contacto} onContinuar={conDatos} onVolver={() => setPidiendoDatos(false)} />;
+  }
+
   if (analisis) {
     return (
       <Analizando
         perfil={analisis.perfil}
         conversacion={analisis.conversacion}
         adjuntos={analisis.adjuntos}
+        autorizacion={analisis.autorizacion}
         areasVistas={e.areasVistas}
         onListo={onDiagnostico}
         onVolver={() => setAnalisis(null)}

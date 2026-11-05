@@ -7,7 +7,9 @@ import type {
   PeticionDiagnostico,
   TipoAdjunto,
 } from "@/data/diagnostico/tipos";
+import { autorizacionDe } from "@/data/diagnostico/autorizacion";
 import { ipDe } from "@/lib/asistente/servidor";
+import { CONTACT_EMAIL } from "@/lib/contact";
 import { configRegistros, entornoRegistro } from "./config";
 import {
   VERSION_REGISTRO,
@@ -135,14 +137,19 @@ export function registroDiagnostico(
   raw: unknown,
 ): RegistroDiagnostico {
   const adjuntos = peticion.adjuntos?.length ? peticion.adjuntos : adjuntosDe(raw);
-  const contacto = peticion.perfil.contacto ?? contactoDe(raw);
-  const perfil = contacto ? { ...peticion.perfil, contacto } : peticion.perfil;
+  // Los datos de contacto solo se guardan con la autorización de datos aceptada (Ley 1581).
+  const autorizacion = autorizacionDe(peticion.autorizacion, CONTACT_EMAIL);
+  const contacto = autorizacion ? (peticion.perfil.contacto ?? contactoDe(raw)) : null;
+  const { contacto: _sinAutorizacion, ...perfilSinContacto } = peticion.perfil;
+  void _sinAutorizacion;
+  const perfil = contacto ? { ...perfilSinContacto, contacto } : perfilSinContacto;
   const pagina = raw && typeof raw === "object" ? (raw as Record<string, unknown>).pagina : undefined;
   return {
     ...base("diagnostico", req, pagina ?? "/diagnostico"),
     fuente: diagnostico.fuente,
     empresa: perfil.nombre,
     contacto,
+    autorizacion,
     perfil,
     conversacion: peticion.conversacion,
     adjuntos,
