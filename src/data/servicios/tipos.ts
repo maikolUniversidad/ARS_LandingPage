@@ -88,6 +88,8 @@ export type Modulo = {
    * Debe ser una de las claves que expone la escena (ver FOCOS_ESCENA en escenas/contrato.ts).
    */
   foco: string;
+  /** Página propia del módulo, si la tiene (p. ej. la Academia en /academia). */
+  enlace?: { href: string; texto: string };
 };
 
 export type Cifra = { valor: string; etiqueta: string };

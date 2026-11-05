@@ -14,6 +14,7 @@ const RUTAS: { path: string; priority: number }[] = [
   { path: "/plataforma", priority: 0.8 },
   { path: "/arquitectura", priority: 0.8 },
   { path: "/vision", priority: 0.8 },
+  { path: "/academia", priority: 0.8 },
   { path: "/laboratorio", priority: 0.6 },
   { path: "/proyectos", priority: 0.7 },
 ];
