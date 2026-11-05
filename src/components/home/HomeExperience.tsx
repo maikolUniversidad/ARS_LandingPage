@@ -19,6 +19,8 @@ import { cn } from "@/lib/utils";
 import { createChapterStore } from "./chapter-store";
 import type { CanvasLabel } from "./HomeCanvas";
 import { SeccionCapacitacion } from "./SeccionCapacitacion";
+import { SeccionDespliegue } from "./SeccionDespliegue";
+import type { ModulosDespliegue } from "./modulos-despliegue";
 import { StaticBackdrop } from "./StaticBackdrop";
 import type { ErpGroup } from "./erp-groups";
 import { CHAPTERS, CHAPTER_LAYER, ERP_LAYER, ERP_TINT, LAYER_TINT, TRACE_STEPS, erpStep, traceStep, type ChapterId } from "./story";
@@ -93,7 +95,15 @@ function useMediaQuery(query: string) {
 
 // ───────────────────────── Componente principal ─────────────────────────
 
-export function HomeExperience({ counts, erpGroups }: { counts: HomeCounts; erpGroups: ErpGroup[] }) {
+export function HomeExperience({
+  counts,
+  erpGroups,
+  modulosDespliegue,
+}: {
+  counts: HomeCounts;
+  erpGroups: ErpGroup[];
+  modulosDespliegue: ModulosDespliegue;
+}) {
   const { t } = useI18n();
   const h = t.home;
   const store = useMemo(() => createChapterStore(0), []);
@@ -305,6 +315,7 @@ export function HomeExperience({ counts, erpGroups }: { counts: HomeCounts; erpG
 
         <ErpBase h={h} groups={erpGroups} />
         <Recap h={h} />
+        <SeccionDespliegue h={h} modulos={modulosDespliegue} />
         <SeccionCapacitacion h={h} />
         <Contact h={h} />
         <Footer tagline={t.footer.tagline} />
