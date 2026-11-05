@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, History, PlayCircle } from "lucide-react";
+import { ArrowLeft, CloudCheck, History, PlayCircle, X } from "lucide-react";
 import { DIAGNOSTICO_EJEMPLO } from "@/data/diagnostico/ejemplo";
-import type { Diagnostico } from "@/data/diagnostico/tipos";
+import type { Diagnostico, RegistroGuardado } from "@/data/diagnostico/tipos";
 import { cn } from "@/lib/utils";
 import { leerDiagnostico } from "@/components/diagnostico/entrevista/cliente";
 import { Entrevista } from "@/components/diagnostico/entrevista/Entrevista";
+import { refCorta } from "@/components/diagnostico/entrevista/Analizando";
 // Puntos de montaje de las etapas 2 y 3 (implementadas por otras sesiones).
 import { HistoriaDiagnostico } from "@/components/diagnostico/historia/HistoriaDiagnostico";
 import { ReporteDiagnostico } from "@/components/diagnostico/reporte/ReporteDiagnostico";
@@ -26,6 +27,14 @@ export function Experiencia({ ejemplo }: { ejemplo: boolean }) {
   const [etapa, setEtapa] = useState<Etapa>(ejemplo ? "historia" : "entrevista");
   const [diagnostico, setDiagnostico] = useState<Diagnostico | null>(ejemplo ? DIAGNOSTICO_EJEMPLO : null);
   const [previo, setPrevio] = useState<Diagnostico | null>(null);
+  const [registro, setRegistro] = useState<RegistroGuardado | null>(null);
+
+  // El aviso de «guardado» se queda unos segundos al pasar a la historia.
+  useEffect(() => {
+    if (!registro) return;
+    const t = window.setTimeout(() => setRegistro(null), 9000);
+    return () => window.clearTimeout(t);
+  }, [registro]);
 
   // Diagnóstico de esta sesión del navegador (sessionStorage), para retomarlo.
   useEffect(() => {
@@ -105,7 +114,7 @@ export function Experiencia({ ejemplo }: { ejemplo: boolean }) {
                 ¿Cómo se vería tu empresa <span className="italic text-[#9eb0c0]">con ARS?</span>
               </h1>
               <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[#9eb0c0] md:text-base">
-                Cuéntale a Ars cómo opera tu empresa. Mientras conversan verás qué partes de ARS te sirven, y al final nuestros agentes por área arman tu diagnóstico, tu historia en 3D y un reporte para compartir.
+                Cuéntale a Ars cómo opera tu empresa: escríbele, háblale o muéstrale fotos, videos y documentos. Mientras conversan verás tu perfil llenarse y qué partes de ARS te sirven; al final nuestros agentes por área arman tu diagnóstico, tu historia en 3D y un reporte para compartir.
               </p>
               {previo && (
                 <div className="mt-5 flex flex-wrap items-center gap-3 border border-[#6b8aff]/30 bg-[#2348d4]/10 px-4 py-3 animate-in fade-in">
@@ -124,7 +133,12 @@ export function Experiencia({ ejemplo }: { ejemplo: boolean }) {
                 </div>
               )}
             </section>
-            <Entrevista onDiagnostico={(d) => abrir(d)} />
+            <Entrevista
+              onDiagnostico={(d, r) => {
+                if (r?.guardado) setRegistro(r);
+                abrir(d);
+              }}
+            />
           </>
         )}
 
@@ -148,6 +162,18 @@ export function Experiencia({ ejemplo }: { ejemplo: boolean }) {
           </section>
         )}
       </main>
+
+      {registro && (
+        <div role="status" className="fixed bottom-4 left-4 z-50 flex max-w-[calc(100vw-2rem)] items-center gap-2.5 border border-[#35e0a1]/35 bg-[#03122a]/95 px-3.5 py-2.5 text-[13px] text-white shadow-[0_0_30px_rgba(53,224,161,0.15)] backdrop-blur animate-in fade-in slide-in-from-bottom-3">
+          <CloudCheck className="size-4 shrink-0 text-[#35e0a1]" aria-hidden="true" />
+          <span>
+            Tu diagnóstico quedó guardado · <span className="font-mono text-[12px] tracking-wider text-[#35e0a1]">ref {refCorta(registro.id)}</span>
+          </span>
+          <button type="button" onClick={() => setRegistro(null)} className="ml-1 text-white/50 hover:text-white" aria-label="Cerrar aviso">
+            <X className="size-3.5" aria-hidden="true" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
