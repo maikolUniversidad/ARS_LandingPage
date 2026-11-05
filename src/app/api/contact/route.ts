@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { CONTACT_EMAIL } from "@/lib/contact";
+import { enviarCorreoEquipo } from "@/lib/registros/correo";
+import { guardarRegistro, registroContacto } from "@/lib/registros";
 
 export const runtime = "nodejs";
 
@@ -9,6 +10,8 @@ type ContactPayload = {
   email?: string;
   phone?: string;
   message?: string;
+  /** Ruta de la página desde la que se envió (opcional; si falta se usa el Referer). */
+  pagina?: string;
   /** Honeypot anti-spam: debe venir vacío. */
   website?: string;
 };
@@ -28,9 +31,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const name = body.name?.trim() ?? "";
-  const email = body.email?.trim() ?? "";
-  const message = body.message?.trim() ?? "";
+  const name = body.name?.trim().slice(0, 120) ?? "";
+  const email = body.email?.trim().slice(0, 200) ?? "";
+  const message = body.message?.trim().slice(0, 5_000) ?? "";
 
   if (name.length < 2) {
     return NextResponse.json({ ok: false, error: "Nombre requerido" }, { status: 422 });
@@ -42,59 +45,43 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Mensaje muy corto" }, { status: 422 });
   }
 
-  const lead = {
-    name,
+  const registro = registroContacto(req, {
+    nombre: name,
     email,
-    company: body.company?.trim() ?? "",
-    phone: body.phone?.trim() ?? "",
-    message,
-    receivedAt: new Date().toISOString(),
-  };
+    empresa: body.company?.trim().slice(0, 160),
+    telefono: body.phone?.trim().slice(0, 40),
+    mensaje: message,
+    pagina: body.pagina,
+  });
+  const c = registro.contacto;
 
-  // Envío por email vía Resend si hay API key configurada; si no, se registra
-  // en el log del servidor (suficiente para desarrollo / demo).
-  const resendKey = process.env.RESEND_API_KEY;
-  if (resendKey) {
-    try {
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${resendKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: process.env.RESEND_FROM ?? "ARS Intelligence <onboarding@resend.dev>",
-          to: process.env.CONTACT_TO ?? CONTACT_EMAIL,
-          reply_to: lead.email,
-          subject: `Nuevo lead — ${lead.name}${lead.company ? ` (${lead.company})` : ""}`,
-          text:
-            `Nombre: ${lead.name}\n` +
-            `Empresa: ${lead.company || "—"}\n` +
-            `Email: ${lead.email}\n` +
-            `Teléfono: ${lead.phone || "—"}\n\n` +
-            `Mensaje:\n${lead.message}\n\n` +
-            `Recibido: ${lead.receivedAt}`,
-        }),
-      });
-      if (!res.ok) {
-        const detail = await res.text();
-        console.error("[contact] Resend error:", detail);
-        return NextResponse.json(
-          { ok: false, error: "No se pudo enviar el mensaje" },
-          { status: 502 },
-        );
-      }
-    } catch (err) {
-      console.error("[contact] Resend exception:", err);
-      return NextResponse.json(
-        { ok: false, error: "No se pudo enviar el mensaje" },
-        { status: 502 },
-      );
-    }
-  } else {
-    // Sin servicio de email configurado: dejamos el lead en el log del servidor.
-    console.info("[contact] Nuevo lead (sin RESEND_API_KEY):", lead);
+  // Guardado (ARS remoto + copia local) y correo en paralelo.
+  const [guardado, correo] = await Promise.all([
+    guardarRegistro(registro),
+    enviarCorreoEquipo(
+      {
+        asunto: `Nuevo lead — ${c.nombre}${c.empresa ? ` (${c.empresa})` : ""}`,
+        responderA: c.email,
+        texto:
+          `Nombre: ${c.nombre}\n` +
+          `Empresa: ${c.empresa || "—"}\n` +
+          `Email: ${c.email}\n` +
+          `Teléfono: ${c.telefono || "—"}\n\n` +
+          `Mensaje:\n${registro.mensaje}\n\n` +
+          `Registro: ${registro.id}\n` +
+          `Página: ${registro.origen.pagina ?? "—"}\n` +
+          `Recibido: ${registro.creado}`,
+      },
+      "contact",
+    ),
+  ]);
+
+  if (correo === null) console.info(`[contact] Nuevo lead ${registro.id} (sin RESEND_API_KEY, no se envió correo).`);
+
+  // Solo fallamos si el lead no quedó en ningún lado: ni correo ni registro.
+  if (correo === false && !guardado.guardado) {
+    return NextResponse.json({ ok: false, error: "No se pudo enviar el mensaje" }, { status: 502 });
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, registro: guardado });
 }
