@@ -29,8 +29,9 @@ export type AutorizacionDatos = { texto: string; version: string; fecha: string 
 export type AceptacionAutorizacion = { version: string; aceptada: boolean };
 
 export function textoAutorizacion(version: string, correo: string): string | null {
-  const t = TEXTOS_AUTORIZACION[version];
-  return t ? t.replaceAll("{correo}", correo) : null;
+  // Solo versiones propias del objeto ("__proto__", "toString"… no son versiones).
+  const t = Object.hasOwn(TEXTOS_AUTORIZACION, version) ? TEXTOS_AUTORIZACION[version] : undefined;
+  return typeof t === "string" ? t.replaceAll("{correo}", correo) : null;
 }
 
 /**
