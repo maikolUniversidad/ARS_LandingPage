@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, Loader2, RotateCcw } from "lucide-react";
-import type { AreaId, Diagnostico, PerfilEmpresa, TurnoEntrevista } from "@/data/diagnostico/tipos";
+import { Check, CloudCheck, Loader2, RotateCcw } from "lucide-react";
+import type { AdjuntoTurno, AreaId, Diagnostico, PerfilEmpresa, RegistroGuardado, TurnoEntrevista } from "@/data/diagnostico/tipos";
 import { Icono, rgba } from "@/components/servicios/ui";
 import { areaInfo, areasCandidatas, perfilCompleto } from "@/lib/diagnostico/catalogo";
 import { guardarDiagnostico, pedirDiagnostico } from "./cliente";
 
 const PASO_MS = 850;
+
+/** Referencia corta y legible del registro guardado. */
+export const refCorta = (id: string) => id.replace(/[^a-z0-9]/gi, "").slice(-6).toUpperCase();
 const MIN_MS = 6500;
 
 type Paso = { clave: string; titulo: string; detalle: string; color: string; icono: string };
@@ -19,14 +22,16 @@ type Paso = { clave: string; titulo: string; detalle: string; color: string; ico
 export function Analizando({
   perfil,
   conversacion,
+  adjuntos,
   areasVistas,
   onListo,
   onVolver,
 }: {
   perfil: Partial<PerfilEmpresa>;
   conversacion: TurnoEntrevista[];
+  adjuntos?: AdjuntoTurno[];
   areasVistas: AreaId[];
-  onListo: (d: Diagnostico) => void;
+  onListo: (d: Diagnostico, registro?: RegistroGuardado) => void;
   onVolver: () => void;
 }) {
   const nombre = perfil.nombre || "tu empresa";
@@ -44,6 +49,7 @@ export function Analizando({
 
   const [avance, setAvance] = useState(0);
   const [resultado, setResultado] = useState<Diagnostico | null>(null);
+  const [registro, setRegistro] = useState<RegistroGuardado | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const [intento, setIntento] = useState(0);
   const inicio = useRef(0);
@@ -52,10 +58,12 @@ export function Analizando({
   useEffect(() => {
     const ctrl = new AbortController();
     inicio.current = Date.now();
-    pedirDiagnostico({ perfil: perfilCompleto(perfil), conversacion }, ctrl.signal)
+    // perfilCompleto solo rellena los campos básicos: se conservan los ampliados (personal, contacto…).
+    pedirDiagnostico({ perfil: { ...perfil, ...perfilCompleto(perfil) }, conversacion, adjuntos: adjuntos?.length ? adjuntos : undefined }, ctrl.signal)
       .then((r) => {
         if (r.ok) {
           guardarDiagnostico(r.diagnostico);
+          setRegistro(r.registro);
           setResultado(r.diagnostico);
         } else setError(r.mensaje);
       })
@@ -63,7 +71,7 @@ export function Analizando({
         /* abortado */
       });
     return () => ctrl.abort();
-  }, [perfil, conversacion, intento]);
+  }, [perfil, conversacion, adjuntos, intento]);
 
   // Avance visual de los pasos: el último espera a que llegue el resultado.
   useEffect(() => {
@@ -77,9 +85,9 @@ export function Analizando({
   useEffect(() => {
     if (!resultado || avance < pasos.length - 1) return;
     const falta = Math.max(400, MIN_MS - (Date.now() - inicio.current));
-    const t = setTimeout(() => onListo(resultado), falta);
+    const t = setTimeout(() => onListo(resultado, registro), falta + (registro?.guardado ? 1400 : 0));
     return () => clearTimeout(t);
-  }, [resultado, avance, pasos.length, onListo]);
+  }, [resultado, registro, avance, pasos.length, onListo]);
 
   const terminado = Boolean(resultado) && avance >= pasos.length - 1;
   const pct = Math.round(((terminado ? pasos.length : avance + 0.5) / pasos.length) * 100);
@@ -167,7 +175,13 @@ export function Analizando({
           </div>
         </div>
       )}
-      {terminado && <p className="mt-6 text-center font-serif text-lg italic text-[#9eb0c0] animate-in fade-in">Listo. Prepárate para ver tu empresa transformarse…</p>}
+      {terminado && registro?.guardado && (
+        <p className="mx-auto mt-6 flex w-fit items-center gap-2 border border-[#35e0a1]/35 bg-[#35e0a1]/[0.08] px-3 py-2 text-[13px] text-white animate-in fade-in zoom-in-95">
+          <CloudCheck className="size-4 text-[#35e0a1]" aria-hidden="true" />
+          Tu diagnóstico quedó guardado · <span className="font-mono text-[12px] tracking-wider text-[#35e0a1]">ref {refCorta(registro.id)}</span>
+        </p>
+      )}
+      {terminado && <p className="mt-4 text-center font-serif text-lg italic text-[#9eb0c0] animate-in fade-in">Listo. Prepárate para ver tu empresa transformarse…</p>}
     </div>
   );
 }

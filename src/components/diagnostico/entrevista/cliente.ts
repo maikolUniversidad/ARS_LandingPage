@@ -2,9 +2,12 @@
 import {
   CLAVE_ALMACEN,
   type Diagnostico,
+  type PerfilEmpresa,
   type PeticionDiagnostico,
+  type RespuestaAdjunto,
   type RespuestaDiagnostico,
 } from "@/data/diagnostico/tipos";
+import { MAX_PETICION } from "./adjuntos";
 import type { EventoEntrevista, PeticionTurno } from "./eventos";
 
 /** Envía un turno y llama `alEvento` por cada línea NDJSON recibida. */
@@ -50,6 +53,42 @@ export async function turnoEntrevista(peticion: PeticionTurno, alEvento: (e: Eve
     } catch {
       /* ignorar */
     }
+  }
+}
+
+/**
+ * Sube un adjunto a /api/diagnostico/adjuntos para que la IA lo «mire».
+ * Video: se mandan los `fotograma` (JPEG) y el archivo solo si cabe en la
+ * petición; si no, van `nombre`/`mime`/`bytes` para identificarlo.
+ */
+export async function analizarAdjunto(
+  archivo: File,
+  perfil: Partial<PerfilEmpresa>,
+  fotogramas?: Blob[],
+  signal?: AbortSignal,
+): Promise<RespuestaAdjunto> {
+  const form = new FormData();
+  const pesoFotogramas = (fotogramas ?? []).reduce((s, b) => s + b.size, 0);
+  const cabe = archivo.size + pesoFotogramas <= MAX_PETICION;
+  if (cabe) form.append("archivo", archivo, archivo.name);
+  else if (!fotogramas?.length) return { ok: false, mensaje: `«${archivo.name}» pesa demasiado (máx. ${Math.round(MAX_PETICION / 1_000_000)} MB). Prueba con una versión más liviana.` };
+  form.append("nombre", archivo.name);
+  form.append("mime", archivo.type || "application/octet-stream");
+  form.append("bytes", String(archivo.size));
+  form.append("perfil", JSON.stringify(perfil));
+  fotogramas?.forEach((b, i) => form.append("fotograma", b, `fotograma-${i + 1}.jpg`));
+  try {
+    const res = await fetch("/api/diagnostico/adjuntos", { method: "POST", body: form, signal });
+    try {
+      const j = (await res.json()) as RespuestaAdjunto;
+      if (j && typeof j === "object" && "ok" in j) return j;
+    } catch {
+      /* sin JSON */
+    }
+    return { ok: false, mensaje: res.status === 413 ? "El archivo es demasiado pesado para analizarlo." : "No pude analizar este archivo ahora. Intenta de nuevo en un momento." };
+  } catch (err) {
+    if (signal?.aborted) throw err;
+    return { ok: false, mensaje: "No pude subir el archivo. Revisa tu conexión." };
   }
 }
 
