@@ -82,6 +82,10 @@ ya construidos (mismo runtime que el `Dockerfile` original).
 | `/plataforma` | Sitio institucional, **bilingüe ES/EN**. |
 | `/proyectos` | Mapa de operaciones (datos de ejemplo — ver checklist). |
 
+## Configuración (claves y variables de entorno)
+
+Copia `.env.example` a `.env.local` y sigue [docs/CONFIGURACION.md](docs/CONFIGURACION.md): tabla de variables, Vercel, modo demo sin claves y qué hacer si se expone una clave.
+
 ## Pendiente antes de publicar (checklist)
 
 - [ ] Definir `RESEND_API_KEY` en el entorno para que el **formulario de contacto**
