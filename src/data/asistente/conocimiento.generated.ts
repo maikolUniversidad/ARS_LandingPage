@@ -267,7 +267,7 @@ ARS no es «un producto de cámaras»: es **el sistema operativo de una empresa 
 - **B · Centro de operaciones** (\`centro-de-operaciones\`): Sala de Control con mapa en vivo, zonas con alerta de salida de zona, sala del coordinador, recorridos GPS de supervisores, cumplimiento persona por persona y alias de clientes y sedes.
 - **C · Comunicación y emergencias** (\`comunicacion-y-emergencias\`): radio PTT en el celular y la web, chat corporativo, conversación con la Central, consola de grabaciones, reporte por sede, botón de pánico y notificaciones.
 - **D · Monitoreo inteligente** (\`monitoreo-inteligente\`): visión artificial sobre las cámaras existentes, acceso inteligente con listas y consentimientos, IoT, levantamiento 2D/3D de sedes.
-- **E · Realidad virtual** (\`realidad-virtual\`): Central Viva en 3D, demostración de la Sede Inteligente, Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz.
+- **E · Realidad virtual** (\`realidad-virtual\`): la app «ARS» para Meta Quest con la Central de monitoreo, «Su empresa, por dentro», «La sede del cliente» y la Academia de vigilantes, guiadas por Aria; además la Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz. Detalle en el documento de la Sala VR.
 - **F · Gestión humana** (\`gestion-humana\`): selección, colaboradores, nómina desde los turnos, costos, Área Documental con IA, portal documental para el cliente y Jurídica.
 - **G · Formación** (\`formacion\`): cursos con certificados QR, diseñador de cursos con IA, video por temas, auditoría de reglas y evaluaciones.
 - **H · Finanzas y ERP** (\`finanzas-y-erp\`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), cotizador y CRM propios, y el **Agente interoperador de datos**, que centraliza en ARS o hace fluir la información de los sistemas que la empresa ya tenga.
@@ -331,7 +331,7 @@ Si un módulo trae \`notaEstado\` (por ejemplo «con gafas Meta Quest, en piloto
 - **Radio:** en el teléfono funciona con la app Android, con varios perfiles en un teléfono y manos libres.
 - **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.
 - **Servidores propios:** dilo para documentos del personal, reuniones y datos de personal; no lo generalices a toda la plataforma.
-- **Realidad virtual:** la Sede Inteligente es una **demostración con datos simulados**; también se vive con gafas Meta Quest y con la app nativa para Quest. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.
+- **Realidad virtual:** todo es **demostración con datos simulados** y empresas ficticias; las experiencias nuevas de la app para Meta Quest están en **piloto** (en prueba con las gafas). Sin drones, robots ni domótica. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.
 - **Nómina y contabilidad:** son parte del ERP de ARS. Si la empresa ya liquida o contabiliza en otro sistema, el Agente interoperador de datos centraliza esa información en ARS o la hace fluir entre los dos, y ARS muestra las diferencias antes de pagar o cerrar; el módulo de contabilidad se alimenta del sistema contable que la empresa conecta (copia de consulta actualizada cada 15 minutos). No des cifras de coincidencia entre sistemas. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. La facturación (líneas, aprobación, prefacturación y validación) está en ARS; la bandeja de facturas electrónicas DIAN y RADIAN está en piloto y pasa a producción en los próximos meses. No afirmes que ARS transmite facturas electrónicas a la DIAN: si lo preguntan, se confirma con el equipo comercial.
 - **Puertas con reconocimiento facial y escaneo 3D de sedes:** disponibles; el reconocimiento facial abre o alerta y una persona verifica.
 - **Cifras:** no des números de usuarios, vigilantes, clientes, sedes, documentos ni porcentajes de uso. No nombres clientes.
@@ -373,6 +373,37 @@ Recorridos que se iluminan en el diagrama de punta a punta:
 ## Por qué un ERP propio (\`#por-que-erp\`)
 
 Una sola fuente de verdad, cero doble digitación, trazabilidad de punta a punta y multiempresa de verdad. La página incluye la tabla **«ARS frente a herramientas sueltas»** con el estado real de cada módulo (incluye las filas que aún no están en producción). Cierre (\`#cierre\`): solicitar demo en \`/#contacto\` o ver \`/servicios\`.`,
+  },
+  {
+    id: "sala-vr",
+    titulo: "Sala VR de ARS · la empresa de seguridad por dentro, en realidad virtual",
+    orden: 27,
+    rutas: ["/servicios/realidad-virtual"],
+    contenido: `Área \`/servicios/realidad-virtual\` (letra E). **ARS Sala VR** es la experiencia de realidad virtual de ARS para Meta Quest: en tres a cinco minutos el visitante se pone las gafas y ve por dentro cómo funciona una empresa de seguridad con ARS. Una guía, **Aria**, acompaña todo el recorrido. No hace falta saber de realidad virtual: el mundo cambia alrededor y la persona solo mira, toca y decide. Titular: «Su empresa de seguridad, por dentro. En realidad virtual.»
+
+## Dónde funciona
+- Una sola app en las gafas, llamada **«ARS»** (versión 0.2.0). Meta Quest 3 y 3S: calidad alta (90 Hz) y opción de realidad mixta. Meta Quest 2: calidad base (72 Hz), sala 100 % virtual. También hay una Sala VR en el navegador (Central Viva, Mesa Directiva y Vigía).
+- **Modo demo / feria:** arranca sin internet ni usuario, con datos simulados; si nadie toca nada en 6 s la historia sigue, y al terminar vuelve al vestíbulo. **Modo presentador:** pausa, siguiente y repetir. **Con sesión real:** se entra con el usuario de ARS con un código desde la plataforma web, y la Central puede mostrar datos de la operación.
+- Controles: mandos o manos (agarrar, tocar, señalar). No se camina con palanca, para que no maree.
+
+## El recorrido (módulo → ancla)
+- **Vestíbulo:** Aria explica ARS en 25 segundos; portales a cada experiencia y un cuarto portal a la Academia.
+- **Central de monitoreo** (\`#sala-vr-central-viva\`): muro de video, una cámara marca a una persona fuera de horario, la alerta llega con evidencia, la operadora Laura la toma, llama por radio al guarda y la cierra. «Ninguna alerta se queda sin dueño.»
+- **«Su empresa, por dentro»** (\`#su-empresa-por-dentro\`, antes «Futuro de la seguridad»): 2 min 30 s. A las 2:47 a. m. la radio solo da estática y los papeles crecen; luego aparece la maqueta viva de la empresa (sedes, y la empresa por pisos: Operación, Personas, Dinero, Gobierno). El visitante arrastra al guarda más cercano hasta la alerta, cubre un turno vacío y ve las horas bajar a la nómina; los documentos se ordenan en un árbol 3D y la IA responde con un semáforo contratado vs. facturado. «Del contrato a la nómina, del puesto a la Central: una sola plataforma.»
+- **«La sede del cliente»** (\`#sede-inteligente\`, antes «Edificio inteligente»): ≈3 min en una torre de ejemplo sobre una maqueta 1:100 que se abre como un libro y se ve en rayos X (personas, cámaras, rondas), con caídas a escala real: portería, relevo con verificación facial, ronda con QR que funciona sin señal, alerta nocturna, revista de la supervisora e informe de visita al cliente con IA. «Aquí la seguridad la hacen personas. ARS hace que cada paso quede probado.»
+- **Academia ARS de vigilantes** (\`#academia-de-vigilantes-vr\`): detrás de un portal de energía. Instructor Óscar; selección en 5 fases, mapa de reglas de formación, aula con video en capítulos, polígono de práctica y certificado con QR verificable. El contenido incluye 12 escenarios evaluados. «Aquí se forma a la gente que cuida. Y cada certificado se puede comprobar.»
+- **Mesa Directiva** (\`#mesa-directiva-con-ia\`): indicadores por área y junta de directores simulados por IA; el acta baja a «Mis tareas».
+- La app en sí: \`#sala-vr-nativa-meta-quest\`. Vigía (\`#vigia-asistente-de-voz\`) es el asistente de voz de la Sala VR del navegador.
+
+Personajes con voz propia: Aria (guía), la voz de ARS, Laura (operadora), Andrés (guarda), Patricia (supervisora), Don Jorge (portero), Óscar (instructor) y una administradora (cliente).
+
+## Estado y reglas (obligatorio)
+- Las experiencias nuevas («Su empresa, por dentro», «La sede del cliente», Academia) y la app 0.2.0 están **construidas y en prueba con las gafas**: preséntalas como **piloto**, no como algo ya probado en campo. La visita de feria está lista.
+- Todo es **demostración con datos simulados** y empresas **ficticias** (Seguridad Andina, Custodia Norte; clientes Torre Calima, Conjunto Arrayanes, Bodega Siberia). Nunca nombres clientes reales.
+- **No** digas que la Sala VR tiene drones, robots, domótica o IoT como producto (se quitaron), ni detección de placas, armas, fuego o humo; los rostros los verifica siempre un operador.
+- El «8 minutos a 45 segundos» de la historia es una **dramatización**: no lo des como cifra real ni prometas tiempos de respuesta o SLA.
+- El resultado del polígono es **de práctica**: hoy queda en las gafas y aún no llega a ARS.
+- Frases que sí se pueden usar: «La inteligencia artificial propone. Usted decide.» · «Lo que se marca en el puesto es lo que se paga.» · «Sin señal, el trabajo no se pierde: se envía cuando vuelve.» · «Menos pasos. Mejores resultados.»`,
   },
   {
     id: "vision-analiticas",
@@ -476,7 +507,7 @@ Con esas respuestas propone una ruta: analíticas concretas en \`/vision#<id>\`,
 - \`recinto-de-eventos\` · Recinto ferial y de eventos · Bogotá · En operación: programación, visitantes, visión artificial (aforo y mapa de calor), chat corporativo, reportes con foto.
 - \`oficinas-corporativas\` · Grupo corporativo · Lima · En operación: puertas con reconocimiento facial, acceso inteligente, IoT, Sala de Control, app de escritorio.
 - \`back-office-conectado\` · Empresa de seguridad privada · Cali · **Piloto** (incluye Facturas DIAN y RADIAN, en piloto): nómina, Agente interoperador de datos, contabilidad conectada, auditoría de Gestión Humana.
-- \`formacion-del-personal\` · Empresa de seguridad privada · Barranquilla · En operación: capacitación virtual con certificados QR, diseñador de cursos con IA, evaluaciones, Central Viva en VR.
+- \`formacion-del-personal\` · Empresa de seguridad privada · Barranquilla · En operación: capacitación virtual con certificados QR, diseñador de cursos con IA, evaluaciones, Central Viva y Academia de vigilantes en VR (piloto).
 - \`verificacion-con-robot\` · Laboratorio ARS · Bogotá · **En desarrollo**: perros robot que verifican con las mismas analíticas y envían video a la central. No es un producto: no des fechas, modelos ni marcas.
 
 ## Cautela

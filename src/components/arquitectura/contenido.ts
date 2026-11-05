@@ -167,7 +167,7 @@ export const NODOS: Nodo[] = [
     color: C.vr,
     Icon: Glasses,
     titulo: { es: "Gafas VR", en: "VR headset" },
-    desc: { es: "La central y la junta directiva en 3D.", en: "The control room and the board, in 3D." },
+    desc: { es: "La app ARS para Meta Quest: la empresa por dentro, alrededor de usted.", en: "The ARS app for Meta Quest: the company from the inside, all around you." },
     modulos: ["sala-vr-central-viva", "sala-vr-nativa-meta-quest"],
     href: "/servicios/realidad-virtual#sala-vr-central-viva",
   },
@@ -212,10 +212,10 @@ export const NODOS: Nodo[] = [
     Icon: Glasses,
     titulo: { es: "Realidad virtual", en: "Virtual reality" },
     desc: {
-      es: "Central Viva en 3D, Sede Inteligente, Mesa Directiva con IA y Vigía, el asistente de voz.",
-      en: "Central Viva in 3D, Smart Site demo, AI Board Room and Vigía, the voice assistant.",
+      es: "Central Viva, «Su empresa, por dentro», «La sede del cliente», Academia de vigilantes y Mesa Directiva con IA.",
+      en: "Central Viva, «Your company, inside», «The client site», Guard Academy and AI Board Room.",
     },
-    modulos: ["sala-vr-central-viva", "sede-inteligente", "mesa-directiva-con-ia", "vigia-asistente-de-voz", "sala-vr-nativa-meta-quest"],
+    modulos: ["sala-vr-central-viva", "su-empresa-por-dentro", "sede-inteligente", "academia-de-vigilantes-vr", "mesa-directiva-con-ia", "vigia-asistente-de-voz", "sala-vr-nativa-meta-quest"],
     href: "/servicios/realidad-virtual",
   },
   {

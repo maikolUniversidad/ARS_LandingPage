@@ -226,15 +226,16 @@ export const PROYECTOS: Proyecto[] = [
     cliente: "Empresa de seguridad privada",
     sector: "seguridad-privada",
     ciudadId: "barranquilla",
-    resumen: "Cursos con certificado QR, evaluaciones y la central recorrida en realidad virtual.",
+    resumen: "Cursos con certificado QR, evaluaciones y entrenamiento en realidad virtual.",
     reto: "Capacitaciones presenciales difíciles de coordinar con los turnos y sin forma de demostrar quién se formó en qué.",
     solucion:
-      "El diseñador de cursos con IA arma el contenido; el personal estudia y presenta evaluaciones desde el celular y recibe un certificado con QR; la Central Viva en realidad virtual sirve para entrenar la operación de la sala.",
+      "El diseñador de cursos con IA arma el contenido; el personal estudia y presenta evaluaciones desde el celular y recibe un certificado con QR; la Central Viva y la Academia de vigilantes en realidad virtual sirven para entrenar la operación de la sala y practicar con un certificado verificable.",
     modulos: [
       "capacitacion-virtual",
       "disenador-de-cursos-con-ia",
       "evaluaciones-de-conocimiento",
       "sala-vr-central-viva",
+      "academia-de-vigilantes-vr",
     ],
     resultados: [
       "Certificados verificables con QR.",

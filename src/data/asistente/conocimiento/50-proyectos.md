@@ -23,7 +23,7 @@ Página `/proyectos`: «La plataforma, operando en terreno». Muestra cómo se c
 - `recinto-de-eventos` · Recinto ferial y de eventos · Bogotá · En operación: programación, visitantes, visión artificial (aforo y mapa de calor), chat corporativo, reportes con foto.
 - `oficinas-corporativas` · Grupo corporativo · Lima · En operación: puertas con reconocimiento facial, acceso inteligente, IoT, Sala de Control, app de escritorio.
 - `back-office-conectado` · Empresa de seguridad privada · Cali · **Piloto** (incluye Facturas DIAN y RADIAN, en piloto): nómina, Agente interoperador de datos, contabilidad conectada, auditoría de Gestión Humana.
-- `formacion-del-personal` · Empresa de seguridad privada · Barranquilla · En operación: capacitación virtual con certificados QR, diseñador de cursos con IA, evaluaciones, Central Viva en VR.
+- `formacion-del-personal` · Empresa de seguridad privada · Barranquilla · En operación: capacitación virtual con certificados QR, diseñador de cursos con IA, evaluaciones, Central Viva y Academia de vigilantes en VR (piloto).
 - `verificacion-con-robot` · Laboratorio ARS · Bogotá · **En desarrollo**: perros robot que verifican con las mismas analíticas y envían video a la central. No es un producto: no des fechas, modelos ni marcas.
 
 ## Cautela

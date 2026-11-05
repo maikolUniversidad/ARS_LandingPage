@@ -88,17 +88,21 @@ export const GUIONES_SERVICIOS_AREAS: Record<string, string> = {
 
   // ─── E · Realidad virtual ───
   [idIntroArea(E)]:
-    "Hay cosas que se entienden mejor recorriéndolas que leyéndolas. En realidad virtual, la central rodea al operador con sus tableros, el edificio se abre por pisos y los indicadores de la empresa se discuten en una mesa con directores simulados por inteligencia artificial.",
+    "Hay cosas que se entienden mejor viviéndolas. Póngase las gafas y en pocos minutos verá por dentro una empresa de seguridad con Ars: la central que atiende una alerta, la sede de un cliente, la empresa completa en una maqueta que usted sostiene, y una academia para los vigilantes. Aria, la guía, lo acompaña todo el camino.",
   [idModulo(E, "sala-vr-central-viva")]:
     "Póngase en el puesto del operador: los eventos al frente, el mapa a la izquierda, la radio a la derecha y el muro de cámaras arriba. No es una maqueta; es la misma radio y los mismos datos de Ars, vistos en trescientos sesenta grados.",
+  [idModulo(E, "su-empresa-por-dentro")]:
+    "Son las dos y cuarenta y siete de la mañana y la radio solo da estática. Entonces los papeles se vuelven luz y aparece su empresa en una maqueta: las sedes, la operación, las personas y el dinero. Usted mismo despacha al guarda más cercano y ve cómo lo que se marca en el puesto termina en la nómina.",
   [idModulo(E, "sede-inteligente")]:
-    "Una sede de ejemplo, con datos simulados, de tres pisos con puertas, sensores y cámaras. Simulo seis eventos con y sin respuesta automática, para que su cliente compare el daño y el costo antes de invertir.",
+    "Un día y una noche en una torre de ejemplo, contados por quienes la cuidan. Usted abre la maqueta con las manos, la mira en rayos X y entra a escala real: el relevo, la ronda sin señal, la alerta de la noche y la revista. Aquí la seguridad la hacen personas; Ars hace que cada paso quede probado.",
+  [idModulo(E, "academia-de-vigilantes-vr")]:
+    "Detrás de un portal de energía está la academia de vigilantes. El instructor le muestra la selección, el mapa de cursos de cada cargo, el aula y el polígono de práctica. Al final, el certificado sale con un código QR que usted mismo comprueba.",
   [idModulo(E, "mesa-directiva-con-ia")]:
     "Los indicadores de ventas, nómina, operaciones y contabilidad, sobre una mesa redonda en 3D. Pida que opine la junta, y nueve directores simulados por inteligencia artificial debaten y entregan un acta cuyo plan de acción llega a sus tareas.",
   [idModulo(E, "vigia-asistente-de-voz")]:
     "Vigía es la voz de la Sala VR. Usted le dice llévame a la sede, o abre las cámaras, y lo lleva sin pulsar nada. Se deja interrumpir, y todo lo que se dijo queda escrito en el chat de la sala.",
   [idModulo(E, "sala-vr-nativa-meta-quest")]:
-    "Hoy la Sala VR corre en el navegador, también en el de las gafas. Está planeada una aplicación nativa para Meta Quest, ajustada a cada modelo y con realidad mixta donde el equipo lo permita.",
+    "La Sala VR ya es una aplicación propia para Meta Quest, que se llama Ars. En Quest tres y tres S corre en alta calidad y con realidad mixta; en Quest dos, en calidad base. Arranca sin internet en modo demostración, y un vendedor la guía con pausa, siguiente y repetir.",
 
   // ─── F · Gestión humana ───
   [idIntroArea(F)]:
