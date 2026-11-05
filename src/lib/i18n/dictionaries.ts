@@ -140,6 +140,9 @@ export type HomeDict = {
     mgmtTitle: string;
     feeds: string;
     interop: string;
+    /** Dónde corre la plataforma: soberanía de datos (enlaza a /servicios/infraestructura). */
+    sovereignty: string;
+    sovereigntyCta: string;
     cta: string;
     catalogNote: string;
     status: CatalogStatusDict;
@@ -368,6 +371,8 @@ export const dictionaries: Record<Locale, Dict> = {
         mgmtTitle: "Lo que administra la empresa",
         feeds: "Cada turno, ronda y evento alimenta la gestión",
         interop: "¿Ya tiene un ERP? El Agente interoperador de datos lo conecta con ARS, completo o solo en las partes que necesite.",
+        sovereignty: "Sus datos se quedan en Colombia: la plataforma corre en nuestro centro de datos, con granja de tarjetas gráficas para la IA en local. Si lo prefiere, en su nube o en un equipo on premise en su sede.",
+        sovereigntyCta: "Infraestructura y centro de datos",
         cta: "Ver la arquitectura completa",
         catalogNote: "Estados reales del catálogo de servicios.",
         status: { vivo: "En producción", piloto: "En piloto", proximamente: "Próximamente", "hoja-de-ruta": "Hoja de ruta" },
@@ -628,6 +633,8 @@ export const dictionaries: Record<Locale, Dict> = {
         mgmtTitle: "What runs the company",
         feeds: "Every shift, patrol and event feeds management",
         interop: "Already have an ERP? The data interoperability agent connects it to ARS, fully or only in the parts you need.",
+        sovereignty: "Your data stays in Colombia: the platform runs in our own data center, with a GPU farm for on-site AI. If you prefer, in your cloud or on an on-premise unit at your site.",
+        sovereigntyCta: "Infrastructure & data center",
         cta: "See the full architecture",
         catalogNote: "Real statuses from our service catalog (module names in Spanish).",
         status: { vivo: "Live", piloto: "Pilot", proximamente: "Coming soon", "hoja-de-ruta": "Roadmap" },

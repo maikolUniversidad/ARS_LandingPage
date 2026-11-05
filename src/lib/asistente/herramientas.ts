@@ -346,7 +346,7 @@ export const HERRAMIENTAS: DefinicionHerramienta[] = [
   {
     name: "mostrar_servicio",
     description:
-      "MUESTRA un servicio de ARS: lleva a la persona a /servicios/<area> (y al módulo, si lo das), vuela la escena 3D del área a su foco y resalta el módulo. Úsala SIEMPRE que la persona pregunte por un servicio, área o módulo (p. ej. reconocimiento facial, nómina, edificio inteligente, ZKTeco, radio, rondas), y en cada paso de un recorrido guiado. Usa ids exactos del catálogo de servicios; si dudas, usa buscar_servicios.",
+      "MUESTRA un servicio de ARS: lleva a la persona a /servicios/<area> (y al módulo, si lo das), vuela la escena 3D del área a su foco y resalta el módulo. Úsala SIEMPRE que la persona pregunte por un servicio, área o módulo (p. ej. reconocimiento facial, nómina, edificio inteligente, ZKTeco, radio, rondas, centro de datos, dónde quedan los datos u on premise), y en cada paso de un recorrido guiado. Usa ids exactos del catálogo de servicios; si dudas, usa buscar_servicios.",
     input_schema: {
       type: "object",
       properties: {

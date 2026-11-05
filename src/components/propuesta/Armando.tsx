@@ -28,7 +28,7 @@ function pasosDe(r: Respuestas) {
   return [
     { titulo: "Leyendo su operación", detalle: r.empresa.trim() || "Sus respuestas" },
     { titulo: "Dimensionando la operación", detalle: tamano || enLista(r.servicios) || "Tamaño y servicios" },
-    { titulo: "Cruzando con las 10 áreas de ARS", detalle: "Campo, central, comunicación, monitoreo, gestión humana…" },
+    { titulo: "Cruzando con las 11 áreas de ARS", detalle: "Campo, central, comunicación, monitoreo, gestión humana…" },
     { titulo: "Eligiendo módulos para lo que le duele", detalle: enLista(r.dolores, 2) || "Sus prioridades" },
     { titulo: "Diseñando la integración", detalle: enLista(apps) ? `Con ${enLista(apps)}` : "Con sus sistemas" },
     { titulo: "Definiendo reportes", detalle: enLista(r.reportes, 2) || "Para el cliente, la gerencia y los coordinadores" },

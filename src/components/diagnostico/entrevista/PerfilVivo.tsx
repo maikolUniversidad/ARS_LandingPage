@@ -345,9 +345,9 @@ export function PerfilVivo({ perfil, origenes, progreso, datos, areasVistas, tur
       <section className="border border-white/10 bg-[#071229]/60 p-4">
         <div className="flex items-baseline justify-between">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#9eb0c0]">Áreas que se encienden</p>
-          <span className="font-mono text-[10px] tabular-nums text-white/70">{areasVistas.length}/10</span>
+          <span className="font-mono text-[10px] tabular-nums text-white/70">{areasVistas.length}/{AREA_IDS.length}</span>
         </div>
-        <ul className="mt-3 grid grid-cols-5 gap-1.5">
+        <ul className="mt-3 grid grid-cols-6 gap-1.5">
           {AREA_IDS.map((id) => {
             const a = areaInfo(id);
             const on = areasVistas.includes(id);

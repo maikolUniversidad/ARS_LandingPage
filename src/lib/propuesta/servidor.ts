@@ -645,7 +645,7 @@ const ETAPAS: { nombre: string; objetivo: string; areas: AreaId[] }[] = [
   {
     nombre: "Gente, nómina y datos conectados",
     objetivo: "De los turnos a la nómina, los informes y sus sistemas sin digitar dos veces.",
-    areas: ["gestion-humana", "formacion", "finanzas-y-erp", "productividad-e-ia"],
+    areas: ["gestion-humana", "formacion", "finanzas-y-erp", "productividad-e-ia", "infraestructura"],
   },
 ];
 
@@ -695,6 +695,11 @@ const SUPLE: Record<string, string> = {
   "seleccion-y-contratacion": "Selección y contratación ordenadas para sostener la rotación.",
   "cargue-inteligente-de-documentos": "Los documentos del personal se cargan y se ordenan solos.",
   "capacitacion-virtual": "Capacitación virtual con registro de quién la hizo.",
+  "centro-de-datos-ars": "Su información se procesa y se resguarda en Colombia, en el centro de datos propio de ARS.",
+  "granja-de-gpu-ia-local": "La analítica de video y la IA corren en tarjetas gráficas propias, sin enviar datos afuera.",
+  "ubicaciones-y-agente-remoto": "Si ya tiene su nube o su sala de servidores, un agente la conecta a ARS sin abrir puertos.",
+  "equipo-on-premise": "Si los datos no pueden salir de su sede, ARS instala el equipo allá.",
+  "respaldos-verificados": "Respaldos verificados, con copia fuera del sitio y aviso si alguno falla.",
 };
 
 const IMPACTO: { modulo: string; indicador: string; hoy: string; conArs: string }[] = [
