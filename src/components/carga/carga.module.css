@@ -1,0 +1,372 @@
+/*
+ * Animaciones de CargaTecnologica: solo transform/opacity/stroke-dashoffset,
+ * un único ciclo compartido (--ciclo) para que nodos, líneas y marcas vayan en fase.
+ * Se pausan con [data-pausado] (pestaña oculta o fuera de pantalla) y se
+ * congelan en su estado final con prefers-reduced-motion.
+ */
+
+.raiz {
+  --ciclo: 5.6s;
+  --paso: 0.42s;
+}
+
+.raiz[data-pausado] *,
+.raiz[data-pausado] *::before,
+.raiz[data-pausado] *::after {
+  animation-play-state: paused !important;
+}
+
+/* ───── Rejilla en perspectiva ───── */
+
+.rejilla {
+  perspective: 520px;
+  perspective-origin: 50% 0%;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 18%, transparent 78%);
+  mask-image: linear-gradient(to top, #000 0%, #000 18%, transparent 78%);
+  animation: trazarRejilla 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.plano {
+  position: absolute;
+  inset: -100% 0 0 0;
+  background-image:
+    linear-gradient(rgba(107, 138, 255, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(107, 138, 255, 0.16) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center bottom;
+  transform-origin: 50% 100%;
+  transform: rotateX(66deg);
+  will-change: transform;
+}
+
+.planoMovil {
+  animation: avanzar 3.2s linear infinite;
+}
+
+@keyframes trazarRejilla {
+  from {
+    clip-path: inset(100% 0 0 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes avanzar {
+  from {
+    transform: rotateX(66deg) translateY(0);
+  }
+  to {
+    transform: rotateX(66deg) translateY(56px);
+  }
+}
+
+/* ───── Barrido de escaneo ───── */
+
+.barrido {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(107, 138, 255, 0.05) 55%,
+    rgba(107, 138, 255, 0.14) 92%,
+    rgba(190, 210, 255, 0.55) 99.5%,
+    transparent 100%
+  );
+  transform: translateY(-110%);
+  animation: barrer 4.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  will-change: transform;
+}
+
+@keyframes barrer {
+  0% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(420%);
+    opacity: 0;
+  }
+}
+
+/* ───── Red de capas ───── */
+
+.nodo {
+  opacity: 0.16;
+  animation: encender var(--ciclo) ease-in-out infinite;
+  animation-delay: calc(var(--i) * var(--paso));
+}
+
+@keyframes encender {
+  0% {
+    opacity: 0.16;
+  }
+  9% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  94%,
+  100% {
+    opacity: 0.16;
+  }
+}
+
+.anilloNodo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: latir var(--ciclo) ease-out infinite;
+  animation-delay: calc(var(--i) * var(--paso));
+}
+
+@keyframes latir {
+  0%,
+  4% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  30%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.linea {
+  stroke-dasharray: 100 100;
+  stroke-dashoffset: 100;
+  animation: trazar var(--ciclo) cubic-bezier(0.3, 0.6, 0.2, 1) infinite;
+  animation-delay: calc(var(--i) * var(--paso) + 0.18s);
+}
+
+@keyframes trazar {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 1;
+  }
+  15% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  78% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  94% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+}
+
+.paquete {
+  stroke-dasharray: 7 120;
+  stroke-dashoffset: 7;
+  opacity: 0;
+  animation: viajar var(--ciclo) linear infinite;
+  animation-delay: calc(var(--i) * var(--paso) + 0.18s);
+}
+
+@keyframes viajar {
+  0%,
+  15% {
+    stroke-dashoffset: 7;
+    opacity: 0;
+  }
+  16% {
+    opacity: 1;
+  }
+  34% {
+    stroke-dashoffset: -100;
+    opacity: 1;
+  }
+  35%,
+  46% {
+    stroke-dashoffset: 7;
+    opacity: 0;
+  }
+  47% {
+    opacity: 1;
+  }
+  65% {
+    stroke-dashoffset: -100;
+    opacity: 1;
+  }
+  66%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
+.nucleo {
+  opacity: 0.4;
+  animation: nucleo var(--ciclo) ease-in-out infinite;
+}
+
+@keyframes nucleo {
+  0%,
+  28% {
+    opacity: 0.4;
+  }
+  44% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+.onda {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: onda 2.8s ease-out infinite;
+}
+
+@keyframes onda {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+.girar,
+.girarInverso {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: girar 22s linear infinite;
+}
+
+.girarInverso {
+  animation-duration: 34s;
+  animation-direction: reverse;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ───── Etiqueta y progreso ───── */
+
+.indeterminado {
+  width: 36%;
+  animation: indeterminado 1.9s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+@keyframes indeterminado {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(290%);
+  }
+}
+
+.cursor {
+  animation: cursor 1.1s steps(1) infinite;
+}
+
+@keyframes cursor {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ───── Movimiento reducido: estado final, quieto ───── */
+
+@media (prefers-reduced-motion: reduce) {
+  .rejilla,
+  .plano,
+  .planoMovil,
+  .nodo,
+  .linea,
+  .nucleo,
+  .girar,
+  .girarInverso,
+  .cursor {
+    animation: none;
+  }
+  .nodo,
+  .nucleo {
+    opacity: 1;
+  }
+  .linea {
+    stroke-dashoffset: 0;
+  }
+  .barrido,
+  .paquete,
+  .anilloNodo,
+  .onda {
+    animation: none;
+    display: none;
+  }
+  .indeterminado {
+    animation: none;
+    width: 100%;
+    opacity: 0.45;
+  }
+}
+
+/* ───── Respaldo vivo (ilustración sin WebGL) ───── */
+
+.deriva {
+  animation: deriva 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes deriva {
+  from {
+    transform: scale(1.06) translate3d(-0.8%, 0.4%, 0);
+  }
+  to {
+    transform: scale(1.1) translate3d(0.8%, -0.6%, 0);
+  }
+}
+
+/* Con vector-effect: non-scaling-stroke los guiones van en píxeles de pantalla:
+   un paquete de 42 px que recorre la traza y descansa en el hueco largo. */
+.dato {
+  stroke-dasharray: 42 1400;
+  stroke-dashoffset: 1442;
+  animation: dato 5.2s linear infinite;
+  animation-delay: calc(var(--i) * -0.85s);
+}
+
+@keyframes dato {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deriva,
+  .dato {
+    animation: none;
+  }
+  .dato {
+    display: none;
+  }
+}

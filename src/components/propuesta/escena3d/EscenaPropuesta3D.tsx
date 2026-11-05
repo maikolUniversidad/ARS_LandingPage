@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useImperativeHandle, useMemo, useRef, useState, useSyncExternalStore, type Ref } from "react";
 import { Layers, RotateCcw, X } from "lucide-react";
 import { isLowPower, isModestDevice, noopSubscribe, supportsWebGL } from "@/lib/three/webgl";
+import { CargaTecnologica } from "@/components/carga/CargaTecnologica";
 import { cn } from "@/lib/utils";
 import type { ControlEscena3D, PropsEscena3D } from "./index";
 import { MODOS, planDesdePropuesta, type ModoIntegracion, type PlanEscena } from "./plan";
@@ -23,6 +24,8 @@ export function EscenaPropuesta3D({ propuesta, className, ref }: PropsEscena3D &
   const webgl = useSyncExternalStore(noopSubscribe, supportsWebGL, () => true);
   const reducedMotion = useSyncExternalStore(noopSubscribe, prefiereMenosMovimiento, () => false);
   const [fallo, setFallo] = useState(false);
+  // El motor (three) aún baja/construye: se muestra el cargador encima del canvas.
+  const [listo, setListo] = useState(false);
   const [fase, setFase] = useState(-1);
   const [leyenda, setLeyenda] = useState(false);
 
@@ -83,6 +86,8 @@ export function EscenaPropuesta3D({ propuesta, className, ref }: PropsEscena3D &
         instRef.current = inst;
         const r = cont.getBoundingClientRect();
         inst.resize(r.width, r.height);
+        // Dos cuadros: el primero lo pinta la escena, el segundo ya está en pantalla.
+        requestAnimationFrame(() => requestAnimationFrame(() => vivo && setListo(true)));
         ro = new ResizeObserver(([e]) => inst.resize(e.contentRect.width, e.contentRect.height));
         ro.observe(cont);
         io = new IntersectionObserver(([e]) => {
@@ -96,6 +101,7 @@ export function EscenaPropuesta3D({ propuesta, className, ref }: PropsEscena3D &
 
     return () => {
       vivo = false;
+      setListo(false);
       ro?.disconnect();
       io?.disconnect();
       document.removeEventListener("visibilitychange", onVis);
@@ -122,6 +128,7 @@ export function EscenaPropuesta3D({ propuesta, className, ref }: PropsEscena3D &
       ) : (
         <Respaldo plan={plan} descripcion={descripcion} />
       )}
+      {usa3d && <CargaTecnologica variante="caja" etiqueta="Cargando su operación en 3D" listo={listo} />}
 
       {/* Rótulo de la fase actual */}
       <div className="pointer-events-none absolute top-3 left-3 right-14 @md:top-4 @md:left-4">

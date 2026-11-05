@@ -1,8 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { CargaTecnologica } from "@/components/carga/CargaTecnologica";
 import { useI18n } from "@/lib/i18n/context";
 import { isModestDevice, noopSubscribe, supportsWebGL } from "@/lib/three/webgl";
 import { cn } from "@/lib/utils";
@@ -128,7 +128,6 @@ export function HeroPlataforma3D() {
 
   const foco = focused !== null ? pantallas[focused] : undefined;
   const hov = hovered !== null ? pantallas[hovered] : undefined;
-  const poster = PANTALLAS[0];
 
   return (
     <section
@@ -139,28 +138,6 @@ export function HeroPlataforma3D() {
         hov && "cursor-pointer"
       )}
     >
-      {/* Póster mientras carga el 3D: la primera captura en perspectiva, atenuada. */}
-      {(!mounted || use3d) && poster && (
-        <div
-          aria-hidden="true"
-          className={cn(
-            "pointer-events-none absolute inset-0 flex items-start justify-center pt-[12svh] transition-opacity duration-1000 [perspective:1200px] lg:items-center lg:pl-[28%] lg:pt-0",
-            ready ? "opacity-0" : "opacity-100"
-          )}
-        >
-          <div className="relative aspect-[1512/600] w-[88vw] [transform:rotateX(6deg)] lg:w-[44vw]">
-            <Image
-              src={poster.src}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 44vw, 88vw"
-              loading="eager"
-              className="border border-[#5fd8ff]/40 object-contain opacity-40 shadow-[0_0_80px_rgba(95,216,255,0.18)]"
-            />
-          </div>
-        </div>
-      )}
-
       {use3d && (
         <MuroCanvas
           key={failures}
@@ -179,6 +156,14 @@ export function HeroPlataforma3D() {
       )}
       {mounted && !use3d && (
         <MuroCollage pantallas={pantallas} locale={locale} focused={focused} onSelect={seleccionar} />
+      )}
+      {/* Mientras baja e inicia el 3D: la plataforma encendiéndose (se funde al primer cuadro). */}
+      {(!mounted || use3d) && (
+        <CargaTecnologica
+          variante="pantalla"
+          listo={ready}
+          etiqueta={locale === "es" ? "Encendiendo el muro de mando" : "Powering up the command wall"}
+        />
       )}
 
       {/* Velos para que el texto se lea sobre el muro. */}

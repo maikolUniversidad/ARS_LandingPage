@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { EscenaId } from "@/data/servicios/tipos";
 import { isLowPower, noopSubscribe, supportsWebGL } from "@/lib/three/webgl";
+import { CargaTecnologica } from "@/components/carga/CargaTecnologica";
 import { cn } from "@/lib/utils";
 import type { FabricaEscena, InstanciaEscena } from "./contrato";
 
@@ -29,15 +30,18 @@ export type EscenaAreaProps = {
   className?: string;
   /** Se muestra si no hay WebGL o la escena falla. */
   respaldo?: React.ReactNode;
+  /** Muestra el cargador de marca mientras baja la escena (false si ya hay otra capa debajo). */
+  conCarga?: boolean;
 };
 
-export function EscenaArea({ escena, acento, foco, onSeleccion, className, respaldo }: EscenaAreaProps) {
+export function EscenaArea({ escena, acento, foco, onSeleccion, className, respaldo, conCarga = true }: EscenaAreaProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contRef = useRef<HTMLDivElement>(null);
   const instRef = useRef<InstanciaEscena | null>(null);
   const focoRef = useRef(foco);
   const selRef = useRef(onSeleccion);
   const [fallo, setFallo] = useState(false);
+  const [listo, setListo] = useState(false);
   const webgl = useSyncExternalStore(noopSubscribe, supportsWebGL, () => true);
 
   useEffect(() => {
@@ -70,6 +74,8 @@ export function EscenaArea({ escena, acento, foco, onSeleccion, className, respa
         const r = cont.getBoundingClientRect();
         inst.resize(r.width, r.height);
         inst.setFoco(focoRef.current);
+        // Dos cuadros: el primero lo pinta la escena, el segundo ya está en pantalla.
+        requestAnimationFrame(() => requestAnimationFrame(() => vivo && setListo(true)));
         ro = new ResizeObserver(([e]) => inst.resize(e.contentRect.width, e.contentRect.height));
         ro.observe(cont);
         io = new IntersectionObserver(([e]) => inst.setActiva(e.isIntersecting), { rootMargin: "120px" });
@@ -79,6 +85,7 @@ export function EscenaArea({ escena, acento, foco, onSeleccion, className, respa
 
     return () => {
       vivo = false;
+      setListo(false);
       ro?.disconnect();
       io?.disconnect();
       instRef.current?.dispose();
@@ -96,6 +103,7 @@ export function EscenaArea({ escena, acento, foco, onSeleccion, className, respa
   return (
     <div ref={contRef} className={cn("relative touch-pan-y", className)}>
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
+      {conCarga && <CargaTecnologica variante="caja" etiqueta="Cargando escena 3D · conectando el área" listo={listo} />}
     </div>
   );
 }

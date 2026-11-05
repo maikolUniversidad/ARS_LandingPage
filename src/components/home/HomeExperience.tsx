@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
+import { CargaTecnologica } from "@/components/carga/CargaTecnologica";
 import { RUTA_DIAGNOSTICO } from "@/lib/navegacion";
 import { ExperienciaPropuesta } from "@/components/propuesta/ExperienciaPropuesta";
 import { mailtoUrl, whatsappUrl } from "@/lib/contact";
@@ -196,6 +197,10 @@ export function HomeExperience({ counts, erpGroups }: { counts: HomeCounts; erpG
 
   const onFail = useCallback(() => setFailures((n) => n + 1), []);
   const use3D = mounted && webgl && !failed;
+  // Intento (failures) cuyo canvas ya pintó su primer cuadro: si se remonta, vuelve el cargador.
+  const [listoEn, setListoEn] = useState(-1);
+  const onListo = useCallback(() => setListoEn(failures), [failures]);
+  const listo3D = use3D && listoEn === failures;
   const activeLayer = CHAPTER_LAYER[CHAPTERS[Math.min(chapterIdx, CHAPTERS.length - 1)]];
 
   const labels = useMemo<Record<AnchorId, CanvasLabel>>(() => {
@@ -242,20 +247,30 @@ export function HomeExperience({ counts, erpGroups }: { counts: HomeCounts; erpG
           storyVisible ? "opacity-100" : "opacity-0"
         )}
       >
-        <StaticBackdrop note={mounted && !use3D ? h.staticNote : undefined} />
+        {mounted && !use3D && <StaticBackdrop note={h.staticNote} />}
         {use3D && (
-          <HomeCanvas
-            key={failures}
-            store={store}
-            reducedMotion={reducedMotion}
-            lowPower={lowPower}
-            active={storyVisible}
-            labels={labels}
-            board={board}
-            erp={erpScene}
-            onFail={onFail}
-          />
+          <div
+            className={cn(
+              "absolute inset-0 transition-[opacity,transform] duration-[1400ms] ease-out motion-reduce:transition-opacity",
+              listo3D ? "scale-100 opacity-100" : "scale-[1.04] opacity-0 motion-reduce:scale-100"
+            )}
+          >
+            <HomeCanvas
+              key={failures}
+              store={store}
+              reducedMotion={reducedMotion}
+              lowPower={lowPower}
+              active={storyVisible}
+              labels={labels}
+              board={board}
+              erp={erpScene}
+              onFail={onFail}
+              onListo={onListo}
+            />
+          </div>
         )}
+        {/* Mientras baja e inicia el 3D (también antes de hidratar): la plataforma encendiéndose. */}
+        {(!mounted || use3D) && <CargaTecnologica variante="pantalla" listo={listo3D} />}
         {/* Velos para legibilidad del texto */}
         <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#020a18]/90 to-transparent" />
         <div className="absolute inset-y-0 left-0 hidden w-[56%] bg-gradient-to-r from-[#020a18]/95 via-[#020a18]/55 to-transparent md:block" />
@@ -911,7 +926,9 @@ function Contact({ h }: { h: HomeDict }) {
           </div>
         </div>
         {/* Propuesta ARS: entrevista guiada → propuesta con IA → PDF → asesor. */}
-        <ExperienciaPropuesta className="mt-10 md:mt-14" />
+        <div id="propuesta" className="scroll-mt-20">
+          <ExperienciaPropuesta className="mt-10 md:mt-14" />
+        </div>
       </div>
     </section>
   );

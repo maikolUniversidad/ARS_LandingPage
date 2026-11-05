@@ -38,6 +38,7 @@ export default function HomeCanvas({
   board,
   erp,
   onFail,
+  onListo,
 }: {
   store: ChapterStore;
   reducedMotion: boolean;
@@ -48,18 +49,22 @@ export default function HomeCanvas({
   board: BoardStrings;
   erp: ErpStrings;
   onFail: () => void;
+  /** El primer cuadro ya está pintado: el padre funde el cargador hacia la escena. */
+  onListo?: () => void;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<UnifiedScene | null>(null);
   const labelRefs = useRef<Partial<Record<AnchorId, HTMLDivElement | null>>>({});
   const onFailRef = useRef(onFail);
+  const onListoRef = useRef(onListo);
   const activeRef = useRef(active);
   const boardRef = useRef(board);
 
   useEffect(() => {
     onFailRef.current = onFail;
-  }, [onFail]);
+    onListoRef.current = onListo;
+  }, [onFail, onListo]);
 
   const erpRef = useRef(erp);
   const boardKey = JSON.stringify([board, erp]);
@@ -95,6 +100,7 @@ export default function HomeCanvas({
         erp: erpRef.current,
         // El contexto se perdió y no volvió en ~3 s (si vuelve antes, la escena sigue sola).
         onFatal: () => onFailRef.current(),
+        onListo: () => onListoRef.current?.(),
         onAnchors: (anchors) => {
           for (const id of ANCHOR_IDS) placeLabel(id, anchors[id]);
         },

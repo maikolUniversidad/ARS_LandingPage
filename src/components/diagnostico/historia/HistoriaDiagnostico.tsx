@@ -6,6 +6,7 @@ import { AREA_IDS, type AreaId, type Capitulo, type Diagnostico, type Recomendac
 import { areaPorId } from "@/data/servicios";
 import { ReproductorVoz } from "@/lib/asistente/voz";
 import { isLowPower, noopSubscribe as noop, supportsWebGL } from "@/lib/three/webgl";
+import { CargaTecnologica } from "@/components/carga/CargaTecnologica";
 import { cn } from "@/lib/utils";
 import type { DistritoCampus, InstanciaCampus } from "./campus";
 import { PanelDiferencia } from "./PanelDiferencia";
@@ -40,6 +41,7 @@ export function HistoriaDiagnostico({ diagnostico, onTerminar }: HistoriaDiagnos
   const [hover, setHover] = useState<Puntero | null>(null);
   const [seleccion, setSeleccion] = useState<Puntero | null>(null);
   const [fallo, setFallo] = useState(false);
+  const [listo, setListo] = useState(false);
   const webgl = useSyncExternalStore(noop, supportsWebGL, () => true);
   const reducedMotion = useSyncExternalStore(noop, prefiereMenosMovimiento, () => false);
 
@@ -105,6 +107,8 @@ export function HistoriaDiagnostico({ diagnostico, onTerminar }: HistoriaDiagnos
         const r = cont.getBoundingClientRect();
         inst.resize(r.width, r.height);
         if (capRef.current) inst.setCapitulo(capRef.current);
+        // Dos cuadros: el primero lo pinta la escena, el segundo ya está en pantalla.
+        requestAnimationFrame(() => requestAnimationFrame(() => vivo && setListo(true)));
         ro = new ResizeObserver(([e]) => inst.resize(e.contentRect.width, e.contentRect.height));
         ro.observe(cont);
         io = new IntersectionObserver(([e]) => {
@@ -118,6 +122,7 @@ export function HistoriaDiagnostico({ diagnostico, onTerminar }: HistoriaDiagnos
 
     return () => {
       vivo = false;
+      setListo(false);
       ro?.disconnect();
       io?.disconnect();
       document.removeEventListener("visibilitychange", onVis);
@@ -211,7 +216,10 @@ export function HistoriaDiagnostico({ diagnostico, onTerminar }: HistoriaDiagnos
       {/* ── Lienzo 3D ── */}
       <div ref={contRef} className="relative h-[58svh] min-h-[360px] touch-pan-y lg:absolute lg:inset-0 lg:h-auto">
         {webgl && !fallo ? (
-          <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
+          <>
+            <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
+            <CargaTecnologica variante="caja" etiqueta="Construyendo su campus · conectando áreas" listo={listo} />
+          </>
         ) : (
           <RespaldoCampus distritos={distritos} activas={cap.activas} />
         )}

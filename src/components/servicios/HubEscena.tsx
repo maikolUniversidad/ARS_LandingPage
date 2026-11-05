@@ -73,6 +73,7 @@ export function HubEscena() {
           acento="#6b8aff"
           foco={foco}
           className="absolute inset-0"
+          conCarga={false}
           respaldo={<div className="grid-bg absolute inset-0 opacity-40" />}
         />
       </div>

@@ -44,6 +44,8 @@ export type SceneOptions = {
   onAnchors?: (anchors: Anchors) => void;
   /** El contexto WebGL se perdió y no volvió a tiempo: pasar al respaldo estático. */
   onFatal?: () => void;
+  /** Se llama una vez, cuando el primer cuadro quedó pintado en el canvas. */
+  onListo?: () => void;
 };
 
 const COLOR = {
@@ -932,14 +934,23 @@ export class UnifiedScene {
     this.chapter += (this.targetChapter - this.chapter) * (1 - Math.exp(-dt * 4.5));
     this.update();
     this.renderer.render(this.scene, this.camera);
+    this.avisarListo();
     this.adaptQuality(dt);
   };
+
+  private listoAvisado = false;
+  private avisarListo() {
+    if (this.listoAvisado || this.safe.isLost()) return;
+    this.listoAvisado = true;
+    this.opts.onListo?.();
+  }
 
   private renderOnce() {
     // Sin animación: un instante "representativo" fijo del reloj.
     if (this.opts.reducedMotion) this.time = 12;
     this.update();
     this.renderer.render(this.scene, this.camera);
+    this.avisarListo();
   }
 
   private adaptQuality(dt: number) {
