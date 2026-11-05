@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export type MobileLink = {
   label: string;
@@ -53,10 +54,13 @@ export function MobileMenu({ links }: { links: MobileLink[] }) {
         </span>
       </button>
 
-      {open && (
+      {/* Portal: los headers usan backdrop-filter, que vuelve relativo a ellos
+          cualquier `fixed` descendiente; en <body> el panel cubre la pantalla. */}
+      {open &&
+        createPortal(
         <div
           id="mobile-menu-panel"
-          className="fixed inset-0 top-[68px] z-40 bg-background/95 backdrop-blur"
+          className="fixed inset-0 top-[68px] z-40 overflow-y-auto bg-background/95 backdrop-blur md:hidden"
         >
           <nav className="flex flex-col gap-2 px-6 py-6">
             {links.map((link) =>
@@ -81,8 +85,9 @@ export function MobileMenu({ links }: { links: MobileLink[] }) {
               ),
             )}
           </nav>
-        </div>
-      )}
+        </div>,
+          document.body,
+        )}
     </div>
   );
 }

@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { SiteNav } from "@/components/SiteNav";
 import { useState } from "react";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { MobileMenu } from "@/components/MobileMenu";
 import { mailtoUrl } from "@/lib/contact";
 import { Scramble } from "@/components/Scramble";
 import { CameraStream } from "@/components/CameraStream";
@@ -19,7 +18,7 @@ import {
 type Tab = "showcase" | "camera" | "upload";
 
 export default function LaboratorioPage() {
-  const { t, locale } = useI18n();
+  const { locale } = useI18n();
   const [selectedId, setSelectedId] = useState<string>(aiCapabilities[0].id);
   const [tab, setTab] = useState<Tab>("showcase");
   const [filter, setFilter] = useState<AICapability["category"] | "ALL">("ALL");
@@ -45,8 +44,8 @@ export default function LaboratorioPage() {
 
       {/* Header */}
       <header className="sticky inset-x-0 top-0 z-50 border-b border-border/40 bg-background/70 backdrop-blur">
-        <div className="flex items-center justify-between px-6 py-4 md:px-10">
-          <Link href="/" className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-4 px-6 py-4 md:px-10">
+          <Link href="/" aria-label="ARS Intelligence — inicio" className="flex shrink-0 items-center gap-2">
             <Image
               src="/images/logos/horizontal-blanco.png"
               alt="ARS Intelligence"
@@ -57,43 +56,7 @@ export default function LaboratorioPage() {
               style={{ height: "auto", width: "auto", maxHeight: "36px" }}
             />
           </Link>
-          <nav className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <Link
-              href="/servicios"
-              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground lg:flex"
-            >
-              <span className="text-accent">✦</span> {t.nav.services}
-            </Link>
-            <Link
-              href="/plataforma"
-              className="bevel-btn group hidden items-center gap-2 border border-accent/60 bg-accent/15 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground backdrop-blur transition-colors hover:bg-accent/25 sm:flex"
-            >
-              <span className="text-accent">◇</span> Plataforma
-            </Link>
-            <Link
-              href="/proyectos"
-              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground sm:flex"
-            >
-              <span className="text-accent">▣</span>{" "}
-              <Scramble text={t.nav.projects} trigger={locale} />
-            </Link>
-            <Link
-              href="/"
-              className="bevel-btn group flex items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground"
-            >
-              <span className="text-accent">◀</span>{" "}
-              <Scramble text={t.nav.home} trigger={locale} />
-            </Link>
-            <MobileMenu
-              links={[
-                { label: t.nav.services, href: "/servicios" },
-                { label: "Plataforma", href: "/plataforma" },
-                { label: t.nav.projects, href: "/proyectos" },
-                { label: t.nav.home, href: "/" },
-              ]}
-            />
-          </nav>
+          <SiteNav contacto="#cierre" idioma />
         </div>
       </header>
 
@@ -319,7 +282,7 @@ export default function LaboratorioPage() {
         </section>
 
         {/* CTA */}
-        <section data-narracion="laboratorio/cierre" className="brand-gradient relative mt-24 overflow-hidden">
+        <section id="cierre" data-narracion="laboratorio/cierre" className="brand-gradient relative mt-24 scroll-mt-24 overflow-hidden">
           <div className="relative px-8 py-16 text-center text-white md:py-20">
             <h2 className="font-heading text-3xl font-black uppercase tracking-tight md:text-5xl">
               {isES ? "¿Querés probarlo sobre tus cámaras reales?" : "Want to try it on your real cameras?"}

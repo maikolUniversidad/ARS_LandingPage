@@ -5,11 +5,13 @@ orden: 20
 rutas: ["/plataforma"]
 ---
 
+**Relación con el ERP de gestión.** La portada (`/#erp`, `/#la-base`) presenta a ARS como operación encima + ERP de gestión propio debajo: contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría, todo alimentado por las capas operativas. Los módulos de gestión y su estado real están en `/servicios` (`gestion-humana`, `formacion`, `finanzas-y-erp`, `productividad-e-ia`, `gobierno-y-seguridad`). Con un ERP existente, el Agente interoperador de datos (`/servicios/finanzas-y-erp#agente-interoperador-de-datos`) lo conecta, completo o por partes; «Su ERP dentro de ARS» lo opera desde ARS sin duplicar datos.
+
 «Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
 
 **ARS es un ERP, y además se adapta.** Además de la operación, ARS es el ERP de la empresa de seguridad: clientes, contratos y planes, órdenes de servicio, nómina, costos, facturación, contabilidad con asistente de IA, cotizador y CRM (detalle en `/servicios/finanzas-y-erp` y `/servicios/gestion-humana`). Si la empresa ya tiene su propio sistema u otros contratados, el Agente interoperador de datos y las integraciones hacen que todo se centralice en ARS o fluya entre sistemas, según los módulos que contrate.
 
-## Funcionalidades (A–N) · ancla `/plataforma#feature-<id>`
+## Funcionalidades (A–N) · se recorren en `/plataforma#recorrido`
 
 Grupos: **Operación** (gestión humana, programación y ejecución en campo), **Monitoreo** (visualización, central y trazabilidad), **Inteligencia** (IA y alertas con contexto), **Reportes** (indicadores, multisede y arquitectura).
 
@@ -28,12 +30,12 @@ Grupos: **Operación** (gestión humana, programación y ejecución en campo), *
 - **M · Reportes e indicadores** (`reportes`, Reportes): cumplimiento de turnos, rondas completadas y fallidas, tiempo de respuesta, novedades por sede, alertas por tipo, eventos por cámara, actividad por guarda, cobertura por cliente, evidencia generada, riesgos recurrentes, reportes por periodo.
 - **N · Multi-cliente · multi-sede · multi-zona** (`multisite`, Reportes): Organización → Cliente → Sede/Zona; Puesto → Cámara → Guarda; Turno → Ronda → Tarea; Evento → Evidencia → Reporte.
 
-## Capturas del producto (`/plataforma#capturas`)
+## Capturas del producto (`/plataforma#en-movimiento`)
 
 - Central de monitoreo: tablero único con cámaras, alertas y mapa en vivo; vista multipantalla configurable; priorización automática; asignación de operadores por turno.
 - IA por cámara: activar modelos por cámara sin reemplazar hardware; reglas por cámara; varios modelos sobre la misma fuente; edge + cloud según la latencia requerida.
 - Reconocimiento facial: listas blancas y negras por sede, búsqueda forense por rostro, confianza configurable.
-- LPR: OCR de matrículas con cruce contra listas, soporte para placas LATAM, integración con barreras, reportes por flota o cliente.
+- Lectura de placas (LPR): se muestra en `/vision` y `/laboratorio`, pero no está en el catálogo de servicios; se evalúa caso a caso con el equipo comercial.
 - Intrusión/ROI: reglas perimetrales por cámara, cruce de línea con dirección.
 - EPP: verificación automática, reporte para auditoría SST, alertas a supervisores.
 - Alertas con evidencia: snapshot + clip, estado de atención por operador, cierre con observaciones y firma.
@@ -48,11 +50,11 @@ Raíz: ARS Intelligence (plataforma) → L1 Clientes (empresas y organizaciones)
 
 Resultado: «Cero desconexión entre operación humana, IA y supervisión».
 
-## Casos de uso (`/plataforma#casos`)
+## Casos de uso (para armar el tuyo: `/plataforma#arquitecto-ia`)
 
 - **Conjunto residencial**: porterías, rondas perimetrales, novedades, cámaras por torre o zona, alertas por intrusión, reportes al administrador.
 - **Universidad o campus**: múltiples entradas, cámaras por edificio, estudiantes, visitantes y zonas críticas, permanencia o cruce de línea, eventos y reportes.
-- **Centro logístico**: acceso vehicular, reconocimiento de placas, rondas en bodegas, EPP, zonas restringidas, evidencia ante incidentes.
+- **Centro logístico**: control de acceso vehicular, rondas en bodegas, EPP, zonas restringidas, evidencia ante incidentes.
 - **Empresa de seguridad**: múltiples clientes, programación de turnos, supervisión de guardas, rondas y tareas, reportes automáticos, trazabilidad para facturación o cumplimiento.
 
 ## Antes vs. con ARS

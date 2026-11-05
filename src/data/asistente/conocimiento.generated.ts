@@ -22,6 +22,8 @@ ARS no es un conjunto de programas separados: une en una sola plataforma con IA 
 4. **Robótica** (**en desarrollo** en nuestro laboratorio, no es un producto comercial todavía): perros robot que recorren y verifican con las mismas analíticas de las cámaras. La plataforma está pensada para sumar nuevos dispositivos. No prometas fechas, modelos ni disponibilidad; si preguntan, di que es una línea en desarrollo del laboratorio y ofrece hablar con el equipo.
 5. **Central de operaciones y gerencia** (en operación): mapa en vivo de cada sede y cada persona, radio, chat y pánico en la misma pantalla; la gerencia ve en tiempo real qué está cubierto, qué falta y qué pasó.
 
+**La base: un ERP de gestión hecho para la seguridad.** ARS no es solo la central ni solo lo operativo (lo que se ve en las cinco capas). Por debajo, todo se apoya en el ERP de gestión de ARS para el proceso base de una empresa de seguridad: contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, y gobierno multiempresa con auditoría. Las cinco capas lo alimentan solas: el turno cumplido llega a la nómina, la ronda y el evento al informe del cliente, el servicio prestado a la prefactura y todo a la contabilidad. Operación encima + ERP debajo = una sola plataforma; el laboratorio de tecnología de seguridad está construido sobre esa base. Si la empresa ya usa otro ERP, el Agente interoperador de datos lo conecta con ARS, completo o por partes. Cada módulo tiene su estado real en \`/servicios\` (por ejemplo, Nómina y Contabilidad conectada están en producción; Facturas DIAN y RADIAN —bandeja de facturas recibidas— está «Próximamente»; el cotizador y CRM propios están en la hoja de ruta): no prometas lo que no está en producción. En la portada se ve en el capítulo \`#erp\` y en la sección \`#la-base\`.
+
 **Todo es una traza**: cada evento queda trazado de punta a punta, del puesto a la gerencia. Ejemplo de la portada (escenario de demostración, ficticio): una ronda reporta una novedad en la cerca norte → la cámara 04 confirma con cruce de línea y el operador valida → el sensor de la puerta de la bodega avisa → el robot del laboratorio verifica → la central despacha al supervisor por radio → el cierre con evidencia, responsable y tiempos llega al tablero de gerencia.
 
 Otras ideas que comunica el sitio:
@@ -50,6 +52,7 @@ Verbos que resumen la plataforma: Opera · Monitorea · Comunica · Evidencia ·
 
 ## Los dos grandes bloques de producto
 
+- **Operación y ERP de gestión en una sola plataforma**: la operación (capas de la portada) encima y el ERP de gestión debajo; el detalle de cada módulo está en \`/servicios\` (áreas Gestión humana, Formación, Finanzas y ERP, Productividad e IA, Gobierno y seguridad).
 - **Plataforma de operación y ERP de la empresa de seguridad** en \`/plataforma\`: turnos, personal, rondas, formularios, mapa, PTT, central de monitoreo, alertas, evidencia, reportes, multisede, y el ERP (clientes y contratos, nómina, costos, facturación, contabilidad, cotizador y CRM). Si la empresa ya tiene otros sistemas, ARS los centraliza o hace que la información fluya entre ellos.
 - **Módulo de Visión (analíticas de video)** en \`/vision\`: 45 analíticas en 4 familias que corren sobre las cámaras ya instaladas.
 
@@ -57,6 +60,7 @@ Además hay demos interactivas: \`/laboratorio\` (modelos de IA en acción, con 
 
 ## Contacto
 
+- Diagnóstico de la empresa con IA (llamado principal del menú): \`/diagnostico\`.
 - Solicitar demo: formulario y botones en la sección \`#contacto\` de la portada (\`/#contacto\`), de \`/plataforma#cierre\` y de \`/vision#cierre\`.
 - WhatsApp de la gerencia comercial: +57 312 462 3357.
 - Correo: j.muriel@ars-group.co (asunto sugerido «Solicitud de demo - ARS Intelligence»).
@@ -68,12 +72,12 @@ Precios, planes, licencias y condiciones contractuales no están publicados en e
     id: "mapa-del-sitio",
     titulo: "Mapa del sitio y a dónde llevar al visitante",
     orden: 10,
-    rutas: ["/","/plataforma","/vision","/servicios","/proyectos","/laboratorio","/vision-lab"],
+    rutas: ["/","/diagnostico","/plataforma","/vision","/servicios","/proyectos","/laboratorio","/vision-lab"],
     contenido: `Usa siempre rutas relativas del sitio (por ejemplo \`/vision#intrusion\`). Solo existen las rutas y anclas listadas aquí; no inventes otras.
 
-## \`/\` — Portada (las capas de la seguridad unidas en una traza)
+## \`/\` — Portada (las capas de la seguridad unidas en una traza, sobre un ERP de gestión)
 
-Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y caen hasta volverse una sola plataforma; luego cada capa se enciende y un mismo evento las recorre dejando una traza de luz hasta el tablero de gerencia. Anclas:
+Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y caen hasta volverse una sola plataforma; luego cada capa se enciende y un mismo evento las recorre dejando una traza de luz hasta el tablero de gerencia. Después la cámara baja al cimiento: el ERP de gestión de ARS, la base que sostiene la operación. Anclas:
 
 - \`#hero\` — «Todas las capas de la seguridad. Una sola traza.»
 - \`#fisica\` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.
@@ -81,21 +85,32 @@ Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y 
 - \`#iot\` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). En operación.
 - \`#robotica\` — Capa 04 · Robótica (perros robot con las mismas analíticas). En desarrollo.
 - \`#central\` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.
+- \`#erp\` — «Debajo de todo, un ERP hecho para la seguridad.»: el suelo se abre y se ve el ERP de gestión (contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría) alimentado por las cinco capas; un turno cumplido llega a la nómina, la ronda y el evento al informe del cliente, el servicio prestado a la prefactura y todo a la contabilidad.
 - \`#traza\` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.
-- \`#escala\` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma, cifras del catálogo y botones a demo y a \`/servicios\`.
+- \`#escala\` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma (la operación encima, el ERP de gestión debajo), cifras del catálogo y botones a demo y a \`/servicios\`.
+- \`#la-base\` — sección «La base: un ERP hecho para la seguridad»: dos niveles (Operación arriba, Gestión abajo) con los módulos reales del catálogo y su estado, cada uno enlazado a \`/servicios/<área>#<módulo>\`, y el botón «Ver la arquitectura completa» (\`/arquitectura\`).
 - \`#contacto\` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. \`/#cierre\` también lleva aquí.
 
-Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas o contactar. Para pedir demo, \`/#contacto\`.
+Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas (y cómo la operación alimenta el ERP de gestión: \`/#la-base\`) o contactar. Para pedir demo, \`/#contacto\`.
+
+## \`/diagnostico\` — Diagnóstico de tu empresa
+
+«¿Cómo se vería tu empresa con ARS?» Entrevista de unos 5 minutos con Ars: mientras la persona cuenta cómo opera, se van marcando las áreas de ARS que le sirven; al final los agentes por área arman el diagnóstico, una historia 3D de su operación y un reporte para compartir o descargar. \`/diagnostico?ejemplo=1\` muestra un diagnóstico de ejemplo. No tiene anclas.
+
+Enviar aquí: quien quiere saber qué le sirve de ARS a su empresa, un plan o un punto de partida antes de hablar con ventas. Es el llamado principal del sitio (botón «Diagnóstico» del menú).
 
 ## \`/plataforma\` — Seguridad integral en una sola plataforma
 
-La plataforma de operación (ERP operativo de seguridad). Orden de secciones: hero, ciclo operativo de 8 pasos, capturas del producto, funcionalidades (A–N), arquitectura operativa por niveles, flujo de integración (del turno al reporte), casos de uso, comparativa antes/con ARS, testimonios del equipo, logos de entidades y empresas, cierre con demo.
+La plataforma de operación (ERP operativo de seguridad), mostrada en movimiento. Orden de secciones: hero 3D con un muro de capturas reales, «En movimiento» (clips y recorridos con capturas reales), recorrido por los módulos de cada área de campo, Arquitecto IA (arma la plataforma a la medida de la empresa), ciclo operativo, pilares, comparativa antes/con ARS, logos de entidades y empresas, cierre con demo.
 
 Anclas:
-- \`#funcionalidades\` — las 14 funcionalidades agrupadas en Operación, Monitoreo, Inteligencia y Reportes. Cada tarjeta tiene además su ancla \`#feature-<id>\`: \`turnos\`, \`personal\`, \`rondas\`, \`tareas\`, \`formularios\`, \`mapa\`, \`ptt\`, \`pot\`, \`central\`, \`ia\`, \`alertas\`, \`evidencia\`, \`reportes\`, \`multisite\` (p. ej. \`/plataforma#feature-rondas\`).
-- \`#capturas\` — capturas: central de monitoreo, IA por cámara, reconocimiento facial, LPR, intrusión/ROI, EPP, alertas con evidencia.
-- \`#casos\` — casos de uso: conjunto residencial, universidad o campus, centro logístico, empresa de seguridad.
+- \`#en-movimiento\` — clips y recorridos de la plataforma con capturas reales.
+- \`#recorrido\` — recorrido por los módulos de cada área (operación en campo, centro de operaciones, comunicación, monitoreo…), con enlace a cada área en \`/servicios/<área>\`.
+- \`#arquitecto-ia\` — la persona describe su operación y la IA propone los módulos y una ruta de implementación.
+- \`#pilares\` — pilares de la plataforma.
 - \`#cierre\` — Solicitar demo / Hablar con un asesor (WhatsApp).
+
+Las funcionalidades A–N (turnos, rondas, PTT, central, alertas…) no tienen ancla propia: para una funcionalidad concreta usa \`/plataforma#recorrido\` o el módulo equivalente en \`/servicios/<área>#<módulo>\`.
 
 Enviar aquí: preguntas sobre turnos, rondas, guardas, central, reportes, multisede, software de gestión u operación.
 
@@ -113,9 +128,14 @@ Nota técnica: existe una analítica con id \`cierre\` («Cierre de puerta sin a
 
 Enviar aquí: preguntas sobre qué detectan las cámaras, analíticas para retail, prevención, operación, modelos de bajo costo.
 
-## \`/proyectos\` — Mapa de proyectos en Latinoamérica
+## \`/proyectos\` — Proyectos por sector y ciudad
 
-«Una red que ya está operando.» Mapa interactivo (scroll para zoom, arrastrar para mover, clic para ver detalles). Lista «Presencia ARS» con filtros por país, departamento/región y ciudad; cada proyecto abre una ficha con vertical, descripción, integraciones y métricas, y botón «Solicitar información». No tiene anclas.
+«La plataforma, operando en terreno.» Mapa de Colombia y Perú con un marcador por ciudad, filtros por estado (En operación, Piloto, En desarrollo), país y área de servicio, y tarjetas que abren la ficha de cada proyecto con los módulos del catálogo que usa (enlazados a \`/servicios/<area>#<modulo>\`) y CTA al diagnóstico. Cada ficha tiene enlace propio \`/proyectos#<id>\`.
+
+Anclas:
+- \`#mapa\` — mapa, filtros y tarjetas.
+- \`#como-empieza\` — diagnóstico → piloto → operación.
+- \`#cierre\` — contacto.
 
 Enviar aquí: preguntas sobre experiencia, ciudades, países, sectores.
 
@@ -147,13 +167,14 @@ Enviar aquí: cualquier pregunta por un servicio o módulo concreto (mostrar_ser
 
 ## \`/vision-lab\` — Playground técnico
 
-Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), motor «IA real» en el navegador o «Demo» simulado, reglas (dibujar ROI o línea), panel de eventos, conteo, análisis facial y visor JSON de la respuesta. No tiene anclas. Pensado para perfiles técnicos o integradores.
+Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), motor «IA real» en el navegador o «Demo» simulado, reglas (dibujar ROI o línea), panel de eventos, conteo, análisis facial y visor JSON de la respuesta. No tiene anclas y no aparece en el menú: solo para perfiles técnicos o integradores; para visitantes, la demo es \`/laboratorio\`.
 
 ## Reglas de navegación
 
 - Pedir demo o hablar con alguien → \`/#contacto\` (formulario) o WhatsApp +57 312 462 3357.
+- Saber qué le sirve de ARS a su empresa / un plan → \`/diagnostico\`.
 - Una analítica concreta → \`/vision#<id>\` usando el id exacto del catálogo.
-- Una funcionalidad de la plataforma → \`/plataforma#feature-<id>\` o \`/plataforma#funcionalidades\`.
+- Una funcionalidad de la plataforma → \`/plataforma#recorrido\`, o \`/plataforma#arquitecto-ia\` para armarla a la medida.
 - Ver IA en vivo con su cámara → \`/laboratorio#demo-stage\`.
 - Un servicio o módulo de ARS → \`/servicios/<área>#<módulo>\` con la herramienta mostrar_servicio (ids exactos del catálogo de servicios).
 - Existe una ruta \`/admin\` interna (edición de datos del mapa); no es para visitantes, no la recomiendes.`,
@@ -163,11 +184,13 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
     titulo: "Plataforma ARS y ERP operativo",
     orden: 20,
     rutas: ["/plataforma"],
-    contenido: `«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: \`/plataforma\`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
+    contenido: `**Relación con el ERP de gestión.** La portada (\`/#erp\`, \`/#la-base\`) presenta a ARS como operación encima + ERP de gestión propio debajo: contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría, todo alimentado por las capas operativas. Los módulos de gestión y su estado real están en \`/servicios\` (\`gestion-humana\`, \`formacion\`, \`finanzas-y-erp\`, \`productividad-e-ia\`, \`gobierno-y-seguridad\`). Con un ERP existente, el Agente interoperador de datos (\`/servicios/finanzas-y-erp#agente-interoperador-de-datos\`) lo conecta, completo o por partes; «Su ERP dentro de ARS» lo opera desde ARS sin duplicar datos.
+
+«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: \`/plataforma\`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
 
 **ARS es un ERP, y además se adapta.** Además de la operación, ARS es el ERP de la empresa de seguridad: clientes, contratos y planes, órdenes de servicio, nómina, costos, facturación, contabilidad con asistente de IA, cotizador y CRM (detalle en \`/servicios/finanzas-y-erp\` y \`/servicios/gestion-humana\`). Si la empresa ya tiene su propio sistema u otros contratados, el Agente interoperador de datos y las integraciones hacen que todo se centralice en ARS o fluya entre sistemas, según los módulos que contrate.
 
-## Funcionalidades (A–N) · ancla \`/plataforma#feature-<id>\`
+## Funcionalidades (A–N) · se recorren en \`/plataforma#recorrido\`
 
 Grupos: **Operación** (gestión humana, programación y ejecución en campo), **Monitoreo** (visualización, central y trazabilidad), **Inteligencia** (IA y alertas con contexto), **Reportes** (indicadores, multisede y arquitectura).
 
@@ -186,12 +209,12 @@ Grupos: **Operación** (gestión humana, programación y ejecución en campo), *
 - **M · Reportes e indicadores** (\`reportes\`, Reportes): cumplimiento de turnos, rondas completadas y fallidas, tiempo de respuesta, novedades por sede, alertas por tipo, eventos por cámara, actividad por guarda, cobertura por cliente, evidencia generada, riesgos recurrentes, reportes por periodo.
 - **N · Multi-cliente · multi-sede · multi-zona** (\`multisite\`, Reportes): Organización → Cliente → Sede/Zona; Puesto → Cámara → Guarda; Turno → Ronda → Tarea; Evento → Evidencia → Reporte.
 
-## Capturas del producto (\`/plataforma#capturas\`)
+## Capturas del producto (\`/plataforma#en-movimiento\`)
 
 - Central de monitoreo: tablero único con cámaras, alertas y mapa en vivo; vista multipantalla configurable; priorización automática; asignación de operadores por turno.
 - IA por cámara: activar modelos por cámara sin reemplazar hardware; reglas por cámara; varios modelos sobre la misma fuente; edge + cloud según la latencia requerida.
 - Reconocimiento facial: listas blancas y negras por sede, búsqueda forense por rostro, confianza configurable.
-- LPR: OCR de matrículas con cruce contra listas, soporte para placas LATAM, integración con barreras, reportes por flota o cliente.
+- Lectura de placas (LPR): se muestra en \`/vision\` y \`/laboratorio\`, pero no está en el catálogo de servicios; se evalúa caso a caso con el equipo comercial.
 - Intrusión/ROI: reglas perimetrales por cámara, cruce de línea con dirección.
 - EPP: verificación automática, reporte para auditoría SST, alertas a supervisores.
 - Alertas con evidencia: snapshot + clip, estado de atención por operador, cierre con observaciones y firma.
@@ -206,11 +229,11 @@ Raíz: ARS Intelligence (plataforma) → L1 Clientes (empresas y organizaciones)
 
 Resultado: «Cero desconexión entre operación humana, IA y supervisión».
 
-## Casos de uso (\`/plataforma#casos\`)
+## Casos de uso (para armar el tuyo: \`/plataforma#arquitecto-ia\`)
 
 - **Conjunto residencial**: porterías, rondas perimetrales, novedades, cámaras por torre o zona, alertas por intrusión, reportes al administrador.
 - **Universidad o campus**: múltiples entradas, cámaras por edificio, estudiantes, visitantes y zonas críticas, permanencia o cruce de línea, eventos y reportes.
-- **Centro logístico**: acceso vehicular, reconocimiento de placas, rondas en bodegas, EPP, zonas restringidas, evidencia ante incidentes.
+- **Centro logístico**: control de acceso vehicular, rondas en bodegas, EPP, zonas restringidas, evidencia ante incidentes.
 - **Empresa de seguridad**: múltiples clientes, programación de turnos, supervisión de guardas, rondas y tareas, reportes automáticos, trazabilidad para facturación o cumplimiento.
 
 ## Antes vs. con ARS
@@ -315,6 +338,43 @@ Si un módulo trae \`notaEstado\` (por ejemplo «con gafas Meta Quest, en piloto
 - Si algo no está en el catálogo, di que se confirma con el equipo comercial y ofrece agendar una demo.`,
   },
   {
+    id: "arquitectura-erp",
+    titulo: "Arquitectura de soluciones ARS · la operación sobre un ERP base propio",
+    orden: 26,
+    rutas: ["/arquitectura"],
+    contenido: `Página \`/arquitectura\`: la vista corporativa completa de ARS. Mensaje central: **ARS no es solo la central ni solo lo operativo** (cámaras con IA, rondas, radio, IoT, realidad virtual: lo que más se ve). Todo eso se apoya en un **ERP base propio de ARS** que lleva la gestión del proceso base de una empresa de seguridad, y todo comparte los mismos datos: lo que pasa en el puesto llega solo a la gestión.
+
+## Las cinco capas del diagrama (\`#diagrama\`)
+
+1. **Canales**: web, app Android (vigilante y supervisor, aun sin señal), PWA instalable, app de escritorio para la central (Windows) y gafas VR.
+2. **Capa operativa**: operación en campo, centro de operaciones, comunicación y emergencias, monitoreo inteligente (visión artificial e IoT), realidad virtual y el laboratorio (demos de visión IA y la línea de robótica, **en desarrollo, no es un producto comercial**).
+3. **Núcleo de datos e IA**: eventos y evidencia (cada marca, ronda, alerta, transmisión y reporte entra una sola vez, con foto, ubicación y hora), Centro de IA y automatizaciones (automatizaciones en piloto, en modo observación), trazabilidad y auditoría.
+4. **ERP base de ARS**: contratos y clientes, turnos y programación, gestión humana y nómina, gestión documental, formación, cotizador y CRM (**hoja de ruta**), gobierno multiempresa, finanzas y contabilidad, facturas DIAN y RADIAN (**próximamente**).
+5. **Integraciones externas**: las cámaras y grabadores que el cliente ya tiene, relojes biométricos ZKTeco (solo como compatibilidad; en piloto), Telegram (avisos por cliente y zona, en piloto), el ERP de la empresa vía el **Agente interoperador de datos** (API, backend o cargas programadas; completo o por partes) y la DIAN.
+
+Vistas del diagrama: **Operativa** (canales, operación y núcleo), **Corporativa (ERP)** (núcleo, ERP e integraciones) e **Integral** (todo). Al tocar un bloque se abre un panel con sus módulos del catálogo, su estado real y el enlace a \`/servicios/<area>#<modulo>\`.
+
+## Cómo explicarlo con honestidad
+
+- La gestión humana, la nómina (desde los turnos realmente trabajados), lo documental, la formación, los turnos, los contratos y el gobierno multiempresa están en ARS.
+- La **contabilidad** es **conectada**: ARS lee el ERP contable de la empresa (copia de solo lectura actualizada cada 15 minutos) y la cruza con la operación —lo contratado frente a lo facturado por cliente, la nómina frente al gasto de personal—. **ARS no obliga a reemplazar el ERP contable**: el Agente interoperador lo conecta.
+- **Facturas DIAN y RADIAN** (bandeja de facturas de proveedores cruzada con la contabilidad): **próximamente**. **Cotizador y CRM propios**: **hoja de ruta**. No prometas fechas.
+- No inventes cifras de clientes, ahorros ni tiempos.
+
+## Sigue un dato (\`#sigue-un-dato\`)
+
+Recorridos que se iluminan en el diagrama de punta a punta:
+
+1. **De la marcación a la contabilidad**: app Android → marcación con selfie y verificación facial → turno realizado frente a lo programado → nómina desde los turnos reales → contabilidad conectada (nómina frente al gasto de personal) → cuadre con el ERP contable de la empresa.
+2. **De la alerta de cámara al informe**: cámara existente → visión artificial (alerta con foto, video y ubicación) → Sala de Control confirma o escala → radio PTT al supervisor (grabado) → evidencia en la galería forense con reportes por cliente → auditoría.
+3. **Del contrato nuevo al mes facturado**: orden de servicio desde el ERP → cliente, contrato y plan → programación del mes → selección y contratación → cursos con certificado QR → portal documental del cliente → lo contratado frente a lo facturado.
+4. **Factura de proveedor, de la DIAN a la contabilidad** (próximamente): DIAN → bandeja de facturas y eventos RADIAN → comparación con lo contabilizado → ERP contable como libro de referencia.
+
+## Por qué un ERP propio (\`#por-que-erp\`)
+
+Una sola fuente de verdad, cero doble digitación, trazabilidad de punta a punta y multiempresa de verdad. La página incluye la tabla **«ARS frente a herramientas sueltas»** con el estado real de cada módulo (incluye las filas que aún no están en producción). Cierre (\`#cierre\`): solicitar demo en \`/#contacto\` o ver \`/servicios\`.`,
+  },
+  {
     id: "vision-analiticas",
     titulo: "Módulo de Visión · Analíticas de video",
     orden: 30,
@@ -357,7 +417,7 @@ Todas las analíticas del portafolio están disponibles. Algunas muestran ademá
     titulo: "Cómo opera ARS según el tamaño de la empresa (orientativo)",
     orden: 40,
     rutas: ["/plataforma","/vision","/proyectos"],
-    contenido: `**Importante**: el sitio no publica planes ni paquetes por tamaño de empresa. Lo que sigue es una orientación derivada de lo que sí muestra el sitio (casos de uso, familia de modelos lite, arquitectura multisede y escala de los proyectos del mapa). Preséntalo siempre como orientativo y aclara que el alcance, los módulos incluidos y el costo de cada caso son a confirmar con el equipo comercial.
+    contenido: `**Importante**: el sitio no publica planes ni paquetes por tamaño de empresa. Lo que sigue es una orientación derivada de lo que sí muestra el sitio (casos de uso, familia de modelos lite, arquitectura multisede y proyectos de referencia por sector). Preséntalo siempre como orientativo y aclara que el alcance, los módulos incluidos y el costo de cada caso son a confirmar con el equipo comercial.
 
 ## Principios comunes a cualquier tamaño
 
@@ -384,51 +444,46 @@ Todas las analíticas del portafolio están disponibles. Algunas muestran ademá
 
 - Arquitectura **multi-cliente · multi-sede · multi-zona** completa, central de monitoreo con video wall, priorización de riesgos y operadores por turno.
 - Empresas de seguridad que gestionan muchos clientes: programación de turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento.
-- Analíticas de prevención y riesgo de alto valor: \`negras\`, \`armas\`, \`aglomeracion\`, \`caidas\`, \`fuego\`, \`abandono\`, reconocimiento facial con listas y LPR en accesos.
-- Escala de referencia en el mapa de \`/proyectos\`: despliegues de decenas a cientos de cámaras por sitio (aeropuertos, puertos, metro, centros comerciales, torres corporativas). Son datos ilustrativos del mapa; no los presentes como cifras contractuales.
+- Analíticas de prevención y riesgo de alto valor: \`negras\`, \`armas\`, \`aglomeracion\`, \`caidas\`, \`fuego\`, \`abandono\`, y alertas de rostros contra listas que verifica un operador (la lectura de placas se evalúa caso a caso con el equipo comercial).
+- Proyectos de referencia en \`/proyectos\`: redes de sedes públicas, transporte masivo, energía, recintos de eventos y back-office de empresas de seguridad. Son casos de referencia sin cifras; no inventes escalas ni cantidades.
 
 ## Qué preguntar al visitante para orientar
 
 1. Sector y tipo de instalación. 2. Número aproximado de sedes y cámaras. 3. Si ya tiene NVR/grabadores y vigilancia física. 4. El problema principal (pérdidas, filas, intrusión, EPP, control de guardas, reportes). 5. Si necesita gestión de turnos y rondas o solo analíticas de video.
 
-Con esas respuestas propone una ruta: analíticas concretas en \`/vision#<id>\`, funcionalidades en \`/plataforma#feature-<id>\` y cierre con demo en \`/#contacto\`.`,
+Con esas respuestas propone una ruta: analíticas concretas en \`/vision#<id>\`, la plataforma en \`/plataforma#recorrido\` (o a su medida en \`/plataforma#arquitecto-ia\`), el diagnóstico completo en \`/diagnostico\` y cierre con demo en \`/#contacto\`.`,
   },
   {
     id: "proyectos",
-    titulo: "Proyectos, ciudades y verticales",
+    titulo: "Proyectos por sector y ciudad",
     orden: 50,
     rutas: ["/proyectos"],
-    contenido: `Página \`/proyectos\`: «Una red que ya está operando». Texto de la página: ARS Intelligence opera centrales inteligentes en Colombia y Perú, conectando cámaras y sensores en una sola red de decisión.
+    contenido: `Página \`/proyectos\`: «La plataforma, operando en terreno». Muestra cómo se combina el catálogo de servicios según el tipo de cliente, con un mapa de Colombia y Perú, filtros y una ficha por proyecto. Los datos viven en \`src/data/proyectos\`.
 
-## Cómo se usa el mapa
+## Cómo se usa
 
-Botón «Entrar al mapa». Scroll para acercar y alejar, arrastrar para mover, clic en un marcador para ver los proyectos de la ciudad y su ficha. Filtros por país, departamento/región y ciudad; lista «Presencia ARS · Ciudades operativas en Latinoamérica». Cada ficha muestra vertical, descripción, integraciones (facial, LPR, EPP, intrusión, comportamiento, conteo, térmica, guardias, acceso, perímetro, alarmas, IoT), métricas y botón «Solicitar información».
+- **Mapa** (\`#mapa\`): un marcador por ciudad con su número de proyectos; tocar una ciudad filtra los casos y volver a tocarla quita el filtro.
+- **Filtros**: estado (En operación, Piloto, En desarrollo), país (Colombia, Perú) y área de servicio (las 10 áreas del catálogo).
+- **Ficha**: se abre desde cada tarjeta y tiene enlace propio (\`/proyectos#<id>\`). Muestra cliente (tipo, sin nombre), sector, ciudad, escala, el reto, cómo se resolvió, lo que cambia y la lista de **módulos del catálogo**, cada uno enlazado a \`/servicios/<area>#<modulo>\`. Cierra con «Hacer el diagnóstico» (\`/diagnostico\`), «Quiero algo así» (WhatsApp) y «Ver la plataforma» (\`/plataforma\`).
+- **Cómo empieza un proyecto** (\`#como-empieza\`): diagnóstico → piloto en una sede → operación y escala.
 
-## Ciudades en el mapa
+## Los proyectos
 
-- **Colombia (8)**: Bogotá D.C., Medellín, Cali, Barranquilla (principales); Cartagena, Bucaramanga, Pereira, Cúcuta.
-- **Perú (1)**: Lima (incluye Callao y San Isidro/Surco).
+- \`campus-universitario\` · Universidad privada · Bogotá · En operación: rondas con QR, asistencia y relevos, visitantes y bicicletas, visión artificial, Sala de Control, botón de pánico.
+- \`red-de-sedes-publicas\` · Entidad pública del orden nacional · Bogotá · En operación: programación, acceso inteligente, reporte por sede, portal documental para el cliente, auditoría.
+- \`instalaciones-industriales\` · Compañía del sector energético · Medellín · En operación: recorridos y tiempo en el puesto, zonas y salida de zona, radio PTT, botón de pánico, recursos operativos.
+- \`estaciones-de-transporte\` · Sistema de transporte masivo · Bogotá · En operación: sala del coordinador, cumplimiento, radio PTT, consola de radio, visión artificial (conteo y aforo), notificaciones.
+- \`recinto-de-eventos\` · Recinto ferial y de eventos · Bogotá · En operación: programación, visitantes, visión artificial (aforo y mapa de calor), chat corporativo, reportes con foto.
+- \`oficinas-corporativas\` · Grupo corporativo · Lima · En operación: puertas con reconocimiento facial, acceso inteligente, IoT, Sala de Control, app de escritorio.
+- \`back-office-conectado\` · Empresa de seguridad privada · Cali · **Piloto** (incluye Facturas DIAN y RADIAN, en piloto): nómina, Agente interoperador de datos, contabilidad conectada, auditoría de Gestión Humana.
+- \`formacion-del-personal\` · Empresa de seguridad privada · Barranquilla · En operación: capacitación virtual con certificados QR, diseñador de cursos con IA, evaluaciones, Central Viva en VR.
+- \`verificacion-con-robot\` · Laboratorio ARS · Bogotá · **En desarrollo**: perros robot que verifican con las mismas analíticas y envían video a la central. No es un producto: no des fechas, modelos ni marcas.
 
-En total el mapa muestra 21 proyectos: Bogotá 4, Lima 4, Medellín 3, Cali 3, Barranquilla 2, Cartagena 2, Bucaramanga 1, Pereira 1, Cúcuta 1.
+## Cautela
 
-## Verticales representadas
-
-Aeroportuario y movilidad; transporte público (metro); retail y centros comerciales; hospitalidad y hotelería; logística e industrial; puertos y carga; frontera; corporativo y control de acceso; educación (campus); salud (hospital); espacios públicos (malecón).
-
-Patrones típicos por vertical que muestran las fichas:
-- Aeropuertos: reconocimiento facial en zonas restringidas, LPR en accesos, conteo en filas.
-- Retail: aforo, mapas de calor, comportamiento/hurto, LPR en parqueaderos.
-- Puertos y logística: LPR de tracto-camiones, perímetro, ROI en patios, térmica nocturna, EPP.
-- Industrial: EPP, zonas peligrosas, perímetro, apoyo a cambios de turno.
-- Salud: pasillos críticos, detección de caídas.
-- Corporativo/educación: control de acceso facial, LPR en parqueaderos.
-
-## Cautela con las cifras
-
-El archivo de datos del mapa indica que verticales, direcciones, número de cámaras y métricas son **datos de referencia (placeholder) basados en operaciones típicas de ARS**. Por eso:
-- Habla de ciudades, países y verticales, que es lo que la página comunica.
-- Si preguntan cifras de un proyecto concreto (cámaras, eventos por día, disponibilidad, tiempo de respuesta) o si un aeropuerto, puerto o empresa nombrada es cliente, responde que el detalle es a confirmar con el equipo comercial e invita a ver la ficha en \`/proyectos\` o a pedir información.
-- Como orden de magnitud orientativo, las fichas muestran sitios de entre unas 60 y unas 420 cámaras.`,
+- Todas las fichas están marcadas como **«Caso de referencia»**: describen operaciones reales de la plataforma, pero el cliente, la ciudad y la escala están pendientes de validación. No nombres clientes ni digas que una entidad concreta es cliente.
+- No hay cifras de proyectos (cámaras, sedes, vigilantes, disponibilidad). Si las piden, di que el detalle se confirma con el equipo comercial e invita al diagnóstico o a una demo.
+- Si preguntan por su sector, recomienda la ficha más parecida con su enlace (\`/proyectos#<id>\`) y 2–4 módulos del catálogo.`,
   },
   {
     id: "laboratorio",
@@ -530,22 +585,23 @@ Personas, vehículos y placas, rostros contra listas, intrusión y cruce de lín
 Todas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.
 
 **¿Sirve para empresas de seguridad con muchos clientes?**
-Sí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver \`/plataforma#casos\`.
+Sí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver \`/plataforma#arquitecto-ia\`.
 
 **¿ARS es un ERP? ¿Tengo que dejar el sistema que ya uso?**
 ARS es un ERP completo para la empresa de seguridad: clientes, contratos y planes, órdenes de servicio, nómina, costos, facturación, contabilidad con asistente de IA, cotizador y CRM, junto con toda la operación. Y además se adapta: si la empresa ya tiene su propio sistema u otros contratados, creamos los mecanismos (Agente interoperador de datos, integraciones y sincronización) para que todo se centralice en ARS o fluya entre sistemas, según los módulos que contrate. Ver \`/servicios/finanzas-y-erp\`.
 
 **¿Se integra con mis sistemas (barreras, alarmas, control de acceso, otro software de gestión)?**
-El sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT; con el software de gestión que la empresa ya use, el Agente interoperador de datos conecta por API, por backend o por cargas programadas. El alcance con un sistema concreto: a confirmar con el equipo comercial.
+Los casos de /proyectos combinan control de acceso, alarmas e IoT dentro de la plataforma; con el software de gestión que la empresa ya use, el Agente interoperador de datos conecta por API, por backend o por cargas programadas. Integraciones con un sistema o equipo concreto (barreras, control de acceso): a confirmar con el equipo comercial.
 
 **¿Dónde operan?**
 Colombia y Perú, según el sitio. Ver \`/proyectos\`.
 
 **¿Puedo ver una demo?**
-Sí, tres opciones:
+Sí, cuatro opciones:
 1. Probar ya la IA con tu cámara o un video: \`/laboratorio#demo-stage\`.
 2. Ver cada analítica funcionando: \`/vision#visor\`.
-3. Demo guiada con el equipo: formulario en \`/#contacto\`, WhatsApp +57 312 462 3357 o correo j.muriel@ars-group.co.
+3. Un diagnóstico de tu empresa con IA (5 minutos): \`/diagnostico\`.
+4. Demo guiada con el equipo: formulario en \`/#contacto\`, WhatsApp +57 312 462 3357 o correo j.muriel@ars-group.co.
 
 **¿Hay versión en inglés?**
 El sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de \`/vision\` se presenta en español.

@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { SiteNav } from "@/components/SiteNav";
 import { useI18n } from "@/lib/i18n/context";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { MobileMenu } from "@/components/MobileMenu";
 import { HeroPlataforma3D } from "@/components/plataforma/hero/HeroPlataforma3D";
 import { ReelEnMovimiento } from "@/components/plataforma/movimiento/ReelEnMovimiento";
 import { RecorridoModulos } from "@/components/plataforma/movimiento/RecorridoModulos";
@@ -67,8 +66,8 @@ export default function PlataformaPage() {
 
       {/* Header */}
       <header className="fixed inset-x-0 top-0 z-50 border-b border-border/40 bg-background/70 backdrop-blur">
-        <div className="flex items-center justify-between px-6 py-4 md:px-10">
-          <Link href="/" className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-4 px-6 py-4 md:px-10">
+          <Link href="/" aria-label="ARS Intelligence — inicio" className="flex shrink-0 items-center gap-2">
             <Image
               src="/images/logos/horizontal-blanco.png"
               alt="ARS Intelligence"
@@ -79,55 +78,7 @@ export default function PlataformaPage() {
               style={{ height: "auto", width: "auto", maxHeight: "36px" }}
             />
           </Link>
-          <nav className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <Link
-              href="/servicios"
-              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground lg:flex"
-            >
-              <span className="text-accent">✦</span> {locale === "en" ? "Services" : "Servicios"}
-            </Link>
-            <Link
-              href="/vision"
-              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground sm:flex"
-            >
-              <span className="text-accent">◉</span> {c.navVision}
-            </Link>
-            <Link
-              href="/laboratorio"
-              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground md:flex"
-            >
-              <span className="text-accent">◎</span> {c.navLab}
-            </Link>
-            <Link
-              href="/proyectos"
-              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground sm:flex"
-            >
-              <span className="text-accent">▣</span> {c.navProjects}
-            </Link>
-            <Link
-              href="/"
-              className="bevel-btn group hidden items-center gap-2 border border-border bg-background/40 px-5 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur transition-colors hover:bg-background/70 hover:text-foreground sm:flex"
-            >
-              <span className="text-accent">◀</span> {c.navHome}
-            </Link>
-            <a
-              href="#cierre"
-              className="bevel-btn hidden items-center gap-2 border border-border/60 bg-foreground px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-background sm:flex"
-            >
-              <span>▸</span> {c.requestDemo}
-            </a>
-            <MobileMenu
-              links={[
-                { label: locale === "en" ? "Services" : "Servicios", href: "/servicios" },
-                { label: c.navVision, href: "/vision" },
-                { label: c.navLab, href: "/laboratorio" },
-                { label: c.navProjects, href: "/proyectos" },
-                { label: c.navHome, href: "/" },
-                { label: c.requestDemo, href: "#cierre", primary: true },
-              ]}
-            />
-          </nav>
+          <SiteNav contacto="#cierre" idioma />
         </div>
       </header>
 

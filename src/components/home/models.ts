@@ -303,3 +303,163 @@ export function createDashboard(width: number, strings: BoardStrings): Dashboard
     dispose: () => tex.dispose(),
   };
 }
+
+// ───────────────────────── Cimiento ERP (la base) ─────────────────────────
+
+export type ErpStrings = {
+  title: string;
+  subtitle: string;
+  /** Nombres de los módulos, en el orden de las baldosas (4 arriba + 3 abajo). */
+  modules: string[];
+};
+
+export type ErpFoundation = {
+  group: THREE.Group;
+  /** Centro de cada baldosa (coordenadas locales del grupo, sobre la losa). */
+  tiles: THREE.Vector3[];
+  /** Brillo de cada baldosa (aditivo). */
+  tileMats: THREE.MeshBasicMaterial[];
+  top: THREE.MeshBasicMaterial;
+  edges: THREE.LineBasicMaterial;
+  body: THREE.MeshBasicMaterial;
+  dispose: () => void;
+};
+
+const ERP_TILE_TINT = ["#5fd8ff", "#6b8aff", "#a88bff", "#35e0a1", "#ffb547", "#4fd1c5", "#d5e0ff"];
+
+function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const words = text.split(/\s+/);
+  const lines: string[] = [];
+  let line = "";
+  for (const w of words) {
+    const next = line ? `${line} ${w}` : w;
+    if (ctx.measureText(next).width > maxWidth && line) {
+      lines.push(line);
+      line = w;
+    } else line = next;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+/**
+ * Losa holográfica bajo la sede: el ERP de gestión con sus módulos.
+ * La textura se dibuja UNA vez (estática); el brillo de cada módulo se anima
+ * con planos aditivos baratos encima.
+ */
+export function createErpFoundation(width: number, depth: number, thickness: number, strings: ErpStrings): ErpFoundation {
+  const W = 1472;
+  const H = Math.round((W * depth) / width);
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  const pad = 48;
+  const top = 168;
+  const gap = 28;
+  const rowH = (H - top - pad - gap) / 2;
+  const rects: Array<[number, number, number, number]> = [];
+  for (let row = 0; row < 2; row++) {
+    const n = row === 0 ? 4 : 3;
+    const w = (W - pad * 2 - gap * (n - 1)) / n;
+    for (let i = 0; i < n; i++) rects.push([pad + i * (w + gap), top + row * (rowH + gap), w, rowH]);
+  }
+
+  if (ctx) {
+    ctx.fillStyle = "rgba(4,12,32,0.94)";
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = "rgba(107,138,255,0.16)";
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 46) {
+      ctx.beginPath();
+      ctx.moveTo(x + 0.5, 0);
+      ctx.lineTo(x + 0.5, H);
+      ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 46) {
+      ctx.beginPath();
+      ctx.moveTo(0, y + 0.5);
+      ctx.lineTo(W, y + 0.5);
+      ctx.stroke();
+    }
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#d5e0ff";
+    ctx.font = "700 54px ui-monospace, SFMono-Regular, Menlo, monospace";
+    ctx.fillText(strings.title.toUpperCase(), pad, 70);
+    ctx.fillStyle = "rgba(197,210,238,0.75)";
+    ctx.font = "500 30px ui-monospace, SFMono-Regular, Menlo, monospace";
+    ctx.fillText(strings.subtitle.toUpperCase(), pad, 124);
+
+    rects.forEach(([x, y, w, h], i) => {
+      const tint = ERP_TILE_TINT[i % ERP_TILE_TINT.length];
+      ctx.fillStyle = "rgba(11,26,68,0.92)";
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = tint;
+      ctx.globalAlpha = 0.85;
+      ctx.lineWidth = 4;
+      ctx.strokeRect(x + 2, y + 2, w - 4, h - 4);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = tint;
+      ctx.fillRect(x, y, w, 10);
+      ctx.font = "600 30px ui-monospace, SFMono-Regular, Menlo, monospace";
+      ctx.fillText(String(i + 1).padStart(2, "0"), x + 28, y + 56);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "800 46px system-ui, -apple-system, 'Segoe UI', sans-serif";
+      const lines = wrapText(ctx, strings.modules[i] ?? "", w - 56).slice(0, 3);
+      lines.forEach((l, k) => ctx.fillText(l, x + 28, y + 122 + k * 54));
+      // Barras de "registros" (decorativas)
+      for (let b = 0; b < 5; b++) {
+        ctx.fillStyle = `rgba(213,224,255,${0.1 + 0.05 * b})`;
+        ctx.fillRect(x + 28, y + h - 40 - b * 18, (w - 56) * (0.35 + 0.12 * ((b * 7 + i * 3) % 5)), 8);
+      }
+    });
+  }
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.flipY = false;
+  tex.anisotropy = 4;
+
+  const group = new THREE.Group();
+  const body = new THREE.MeshBasicMaterial({ color: 0x061433, transparent: true });
+  const box = new THREE.BoxGeometry(width, thickness, depth);
+  const slab = new THREE.Mesh(box, body);
+  slab.position.y = -thickness / 2;
+  const edges = new THREE.LineBasicMaterial({ color: 0x6b8aff, transparent: true });
+  const edgeLines = new THREE.LineSegments(new THREE.EdgesGeometry(box), edges);
+  edgeLines.position.y = -thickness / 2;
+
+  const topMat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide, depthWrite: false });
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(width, depth), topMat);
+  // Sin flipY: se invierte el plano para que el texto se lea desde el frente (+z).
+  face.scale.y = -1;
+  face.rotation.x = -Math.PI / 2;
+  face.position.y = 0.03;
+  group.add(slab, edgeLines, face);
+
+  const tiles: THREE.Vector3[] = [];
+  const tileMats: THREE.MeshBasicMaterial[] = [];
+  rects.forEach(([x, y, w, h], i) => {
+    const cx = ((x + w / 2) / W - 0.5) * width;
+    const cz = ((y + h / 2) / H - 0.5) * depth;
+    const tw = (w / W) * width;
+    const td = (h / H) * depth;
+    const mat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(ERP_TILE_TINT[i % ERP_TILE_TINT.length]),
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide,
+    });
+    const glow = new THREE.Mesh(new THREE.PlaneGeometry(tw, td), mat);
+    glow.rotation.x = -Math.PI / 2;
+    glow.position.set(cx, 0.08, cz);
+    group.add(glow);
+    tiles.push(new THREE.Vector3(cx, 0.1, cz));
+    tileMats.push(mat);
+  });
+
+  return { group, tiles, tileMats, top: topMat, edges, body, dispose: () => tex.dispose() };
+}

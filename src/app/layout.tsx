@@ -32,7 +32,7 @@ const SITE_URL = "https://arsintelligence.com";
 const SITE_NAME = "ARS Intelligence";
 const TITLE = "ARS Intelligence — Todas las capas de la seguridad, una sola traza";
 const DESCRIPTION =
-  "Laboratorio de tecnología para la seguridad privada: vigilancia física, cámaras con IA, IoT y central de operaciones en una sola plataforma, con traza de punta a punta.";
+  "Laboratorio de tecnología para la seguridad privada: vigilancia física, cámaras con IA, IoT y central de operaciones sobre un ERP propio de gestión, en una sola plataforma con traza de punta a punta.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -53,6 +53,8 @@ export const metadata: Metadata = {
     "IoT",
     "trazabilidad",
     "seguridad integral",
+    "ERP para empresas de seguridad",
+    "nómina de vigilantes",
     "CCTV",
     "alertas en tiempo real",
     "LATAM",
@@ -60,7 +62,7 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
-  alternates: { canonical: "/" },
+  // Sin canonical global: cada página declara la suya (si no, todas heredarían "/").
   openGraph: {
     type: "website",
     locale: "es_CO",
