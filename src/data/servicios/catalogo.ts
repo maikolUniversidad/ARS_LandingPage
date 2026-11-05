@@ -880,6 +880,7 @@ export const AREAS: Area[] = [
         capturas: [],
         palabrasClave: ["academia", "formación en realidad virtual", "polígono", "entrenamiento", "certificado QR", "capacitación VR", "vigilantes", "simulador"],
         foco: "vestibulo",
+        enlace: { href: "/academia", texto: "Ver la Academia completa" },
       },
       {
         id: "mesa-directiva-con-ia",
