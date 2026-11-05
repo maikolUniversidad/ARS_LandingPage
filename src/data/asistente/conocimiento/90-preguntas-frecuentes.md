@@ -36,7 +36,7 @@ Todas están disponibles; algunas muestran además un sello del equipo de Visió
 Sí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#arquitecto-ia`.
 
 **¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**
-El sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT. Integraciones específicas con terceros: a confirmar con el equipo comercial.
+Los casos de /proyectos combinan control de acceso, alarmas e IoT dentro de la plataforma. Integraciones específicas con terceros (barreras, control de acceso, ERP externos): a confirmar con el equipo comercial.
 
 **¿Dónde operan?**
 Colombia y Perú, según el sitio. Ver `/proyectos`.

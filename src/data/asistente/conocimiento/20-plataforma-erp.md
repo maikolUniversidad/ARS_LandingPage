@@ -33,7 +33,7 @@ Grupos: **Operación** (gestión humana, programación y ejecución en campo), *
 - Central de monitoreo: tablero único con cámaras, alertas y mapa en vivo; vista multipantalla configurable; priorización automática; asignación de operadores por turno.
 - IA por cámara: activar modelos por cámara sin reemplazar hardware; reglas por cámara; varios modelos sobre la misma fuente; edge + cloud según la latencia requerida.
 - Reconocimiento facial: listas blancas y negras por sede, búsqueda forense por rostro, confianza configurable.
-- LPR: OCR de matrículas con cruce contra listas, soporte para placas LATAM, integración con barreras, reportes por flota o cliente.
+- Lectura de placas (LPR): se muestra en `/vision` y `/laboratorio`, pero no está en el catálogo de servicios; se evalúa caso a caso con el equipo comercial.
 - Intrusión/ROI: reglas perimetrales por cámara, cruce de línea con dirección.
 - EPP: verificación automática, reporte para auditoría SST, alertas a supervisores.
 - Alertas con evidencia: snapshot + clip, estado de atención por operador, cierre con observaciones y firma.
@@ -52,7 +52,7 @@ Resultado: «Cero desconexión entre operación humana, IA y supervisión».
 
 - **Conjunto residencial**: porterías, rondas perimetrales, novedades, cámaras por torre o zona, alertas por intrusión, reportes al administrador.
 - **Universidad o campus**: múltiples entradas, cámaras por edificio, estudiantes, visitantes y zonas críticas, permanencia o cruce de línea, eventos y reportes.
-- **Centro logístico**: acceso vehicular, reconocimiento de placas, rondas en bodegas, EPP, zonas restringidas, evidencia ante incidentes.
+- **Centro logístico**: control de acceso vehicular, rondas en bodegas, EPP, zonas restringidas, evidencia ante incidentes.
 - **Empresa de seguridad**: múltiples clientes, programación de turnos, supervisión de guardas, rondas y tareas, reportes automáticos, trazabilidad para facturación o cumplimiento.
 
 ## Antes vs. con ARS

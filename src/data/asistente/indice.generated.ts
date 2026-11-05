@@ -36,11 +36,19 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Qué es ARS Intelligence › Posicionamiento: todas las capas, una sola traza",
    "ruta": "/",
+   "texto": "**La base: un ERP de gestión hecho para la seguridad.** ARS no es solo la central ni solo lo operativo (lo que se ve en las cinco capas). Por debajo, todo se apoya en el ERP de gestión de ARS para el proceso base de una empresa de seguridad: contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, y gobierno multiempresa con auditoría. Las cinco capas lo alimentan solas: el turno cumplido llega a la nómina, la ronda y el evento al informe del cliente, el servicio prestado a la prefactura y todo a la contabilidad. Operación encima + ERP debajo = una sola plataforma; el laboratorio de tecnología de seguridad está construido sobre esa base. Si la empresa ya usa otro ERP, el Agente interoperador de datos lo conecta con ARS, completo o por partes. Cada módulo tiene su estado real en `/servicios` (por ejemplo, Nómina y Contabilidad conectada están en producción; Facturas DIAN y RADIAN —bandeja de facturas recibidas— está «Próximamente»; el cotizador y CRM propios están en la hoja de ruta): no prometas lo que no está en producción. En la portada se ve en el capítulo `#erp` y en la sección `#la-base`.",
+   "h": "c149c45f88503e19"
+  },
+  {
+   "id": "kb:que-es-ars:1.3",
+   "fuente": "kb",
+   "titulo": "Qué es ARS Intelligence › Posicionamiento: todas las capas, una sola traza",
+   "ruta": "/",
    "texto": "**Todo es una traza**: cada evento queda trazado de punta a punta, del puesto a la gerencia. Ejemplo de la portada (escenario de demostración, ficticio): una ronda reporta una novedad en la cerca norte → la cámara 04 confirma con cruce de línea y el operador valida → el sensor de la puerta de la bodega avisa → el robot del laboratorio verifica → la central despacha al supervisor por radio → el cierre con evidencia, responsable y tiempos llega al tablero de gerencia.",
    "h": "767abbe65e006200"
   },
   {
-   "id": "kb:que-es-ars:1.3",
+   "id": "kb:que-es-ars:1.4",
    "fuente": "kb",
    "titulo": "Qué es ARS Intelligence › Posicionamiento: todas las capas, una sola traza",
    "ruta": "/",
@@ -70,9 +78,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Qué es ARS Intelligence › Los dos grandes bloques de producto",
    "ruta": "/",
-   "texto": "- **Plataforma de operación (tipo ERP operativo de seguridad)** en `/plataforma`: turnos, personal, rondas, formularios, mapa, PTT, central de monitoreo, alertas, evidencia, reportes, multisede.\n- **Módulo de Visión (analíticas de video)** en `/vision`: 45 analíticas en 4 familias que corren sobre las cámaras ya instaladas.\n\nAdemás hay demos interactivas: `/laboratorio` (modelos de IA en acción, con cámara o video propio) y `/vision-lab` (playground técnico).",
-   "h": "0791bb7163fad1ec",
-   "v": "ywQOCAsF8x7t5ve1HL4QHO/3wPwC99fgEuPGC9P/HMkjDfLz9hUeBjggv/j29NXp+QHI/QMi4+rMIivxDuMpLenjthzv5/kiF+saDdI34vrwDfENFNXK/Mv19g4EDCwKOurxNhu32bLU0W8h89jsrPsgJ/QQ8Bzt9hm/A/DnBd3p8ArpFOb36Bzx9A0I4QICv+XQ/RgM++zk1vMI3Rf73voO8iTQBd0Egi+4KODm/r/s9QTe2RHm2PLttfHKTvdJJW1Ew+oh8ur8BnYH/+wWJNTpUP5cENsTyS7bB83k7/X4ZB+yS67+JPfs+wr73wHPIBIZ8iwRFNwy9CU3MCEB2Mbr0tf9JtjRB/EJPNPlGjMPIPwBMuAXRPQC+BkZFxLguho1KQDuBtctFP7xIAktzQAx9hjxwerrI+LJvzDKL9sisRK8vsP8BA+NMvoM9gPUByrg5PjjmwId/gfHOysQyeXs5frK2uERo/ppFx///v8xyDDqAs3lzxgs3Rn1FwXc9QPUQv/u9fwFyvzlQ+APCRH/uxvhKSQ+HNkjlzAg7+IfAh4tRAr2+vIrHgPn4xo3U/PRLOcvvzAJLt4Is+rq1ebLBgi6QLnoee0GSSIw20Io58n7DQwLKNngrPPnCQ8AIfnOLBB/yyMUKOMlN+8NDefLzfMZHAD5Jv71/TrgGP4="
+   "texto": "- **Operación y ERP de gestión en una sola plataforma**: la operación (capas de la portada) encima y el ERP de gestión debajo; el detalle de cada módulo está en `/servicios` (áreas Gestión humana, Formación, Finanzas y ERP, Productividad e IA, Gobierno y seguridad).\n- **Plataforma de operación (tipo ERP operativo de seguridad)** en `/plataforma`: turnos, personal, rondas, formularios, mapa, PTT, central de monitoreo, alertas, evidencia, reportes, multisede.\n- **Módulo de Visión (analíticas de video)** en `/vision`: 45 analíticas en 4 familias que corren sobre las cámaras ya instaladas.\n\nAdemás hay demos interactivas: `/laboratorio` (modelos de IA en acción, con cámara o video propio) y `/vision-lab` (playground técnico).",
+   "h": "1b9a4c2e32ecb00e"
   },
   {
    "id": "kb:que-es-ars:5",
@@ -94,26 +101,26 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
   {
    "id": "kb:mapa-del-sitio:1",
    "fuente": "kb",
-   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/` — Portada (las capas de la seguridad unidas en una traza)",
+   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/` — Portada (las capas de la seguridad unidas en una traza, sobre un ERP de gestión)",
    "ruta": "/",
-   "texto": "Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y caen hasta volverse una sola plataforma; luego cada capa se enciende y un mismo evento las recorre dejando una traza de luz hasta el tablero de gerencia. Anclas:",
-   "h": "ab3fac8e656f0abf"
+   "texto": "Recorrido 3D con scroll: en la apertura las cinco capas flotan sobre una sede y caen hasta volverse una sola plataforma; luego cada capa se enciende y un mismo evento las recorre dejando una traza de luz hasta el tablero de gerencia. Después la cámara baja al cimiento: el ERP de gestión de ARS, la base que sostiene la operación. Anclas:",
+   "h": "a4ba9cfcbbaf1f3d"
   },
   {
    "id": "kb:mapa-del-sitio:1.1",
    "fuente": "kb",
-   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/` — Portada (las capas de la seguridad unidas en una traza)",
+   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/` — Portada (las capas de la seguridad unidas en una traza, sobre un ERP de gestión)",
    "ruta": "/",
-   "texto": "- `#hero` — «Todas las capas de la seguridad. Una sola traza.»\n- `#fisica` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.\n- `#vision` — Capa 02 · Visión con IA sobre las cámaras. En operación.\n- `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). En operación.\n- `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). En desarrollo.\n- `#central` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.\n- `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.\n- `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma, cifras del catálogo y botones a demo y a `/servicios`.\n- `#contacto` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. `/#cierre` también lleva aquí.",
-   "h": "ed8941e80479b612"
+   "texto": "- `#hero` — «Todas las capas de la seguridad. Una sola traza.»\n- `#fisica` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.\n- `#vision` — Capa 02 · Visión con IA sobre las cámaras. En operación.\n- `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). En operación.\n- `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). En desarrollo.\n- `#central` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.\n- `#erp` — «Debajo de todo, un ERP hecho para la seguridad.»: el suelo se abre y se ve el ERP de gestión (contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría) alimentado por las cinco capas; un turno cumplido llega a la nómina, la ronda y el evento al informe del cliente, el servicio prestado a la prefactura y todo a la contabilidad.\n- `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.\n- `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma (la operación encima, el ERP de gestión debajo), cifras del catálogo y botones a demo y a `/servicios`.\n- `#la-base` — sección «La base: un ERP hecho para la seguridad»: dos niveles (Operación arriba, Gestión abajo) con los módulos reales del catálogo y su estado, cada uno enlazado a `/servicios/<área>#<módulo>`, y el botón «Ver la arquitectura completa» (`/arquitectura`).\n- `#contacto` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. `/#cierre` también lleva aquí.",
+   "h": "d76e512cb43929cc"
   },
   {
    "id": "kb:mapa-del-sitio:1.2",
    "fuente": "kb",
-   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/` — Portada (las capas de la seguridad unidas en una traza)",
+   "titulo": "Mapa del sitio y a dónde llevar al visitante › `/` — Portada (las capas de la seguridad unidas en una traza, sobre un ERP de gestión)",
    "ruta": "/",
-   "texto": "Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas o contactar. Para pedir demo, `/#contacto`.",
-   "h": "f9f819a8b6a2cf35"
+   "texto": "Enviar aquí: visitante que quiere la visión general, entender cómo se integran las capas (y cómo la operación alimenta el ERP de gestión: `/#la-base`) o contactar. Para pedir demo, `/#contacto`.",
+   "h": "9c59428db60abc43"
   },
   {
    "id": "kb:mapa-del-sitio:2",
@@ -210,9 +217,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Plataforma ARS y ERP operativo",
    "ruta": "/plataforma",
-   "texto": "«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.",
-   "h": "06618dd42dbb9df1",
-   "v": "4ggpHQ0E3jTq6trsHdUiDfvkxvzwA9zf8grn9L0CH8kcFC4BEf4eFyAO5/wC/uD2LRDK6SAt+efhDSX/+NIQLe3kwhz6+v4d8/Mb/P1M/uf35Oj798rH+eb19QYGFCjwBeLxGCOu48Ks1VYIKdIEyQQmHfsV40YFDQ258OP1yfD00+/yHPXz7zPdDwwR5soDgevMCQn8/gQLFRAI6xsS4v4O1A8G6/vWgUut8dQH6dH6GvzR9gHq/PnbrfToW+dALjE43t4b1OXzAHgD1fwW9+7tZAIy7/EJxTAC1cfPBt/fUUDEO8UAFOUKFAgU3xEA8gz+4hoKEt08EQJAKyAI7M/s3NwPNuMIDgYjHOoPLjkkDd0mQt3pMQrtGgNCBwXh7wcHNPf19tU9EgHnFE8GxugZ7vn/2d30INjK1iTYFdc+yPO07NTmISPPH8ENCxUGES0u3BjVswsGz9C7PkH12cAB0w76zNcQ7vck7hcN2P8JzSvX/vP/5PwpCQ8NDvrn70HKKgj0HQn7xA/YDO0B0vwJvDvnCiUn4gX3wzkgGPAB6fcJSA8HGf0v//TZxzEDRvbfL/IR2EMHEAonx8j17bH1DxPuT8X4WcoEX0EYBkQgy77+FxTzNA4Euu8BBtwBJeX+BidB/T3yJRMtOPYL4ujEuez2DeL1FBrs80vRFPs="
+   "texto": "**Relación con el ERP de gestión.** La portada (`/#erp`, `/#la-base`) presenta a ARS como operación encima + ERP de gestión propio debajo: contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría, todo alimentado por las capas operativas. Los módulos de gestión y su estado real están en `/servicios` (`gestion-humana`, `formacion`, `finanzas-y-erp`, `productividad-e-ia`, `gobierno-y-seguridad`). Con un ERP existente, el Agente interoperador de datos (`/servicios/finanzas-y-erp#agente-interoperador-de-datos`) lo conecta, completo o por partes; «Su ERP dentro de ARS» lo opera desde ARS sin duplicar datos.\n\n«Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: `/plataforma`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.",
+   "h": "0bd93f67bf62c714"
   },
   {
    "id": "kb:plataforma-erp:1",
@@ -235,8 +241,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Plataforma ARS y ERP operativo › Capturas del producto (`/plataforma#en-movimiento`)",
    "ruta": "/plataforma",
-   "texto": "- Central de monitoreo: tablero único con cámaras, alertas y mapa en vivo; vista multipantalla configurable; priorización automática; asignación de operadores por turno.\n- IA por cámara: activar modelos por cámara sin reemplazar hardware; reglas por cámara; varios modelos sobre la misma fuente; edge + cloud según la latencia requerida.\n- Reconocimiento facial: listas blancas y negras por sede, búsqueda forense por rostro, confianza configurable.\n- LPR: OCR de matrículas con cruce contra listas, soporte para placas LATAM, integración con barreras, reportes por flota o cliente.\n- Intrusión/ROI: reglas perimetrales por cámara, cruce de línea con dirección.\n- EPP: verificación automática, reporte para auditoría SST, alertas a supervisores.\n- Alertas con evidencia: snapshot + clip, estado de atención por operador, cierre con observaciones y firma.",
-   "h": "c722ae8edff1269a"
+   "texto": "- Central de monitoreo: tablero único con cámaras, alertas y mapa en vivo; vista multipantalla configurable; priorización automática; asignación de operadores por turno.\n- IA por cámara: activar modelos por cámara sin reemplazar hardware; reglas por cámara; varios modelos sobre la misma fuente; edge + cloud según la latencia requerida.\n- Reconocimiento facial: listas blancas y negras por sede, búsqueda forense por rostro, confianza configurable.\n- Lectura de placas (LPR): se muestra en `/vision` y `/laboratorio`, pero no está en el catálogo de servicios; se evalúa caso a caso con el equipo comercial.\n- Intrusión/ROI: reglas perimetrales por cámara, cruce de línea con dirección.\n- EPP: verificación automática, reporte para auditoría SST, alertas a supervisores.\n- Alertas con evidencia: snapshot + clip, estado de atención por operador, cierre con observaciones y firma.",
+   "h": "946eb8c3b9a7d324"
   },
   {
    "id": "kb:plataforma-erp:3",
@@ -261,8 +267,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Plataforma ARS y ERP operativo › Casos de uso (para armar el tuyo: `/plataforma#arquitecto-ia`)",
    "ruta": "/plataforma",
-   "texto": "- **Conjunto residencial**: porterías, rondas perimetrales, novedades, cámaras por torre o zona, alertas por intrusión, reportes al administrador.\n- **Universidad o campus**: múltiples entradas, cámaras por edificio, estudiantes, visitantes y zonas críticas, permanencia o cruce de línea, eventos y reportes.\n- **Centro logístico**: acceso vehicular, reconocimiento de placas, rondas en bodegas, EPP, zonas restringidas, evidencia ante incidentes.\n- **Empresa de seguridad**: múltiples clientes, programación de turnos, supervisión de guardas, rondas y tareas, reportes automáticos, trazabilidad para facturación o cumplimiento.",
-   "h": "c86369a6d777be51"
+   "texto": "- **Conjunto residencial**: porterías, rondas perimetrales, novedades, cámaras por torre o zona, alertas por intrusión, reportes al administrador.\n- **Universidad o campus**: múltiples entradas, cámaras por edificio, estudiantes, visitantes y zonas críticas, permanencia o cruce de línea, eventos y reportes.\n- **Centro logístico**: control de acceso vehicular, rondas en bodegas, EPP, zonas restringidas, evidencia ante incidentes.\n- **Empresa de seguridad**: múltiples clientes, programación de turnos, supervisión de guardas, rondas y tareas, reportes automáticos, trazabilidad para facturación o cumplimiento.",
+   "h": "47a47fee8e1460f7"
   },
   {
    "id": "kb:plataforma-erp:6",
@@ -380,6 +386,62 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "9d8edf8857fe71d9"
   },
   {
+   "id": "kb:arquitectura-erp:0",
+   "fuente": "kb",
+   "titulo": "Arquitectura de soluciones ARS · la operación sobre un ERP base propio",
+   "ruta": "/arquitectura",
+   "texto": "Página `/arquitectura`: la vista corporativa completa de ARS. Mensaje central: **ARS no es solo la central ni solo lo operativo** (cámaras con IA, rondas, radio, IoT, realidad virtual: lo que más se ve). Todo eso se apoya en un **ERP base propio de ARS** que lleva la gestión del proceso base de una empresa de seguridad, y todo comparte los mismos datos: lo que pasa en el puesto llega solo a la gestión.",
+   "h": "f086b60855b561f0"
+  },
+  {
+   "id": "kb:arquitectura-erp:1",
+   "fuente": "kb",
+   "titulo": "Arquitectura de soluciones ARS · la operación sobre un ERP base propio › Las cinco capas del diagrama (`#diagrama`)",
+   "ruta": "/arquitectura",
+   "texto": "1. **Canales**: web, app Android (vigilante y supervisor, aun sin señal), PWA instalable, app de escritorio para la central (Windows) y gafas VR.\n2. **Capa operativa**: operación en campo, centro de operaciones, comunicación y emergencias, monitoreo inteligente (visión artificial e IoT), realidad virtual y el laboratorio (demos de visión IA y la línea de robótica, **en desarrollo, no es un producto comercial**).\n3. **Núcleo de datos e IA**: eventos y evidencia (cada marca, ronda, alerta, transmisión y reporte entra una sola vez, con foto, ubicación y hora), Centro de IA y automatizaciones (automatizaciones en piloto, en modo observación), trazabilidad y auditoría.\n4. **ERP base de ARS**: contratos y clientes, turnos y programación, gestión humana y nómina, gestión documental, formación, cotizador y CRM (**hoja de ruta**), gobierno multiempresa, finanzas y contabilidad, facturas DIAN y RADIAN (**próximamente**).\n5. **Integraciones externas**: las cámaras y grabadores que el cliente ya tiene, relojes biométricos ZKTeco (solo como compatibilidad; en piloto), Telegram (avisos por cliente y zona, en piloto), el ERP de la empresa vía el **Agente interoperador de datos** (API, backend o cargas programadas; completo o por partes) y la DIAN.",
+   "h": "7e08f53b055ba797"
+  },
+  {
+   "id": "kb:arquitectura-erp:1.1",
+   "fuente": "kb",
+   "titulo": "Arquitectura de soluciones ARS · la operación sobre un ERP base propio › Las cinco capas del diagrama (`#diagrama`)",
+   "ruta": "/arquitectura",
+   "texto": "Vistas del diagrama: **Operativa** (canales, operación y núcleo), **Corporativa (ERP)** (núcleo, ERP e integraciones) e **Integral** (todo). Al tocar un bloque se abre un panel con sus módulos del catálogo, su estado real y el enlace a `/servicios/<area>#<modulo>`.",
+   "h": "bcb217120deb6cd1"
+  },
+  {
+   "id": "kb:arquitectura-erp:2",
+   "fuente": "kb",
+   "titulo": "Arquitectura de soluciones ARS · la operación sobre un ERP base propio › Cómo explicarlo con honestidad",
+   "ruta": "/arquitectura",
+   "texto": "- La gestión humana, la nómina (desde los turnos realmente trabajados), lo documental, la formación, los turnos, los contratos y el gobierno multiempresa están en ARS.\n- La **contabilidad** es **conectada**: ARS lee el ERP contable de la empresa (copia de solo lectura actualizada cada 15 minutos) y la cruza con la operación —lo contratado frente a lo facturado por cliente, la nómina frente al gasto de personal—. **ARS no obliga a reemplazar el ERP contable**: el Agente interoperador lo conecta.\n- **Facturas DIAN y RADIAN** (bandeja de facturas de proveedores cruzada con la contabilidad): **próximamente**. **Cotizador y CRM propios**: **hoja de ruta**. No prometas fechas.\n- No inventes cifras de clientes, ahorros ni tiempos.",
+   "h": "ab64f6aac90fe48f"
+  },
+  {
+   "id": "kb:arquitectura-erp:3",
+   "fuente": "kb",
+   "titulo": "Arquitectura de soluciones ARS · la operación sobre un ERP base propio › Sigue un dato (`#sigue-un-dato`)",
+   "ruta": "/arquitectura",
+   "texto": "Recorridos que se iluminan en el diagrama de punta a punta:",
+   "h": "8252d5804c0fc500"
+  },
+  {
+   "id": "kb:arquitectura-erp:3.1",
+   "fuente": "kb",
+   "titulo": "Arquitectura de soluciones ARS · la operación sobre un ERP base propio › Sigue un dato (`#sigue-un-dato`)",
+   "ruta": "/arquitectura",
+   "texto": "1. **De la marcación a la contabilidad**: app Android → marcación con selfie y verificación facial → turno realizado frente a lo programado → nómina desde los turnos reales → contabilidad conectada (nómina frente al gasto de personal) → cuadre con el ERP contable de la empresa.\n2. **De la alerta de cámara al informe**: cámara existente → visión artificial (alerta con foto, video y ubicación) → Sala de Control confirma o escala → radio PTT al supervisor (grabado) → evidencia en la galería forense con reportes por cliente → auditoría.\n3. **Del contrato nuevo al mes facturado**: orden de servicio desde el ERP → cliente, contrato y plan → programación del mes → selección y contratación → cursos con certificado QR → portal documental del cliente → lo contratado frente a lo facturado.\n4. **Factura de proveedor, de la DIAN a la contabilidad** (próximamente): DIAN → bandeja de facturas y eventos RADIAN → comparación con lo contabilizado → ERP contable como libro de referencia.",
+   "h": "5a91a224b63c56db"
+  },
+  {
+   "id": "kb:arquitectura-erp:4",
+   "fuente": "kb",
+   "titulo": "Arquitectura de soluciones ARS · la operación sobre un ERP base propio › Por qué un ERP propio (`#por-que-erp`)",
+   "ruta": "/arquitectura",
+   "texto": "Una sola fuente de verdad, cero doble digitación, trazabilidad de punta a punta y multiempresa de verdad. La página incluye la tabla **«ARS frente a herramientas sueltas»** con el estado real de cada módulo (incluye las filas que aún no están en producción). Cierre (`#cierre`): solicitar demo en `/#contacto` o ver `/servicios`.",
+   "h": "261baeefa36c5710"
+  },
+  {
    "id": "kb:vision-analiticas:0",
    "fuente": "kb",
    "titulo": "Módulo de Visión · Analíticas de video",
@@ -472,8 +534,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Cómo opera ARS según el tamaño de la empresa (orientativo) › Empresa grande / multi-cliente — orientativo",
    "ruta": "/plataforma",
-   "texto": "- Arquitectura **multi-cliente · multi-sede · multi-zona** completa, central de monitoreo con video wall, priorización de riesgos y operadores por turno.\n- Empresas de seguridad que gestionan muchos clientes: programación de turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento.\n- Analíticas de prevención y riesgo de alto valor: `negras`, `armas`, `aglomeracion`, `caidas`, `fuego`, `abandono`, reconocimiento facial con listas y LPR en accesos.\n- Proyectos de referencia en `/proyectos`: redes de sedes públicas, transporte masivo, energía, recintos de eventos y back-office de empresas de seguridad. Son casos de referencia sin cifras; no inventes escalas ni cantidades.",
-   "h": "084a1524e8b46ad9"
+   "texto": "- Arquitectura **multi-cliente · multi-sede · multi-zona** completa, central de monitoreo con video wall, priorización de riesgos y operadores por turno.\n- Empresas de seguridad que gestionan muchos clientes: programación de turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento.\n- Analíticas de prevención y riesgo de alto valor: `negras`, `armas`, `aglomeracion`, `caidas`, `fuego`, `abandono`, y alertas de rostros contra listas que verifica un operador (la lectura de placas se evalúa caso a caso con el equipo comercial).\n- Proyectos de referencia en `/proyectos`: redes de sedes públicas, transporte masivo, energía, recintos de eventos y back-office de empresas de seguridad. Son casos de referencia sin cifras; no inventes escalas ni cantidades.",
+   "h": "ce09e79e63519e1c"
   },
   {
    "id": "kb:segun-tamano-empresa:5",
@@ -619,8 +681,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
-   "texto": "**¿Qué detectan las cámaras?**\nPersonas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.\n\n**¿Las analíticas están todas disponibles hoy?**\nTodas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.\n\n**¿Sirve para empresas de seguridad con muchos clientes?**\nSí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#arquitecto-ia`.\n\n**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**\nEl sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT. Integraciones específicas con terceros: a confirmar con el equipo comercial.\n\n**¿Dónde operan?**\nColombia y Perú, según el sitio. Ver `/proyectos`.",
-   "h": "f4c0062a1fa61e8e"
+   "texto": "**¿Qué detectan las cámaras?**\nPersonas, vehículos y placas, rostros contra listas, intrusión y cruce de línea, merodeo, aglomeración, EPP, caídas, armas, peleas, fuego y humo, objetos abandonados, hurto, y analíticas comerciales y de inventario. Ver el catálogo completo en `/vision#indice`.\n\n**¿Las analíticas están todas disponibles hoy?**\nTodas están disponibles; algunas muestran además un sello del equipo de Visión (p. ej. «funcionando a diario» o «con evidencia»). Lo que se confirma en la visita técnica es el equipo de cada sede.\n\n**¿Sirve para empresas de seguridad con muchos clientes?**\nSí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#arquitecto-ia`.\n\n**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**\nLos casos de /proyectos combinan control de acceso, alarmas e IoT dentro de la plataforma. Integraciones específicas con terceros (barreras, control de acceso, ERP externos): a confirmar con el equipo comercial.\n\n**¿Dónde operan?**\nColombia y Perú, según el sitio. Ver `/proyectos`.",
+   "h": "20ce022f4d7e32a7"
   },
   {
    "id": "kb:preguntas-frecuentes:0.3",

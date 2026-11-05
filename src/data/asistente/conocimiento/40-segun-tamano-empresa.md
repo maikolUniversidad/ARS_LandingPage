@@ -32,7 +32,7 @@ rutas: ["/plataforma", "/vision", "/proyectos"]
 
 - Arquitectura **multi-cliente · multi-sede · multi-zona** completa, central de monitoreo con video wall, priorización de riesgos y operadores por turno.
 - Empresas de seguridad que gestionan muchos clientes: programación de turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento.
-- Analíticas de prevención y riesgo de alto valor: `negras`, `armas`, `aglomeracion`, `caidas`, `fuego`, `abandono`, reconocimiento facial con listas y LPR en accesos.
+- Analíticas de prevención y riesgo de alto valor: `negras`, `armas`, `aglomeracion`, `caidas`, `fuego`, `abandono`, y alertas de rostros contra listas que verifica un operador (la lectura de placas se evalúa caso a caso con el equipo comercial).
 - Proyectos de referencia en `/proyectos`: redes de sedes públicas, transporte masivo, energía, recintos de eventos y back-office de empresas de seguridad. Son casos de referencia sin cifras; no inventes escalas ni cantidades.
 
 ## Qué preguntar al visitante para orientar
