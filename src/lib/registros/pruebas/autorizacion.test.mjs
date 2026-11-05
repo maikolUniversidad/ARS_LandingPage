@@ -20,7 +20,7 @@ describe("autorización de datos del diagnóstico", () => {
   });
 
   it("sin aceptar, con versión desconocida o con basura → null", () => {
-    for (const raw of [undefined, null, "si", {}, { version: VERSION_AUTORIZACION }, { version: VERSION_AUTORIZACION, aceptada: "true" }, { version: "1999-01-01", aceptada: true }, { aceptada: true }]) {
+    for (const raw of [undefined, null, "si", {}, { version: VERSION_AUTORIZACION }, { version: VERSION_AUTORIZACION, aceptada: "true" }, { version: "1999-01-01", aceptada: true }, { aceptada: true }, { version: "__proto__", aceptada: true }, { version: "toString", aceptada: true }, { version: "constructor", aceptada: true }]) {
       assert.equal(autorizacionDe(raw, "datos@ars.co", ahora), null, JSON.stringify(raw));
     }
   });
