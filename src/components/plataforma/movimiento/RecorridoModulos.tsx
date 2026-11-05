@@ -10,6 +10,9 @@ import {
 } from "react";
 import { AREAS } from "@/data/servicios";
 import { useI18n } from "@/lib/i18n/context";
+import { useEstadoNarracion } from "@/components/narracion/useNarracion";
+import { idRecorridoArea } from "@/lib/narracion/contrato";
+import { motorNarracion } from "@/lib/narracion/motor";
 import { cn } from "@/lib/utils";
 import { AREAS_DE_CAMPO, capturasDeArea, modulosDestacados } from "./datos";
 import { Dispositivos, TIEMPO_PANTALLA } from "./Dispositivos";
@@ -41,7 +44,9 @@ export function RecorridoModulos() {
   const destacados = modulosDestacados(area, 4);
   const conTelefono = AREAS_DE_CAMPO.has(area.id);
   const corre = visible && !reducido;
-  const autoCorre = auto && corre;
+  const narracion = useEstadoNarracion();
+  // Mientras Ars narra un área, el recorrido espera a que termine.
+  const autoCorre = auto && corre && !(narracion.encendido && narracion.hablando);
   const duracion = tiempoArea(capturas.length);
 
   useEffect(() => {
@@ -52,6 +57,13 @@ export function RecorridoModulos() {
     );
     return () => window.clearTimeout(id);
   }, [autoCorre, indice, duracion]);
+
+  // Cada área nueva: ping y Ars la presenta (en cola, sin cortar la intro de la sección).
+  useEffect(() => {
+    if (!visible) return;
+    motorNarracion.sfx("ping", { semitonos: [0, 3, 5, 7, 10][indice % 5], volumen: 0.6 });
+    motorNarracion.narrar(idRecorridoArea(AREAS[indice].id), { cola: true });
+  }, [indice, visible]);
 
   const elegir = (i: number, enfocar = false) => {
     setAuto(false);

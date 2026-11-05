@@ -4,13 +4,14 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
-import { ContactForm } from "@/components/ContactForm";
 import { SiteNav } from "@/components/SiteNav";
 import { RUTA_DIAGNOSTICO } from "@/lib/navegacion";
+import { ExperienciaPropuesta } from "@/components/propuesta/ExperienciaPropuesta";
 import { mailtoUrl, whatsappUrl } from "@/lib/contact";
 import { isModestDevice, noopSubscribe, supportsWebGL } from "@/lib/three/webgl";
 import { useI18n } from "@/lib/i18n/context";
 import type { HomeDict } from "@/lib/i18n/dictionaries";
+import { motorNarracion } from "@/lib/narracion/motor";
 import { cn } from "@/lib/utils";
 import { createChapterStore } from "./chapter-store";
 import type { CanvasLabel } from "./HomeCanvas";
@@ -57,6 +58,17 @@ const CATALOG_STATUS_COLOR: Record<ErpGroup["modules"][number]["estado"], string
 };
 /** Tinte de cada bloque del ERP (mismo orden que las baldosas del cimiento 3D). */
 const ERP_GROUP_TINT = ["#5fd8ff", "#6b8aff", "#a88bff", "#35e0a1", "#ffb547", "#4fd1c5", "#d5e0ff"];
+
+/** Re menor pentatónica (semitonos sobre el ping en Re): cada paso de la traza sube. */
+const PING_ESCALA = [0, 3, 5, 7, 10, 12];
+
+/** Capa de pulso de la música: entra con la traza, se sostiene en la escala y queda leve después. */
+function pulsoDe(c: number, dentro: boolean) {
+  if (!dentro) return 0.3;
+  if (c < 5.3) return 0;
+  if (c < 6) return (c - 5.3) / 0.7;
+  return c < 7.2 ? 1 : 0.6;
+}
 
 export type HomeCounts = { areas: number; modules: number; live: number; analytics: number };
 
@@ -131,10 +143,12 @@ export function HomeExperience({ counts, erpGroups }: { counts: HomeCounts; erpG
         }
       }
       store.set(c);
+      const dentro = y + window.innerHeight * 0.6 < storyEnd;
+      motorNarracion.parametros({ brillo: dentro ? 0.15 + 0.85 * (c / 7) : 0.75, pulso: pulsoDe(c, dentro) });
       setChapterIdx(Math.round(c));
       setStep(traceStep(c));
       setErpIdx(erpStep(c));
-      setInStory(y + window.innerHeight * 0.6 < storyEnd);
+      setInStory(dentro);
     };
     // Cálculo directo (barato): no depende de rAF, que el navegador pausa en pestañas ocultas.
     const onScroll = () => {
@@ -163,6 +177,22 @@ export function HomeExperience({ counts, erpGroups }: { counts: HomeCounts; erpG
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  // Efectos sonoros: barrido al cambiar de capítulo, ping por cada paso de la traza.
+  const prevChapter = useRef(chapterIdx);
+  useEffect(() => {
+    if (prevChapter.current === chapterIdx) return;
+    prevChapter.current = chapterIdx;
+    motorNarracion.sfx("transicion", { volumen: 0.6 });
+  }, [chapterIdx]);
+  const prevStep = useRef(step);
+  useEffect(() => {
+    const antes = prevStep.current;
+    prevStep.current = step;
+    if (step <= antes || step < 0) return;
+    if (step === TRACE_STEPS - 1) motorNarracion.sfx("cierre");
+    else motorNarracion.sfx("ping", { semitonos: PING_ESCALA[step] ?? 0, volumen: 0.8 });
+  }, [step]);
 
   const onFail = useCallback(() => setFailures((n) => n + 1), []);
   const use3D = mounted && webgl && !failed;
@@ -241,6 +271,7 @@ export function HomeExperience({ counts, erpGroups }: { counts: HomeCounts; erpG
             <section
               key={id}
               id={id}
+              data-narracion={`home/${id}`}
               ref={(el) => {
                 sectionRefs.current[i] = el;
               }}
@@ -793,7 +824,7 @@ function ErpBase({ h, groups }: { h: HomeDict; groups: ErpGroup[] }) {
 
 function Recap({ h }: { h: HomeDict }) {
   return (
-    <section aria-labelledby="recap-title" className="relative border-t border-white/10 bg-[#020a18] py-20 md:py-28">
+    <section data-narracion="home/recap" aria-labelledby="recap-title" className="relative border-t border-white/10 bg-[#020a18] py-20 md:py-28">
       <div className="grid-bg absolute inset-0 opacity-40" />
       <div className="relative mx-auto max-w-7xl px-4 md:px-10">
         <Eyebrow tint="#6b8aff">{h.recap.eyebrow}</Eyebrow>
@@ -841,7 +872,7 @@ function Recap({ h }: { h: HomeDict }) {
 
 function Contact({ h }: { h: HomeDict }) {
   return (
-    <section id="contacto" aria-labelledby="contacto-title" className="relative isolate overflow-hidden bg-[#020a18] py-20 md:py-28">
+    <section id="contacto" data-narracion="home/contacto" aria-labelledby="contacto-title" className="relative isolate overflow-hidden bg-[#020a18] py-20 md:py-28">
       {/* Alias de la antigua ancla `/#cierre` (enlaces y asistente previos). */}
       <span id="cierre" aria-hidden="true" className="absolute top-0" />
       <div className="absolute inset-0 -z-10">
@@ -849,16 +880,19 @@ function Contact({ h }: { h: HomeDict }) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(107,138,255,0.35),transparent_55%)]" />
         <div className="grid-bg absolute inset-0 opacity-20" />
       </div>
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 md:grid-cols-[1fr_1.1fr] md:gap-16 md:px-10">
-        <div className="text-white">
+      <div className="mx-auto max-w-7xl px-4 md:px-10">
+        <div className="grid gap-8 text-white md:grid-cols-[1.2fr_1fr] md:items-end md:gap-16">
+          <div>
           <div className="font-mono text-[11px] uppercase tracking-[0.35em] text-white/70">{h.contact.eyebrow}</div>
           <h2 id="contacto-title" className="mt-5 font-heading text-4xl font-black leading-[1.03] tracking-tight md:text-6xl">
             {h.contact.title1}
             <br />
             <span className="text-white/80">{h.contact.title2}</span>
           </h2>
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-white/85 md:text-lg">{h.contact.body}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          </div>
+          <div>
+          <p className="max-w-lg text-base leading-relaxed text-white/85 md:text-lg">{h.contact.body}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
             <a
               href={whatsappUrl("Hola ARS Intelligence, quiero hablar con un asesor.")}
               target="_blank"
@@ -874,23 +908,10 @@ function Contact({ h }: { h: HomeDict }) {
               ◇ {h.contact.email}
             </a>
           </div>
-          <ul className="mt-10 flex max-w-lg flex-wrap gap-2 border-t border-white/20 pt-6">
-            {h.layers.map((l, i) => (
-              <li key={l.tag} className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/80">
-                <span className="inline-block size-1.5" style={{ background: LAYER_TINT[i] }} />
-                {l.name}
-              </li>
-            ))}
-            <li className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white">
-              <span className="inline-block h-1.5 w-3" style={{ background: ERP_TINT }} />
-              {h.erp.tag} · {h.erp.name}
-            </li>
-          </ul>
+          </div>
         </div>
-        <div className="border border-white/15 bg-[#020a18]/45 p-5 backdrop-blur md:p-8">
-          <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.3em] text-white/70">{h.contact.formTitle}</div>
-          <ContactForm />
-        </div>
+        {/* Propuesta ARS: entrevista guiada → propuesta con IA → PDF → asesor. */}
+        <ExperienciaPropuesta className="mt-10 md:mt-14" />
       </div>
     </section>
   );

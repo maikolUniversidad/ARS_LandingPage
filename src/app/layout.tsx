@@ -4,6 +4,7 @@ import "./globals.css";
 import { I18nProvider } from "@/lib/i18n/context";
 import { DataStoreProvider } from "@/lib/data-store";
 import { Asistente } from "@/components/asistente/Asistente";
+import { NarracionArs } from "@/components/narracion/NarracionArs";
 
 const lato = Lato({
   variable: "--font-sans",
@@ -115,6 +116,7 @@ export default function RootLayout({
         <I18nProvider>
           <DataStoreProvider>{children}</DataStoreProvider>
           <Asistente />
+          <NarracionArs />
         </I18nProvider>
       </body>
     </html>

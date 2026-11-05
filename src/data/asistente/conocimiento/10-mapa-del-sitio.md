@@ -103,7 +103,7 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
 
 ## Reglas de navegación
 
-- Pedir demo o hablar con alguien → `/#contacto` (formulario) o WhatsApp +57 318 0005654.
+- Pedir demo o hablar con alguien → `/#contacto` (formulario) o WhatsApp +57 312 462 3357.
 - Saber qué le sirve de ARS a su empresa / un plan → `/diagnostico`.
 - Una analítica concreta → `/vision#<id>` usando el id exacto del catálogo.
 - Una funcionalidad de la plataforma → `/plataforma#recorrido`, o `/plataforma#arquitecto-ia` para armarla a la medida.

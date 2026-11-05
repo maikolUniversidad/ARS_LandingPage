@@ -53,7 +53,7 @@ Verbos que resumen la plataforma: Opera · Monitorea · Comunica · Evidencia ·
 ## Los dos grandes bloques de producto
 
 - **Operación y ERP de gestión en una sola plataforma**: la operación (capas de la portada) encima y el ERP de gestión debajo; el detalle de cada módulo está en \`/servicios\` (áreas Gestión humana, Formación, Finanzas y ERP, Productividad e IA, Gobierno y seguridad).
-- **Plataforma de operación (tipo ERP operativo de seguridad)** en \`/plataforma\`: turnos, personal, rondas, formularios, mapa, PTT, central de monitoreo, alertas, evidencia, reportes, multisede.
+- **Plataforma de operación y ERP de la empresa de seguridad** en \`/plataforma\`: turnos, personal, rondas, formularios, mapa, PTT, central de monitoreo, alertas, evidencia, reportes, multisede, y el ERP (clientes y contratos, nómina, costos, facturación, contabilidad, cotizador y CRM). Si la empresa ya tiene otros sistemas, ARS los centraliza o hace que la información fluya entre ellos.
 - **Módulo de Visión (analíticas de video)** en \`/vision\`: 45 analíticas en 4 familias que corren sobre las cámaras ya instaladas.
 
 Además hay demos interactivas: \`/laboratorio\` (modelos de IA en acción, con cámara o video propio) y \`/vision-lab\` (playground técnico).
@@ -62,8 +62,8 @@ Además hay demos interactivas: \`/laboratorio\` (modelos de IA en acción, con 
 
 - Diagnóstico de la empresa con IA (llamado principal del menú): \`/diagnostico\`.
 - Solicitar demo: formulario y botones en la sección \`#contacto\` de la portada (\`/#contacto\`), de \`/plataforma#cierre\` y de \`/vision#cierre\`.
-- WhatsApp de la gerencia comercial: +57 318 0005654.
-- Correo: gerencia.comercial@vigiasdecolombia.com (asunto sugerido «Solicitud de demo - ARS Intelligence»).
+- WhatsApp de la gerencia comercial: +57 312 462 3357.
+- Correo: j.muriel@ars-group.co (asunto sugerido «Solicitud de demo - ARS Intelligence»).
 - Dominio del sitio: arsintelligence.com.
 
 Precios, planes, licencias y condiciones contractuales no están publicados en el sitio: a confirmar con el equipo comercial.`,
@@ -171,7 +171,7 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
 
 ## Reglas de navegación
 
-- Pedir demo o hablar con alguien → \`/#contacto\` (formulario) o WhatsApp +57 318 0005654.
+- Pedir demo o hablar con alguien → \`/#contacto\` (formulario) o WhatsApp +57 312 462 3357.
 - Saber qué le sirve de ARS a su empresa / un plan → \`/diagnostico\`.
 - Una analítica concreta → \`/vision#<id>\` usando el id exacto del catálogo.
 - Una funcionalidad de la plataforma → \`/plataforma#recorrido\`, o \`/plataforma#arquitecto-ia\` para armarla a la medida.
@@ -187,6 +187,8 @@ Herramienta técnica: selector de 14 modelos, fuente (imagen, video, webcam), mo
     contenido: `**Relación con el ERP de gestión.** La portada (\`/#erp\`, \`/#la-base\`) presenta a ARS como operación encima + ERP de gestión propio debajo: contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría, todo alimentado por las capas operativas. Los módulos de gestión y su estado real están en \`/servicios\` (\`gestion-humana\`, \`formacion\`, \`finanzas-y-erp\`, \`productividad-e-ia\`, \`gobierno-y-seguridad\`). Con un ERP existente, el Agente interoperador de datos (\`/servicios/finanzas-y-erp#agente-interoperador-de-datos\`) lo conecta, completo o por partes; «Su ERP dentro de ARS» lo opera desde ARS sin duplicar datos.
 
 «Seguridad integral en una sola plataforma.» ARS conecta turnos, personal, rondas, cámaras, IA, alertas, comunicación, formularios, mapas y reportes para transformar la operación de seguridad en un sistema trazable, inteligente y en tiempo real. Página: \`/plataforma\`. Mensaje del cierre: «Transforma la seguridad tradicional en una operación inteligente»: conectar la operación humana, tecnológica y gerencial para tener más control, más evidencia y mejores tiempos de respuesta.
+
+**ARS es un ERP, y además se adapta.** Además de la operación, ARS es el ERP de la empresa de seguridad: clientes, contratos y planes, órdenes de servicio, nómina, costos, facturación, contabilidad con asistente de IA, cotizador y CRM (detalle en \`/servicios/finanzas-y-erp\` y \`/servicios/gestion-humana\`). Si la empresa ya tiene su propio sistema u otros contratados, el Agente interoperador de datos y las integraciones hacen que todo se centralice en ARS o fluya entre sistemas, según los módulos que contrate.
 
 ## Funcionalidades (A–N) · se recorren en \`/plataforma#recorrido\`
 
@@ -257,7 +259,7 @@ Integraciones con marcas concretas de cámaras/NVR, app móvil específica, requ
 
 ## La idea central
 
-ARS no es «un producto de cámaras»: es **el sistema operativo de una empresa de seguridad privada**. En una sola plataforma la empresa contrata, programa, paga y capacita a su gente; la supervisa en campo con GPS, rondas, zonas y reportes con foto, firma, ubicación y hora; se comunica por radio desde el celular con cada transmisión grabada; vigila con cámaras, sensores y acceso facial; responde las emergencias desde una sala de control; le rinde cuentas al cliente con un portal propio; consulta su contabilidad y su ERP desde la misma pantalla, y puede recorrer su central y una sede de ejemplo en realidad virtual.
+ARS no es «un producto de cámaras»: es **el sistema operativo de una empresa de seguridad privada**. En una sola plataforma la empresa contrata, programa, paga y capacita a su gente; la supervisa en campo con GPS, rondas, zonas y reportes con foto, firma, ubicación y hora; se comunica por radio desde el celular con cada transmisión grabada; vigila con cámaras, sensores y acceso facial; responde las emergencias desde una sala de control; le rinde cuentas al cliente con un portal propio; lleva sus clientes, contratos, facturación, costos y contabilidad en el mismo ERP, y puede recorrer su central y una sede de ejemplo en realidad virtual.
 
 ## Las 10 áreas
 
@@ -268,13 +270,13 @@ ARS no es «un producto de cámaras»: es **el sistema operativo de una empresa 
 - **E · Realidad virtual** (\`realidad-virtual\`): Central Viva en 3D, demostración de la Sede Inteligente, Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz.
 - **F · Gestión humana** (\`gestion-humana\`): selección, colaboradores, nómina desde los turnos, costos, Área Documental con IA, portal documental para el cliente y Jurídica.
 - **G · Formación** (\`formacion\`): cursos con certificados QR, diseñador de cursos con IA, video por temas, auditoría de reglas y evaluaciones.
-- **H · Finanzas y ERP** (\`finanzas-y-erp\`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), el **Agente interoperador de datos** y el ERP de la empresa dentro de ARS.
+- **H · Finanzas y ERP** (\`finanzas-y-erp\`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), cotizador y CRM propios, y el **Agente interoperador de datos**, que centraliza en ARS o hace fluir la información de los sistemas que la empresa ya tenga.
 - **I · Productividad e IA** (\`productividad-e-ia\`): tareas, reuniones con transcripción, tickets, formularios dinámicos, automatizaciones y Centro de IA.
 - **J · Gobierno, seguridad y canales** (\`gobierno-y-seguridad\`): Torre de Control, auditoría, configuración multiempresa, ingreso con cédula y doble factor, app Android, app instalable (PWA) y app de escritorio para la central.
 
 ## Un día en ARS (cómo se encadenan las áreas)
 
-1. **Programar.** Programación arma el mes sobre la estructura Cliente → Sede → Puesto (área A), con las órdenes de servicio que vienen del ERP (área H). Cada vigilante ve su mes en el celular.
+1. **Programar.** Programación arma el mes sobre la estructura Cliente → Sede → Puesto (área A), con las órdenes de servicio vendidas en ARS o en el sistema que la empresa ya usa (área H). Cada vigilante ve su mes en el celular.
 2. **Marcar y supervisar.** El vigilante inicia el turno con selfie y ubicación, hace sus rondas con QR y su minuta; el supervisor recorre su zona y llena revistas con foto y firma (A). El coordinador ve en su sala qué turno quedó sin cubrir y decide quién cubre (B).
 3. **Vigilar y responder.** La Central mira el mapa vivo, las cámaras y sus alertas de IA (B, D), habla por radio y, si alguien presiona el botón de pánico, atiende la emergencia con una ventana que deja la bitácora escrita (C).
 4. **Pagar y rendir cuentas.** Lo trabajado alimenta la nómina (F), los documentos del personal quedan auditados y el cliente los consulta en su portal (F), la contabilidad muestra lo contratado frente a lo facturado (H) y la dirección revisa los indicadores, incluso en la Mesa Directiva en 3D (E). La auditoría (J) deja rastro de las acciones sensibles.
@@ -290,15 +292,24 @@ Con esto en mente, cuando alguien pregunte por un problema concreto, ubícalo en
 5. **Trazabilidad de punta a punta:** doble factor, sesiones con IP y ubicación, auditoría con antes y después, registro de consultas de datos personales.
 6. **Agente interoperador de datos:** conecta cualquier sistema, dato u organización con ARS (ver abajo); además, cámaras y grabadores existentes, Telegram, Excel y PDF.
 
+## ARS es un ERP, y además se adapta (posicionamiento)
+
+Cuando pregunten si ARS es un ERP, si reemplaza su sistema o si «funciona con lo que ya tenemos», el mensaje es este:
+
+- **ARS es un ERP completo para la empresa de seguridad**: clientes, contratos y planes, órdenes de servicio, nómina (con prima, vacaciones y liquidación de contratos), costos por centro de costo, facturación, contabilidad con asistente de IA, cotizador y CRM, además de toda la operación (turnos, campo, central, documentos, formación). Una empresa puede llevar todo en ARS.
+- **Y además se adapta**: sin importar si la empresa tiene su propio sistema o ya tiene contratados otros, creamos los mecanismos (el Agente interoperador de datos, integraciones y sincronización) para que todo se **centralice en ARS** o **fluya** entre sistemas durante el proceso, según los módulos que contrate.
+- Nunca digas que ARS «no es un ERP», que «no reemplaza el ERP» ni que siempre se acomoda al sistema del cliente: ARS puede ser el ERP de la empresa o convivir con el que ya tiene; lo decide la empresa según los módulos que contrate.
+- Respeta los estados: las facturas electrónicas DIAN y RADIAN están en piloto; el detalle de cada módulo (por ejemplo, que la contabilidad se alimenta del sistema contable que la empresa conecta) sale del catálogo.
+
 ## Agente interoperador de datos (cómo explicarlo)
 
 Cuando pregunten por integraciones, por el ERP, por migrar información o por «¿funciona con mi sistema?», explica el **Agente interoperador de datos**:
 
-- Es un agente de IA que **recopila los datos y los documentos** de la empresa (su ERP, bases de datos, Excel, CSV, XML, PDF y documentos escaneados), los **analiza, gestiona, organiza y homologa** (clientes, empleados, contratos, sedes, centros de costo) para que cualquier sistema, dato u organización **interopere fácilmente con ARS**.
-- **Cómo conecta**, en este orden de preferencia: 1) **por API**, con sincronización continua; 2) **por conexión de backend** (servicios o base de datos con permisos controlados) cuando no hay API; 3) si ninguna es posible, **protocolos de carga** programados y validados, con vista previa antes de aplicar. Así la información **siempre fluye**.
-- **Integración completa o parcial:** ARS **se moldea al producto que la empresa ya tiene**. Puede quedar totalmente integrado (el ERP completo operado desde ARS) o participar solo en algunas partes del proceso (por ejemplo turnos, nómina, facturación o contabilidad).
+- Es un agente de IA que **recopila los datos y los documentos** de la empresa (su sistema propio o los que tenga contratados, bases de datos, Excel, CSV, XML, PDF y documentos escaneados), los **analiza, gestiona, organiza y homologa** (clientes, empleados, contratos, sedes, centros de costo) para que cualquier sistema, dato u organización **interopere fácilmente con ARS**.
+- **Cómo conecta**, en este orden de preferencia: 1) **por API**, con sincronización continua; 2) **por conexión de backend** (servicios o base de datos con permisos controlados) cuando no hay API; 3) si ninguna es posible, **protocolos de carga** programados y validados, con vista previa antes de aplicar. Así la información **se centraliza en ARS o fluye** entre sistemas.
+- **Integración completa o parcial:** ARS es el ERP y **además se adapta a lo que la empresa ya tiene**. Todo puede quedar centralizado en ARS, o ARS puede participar solo en algunas partes del proceso (por ejemplo turnos, nómina, facturación o contabilidad) mientras la información fluye con los demás sistemas, según los módulos que contrate.
 - Enlaza al módulo \`/servicios/finanzas-y-erp#agente-interoperador-de-datos\`.
-- **Nunca nombres un ERP, proveedor o producto de terceros concreto** (ni el de un cliente). Habla siempre de «el ERP o sistema que ya usa la empresa».
+- **Nunca nombres un ERP, proveedor o producto de terceros concreto** (ni el de un cliente). Habla siempre de «el sistema que ya usa la empresa» o «los sistemas que tenga contratados».
 
 ## Multiagentes por área
 
@@ -321,7 +332,7 @@ Si un módulo trae \`notaEstado\` (por ejemplo «con gafas Meta Quest, en piloto
 - **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.
 - **Servidores propios:** dilo para documentos del personal, reuniones y datos de personal; no lo generalices a toda la plataforma.
 - **Realidad virtual:** la Sede Inteligente es una **demostración con datos simulados**; también se vive con gafas Meta Quest y con la app nativa para Quest. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.
-- **Nómina y contabilidad:** trabajan junto al ERP de la empresa, conectado por el Agente interoperador de datos; la contabilidad es una copia de consulta del ERP. No des cifras de coincidencia con el ERP. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. Las facturas DIAN y RADIAN están en piloto y pasan a producción en los próximos meses; ARS no emite facturas.
+- **Nómina y contabilidad:** son parte del ERP de ARS. Si la empresa ya liquida o contabiliza en otro sistema, el Agente interoperador de datos centraliza esa información en ARS o la hace fluir entre los dos, y ARS muestra las diferencias antes de pagar o cerrar; el módulo de contabilidad se alimenta del sistema contable que la empresa conecta (copia de consulta actualizada cada 15 minutos). No des cifras de coincidencia entre sistemas. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. La facturación (líneas, aprobación, prefacturación y validación) está en ARS; la bandeja de facturas electrónicas DIAN y RADIAN está en piloto y pasa a producción en los próximos meses. No afirmes que ARS transmite facturas electrónicas a la DIAN: si lo preguntan, se confirma con el equipo comercial.
 - **Puertas con reconocimiento facial y escaneo 3D de sedes:** disponibles; el reconocimiento facial abre o alerta y una persona verifica.
 - **Cifras:** no des números de usuarios, vigilantes, clientes, sedes, documentos ni porcentajes de uso. No nombres clientes.
 - Si algo no está en el catálogo, di que se confirma con el equipo comercial y ofrece agendar una demo.`,
@@ -576,8 +587,11 @@ Todas están disponibles; algunas muestran además un sello del equipo de Visió
 **¿Sirve para empresas de seguridad con muchos clientes?**
 Sí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver \`/plataforma#arquitecto-ia\`.
 
-**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**
-Los casos de /proyectos combinan control de acceso, alarmas e IoT dentro de la plataforma. Integraciones específicas con terceros (barreras, control de acceso, ERP externos): a confirmar con el equipo comercial.
+**¿ARS es un ERP? ¿Tengo que dejar el sistema que ya uso?**
+ARS es un ERP completo para la empresa de seguridad: clientes, contratos y planes, órdenes de servicio, nómina, costos, facturación, contabilidad con asistente de IA, cotizador y CRM, junto con toda la operación. Y además se adapta: si la empresa ya tiene su propio sistema u otros contratados, creamos los mecanismos (Agente interoperador de datos, integraciones y sincronización) para que todo se centralice en ARS o fluya entre sistemas, según los módulos que contrate. Ver \`/servicios/finanzas-y-erp\`.
+
+**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, otro software de gestión)?**
+Los casos de /proyectos combinan control de acceso, alarmas e IoT dentro de la plataforma; con el software de gestión que la empresa ya use, el Agente interoperador de datos conecta por API, por backend o por cargas programadas. Integraciones con un sistema o equipo concreto (barreras, control de acceso): a confirmar con el equipo comercial.
 
 **¿Dónde operan?**
 Colombia y Perú, según el sitio. Ver \`/proyectos\`.
@@ -587,7 +601,7 @@ Sí, cuatro opciones:
 1. Probar ya la IA con tu cámara o un video: \`/laboratorio#demo-stage\`.
 2. Ver cada analítica funcionando: \`/vision#visor\`.
 3. Un diagnóstico de tu empresa con IA (5 minutos): \`/diagnostico\`.
-4. Demo guiada con el equipo: formulario en \`/#contacto\`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.
+4. Demo guiada con el equipo: formulario en \`/#contacto\`, WhatsApp +57 312 462 3357 o correo j.muriel@ars-group.co.
 
 **¿Hay versión en inglés?**
 El sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de \`/vision\` se presenta en español.
