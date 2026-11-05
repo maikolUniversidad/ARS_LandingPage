@@ -10,7 +10,7 @@ import type { RegistroLocal } from "@/lib/registros/tipos";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const TIPOS: TipoRegistro[] = ["contacto", "diagnostico"];
+const TIPOS: TipoRegistro[] = ["contacto", "diagnostico", "propuesta"];
 
 /** Vista corta para listados (sin conversación ni diagnóstico completo). */
 function resumen(r: RegistroLocal) {
@@ -25,6 +25,18 @@ function resumen(r: RegistroLocal) {
   };
   if (r.tipo === "contacto") {
     return { ...comun, nombre: r.contacto.nombre, empresa: r.contacto.empresa, email: r.contacto.email, telefono: r.contacto.telefono };
+  }
+  if (r.tipo === "propuesta") {
+    return {
+      ...comun,
+      referencia: r.referencia,
+      empresa: r.empresa,
+      nombre: r.contacto.nombre,
+      email: r.contacto.email,
+      telefono: r.contacto.telefono,
+      titular: r.resumen.titular,
+      areasRecomendadas: r.resumen.areas,
+    };
   }
   return {
     ...comun,

@@ -16,7 +16,7 @@ import http from "node:http";
 import { pathToFileURL } from "node:url";
 
 const iguales = (a, b) => timingSafeEqual(createHash("sha256").update(a).digest(), createHash("sha256").update(b).digest());
-const PATRON_ID = /^(CONT|DIAG)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$/;
+const PATRON_ID = /^(CONT|DIAG|PROP)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$/;
 
 /**
  * @param {{ token: string, secreto: string, log?: { info: (...a: unknown[]) => void } }} opciones
@@ -65,7 +65,7 @@ export function crearReceptor({ token, secreto, log = console }) {
       }
       const r = evento?.registro;
       // 5. registro.id == Idempotency-Key, con el patrón del contrato.
-      if (!r || r.id !== req.headers["idempotency-key"] || !PATRON_ID.test(r.id) || !["contacto", "diagnostico"].includes(r.tipo)) {
+      if (!r || r.id !== req.headers["idempotency-key"] || !PATRON_ID.test(r.id) || !["contacto", "diagnostico", "propuesta"].includes(r.tipo)) {
         return conteo.invalido++, responder(422, { ok: false, error: "id" });
       }
       // 6. Upsert por id: 201 nuevo, 409 ya existía.

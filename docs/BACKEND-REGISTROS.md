@@ -2,7 +2,8 @@
 
 **Para:** equipo del servidor de ARS (ERP / plataforma).
 **Qué es:** el contrato para que cada lead del sitio web quede guardado en el ERP: los mensajes de **«Contáctenos»** y los **diagnósticos con IA** de `/diagnostico` (perfil de la empresa, conversación, adjuntos y reporte).
-**Versión del contrato:** `1`. El sitio la manda en la cabecera `X-ARS-Version` y en el campo `version`.
+**Versión del contrato:** `2`. El sitio la manda en la cabecera `X-ARS-Version` y en el campo `version`.
+La versión 2 (5-nov-2026) suma el tipo `propuesta` (§4.4); `contacto` y `diagnostico` no cambian.
 
 Código del sitio: `src/lib/registros/` (módulo), `src/app/api/contact/route.ts`, `src/app/api/diagnostico/route.ts` y `src/app/api/registros/**` (API pull).
 
@@ -15,7 +16,7 @@ Código del sitio: `src/lib/registros/` (módulo), `src/app/api/contact/route.ts
 | **Push** (principal) | El sitio hace `POST` de cada registro nuevo a una URL que **ustedes exponen**. El cuerpo va firmado con HMAC-SHA256 y lleva `Idempotency-Key`. |
 | **Pull** (complementario) | El ERP puede leer y actualizar los registros con `GET/PATCH /api/registros` del sitio, con un token Bearer. Solo sirve donde el sitio tiene disco persistente (ver §2.2). |
 | **Respaldo** | Si su servidor no responde, el sitio guarda el registro en un JSON local marcado `pendiente` y lo reenvía después: solo, cada 5 min (`REGISTROS_REINTENTO_MS`), y a pedido con `POST /api/registros/reintentar`. |
-| **Tipos de registro** | `contacto` (id `CONT-2026-XXXXXX`) y `diagnostico` (id `DIAG-2026-XXXXXX`). |
+| **Tipos de registro** | `contacto` (id `CONT-2026-XXXXXX`), `diagnostico` (id `DIAG-2026-XXXXXX`) y `propuesta` (id `PROP-2026-XXXXXX`, la «Propuesta ARS» de la sección `#contacto`). |
 
 Lo que necesitamos de ustedes:
 
@@ -79,7 +80,7 @@ POST https://<su-servidor>/api/registros-web      (la ruta la eligen ustedes)
 | `Content-Type` | `application/json; charset=utf-8` | |
 | `X-ARS-Firma` | `sha256=8a1f…e4` | HMAC-SHA256 en hex de `` `${timestamp}.${cuerpo}` `` con el secreto (`ARS_REGISTROS_SECRET`). |
 | `X-ARS-Timestamp` | `1793849102` | Segundos Unix al firmar. Rechacen si difiere más de **5 minutos** de su reloj (anti-replay). |
-| `X-ARS-Version` | `1` | Versión del contrato. |
+| `X-ARS-Version` | `2` | Versión del contrato. |
 | `Idempotency-Key` | `DIAG-2026-M4X9PA` | Es el id del registro. Es el mismo en todos los reintentos. |
 | `User-Agent` | `ARS-Landing-Registros/1` | |
 
@@ -226,9 +227,9 @@ Los tipos de referencia (TypeScript) están en `src/lib/registros/tipos.ts` y `s
 
 | Campo | Tipo | Notas |
 |---|---|---|
-| `id` | string | `^(CONT\|DIAG)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$`. Lleva el año UTC de creación y 6 caracteres Crockford base32 aleatorios. Es la clave primaria. |
-| `tipo` | `"contacto"` \| `"diagnostico"` | |
-| `version` | `1` | |
+| `id` | string | `^(CONT\|DIAG\|PROP)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$`. Lleva el año UTC de creación y 6 caracteres Crockford base32 aleatorios. Es la clave primaria. |
+| `tipo` | `"contacto"` \| `"diagnostico"` \| `"propuesta"` | Cuadra con el prefijo del id. |
+| `version` | `2` | Los registros anteriores al 5-nov-2026 llevan `1`. |
 | `creado`, `actualizado` | ISO 8601 | |
 | `estado` | `nuevo` \| `contactado` \| `en-propuesta` \| `ganado` \| `perdido` \| `descartado` | Siempre llega como `nuevo`. Después lo maneja el ERP. |
 | `historialEstados` | `[{estado, fecha, nota?}]` | |
@@ -395,6 +396,33 @@ Tamaño típico: un contacto pesa ~1 KB; un diagnóstico, entre 15 y 60 KB. El s
 
 ---
 
+### 4.4 `RegistroPropuesta`
+
+La «Propuesta ARS» (sección `#contacto` de la home): la persona cuenta cómo opera, la IA le hace 2–3 preguntas de
+seguimiento, le arma una propuesta y la persona la envía a un asesor (`POST /api/propuesta/enviar`). El registro se
+crea **al enviarla**; para enviarla tiene que aceptar la autorización de datos, así que `contacto` siempre viene.
+El mismo envío manda el correo al asesor con el PDF (si hay `RESEND_API_KEY`); el PDF y las vistas 3D **no** van en el
+registro.
+
+| Campo | Tipo | Notas |
+|---|---|---|
+| `referencia` | string | La referencia comercial que la persona ve en su PDF (p. ej. `ARS-2611-7K3Q`). Conviene poder buscar por ella. |
+| `empresa` | string | |
+| `ciudad` | string \| null | |
+| `contacto` | `{nombre, cargo \| null, email, telefono \| null}` | Los datos de la persona van **solo aquí**: no se repiten en `respuestas` ni en `propuesta`. |
+| `autorizacion` | `{texto, version, fecha}` \| null | Evidencia de la autorización Ley 1581 (el texto que aceptó). |
+| `respuestas` | objeto | Lo que respondió de su operación: `vigilantes` (`1-50 \| 51-200 \| 201-1000 \| 1000+`), `sedes`, `servicios[]`, `central` (`si \| no \| en-proyecto`), `aplicaciones[]`, `erp`, `datos[]`, `integraciones` (texto libre), `dolores[]`, `reportes[]`, `plazo`, `notas` (texto libre). |
+| `seguimiento` | `[{id, pregunta, respuesta}]` | Preguntas de la IA y lo que contestó (texto libre). |
+| `resumen` | `{titular, areas[], modulos[], plazo \| null, fases}` | Para listados. `areas` son ids; `modulos` son nombres legibles. |
+| `propuesta` | objeto | La propuesta tal como la vio: `id`, `fecha`, `empresa`, `situacion`, `titular`, `arsSuple[]`, `seQueda[]`, `modulos[{area, modulo, porQue}]`, `lineaDeTrabajo[{nombre, duracion, objetivo, entregables[], modulos[]}]`, `integraciones[{sistema, modo, detalle}]`, `reportes[{nombre, para, frecuencia, contenido}]`, `impacto[{indicador, hoy, conArs}]`, `siguientesPasos[]`, `analiticas?[]`, `indicadores?[]`, `estrategiaErp?`, `escenario?`, `aviso`. Áreas y módulos van por id. |
+| `nombres` | `{areas: {id: nombre}, modulos: {id: nombre}}` | Nombres legibles de los ids que usa `propuesta`. |
+| `entrega` | `{pdf: boolean, vistas3d: number}` | Lo que recibió el asesor por correo. |
+
+Para anonimizar (habeas data): además de `contacto.*`, el texto libre puede nombrar a la persona: `respuestas.notas`,
+`respuestas.integraciones`, cada `seguimiento[].respuesta` y `propuesta.situacion` (lo redacta la IA con lo que contó).
+
+Tamaño típico: 8 a 25 KB.
+
 ## 5. SQL sugerido
 
 Las columnas planas sirven para buscar y filtrar. El registro completo va en `datos` (JSON), que es la fuente de verdad. Así, si el contrato suma campos (`version` 2), no se pierde nada.
@@ -405,8 +433,8 @@ Las columnas planas sirven para buscar y filtrar. El registro completo va en `da
 CREATE TYPE estado_registro AS ENUM ('nuevo','contactado','en-propuesta','ganado','perdido','descartado');
 
 CREATE TABLE registros_web (
-  id              varchar(20)  PRIMARY KEY,               -- CONT-2026-XXXXXX / DIAG-2026-XXXXXX
-  tipo            varchar(12)  NOT NULL CHECK (tipo IN ('contacto','diagnostico')),
+  id              varchar(20)  PRIMARY KEY,               -- CONT-2026-XXXXXX / DIAG-2026-XXXXXX / PROP-2026-XXXXXX
+  tipo            varchar(12)  NOT NULL CHECK (tipo IN ('contacto','diagnostico','propuesta')),
   version         smallint     NOT NULL,
   creado          timestamptz  NOT NULL,
   recibido        timestamptz  NOT NULL DEFAULT now(),
@@ -458,7 +486,7 @@ RETURNING id;
 ```sql
 CREATE TABLE registros_web (
   id              VARCHAR(20)  NOT NULL PRIMARY KEY,
-  tipo            ENUM('contacto','diagnostico') NOT NULL,
+  tipo            ENUM('contacto','diagnostico','propuesta') NOT NULL,
   version         SMALLINT     NOT NULL,
   creado          DATETIME(3)  NOT NULL,                  -- guarden en UTC
   recibido        DATETIME(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
