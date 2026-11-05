@@ -6,12 +6,15 @@ import { useTextosAsistente } from "@/lib/asistente/i18n";
 import type { Accion, Cita, Tarjeta } from "@/lib/asistente/tipos";
 import { FormularioContacto } from "./FormularioContacto";
 import { TarjetasExtra, esTarjetaExtra } from "./extra";
+import { BloqueAnalitica, BloqueAntesDespues, BloqueGaleria, BloqueGrafico, BloqueNavegacion, BloquePasos, BloqueServicio } from "./bloques/Bloques";
 
 type Props = {
   tarjetas: Tarjeta[];
   ejecutar: (a: Accion) => void;
   /** Envía una respuesta rápida. Sin ella (mensajes antiguos) no se muestran. */
   alEnviar?: (texto: string) => void;
+  /** Mensaje más reciente (la navegación se muestra como «Te llevo a…» en curso). */
+  reciente?: boolean;
 };
 
 const clave = (x: Tarjeta) =>
@@ -21,7 +24,9 @@ const clave = (x: Tarjeta) =>
       ? `e:${x.ruta}#${x.ancla ?? ""}`
       : x.tipo === "servicio"
         ? `s:${x.modulo}`
-        : x.tipo;
+        : x.tipo === "galeria" || x.tipo === "grafico" || x.tipo === "pasos" || x.tipo === "antes_despues"
+          ? `${x.tipo}:${x.titulo}`
+          : x.tipo;
 
 type TarjetaDeServicio = Extract<Tarjeta, { tipo: "servicio" }>;
 
@@ -41,7 +46,7 @@ function TarjetaServicio({ tarjeta: x, ejecutar }: { tarjeta: TarjetaDeServicio;
       type="button"
       onClick={() => ejecutar({ tipo: "mostrar_servicio", area: x.area, modulo: x.modulo, foco: x.foco })}
       style={{ "--acento": x.color } as React.CSSProperties}
-      className="group relative flex w-full items-stretch gap-3 overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-[#142664]/60 to-[#020a18]/70 p-3 text-left transition-colors hover:border-[var(--acento)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--acento)]"
+      className="ars-bloque group relative flex w-full items-stretch gap-3 overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-[#142664]/60 to-[#020a18]/70 p-3 text-left transition-colors hover:border-[var(--acento)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--acento)]"
     >
       <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-[var(--acento)]" />
       {x.imagen ? (
@@ -79,8 +84,53 @@ function TarjetaServicio({ tarjeta: x, ejecutar }: { tarjeta: TarjetaDeServicio;
   );
 }
 
+function TarjetaAnaliticaCompacta({ x, ejecutar }: { x: Extract<Tarjeta, { tipo: "analitica" }>; ejecutar: (a: Accion) => void }) {
+  const { t } = useTextosAsistente();
+  return (
+    <button
+      type="button"
+      onClick={() => ejecutar({ tipo: "mostrar_analitica", id: x.id })}
+      className="ars-bloque group flex w-full items-start gap-3 rounded-xl border border-white/10 bg-gradient-to-br from-[#142664]/60 to-[#020a18]/60 p-3 text-left transition-colors hover:border-[#2348d4]/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2348d4]"
+    >
+      <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-lg bg-[#2348d4]/25 text-[#9fb6ff]">
+        <ScanEye className="size-4" aria-hidden="true" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-mono text-[9px] uppercase tracking-[0.25em] text-[#9eb0c0]">
+          {t("asistente.tarjeta.analitica")} · {x.familia}
+        </span>
+        <span className="mt-0.5 block text-sm font-bold text-foreground">{x.nombre}</span>
+        <span className="mt-0.5 line-clamp-2 block text-xs text-foreground/60">{x.corta}</span>
+      </span>
+      <span className="self-center font-mono text-[10px] uppercase tracking-[0.2em] text-[#9fb6ff] group-hover:text-white">
+        {t("asistente.tarjeta.ver")} →
+      </span>
+    </button>
+  );
+}
+
+function TarjetaEnlace({ x, ejecutar }: { x: Extract<Tarjeta, { tipo: "enlace" }>; ejecutar: (a: Accion) => void }) {
+  return (
+    <button
+      type="button"
+      onClick={() => ejecutar({ tipo: "ir_a", ruta: x.ruta, ancla: x.ancla })}
+      className="ars-bloque group flex w-full items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-left transition-colors hover:border-[#2348d4]/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2348d4]"
+    >
+      <span className="min-w-0 flex-1">
+        <span className="block font-mono text-[9px] uppercase tracking-[0.25em] text-[#9eb0c0]">
+          {x.ruta}
+          {x.ancla ? `#${x.ancla}` : ""}
+        </span>
+        <span className="mt-0.5 block text-sm font-bold text-foreground">{x.titulo}</span>
+        {x.descripcion && <span className="mt-0.5 line-clamp-2 block text-xs text-foreground/60">{x.descripcion}</span>}
+      </span>
+      <ArrowUpRight className="size-4 shrink-0 text-[#9fb6ff] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+    </button>
+  );
+}
+
 /** Tarjetas enriquecidas bajo un mensaje: analíticas, enlaces, contacto y respuestas rápidas. */
-export function Tarjetas({ tarjetas, ejecutar, alEnviar }: Props) {
+export function Tarjetas({ tarjetas, ejecutar, alEnviar, reciente = false }: Props) {
   const { t } = useTextosAsistente();
   if (!tarjetas.length) return null;
   // Sin duplicados (una misma tarjeta puede venir de dos herramientas).
@@ -98,52 +148,33 @@ export function Tarjetas({ tarjetas, ejecutar, alEnviar }: Props) {
     <>
       <TarjetasExtra tarjetas={unicas} ejecutar={ejecutar} alEnviar={alEnviar} />
       {resto.length > 0 && (
-        <ul className="mt-2 space-y-2" aria-label={t("asistente.sugerencias")}>
+        <ul className="mt-2.5 space-y-2.5" aria-label={t("asistente.sugerencias")}>
           {resto.map((x, i) => (
             <li key={i}>
               {x.tipo === "contacto" ? (
                 <FormularioContacto motivo={x.motivo} />
               ) : x.tipo === "analitica" ? (
-                <button
-                  type="button"
-                  onClick={() => ejecutar({ tipo: "mostrar_analitica", id: x.id })}
-                  className="group flex w-full items-start gap-3 rounded-xl border border-white/10 bg-gradient-to-br from-[#142664]/60 to-[#020a18]/60 p-3 text-left transition-colors hover:border-[#2348d4]/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2348d4]"
-                >
-                  <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-lg bg-[#2348d4]/25 text-[#9fb6ff]">
-                    <ScanEye className="size-4" aria-hidden="true" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-mono text-[9px] uppercase tracking-[0.25em] text-[#9eb0c0]">
-                      {t("asistente.tarjeta.analitica")} · {x.familia}
-                    </span>
-                    <span className="mt-0.5 block text-sm font-bold text-foreground">{x.nombre}</span>
-                    <span className="mt-0.5 line-clamp-2 block text-xs text-foreground/60">{x.corta}</span>
-                  </span>
-                  <span className="self-center font-mono text-[10px] uppercase tracking-[0.2em] text-[#9fb6ff] group-hover:text-white">
-                    {t("asistente.tarjeta.ver")} →
-                  </span>
-                </button>
+                x.evidencia ? (
+                  <BloqueAnalitica x={x} ejecutar={ejecutar} indice={i} />
+                ) : (
+                  <TarjetaAnaliticaCompacta x={x} ejecutar={ejecutar} />
+                )
               ) : x.tipo === "servicio" ? (
-                <TarjetaServicio tarjeta={x} ejecutar={ejecutar} />
+                x.imagen ? <BloqueServicio x={x} ejecutar={ejecutar} indice={i} /> : <TarjetaServicio tarjeta={x} ejecutar={ejecutar} />
               ) : x.tipo === "enlace" ? (
-                <button
-                  type="button"
-                  onClick={() => ejecutar({ tipo: "ir_a", ruta: x.ruta, ancla: x.ancla })}
-                  className="group flex w-full items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-left transition-colors hover:border-[#2348d4]/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2348d4]"
-                >
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-mono text-[9px] uppercase tracking-[0.25em] text-[#9eb0c0]">
-                      {x.ruta}
-                      {x.ancla ? `#${x.ancla}` : ""}
-                    </span>
-                    <span className="mt-0.5 block text-sm font-bold text-foreground">{x.titulo}</span>
-                    {x.descripcion && <span className="mt-0.5 line-clamp-2 block text-xs text-foreground/60">{x.descripcion}</span>}
-                  </span>
-                  <ArrowUpRight
-                    className="size-4 shrink-0 text-[#9fb6ff] transition-transform group-hover:-translate-x-0 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
-                </button>
+                x.navegado ? (
+                  <BloqueNavegacion x={x} ejecutar={ejecutar} indice={i} reciente={reciente} />
+                ) : (
+                  <TarjetaEnlace x={x} ejecutar={ejecutar} />
+                )
+              ) : x.tipo === "galeria" ? (
+                <BloqueGaleria x={x} ejecutar={ejecutar} indice={i} />
+              ) : x.tipo === "grafico" ? (
+                <BloqueGrafico x={x} indice={i} />
+              ) : x.tipo === "pasos" ? (
+                <BloquePasos x={x} ejecutar={ejecutar} indice={i} />
+              ) : x.tipo === "antes_despues" ? (
+                <BloqueAntesDespues x={x} indice={i} />
               ) : null}
             </li>
           ))}

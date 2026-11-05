@@ -60,6 +60,7 @@ export const RUTAS_SITIO: RutaSitio[] = [
       { id: "traza", descripcion: "Un evento recorre las cinco capas" },
       { id: "escala", descripcion: "Todas las sedes en la misma plataforma" },
       { id: "contacto", descripcion: "Formulario de contacto, WhatsApp y correo" },
+      { id: "propuesta", descripcion: "Propuesta ARS: entrevista guiada con IA que arma una propuesta y su PDF" },
     ],
   },
   {

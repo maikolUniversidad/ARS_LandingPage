@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -28,10 +28,12 @@ import { useTextosAsistente } from "@/lib/asistente/i18n";
 import type { Perfil } from "@/lib/asistente/memoria";
 import type { Accion, ClavePerfil, EstadoServicios, MensajeChat } from "@/lib/asistente/tipos";
 import { LIMITES } from "@/lib/asistente/tipos";
-import { AvatarMini } from "./AvatarArs";
+import { OrbeArs } from "./OrbeArs";
 import { OrbeVoz, type FaseVoz } from "./OrbeVoz";
 import { Citas, Tarjetas } from "./Tarjetas";
 import { TextoRico } from "./TextoRico";
+import { IndicadorPensando, LineaContexto, RastroNavegacion } from "./PiezasPanel";
+import { COLOR_ESTADO, estadoArs } from "./tema";
 
 export type ModoVoz = "apagado" | "manos-libres" | "tiempo-real";
 export type Subtitulo = { rol: "user" | "assistant"; texto: string };
@@ -102,6 +104,11 @@ const ETIQUETA_PERFIL: Record<ClavePerfil, { es: string; en: string }> = {
   interes: { es: "Interés", en: "Interest" },
 };
 
+const ETIQUETA_ESTADO = {
+  es: { reposo: "En línea", escuchando: "Escuchando", pensando: "Pensando", hablando: "Hablando" },
+  en: { reposo: "Online", escuchando: "Listening", pensando: "Thinking", hablando: "Speaking" },
+} as const;
+
 const ACEPTA =
   "application/pdf,image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,text/plain,text/markdown,text/csv,application/json,.md,.txt,.csv,.json,.mov";
 
@@ -121,6 +128,10 @@ export function PanelAsistente(p: Props) {
   const tituloId = useId();
   const sinChat = p.estado !== null && !p.estado.chat;
   const vozOn = p.modoVoz !== "apagado";
+  const estado = estadoArs(vozOn ? p.faseVoz : "inactivo", p.enCurso);
+  const ultimaConSugerencias = Boolean(
+    [...p.mensajes].reverse().find((m) => m.rol === "assistant")?.tarjetas?.some((x) => x.tipo === "sugerencias"),
+  );
   const perfilLista = Object.entries(p.perfil).filter(([, v]) => v) as [ClavePerfil, string][];
 
   useEffect(() => {
@@ -222,17 +233,26 @@ export function PanelAsistente(p: Props) {
         if (e.dataTransfer.files.length) p.alAdjuntar(e.dataTransfer.files);
       }}
       data-acoplado={p.acoplado || undefined}
-      className={`fixed inset-0 z-[70] flex h-[100dvh] flex-col overflow-hidden bg-[#020a18] text-foreground motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 md:inset-auto md:border md:border-white/10 md:transition-[width,height,right,bottom,border-radius,box-shadow] md:duration-500 md:ease-[cubic-bezier(.2,.8,.2,1)] motion-reduce:transition-none ${
+      data-estado={estado}
+      style={{ "--estado": COLOR_ESTADO[estado] } as CSSProperties}
+      className={`ars-panel ars-panel-entra fixed inset-x-0 bottom-0 top-[max(env(safe-area-inset-top),1.75rem)] z-[70] flex flex-col overflow-hidden rounded-t-[28px] border-t border-[#6b8aff]/25 bg-[#020a18] text-foreground shadow-[0_-30px_80px_-30px_rgba(35,72,212,0.7)] md:inset-auto md:border md:border-[#6b8aff]/20 md:transition-[width,height,right,bottom,border-radius,box-shadow] md:duration-500 md:ease-[cubic-bezier(.2,.8,.2,1)] motion-reduce:transition-none ${
         p.acoplado
-          ? "md:bottom-0 md:right-0 md:h-[100dvh] md:w-[380px] md:rounded-none md:border-y-0 md:border-r-0 md:shadow-[-24px_0_70px_-30px_rgba(35,72,212,0.6)]"
-          : "md:bottom-6 md:right-6 md:h-[min(760px,calc(100dvh-3rem))] md:w-[440px] md:rounded-3xl md:shadow-[0_30px_90px_-20px_rgba(35,72,212,0.55)]"
+          ? "md:bottom-0 md:right-0 md:top-0 md:h-[100dvh] md:w-[380px] md:rounded-none md:border-y-0 md:border-r-0 md:shadow-[-24px_0_70px_-30px_rgba(35,72,212,0.6)]"
+          : "md:bottom-6 md:right-6 md:top-auto md:h-[min(800px,calc(100dvh-3rem))] md:w-[min(480px,calc(100vw-3rem))] md:rounded-[28px] md:shadow-[0_30px_90px_-20px_rgba(35,72,212,0.6)]"
       }`}
     >
       {/* Fondo de marca */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_60%_at_100%_0%,rgba(35,72,212,0.28),transparent_60%),radial-gradient(80%_50%_at_0%_100%,rgba(20,38,100,0.5),transparent_70%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_55%_at_100%_0%,rgba(35,72,212,0.3),transparent_60%),radial-gradient(80%_50%_at_0%_100%,rgba(20,38,100,0.55),transparent_70%)]"
       />
+      {/* Retícula tecnológica muy tenue */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(#6b8aff_1px,transparent_1px),linear-gradient(90deg,#6b8aff_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(90%_60%_at_50%_0%,#000,transparent)]"
+      />
+      {/* Asa de la hoja (móvil) */}
+      <div aria-hidden="true" className="relative mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-white/20 md:hidden" />
 
       {/* Encabezado */}
       <header
@@ -245,15 +265,22 @@ export function PanelAsistente(p: Props) {
           // En móvil, deslizar el encabezado hacia abajo minimiza a la hoja guía.
           if (y0 !== null && e.clientY - y0 > 56 && window.matchMedia("(max-width: 767px)").matches) p.alAcoplar(true);
         }}
-        className="relative flex items-center gap-2 border-b border-white/10 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] md:pt-3"
+        className="relative flex items-center gap-2 px-4 pb-2 pt-2 md:pt-3.5"
       >
-        <AvatarMini fase={vozOn ? p.faseVoz : "inactivo"} tamano={36} />
+        <OrbeArs estado={estado} tamano={p.acoplado ? 38 : 44} />
         <div className="min-w-0 flex-1">
-          <h2 id={tituloId} className="font-heading text-base font-black uppercase leading-none tracking-tight">
+          <h2 id={tituloId} className="truncate font-heading text-lg font-black leading-none tracking-tight text-[#e8eefc]">
             {t("asistente.nombre")}
+            {!p.acoplado && (
+              <span className="ml-2 hidden align-middle font-mono text-[9px] font-normal uppercase tracking-[0.3em] text-[#9eb0c0] sm:inline">{t("asistente.subtitulo")}</span>
+            )}
           </h2>
-          <p className="mt-1 truncate font-mono text-[9px] uppercase tracking-[0.3em] text-[#9eb0c0]">
-            {p.acoplado ? t("asistente.guia.modo") : t("asistente.subtitulo")}
+          <p className="mt-1.5 flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--estado)]" role="status" aria-live="polite">
+            <span className="relative flex size-1.5" aria-hidden="true">
+              <span className="absolute inset-0 rounded-full bg-[var(--estado)] motion-safe:animate-ping motion-safe:[animation-duration:2.4s]" />
+              <span className="relative size-1.5 rounded-full bg-[var(--estado)]" />
+            </span>
+            <span className="truncate">{ETIQUETA_ESTADO[idioma === "en" ? "en" : "es"][estado]}</span>
           </p>
         </div>
         {!p.recorridoActivo && !sinChat && (
@@ -308,6 +335,8 @@ export function PanelAsistente(p: Props) {
           <X className="size-5" aria-hidden="true" />
         </button>
       </header>
+
+      <LineaContexto rastro={<RastroNavegacion alIr={p.alEnlaceInterno} />} />
 
       {/* Última acción sobre la página («Te llevo a…») */}
       <div
@@ -381,7 +410,7 @@ export function PanelAsistente(p: Props) {
         aria-label={t("asistente.historial")}
         aria-busy={p.enCurso}
         onScroll={alDesplazar}
-        className="relative flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-4"
+        className="relative flex-1 space-y-5 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-color:#142664_transparent] [scrollbar-width:thin]"
       >
         {sinChat && (
           <div className="rounded-2xl border border-amber-300/25 bg-amber-300/[0.06] p-4 text-sm">
@@ -422,20 +451,25 @@ export function PanelAsistente(p: Props) {
           </details>
         )}
 
-        {!sinChat && (
-          <div className="flex gap-3">
-            <div className="max-w-[88%] rounded-2xl rounded-tl-sm border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm leading-relaxed text-foreground/90">
-              {p.bienvenida}
-            </div>
+        {!sinChat && p.mensajes.length === 0 ? (
+          <div className="ars-bloque flex flex-col items-center px-2 pb-2 pt-4 text-center">
+            <OrbeArs estado={estado} tamano={92} />
+            <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.35em] text-[#6b8aff]">{t("asistente.subtitulo")}</p>
+            <p className="mt-2 max-w-sm font-serif text-[17px] italic leading-snug text-[#b9c8ff]">{p.bienvenida}</p>
           </div>
-        )}
+        ) : !sinChat ? (
+          <p className="relative pl-4 text-[13px] leading-relaxed text-[#c5d2ee]/60">
+            <span aria-hidden="true" className="absolute bottom-0.5 left-0 top-0.5 w-[2px] rounded-full bg-white/10" />
+            {p.bienvenida}
+          </p>
+        ) : null}
 
         {p.mensajes.map((m, i) => {
           const esUltimo = i === p.mensajes.length - 1;
           if (m.rol === "user") {
             return (
               <div key={m.id} className="flex justify-end motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-1 motion-safe:duration-300">
-                <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-[#2348d4] px-3.5 py-2.5 text-sm leading-relaxed text-white">
+                <div className="max-w-[85%] rounded-2xl rounded-tr-md border border-[#6b8aff]/40 bg-[linear-gradient(135deg,#2348d4,#142664)] px-3.5 py-2.5 text-sm leading-relaxed text-white shadow-[0_10px_30px_-16px_rgba(35,72,212,1)]">
                   <span className="sr-only">{t("asistente.tu")}: </span>
                   {m.porVoz && <Mic className="mr-1.5 inline size-3.5 -translate-y-px opacity-70" aria-label={t("asistente.dictado")} />}
                   <span className="whitespace-pre-wrap break-words">{m.texto}</span>
@@ -457,28 +491,16 @@ export function PanelAsistente(p: Props) {
           return (
             <div key={m.id} className="flex flex-col motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300">
               {(m.texto || escribiendo) && (
-                <div
-                  className={`max-w-[94%] rounded-2xl rounded-tl-sm border px-3.5 py-2.5 text-sm leading-relaxed ${
-                    m.error ? "border-red-400/30 bg-red-400/[0.07] text-red-100" : "border-white/10 bg-white/[0.04] text-foreground/90"
-                  }`}
-                >
+                <div className={`ars-bloque relative max-w-full pl-4 text-[14.5px] leading-relaxed ${m.error ? "text-red-100" : "text-[#d5e0ff]"}`}>
+                  <span
+                    aria-hidden="true"
+                    className={`absolute bottom-1 left-0 top-1 w-[2px] rounded-full ${m.error ? "bg-red-400/60" : "bg-[linear-gradient(#6b8aff,#2348d4_60%,transparent)]"}`}
+                  />
+                  <span className="mb-1 block font-mono text-[9px] uppercase tracking-[0.3em] text-[#6b8aff]" aria-hidden="true">
+                    Ars
+                  </span>
                   {escribiendo ? (
-                    <span className="flex items-center gap-2.5 py-0.5" role="status">
-                      <span className="flex items-center gap-1" aria-hidden="true">
-                        {[0, 1, 2].map((d) => (
-                          <span
-                            key={d}
-                            className={`size-1.5 rounded-full bg-[#7fa0ff] motion-safe:animate-bounce ${d === 1 ? "[animation-delay:120ms]" : d === 2 ? "[animation-delay:240ms]" : ""}`}
-                          />
-                        ))}
-                      </span>
-                      <span
-                        key={p.actividad ?? ""}
-                        className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9eb0c0] motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300"
-                      >
-                        {p.actividad ?? t("asistente.guia.escribiendo")}
-                      </span>
-                    </span>
+                    <IndicadorPensando actividad={p.actividad ?? t("asistente.guia.escribiendo")} />
                   ) : (
                     <TextoRico texto={m.texto} alEnlaceInterno={p.alEnlaceInterno} cursor={esUltimo && p.enCurso} />
                   )}
@@ -487,7 +509,7 @@ export function PanelAsistente(p: Props) {
               {m.texto && !m.error && !(esUltimo && p.enCurso) && <BotonCopiar texto={m.texto} />}
               {m.citas?.length ? <Citas citas={m.citas} /> : null}
               {m.tarjetas?.length ? (
-                <Tarjetas tarjetas={m.tarjetas} ejecutar={p.ejecutar} alEnviar={esUltimo && !p.enCurso ? p.alEnviar : undefined} />
+                <Tarjetas tarjetas={m.tarjetas} ejecutar={p.ejecutar} alEnviar={esUltimo && !p.enCurso ? p.alEnviar : undefined} reciente={esUltimo} />
               ) : null}
             </div>
           );
@@ -495,8 +517,8 @@ export function PanelAsistente(p: Props) {
 
         {!sinChat && p.mensajes.length === 0 && (
           <div>
-            <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/40">{t("asistente.sugerencias")}</p>
-            <div className="flex flex-wrap gap-2">
+            <p className="mb-2 text-center font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/40">{t("asistente.sugerencias")}</p>
+            <div className="flex flex-wrap justify-center gap-2">
               {!p.recorridoActivo && (
                 <button
                   type="button"
@@ -564,6 +586,20 @@ export function PanelAsistente(p: Props) {
       {/* Compositor */}
       <div className="relative border-t border-white/10 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2 md:pb-3">
         {p.guia && <div className="mb-2 space-y-2">{p.guia}</div>}
+        {!sinChat && p.mensajes.length > 0 && !p.enCurso && !ultimaConSugerencias && p.sugerencias.length > 0 && (
+          <div className="-mx-3 mb-2 flex gap-1.5 overflow-x-auto px-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="group" aria-label={t("asistente.sugerencias")}>
+            {p.sugerencias.slice(0, 5).map((sg) => (
+              <button
+                key={sg.texto}
+                type="button"
+                onClick={sg.alElegir}
+                className="shrink-0 rounded-full border border-white/12 bg-white/[0.03] px-3 py-1.5 text-xs text-[#c5d2ee] transition-colors hover:border-[#6b8aff]/70 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2348d4]"
+              >
+                {sg.texto}
+              </button>
+            ))}
+          </div>
+        )}
         {p.procesando && (
           <div role="status" className="mb-2 flex items-center gap-2 rounded-lg border border-[#2348d4]/40 bg-[#2348d4]/10 px-3 py-2 text-xs text-[#cdd8ff]">
             <Loader2 className="size-3.5 motion-safe:animate-spin" aria-hidden="true" /> {p.procesando}
@@ -606,7 +642,7 @@ export function PanelAsistente(p: Props) {
             e.preventDefault();
             enviar();
           }}
-          className="flex items-end gap-1.5 rounded-2xl border border-white/12 bg-white/[0.04] p-1.5 focus-within:border-[#2348d4]/70 focus-within:ring-2 focus-within:ring-[#2348d4]/30"
+          className="flex items-end gap-1.5 rounded-[22px] border border-[#6b8aff]/25 bg-[#06112a]/90 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-shadow focus-within:border-[#6b8aff]/70 focus-within:shadow-[0_0_0_3px_rgba(35,72,212,0.25),0_0_30px_-8px_rgba(107,138,255,0.6)]"
         >
           <input
             ref={archivo}
@@ -659,7 +695,7 @@ export function PanelAsistente(p: Props) {
           {!texto.trim() && !p.enCurso ? (
             <button
               type="button"
-              className={`${boton} ${vozOn ? "bg-[#2348d4]/25 text-white" : ""}`}
+              className={`grid size-9 place-items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6b8aff] disabled:opacity-40 ${vozOn ? "bg-[#5fd8ff] text-[#020a18]" : "bg-[#2348d4]/30 text-[#d5e0ff] hover:bg-[#2348d4]"}`}
               onClick={() => p.alCambiarModoVoz(vozOn ? "apagado" : "manos-libres")}
               aria-pressed={vozOn}
               aria-label={vozOn ? t("asistente.salirVoz") : t("asistente.hablar")}

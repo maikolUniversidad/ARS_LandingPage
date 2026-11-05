@@ -6,7 +6,7 @@ Guía de IA que acompaña a la persona en todo el sitio: explica, muestra y llev
 
 | Capa | Archivos |
 |---|---|
-| UI (montada en `src/app/layout.tsx`) | `src/components/asistente/` — `Asistente` (estado, acciones, voz), `PanelAsistente`, `BotonFlotante`, `OrbeVoz`, `Tarjetas`, `FormularioContacto`, `TextoRico` |
+| UI (montada en `src/app/layout.tsx`) | `src/components/asistente/` — `Asistente` (estado, acciones, voz), `PanelAsistente`, `PiezasPanel`, `BotonFlotante`, `OrbeArs`, `OrbeVoz`, `EstilosChat`, `tema.ts`, `Tarjetas`, `bloques/`, `FormularioContacto`, `TextoRico` |
 | Lógica cliente | `src/lib/asistente/` — `cliente.ts` (stream NDJSON + historial en `localStorage`), `contexto-pagina.ts` (ruta, sección visible, analítica abierta), `acciones.ts` (scroll + resaltado), `adjuntos.ts` (PDF/imagen/texto/video; redimensiona imágenes y muestrea fotogramas de video en el navegador), `voz.ts` (TTS por frases con subtítulos, Scribe en tiempo real con texto parcial, interrupción por voz, respaldo del navegador), `memoria.ts` (perfil, recorrido y resumen de conversaciones largas), `voz-agente.ts` (agente ElevenLabs en tiempo real), `i18n.ts` (claves `asistente.*`, ES/EN) |
 | Lógica servidor | `src/lib/asistente/` — `prompt.ts` (system prompt estable + base de conocimiento, cacheado), `herramientas.ts` (tools y su validación), `servidor.ts` (config, límites, validación), `simulado.ts` (modo demo solo en desarrollo) |
 | API | `src/app/api/asistente/` — `chat` (POST, streaming NDJSON), `estado` (qué está configurado), `tts`, `stt` (por lotes), `stt-token` (token de un solo uso para Scribe en tiempo real), `voz-sesion` (URL firmada + prompt para el agente) |
@@ -40,6 +40,51 @@ Definidos en `src/lib/asistente/eventos-servicios.ts`:
 - `ars:foco-servicio` (asistente → página) `{ modulo?, foco? }`: desplazar a `<section id={modulo}>` y volar la escena 3D.
 - `ars:preguntar` (página → asistente) `{ texto, modulo? }`: abre el panel y envía el texto con el módulo como contexto.
 - `ars:voz-activa` (asistente → sitio) `{ activa }`: Ars empezó o dejó de hablar (atenuar la música ambiente).
+
+## Respuestas ricas: protocolo de bloques (v2)
+
+Ars no responde con burbujas planas: cada respuesta es **texto que aparece en streaming + bloques visuales**. Los bloques viajan por el mismo stream NDJSON de siempre, como eventos `tarjeta`, así que el protocolo es **retrocompatible**: no hay eventos nuevos, solo tipos nuevos de `Tarjeta` (`src/lib/asistente/tipos.ts`) y campos opcionales en los existentes. Un cliente antiguo ignora lo que no conoce.
+
+```
+{"t":"texto","d":"Claro, te llevo a las rondas…"}
+{"t":"accion","accion":{"tipo":"mostrar_servicio","area":"operacion-en-campo","modulo":"rondas-qr"}}
+{"t":"tarjeta","tarjeta":{"tipo":"servicio", …}}
+{"t":"tarjeta","tarjeta":{"tipo":"pasos","titulo":"Cómo funciona una ronda","pasos":[…]}}
+{"t":"fin","motivo":"end_turn"}
+```
+
+### Quién arma qué
+
+La IA **nunca** entrega URLs de medios ni HTML: llama herramientas con ids del catálogo, números y textos cortos; el servidor valida y arma la tarjeta con rutas reales (`src/lib/asistente/bloques.ts` y `herramientas.ts`). Las herramientas nuevas van **al final** de `HERRAMIENTAS` para no invalidar la caché de prompt. Cuándo usar cada bloque lo dice la sección «Bloques visuales» de `prompt.ts`.
+
+| Bloque (`tipo`) | Lo produce | Datos | Se ve como |
+|---|---|---|---|
+| texto | stream `texto` | Markdown simple | Texto con línea de acento y cursor mientras llega |
+| `servicio` | `mostrar_servicio`, `recomendar.servicios` | área, módulo, frase, estado, primera captura | Tarjeta con captura real, estado y botón **«Llévame»** (mueve la página y la escena 3D) |
+| `analitica` (+`evidencia`) | `mostrar_analitica`, `recomendar.analiticas`, `analizar_video` | id + `evidencia { video?, poster?, imagen?, chapa, ia? }` del catálogo | Video de evidencia **en bucle** (silenciado, solo corre a la vista), rótulos **«Ejemplo de evidencia»** y, si `ia`, **«Generado con IA»**; «Llévame» abre el visor |
+| `galeria` | `mostrar_galeria { titulo, servicios[], analiticas[] }` | capturas y clips de módulos, evidencias de analíticas (máx. 8) | Carrusel con *scroll snap*, flechas y teclado (←/→), cada elemento con «Llévame» |
+| `grafico` | `mostrar_grafico { forma, titulo, unidad?, datos[], estimado, supuestos[], fuente? }` | 2 a 8 puntos numéricos | SVG animado (barras, línea o donut). **Sin `fuente` siempre se rotula «Estimado»** y muestra los supuestos + «Cifras orientativas» |
+| `pasos` | `mostrar_pasos { titulo, pasos[{ titulo, detalle?, destino? }] }` | `destino` = `{modulo}`, `{area}`, `{analitica}`, `{ruta, ancla?}` o `{ancla}` (página actual) | Lista numerada; tocar un paso navega, resalta y hace scroll suave, y queda marcado como visto |
+| `antes_despues` | `comparar_antes_despues { titulo, filas[{aspecto, antes, despues}], nota?, estimado? }` | 2 a 6 filas | Dos columnas «Antes» / «Con ARS» |
+| `enlace` con `navegado: true` | `ir_a` | ruta + ancla | Bloque **«Te llevo a…»** con «Volver ahí» (los de `recomendar` siguen siendo enlaces normales) |
+| `estimacion`, `comparacion`, `resumen_visita`, `hallazgos`, `contacto`, `sugerencias` | herramientas existentes | — | Tarjetas de siempre (`extra/TarjetasExtra.tsx`), con la misma entrada animada |
+
+Validación (servidor): ids inexistentes se descartan y, si no queda nada, la herramienta devuelve error a la IA para que corrija; textos recortados; números finitos; donut sin negativos; `destino` resuelto contra el mapa del sitio y el catálogo (si no existe, el paso queda sin destino).
+
+### Agregar un bloque nuevo
+
+1. Tipo en `tipos.ts` (unión `Tarjeta`).
+2. Definición + ejecutor en `bloques.ts` (`HERRAMIENTAS_BLOQUES`, `ejecutarBloque`).
+3. Componente en `src/components/asistente/bloques/Bloques.tsx` y su rama en `Tarjetas.tsx`.
+4. Cuándo usarlo en la sección «Bloques visuales» de `prompt.ts`.
+
+## Diseño del chat (orbe, panel, movimiento)
+
+- **Tokens y variantes**: `src/components/asistente/tema.ts` — `VARIANTES_ORBE` (`marca`, `capas`, `calido`), `VARIANTE_ORBE` (la activa), `COLOR_ESTADO` (reposo / escuchando / pensando / hablando) y `SERIES` (colores de los gráficos).
+- **Orbe** (`OrbeArs.tsx`, CSS puro): respira en reposo, se enciende al pasar el cursor (`.group:hover`), ondas al escuchar, anillo veloz al pensar, pulso al hablar. Se usa en el botón flotante, la cabecera, la bienvenida, la hoja guía móvil y el indicador de pensamiento.
+- **Animaciones** (`EstilosChat.tsx`, montado por `BotonFlotante`): apertura del panel como expansión circular desde el orbe (`clip-path`), llegada escalonada de bloques (`.ars-bloque`, `--retraso`), texto con brillo al pensar y barra de escaneo, crecimiento de barras/trazos/arcos. **Todo** está dentro de `prefers-reduced-motion: no-preference`; con movimiento reducido los videos arrancan pausados (botón ▶).
+- **Panel** (`PanelAsistente.tsx`): escritorio flotante amplio (480 px) o acoplado a la derecha (modo guía, 380 px) cuando Ars mueve la página; móvil = hoja inferior casi a pantalla completa con asa, que al navegar se pliega a la hoja guía compacta (`guia/HojaGuia.tsx`) para que la persona mire la página mientras sigue la conversación. Cabecera viva con estado (`aria-live`), línea **«Estás en: página · sección»** y **rastro** de las paradas recientes (`PiezasPanel.tsx`, migas tocables), sugerencias por página (vacío: rejilla; luego, fila desplazable si Ars no dejó respuestas rápidas), entrada de texto + micrófono.
+- **Accesibilidad**: `role="log"` en la conversación, estado y anuncios con `aria-live`, foco al abrir y devuelto al orbe al cerrar, Esc cierra, gráficos con `role="img"` y resumen de datos, carrusel navegable con teclado, pasos con `aria-current="step"`.
 
 ## Variables de entorno
 

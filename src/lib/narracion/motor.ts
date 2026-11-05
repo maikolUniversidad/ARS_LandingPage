@@ -35,6 +35,10 @@ export type EstadoNarracion = {
   hablando: boolean;
   /** id del clip en curso (o el último). */
   idActual: string | null;
+  /** La persona pausó la narración (toque corto en el dock): la música sigue. */
+  pausada: boolean;
+  /** Capítulo (`data-narracion`) que está al frente de la pantalla. */
+  seccion: string | null;
 };
 
 /** `encendido`: la persona la quiere encendida (sí por defecto; no solo si la apagó). */
@@ -104,7 +108,7 @@ class MotorNarracion {
   private nivelPulso = 0;
   private brillo = 0.3;
 
-  private vozActual: { nodo: AudioBufferSourceNode; gain: GainNode; id: string } | null = null;
+  private vozActual: { nodo: AudioBufferSourceNode; gain: GainNode; id: string; inicio: number; duracion: number } | null = null;
   private pendiente: { id: string; timer: number } | null = null;
   private enCola: { id: string; forzar: boolean } | null = null;
   private genVoz = 0;
@@ -122,6 +126,8 @@ class MotorNarracion {
     musica: true,
     hablando: false,
     idActual: null,
+    pausada: false,
+    seccion: null,
   };
   private oyentes = new Set<() => void>();
   private iniciado = false;
@@ -144,12 +150,24 @@ class MotorNarracion {
     musica: true,
     hablando: false,
     idActual: null,
+    pausada: false,
+    seccion: null,
   };
   obtenerServidor = () => MotorNarracion.ESTADO_SERVIDOR;
 
   private emitir(parcial: Partial<EstadoNarracion>) {
     this.estado = { ...this.estado, ...parcial };
     this.oyentes.forEach((fn) => fn());
+  }
+
+  /**
+   * Avance del clip que suena (para el subtítulo en vivo): id, segundos
+   * transcurridos y duración. null si Ars no está narrando.
+   */
+  progresoVoz(): { id: string; transcurrido: number; duracion: number } | null {
+    const v = this.vozActual;
+    if (!v || !this.ctx) return null;
+    return { id: v.id, transcurrido: Math.max(0, this.ctx.currentTime - v.inicio), duracion: v.duracion };
   }
 
   /** Nivel 0..1 de la voz (para animar el orbe). */
@@ -193,6 +211,27 @@ class MotorNarracion {
   }
 
   /**
+   * Al entrar: intenta sonar sin esperar un gesto. Chrome lo permite si el sitio
+   * ya tiene «engagement» (visitas previas con interacción), Firefox/Safari si la
+   * persona lo autorizó. Si el navegador lo bloquea, el contexto queda
+   * suspendido y el primer gesto lo reanuda (`arrancarConGesto`).
+   */
+  async intentarArranqueAutomatico() {
+    this.iniciar();
+    if (!this.estado.esperandoGesto || this.estado.encendido) return;
+    const politica = (navigator as Navigator & { getAutoplayPolicy?: (t: string) => string }).getAutoplayPolicy?.("audiocontext");
+    if (politica === "disallowed") return;
+    try {
+      const ctx = this.crearContexto();
+      if (ctx.state !== "running") await Promise.race([ctx.resume().catch(() => undefined), new Promise((r) => window.setTimeout(r, 600))]);
+      // ¿Sonó? (y la persona no lo apagó mientras tanto)
+      if ((ctx.state as AudioContextState) === "running" && this.prefs.encendido && !this.estado.encendido) this.encender();
+    } catch {
+      /* sin audio: queda esperando el gesto */
+    }
+  }
+
+  /**
    * Arranque con el primer gesto: desbloquea el audio dentro del gesto y solo
    * enciende si el navegador de verdad dejó sonar (en el celular, soltar el dedo
    * tras un scroll no cuenta como gesto). Devuelve si arrancó.
@@ -211,7 +250,7 @@ class MotorNarracion {
       const resumido = ctx.resume().catch(() => undefined);
       await Promise.race([resumido, new Promise((r) => window.setTimeout(r, 450))]);
       if (ctx.state !== "running" || !this.prefs.encendido) return false;
-      this.encender();
+      if (!this.estado.encendido) this.encender();
       return true;
     } finally {
       this.arrancando = false;
@@ -224,6 +263,21 @@ class MotorNarracion {
     this.prefs = { ...this.prefs, encendido: false };
     guardarPrefs(this.prefs);
     this.emitir({ esperandoGesto: false });
+  }
+
+  /** Pausa la narración (no la música). Toque corto en el botón de Ars del dock. */
+  pausar() {
+    if (this.estado.pausada) return;
+    this.callar();
+    this.emitir({ pausada: true });
+  }
+
+  /** Reanuda la narración con el capítulo en pantalla. */
+  reanudar() {
+    if (!this.estado.pausada) return;
+    this.emitir({ pausada: false });
+    const id = this.idVisible ?? this.estado.idActual;
+    if (id) this.narrar(id, { inmediato: true, forzar: true });
   }
 
   // ───────────── Conversación con Ars ─────────────
@@ -242,7 +296,7 @@ class MotorNarracion {
     this.enConversacion = false;
     this.emitir({ conversando: false });
     this.ajustarDucking();
-    if (!this.estado.encendido || !this.prefs.voz) return;
+    if (!this.estado.encendido || !this.prefs.voz || this.estado.pausada) return;
     const puente = IDS_PUENTE[Math.floor(Math.random() * IDS_PUENTE.length)];
     const seccion = this.idVisible;
     window.setTimeout(() => {
@@ -379,7 +433,7 @@ class MotorNarracion {
     this.prefs = { ...this.prefs, encendido: false };
     guardarPrefs(this.prefs);
     this.callar();
-    this.emitir({ encendido: false, esperandoGesto: false });
+    this.emitir({ encendido: false, esperandoGesto: false, pausada: false });
     const ctx = this.ctx;
     if (!ctx) return;
     this.maestro.gain.setTargetAtTime(0, ctx.currentTime, 0.15);
@@ -531,6 +585,7 @@ class MotorNarracion {
   /** La sección `id` quedó al frente de la pantalla. */
   seccionVisible(id: string) {
     this.idVisible = id;
+    if (this.estado.seccion !== id) this.emitir({ seccion: id });
     this.narrar(id);
   }
 
@@ -539,7 +594,7 @@ class MotorNarracion {
    * (DWELL_MS) y corta lo que esté sonando. Con `cola`, espera a que termine.
    */
   narrar(id: string, opciones: { cola?: boolean; inmediato?: boolean; forzar?: boolean } = {}) {
-    if (!this.estado.encendido || !this.prefs.voz || this.asistenteHablando || this.enConversacion) return;
+    if (!this.estado.encendido || !this.prefs.voz || this.asistenteHablando || this.enConversacion || this.estado.pausada) return;
     // No repetir el mismo clip si se narró hace poco (scroll de ida y vuelta).
     const ultima = this.narrados.get(id);
     if (!opciones.forzar && ultima && Date.now() - ultima < 90_000) return;
@@ -562,7 +617,7 @@ class MotorNarracion {
     if (!ctx) return;
     const gen = ++this.genVoz;
     const clip = await this.cargar(urlNarracion(id), RMS_VOZ);
-    if (gen !== this.genVoz || !this.estado.encendido || !this.prefs.voz || this.asistenteHablando || this.enConversacion) return;
+    if (gen !== this.genVoz || !this.estado.encendido || !this.prefs.voz || this.asistenteHablando || this.enConversacion || this.estado.pausada) return;
     if (!clip) {
       // Clip faltante: que no trabe la cola (p. ej. la frase puente antes de la sección).
       const s = this.enCola;
@@ -588,7 +643,7 @@ class MotorNarracion {
       if (siguiente) window.setTimeout(() => this.narrar(siguiente.id, { inmediato: true, forzar: siguiente.forzar }), 350);
     };
     nodo.start(t);
-    this.vozActual = { nodo, gain, id };
+    this.vozActual = { nodo, gain, id, inicio: t, duracion: clip.buf.duration };
     this.narrados.set(id, Date.now());
     this.emitir({ hablando: true, idActual: id });
     this.ajustarDucking();

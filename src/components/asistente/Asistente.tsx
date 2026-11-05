@@ -7,6 +7,7 @@ import { analiticas } from "@/data/analiticas";
 import { enfocarServicio, prefiereMenosMovimiento, quitarHalo, resaltarElemento } from "@/lib/asistente/acciones";
 import { extraerFotogramas, formatoBytes, imagenDesdeUrl, prepararAdjunto } from "@/lib/asistente/adjuntos";
 import { borrarHistorial, cargarHistorial, enviarChat, ErrorChat, guardarHistorial, leerEstado } from "@/lib/asistente/cliente";
+import { registrarCerebro, type EventoConsulta } from "@/lib/asistente/consulta";
 import { leerContexto, tituloSeccion, type PasoGuia } from "@/lib/asistente/contexto-pagina";
 import {
   EVENTO_CONVERSACION,
@@ -66,6 +67,12 @@ type OpcionesEnvio = {
   porVoz?: boolean;
   /** Módulo de /servicios por el que se pregunta (botón «Pregúntale a Ars sobre esto»). */
   moduloPregunta?: string;
+  /**
+   * Consulta rápida desde la narración o el dock móvil: no abre el panel, no
+   * acopla, no muestra burbuja; los eventos de la respuesta van a `alEvento`.
+   */
+  silencioso?: boolean;
+  alEvento?: (e: EventoConsulta) => void;
 };
 
 /** Área de /servicios/<area> en una ruta, si aplica. */
@@ -124,6 +131,11 @@ export function Asistente() {
   const borradorRef = useRef("");
   const subtituloRef = useRef<Subtitulo | null>(null);
   const rastroTimer = useRef(0);
+  /** Consulta rápida en curso (ver `OpcionesEnvio.silencioso`). */
+  const silenciosoRef = useRef(false);
+  const alFraseRef = useRef<((frase: string) => void) | null>(null);
+  const estadoRef = useRef<EstadoServicios | null>(null);
+  const enlaceRef = useRef<(href: string) => void>(() => undefined);
 
   useEffect(() => {
     mensajesRef.current = mensajes;
@@ -136,6 +148,9 @@ export function Asistente() {
   useEffect(() => {
     modoVozRef.current = modoVoz;
   }, [modoVoz]);
+  useEffect(() => {
+    estadoRef.current = estado;
+  }, [estado]);
   useEffect(() => {
     abiertoRef.current = abierto;
     acopladoRef.current = acoplado;
@@ -158,6 +173,8 @@ export function Asistente() {
    * cuánto esperar antes de desplazar (lo que tarda la transición).
    */
   const acoplar = useCallback((): number => {
+    // En una consulta rápida Ars mueve el sitio sin abrir su panel.
+    if (silenciosoRef.current) return 0;
     const ya = abiertoRef.current && acopladoRef.current;
     abiertoRef.current = true;
     acopladoRef.current = true;
@@ -272,7 +289,7 @@ export function Asistente() {
           break;
         }
         case "abrir_contacto":
-          setAbierto(true);
+          if (!silenciosoRef.current) setAbierto(true);
           break;
         case "recordar":
           setPerfil((p) => ({ ...p, [a.clave]: a.valor }));
@@ -309,16 +326,23 @@ export function Asistente() {
     },
     [ejecutar],
   );
+  useEffect(() => {
+    enlaceRef.current = enlaceInterno;
+  }, [enlaceInterno]);
 
   /* ───────────── Voz: reproducción ───────────── */
 
-  const usarEleven = Boolean(estado?.voz.tts);
   const obtenerReproductor = useCallback(() => {
+    // Lee el estado por ref: una consulta rápida puede cargarlo justo antes.
+    const usarEleven = Boolean(estadoRef.current?.voz.tts);
     if (!reproductor.current) {
       reproductor.current = new ReproductorVoz(usarEleven, idioma);
     }
     reproductor.current.configurar(usarEleven, idioma);
-    reproductor.current.onFrase = (frase) => setSubtitulo({ rol: "assistant", texto: frase });
+    reproductor.current.onFrase = (frase) => {
+      setSubtitulo({ rol: "assistant", texto: frase });
+      alFraseRef.current?.(frase);
+    };
     reproductor.current.onEstado = (e) => {
       if (e === "hablando") setFaseVoz("hablando");
       else if (modoVozRef.current === "manos-libres") {
@@ -328,7 +352,7 @@ export function Asistente() {
       } else setFaseVoz("inactivo");
     };
     return reproductor.current;
-  }, [usarEleven, idioma]);
+  }, [idioma]);
 
   /* ───────────── Chat ───────────── */
 
@@ -349,6 +373,9 @@ export function Asistente() {
       const ctrl = new AbortController();
       abortRef.current = ctrl;
       setAviso(null);
+      const silencioso = Boolean(opciones.silencioso);
+      silenciosoRef.current = silencioso;
+      const emitir = opciones.alEvento ?? (() => undefined);
 
       const documentos = [...docs, ...(opciones.docsExtra ?? [])];
       const ctxPagina = leerContexto(window.location.pathname, idioma);
@@ -423,11 +450,13 @@ export function Asistente() {
               acumulado += ev.d;
               actualizarUltimo((m) => ({ ...m, texto: m.texto + ev.d }));
               rep?.empujar(ev.d);
-              if (!abiertoRef.current) setBurbuja(acumulado.trim().slice(-160));
+              emitir(ev);
+              if (!abiertoRef.current && !silencioso) setBurbuja(acumulado.trim().slice(-160));
             } else if (ev.t === "tarjeta") {
               const tj: Tarjeta = ev.tarjeta;
               if (tj.tipo !== "sugerencias" && !hizoAccion) etapa("asistente.actividad.tarjetas", [[2500, "asistente.actividad.armando"]]);
               actualizarUltimo((m) => ({ ...m, tarjetas: [...(m.tarjetas ?? []), tj] }));
+              emitir({ t: "tarjeta", tarjeta: tj });
             } else if (ev.t === "cita") {
               const c: Cita = ev.cita;
               actualizarUltimo((m) => ({ ...m, citas: [...(m.citas ?? []), c] }));
@@ -444,7 +473,9 @@ export function Asistente() {
                 etapa(clave, [[2500, "asistente.actividad.armando"]]);
               }
               ejecutar(ev.accion);
+              emitir({ t: "accion", accion: ev.accion });
             } else if (ev.t === "error") {
+              emitir({ t: "error", mensaje: ev.mensaje });
               actualizarUltimo((m) => ({ ...m, texto: m.texto ? `${m.texto}\n\n${ev.mensaje}` : ev.mensaje, error: !m.texto }));
               if (ev.codigo === "sin_clave") setEstado((e) => (e ? { ...e, chat: false } : e));
             }
@@ -463,6 +494,7 @@ export function Asistente() {
           if (err instanceof ErrorChat && err.codigo === "sin_clave") setEstado((e) => ({ ...(e ?? SIN_SERVICIOS), chat: false }));
           const msg = err instanceof ErrorChat ? err.message : t("asistente.error.red");
           actualizarUltimo((m) => ({ ...m, texto: msg, error: true }));
+          emitir({ t: "error", mensaje: msg });
           rep?.detener();
           if (modoVozRef.current === "manos-libres") setFaseVoz("inactivo");
         }
@@ -472,6 +504,7 @@ export function Asistente() {
         setActividad(null);
         enCursoRef.current = false;
         setEnCurso(false);
+        silenciosoRef.current = false;
         if (abortRef.current === ctrl) abortRef.current = null;
         if (!rep || rep.estado === "inactivo") {
           if (modoVozRef.current === "manos-libres" && rep) {
@@ -490,6 +523,71 @@ export function Asistente() {
     abortRef.current?.abort();
     reproductor.current?.detener();
   }, []);
+
+  /* ───────────── Consulta rápida (narración / dock móvil) ───────────── */
+
+  const enviarRef = useRef(enviar);
+  const ejecutarRef = useRef(ejecutar);
+  useEffect(() => {
+    enviarRef.current = enviar;
+    ejecutarRef.current = ejecutar;
+  }, [enviar, ejecutar]);
+
+  useEffect(() => {
+    const asegurarEstado = async () => {
+      if (!estadoRef.current) {
+        const e = (await leerEstado()) ?? SIN_SERVICIOS;
+        estadoRef.current = e;
+        pidioEstado.current = true;
+        setEstado(e);
+      }
+      return estadoRef.current;
+    };
+    return registrarCerebro({
+      async consultar(texto, opciones, alEvento) {
+        if (enCursoRef.current) return { ok: false, motivo: "ocupado" };
+        await asegurarEstado();
+        let acumulado = "";
+        let fallo = false;
+        alFraseRef.current = (frase) => alEvento({ t: "frase", texto: frase });
+        try {
+          await enviarRef.current(texto, opciones.hablar === false ? "texto" : "voz", {
+            porVoz: opciones.porVoz,
+            silencioso: true,
+            alEvento: (e) => {
+              if (e.t === "texto") acumulado += e.d;
+              if (e.t === "error") fallo = true;
+              alEvento(e);
+            },
+          });
+          // Espera a que Ars termine de decirlo (la voz va detrás del texto).
+          const inicio = Date.now();
+          while (reproductor.current?.estado === "hablando" && Date.now() - inicio < 120_000) {
+            await new Promise((r) => window.setTimeout(r, 150));
+          }
+        } finally {
+          alFraseRef.current = null;
+        }
+        if (fallo && !acumulado.trim()) return { ok: false, motivo: "error" };
+        if (!acumulado.trim()) return { ok: false, motivo: "cancelado" };
+        return { ok: true, texto: acumulado };
+      },
+      detener: () => {
+        abortRef.current?.abort();
+        reproductor.current?.detener();
+      },
+      prepararVoz: () => obtenerReproductor().desbloquear(),
+      sttServidor: async () => Boolean((await asegurarEstado())?.voz.stt),
+      nivelVoz: () => reproductor.current?.nivel() ?? 0,
+      ejecutar: (a) => ejecutarRef.current(a),
+      enlace: (href) => enlaceRef.current(href),
+      abrirChat: () => {
+        setAbierto(true);
+        setAcoplado(false);
+        setBurbuja(null);
+      },
+    });
+  }, [obtenerReproductor]);
 
   /* ───────────── Video de una analítica ───────────── */
 
@@ -1014,6 +1112,7 @@ export function Asistente() {
         alAbrirBurbuja={burbuja ? undefined : proactiva.aceptar}
         vozActiva={modoVoz !== "apagado"}
         faseVoz={faseVoz}
+        pensando={enCurso}
       />
       <EstilosGuia acopladoEscritorio={abierto && acoplado && !movil} />
       {hoja && (

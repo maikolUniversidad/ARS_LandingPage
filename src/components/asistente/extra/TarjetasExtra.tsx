@@ -49,7 +49,7 @@ export function TarjetasExtra({ tarjetas, ejecutar, alEnviar }: Props) {
   return (
     <ul className="mt-2 space-y-2">
       {extra.map((t, i) => (
-        <li key={`${t.tipo}-${i}`}>
+        <li key={`${t.tipo}-${i}`} className="ars-bloque">
           {t.tipo === "estimacion" ? (
             <Estimacion t={t} ejecutar={ejecutar} alEnviar={alEnviar} />
           ) : t.tipo === "comparacion" ? (

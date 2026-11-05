@@ -19,6 +19,7 @@ import { AREAS, areaPorId, buscarModulos, moduloPorId, type Area, type Modulo } 
 import { FOCOS_ESCENA } from "@/components/servicios/escenas/contrato";
 import type { FuenteTrozo } from "@/data/asistente/tipos";
 import { features } from "@/data/integral-security";
+import { HERRAMIENTAS_BLOQUES, ejecutarBloque, evidenciaDe } from "./bloques";
 import { buscarConocimiento, buscarPorPalabras, type ModoBusqueda, type ResultadoBusqueda } from "./busqueda";
 import {
   CLAVES_PERFIL,
@@ -484,6 +485,8 @@ export const HERRAMIENTAS: DefinicionHerramienta[] = [
       additionalProperties: false,
     },
   },
+  // ── Bloques ricos (galería, gráfico, pasos, antes/después). Al final: no invalidan la caché. ──
+  ...HERRAMIENTAS_BLOQUES,
 ];
 
 /** Las mismas herramientas en el formato de *function calling* de OpenAI (Chat Completions). */
@@ -517,7 +520,14 @@ function anclaValida(ruta: string, ancla: string | undefined): string | undefine
 function tarjetaAnalitica(id: string): Tarjeta | null {
   const a = porId.get(id);
   if (!a) return null;
-  return { tipo: "analitica", id: a.id, nombre: a.nombre, corta: a.corta, familia: nombreFamilia.get(a.familia) ?? a.familia };
+  return {
+    tipo: "analitica",
+    id: a.id,
+    nombre: a.nombre,
+    corta: a.corta,
+    familia: nombreFamilia.get(a.familia) ?? a.familia,
+    evidencia: evidenciaDe(a.id),
+  };
 }
 
 function tarjetaRuta(ruta: string, ancla?: string): Tarjeta | null {
@@ -870,7 +880,8 @@ export function ejecutarHerramienta(nombre: string, entrada: unknown): Resultado
       const ruta = str(e.ruta, 80);
       if (!ruta || !RUTAS_VALIDAS.includes(ruta)) return error(`Ruta inválida. Rutas válidas: ${RUTAS_VALIDAS.join(", ")}`);
       const ancla = anclaValida(ruta, str(e.ancla, 80));
-      const t = tarjetaRuta(ruta, ancla);
+      const base = tarjetaRuta(ruta, ancla);
+      const t: Tarjeta | null = base && base.tipo === "enlace" ? { ...base, navegado: true } : base;
       return {
         resultado: `Listo: el navegador de la persona ya está en ${ruta}${ancla ? `#${ancla}` : ""}.`,
         esError: false,
@@ -1024,7 +1035,7 @@ export function ejecutarHerramienta(nombre: string, entrada: unknown): Resultado
     case "reportar_hallazgos":
       return reportarHallazgos(e);
     default:
-      return error(`Herramienta desconocida: ${nombre}`);
+      return ejecutarBloque(nombre, entrada) ?? error(`Herramienta desconocida: ${nombre}`);
   }
 }
 

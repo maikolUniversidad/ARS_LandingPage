@@ -4,7 +4,9 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { ChevronUp, Mic, X } from "lucide-react";
 import { definirInsetsGuia } from "@/lib/asistente/acciones";
 import { useTextosAsistente } from "@/lib/asistente/i18n";
-import { OrbeVoz, type FaseVoz } from "../OrbeVoz";
+import { OrbeArs } from "../OrbeArs";
+import type { FaseVoz } from "../OrbeVoz";
+import { estadoArs } from "../tema";
 
 type Props = {
   /** Última línea de Ars (o lo que está diciendo en voz). */
@@ -74,7 +76,7 @@ export function HojaGuia(p: Props) {
       {p.arriba && <div className="mb-2">{p.arriba}</div>}
       {p.recorrido && <div className="mb-2 rounded-2xl border border-[#2348d4]/40 bg-[#142664]/40 px-2.5 py-2">{p.recorrido}</div>}
       <div className="flex items-center gap-2">
-        <OrbeVoz fase={p.vozOn ? p.faseVoz : "inactivo"} nivel={p.nivelVoz} tamano={34} />
+        <OrbeArs estado={estadoArs(p.vozOn ? p.faseVoz : "inactivo", p.enCurso)} tamano={34} />
         <button type="button" onClick={p.alExpandir} className="min-w-0 flex-1 text-left" aria-label={`${t("asistente.guia.expandir")}: ${p.linea}`}>
           <span className="block font-mono text-[9px] uppercase tracking-[0.25em] text-[#7fa0ff]">
             {p.enCurso ? t("asistente.guia.escribiendo") : t("asistente.nombre")}

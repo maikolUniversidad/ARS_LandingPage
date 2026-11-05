@@ -71,8 +71,24 @@ export type Accion =
 
 /** Tarjetas enriquecidas que acompañan a un mensaje del asistente. */
 export type Tarjeta =
-  | { tipo: "analitica"; id: string; nombre: string; corta: string; familia: string }
-  | { tipo: "enlace"; ruta: string; ancla?: string; titulo: string; descripcion?: string }
+  | {
+      tipo: "analitica";
+      id: string;
+      nombre: string;
+      corta: string;
+      familia: string;
+      /** Evidencia (video en bucle o imagen) del catálogo; se rotula «Ejemplo de evidencia». */
+      evidencia?: EvidenciaTarjeta;
+    }
+  | {
+      tipo: "enlace";
+      ruta: string;
+      ancla?: string;
+      titulo: string;
+      descripcion?: string;
+      /** true si Ars ya movió la página hasta ahí (bloque «Te llevo a…» con rastro). */
+      navegado?: boolean;
+    }
   | { tipo: "contacto"; motivo?: string }
   | { tipo: "sugerencias"; opciones: string[] }
   | {
@@ -94,7 +110,71 @@ export type Tarjeta =
   | TarjetaEstimacion
   | TarjetaComparacion
   | TarjetaResumenVisita
-  | TarjetaHallazgos;
+  | TarjetaHallazgos
+  | TarjetaGaleria
+  | TarjetaGrafico
+  | TarjetaPasos
+  | TarjetaAntesDespues;
+
+/** Video o imagen de evidencia de una analítica (rutas del catálogo, nunca de la IA). */
+export type EvidenciaTarjeta = {
+  video?: string;
+  poster?: string;
+  imagen?: string;
+  /** Procedencia declarada por el equipo. */
+  chapa: string;
+  /** Clip generado con IA: se rotula «Generado con IA». */
+  ia?: boolean;
+};
+
+/* ───────────── Bloques ricos (protocolo v2, ver docs/ASISTENTE.md) ───────────── */
+
+/** Galería de capturas reales, clips o evidencias (herramienta mostrar_galeria). */
+export type TarjetaGaleria = {
+  tipo: "galeria";
+  titulo: string;
+  items: {
+    medio: "imagen" | "video";
+    src: string;
+    poster?: string;
+    alt: string;
+    pie: string;
+    /** Rótulos obligatorios («Ejemplo de evidencia», «Generado con IA»). */
+    rotulos?: string[];
+    /** A dónde lleva el elemento al tocar «Llévame». */
+    accion?: Accion;
+  }[];
+};
+
+/** Gráfico SVG animado con datos que entrega la IA (herramienta mostrar_grafico). */
+export type TarjetaGrafico = {
+  tipo: "grafico";
+  forma: "barras" | "linea" | "donut";
+  titulo: string;
+  /** Unidad de los valores («h/mes», «%», «alertas»). */
+  unidad?: string;
+  datos: { etiqueta: string; valor: number }[];
+  /** true → se rotula «Estimado» y se muestran los supuestos. */
+  estimado: boolean;
+  supuestos?: string[];
+  fuente?: string;
+};
+
+/** Guía paso a paso: cada paso puede llevar a una parte del sitio (herramienta mostrar_pasos). */
+export type TarjetaPasos = {
+  tipo: "pasos";
+  titulo: string;
+  pasos: { titulo: string; detalle?: string; destino?: Accion; destinoTexto?: string }[];
+};
+
+/** Comparación antes / después de ARS (herramienta comparar_antes_despues). */
+export type TarjetaAntesDespues = {
+  tipo: "antes_despues";
+  titulo: string;
+  filas: { aspecto: string; antes: string; despues: string }[];
+  nota?: string;
+  estimado?: boolean;
+};
 
 /** Tamaño orientativo de la operación (no es un plan comercial). */
 export type NivelOperacion = "pequena" | "mediana" | "grande";
