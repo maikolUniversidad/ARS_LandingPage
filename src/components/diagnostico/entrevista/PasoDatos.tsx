@@ -22,7 +22,7 @@ const CAMPOS: { k: keyof ContactoDiagnostico; etiqueta: string; tipo: string; au
 /**
  * Paso antes del análisis: datos para enviar el reporte y autorización de datos (Ley 1581).
  * Recomendado pero opcional: si la persona sigue sin sus datos, el diagnóstico se hace igual
- * y el registro queda sin contacto. Los datos de contacto no se le envían a la IA.
+ * y el registro queda sin contacto.
  */
 export function PasoDatos({
   empresa,

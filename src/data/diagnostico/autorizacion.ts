@@ -16,8 +16,8 @@ export const TEXTOS_AUTORIZACION: Record<string, string> = {
   "2026-11-05":
     "Autorizo a ARS Intelligence, como responsable del tratamiento, a recolectar, guardar y usar mis datos de contacto " +
     "(nombre, cargo, correo y teléfono) y lo que conté en este diagnóstico, con la finalidad de enviarme el reporte y " +
-    "contactarme sobre los servicios de ARS. Sé que lo que conté en la entrevista lo analizan proveedores de " +
-    "inteligencia artificial que pueden estar fuera de Colombia, y que mis datos de contacto no se les envían. " +
+    "contactarme sobre los servicios de ARS. Sé que lo que conté y escribí en la entrevista, incluidos los datos que " +
+    "haya dado en ella, lo analizan proveedores de inteligencia artificial que pueden estar fuera de Colombia. " +
     "Puedo conocer, actualizar, rectificar y suprimir mis datos, o revocar esta autorización, escribiendo a {correo}. " +
     "(Ley 1581 de 2012 y Decreto 1377 de 2013).",
 };

@@ -143,6 +143,8 @@ export function registroDiagnostico(
   const { contacto: _sinAutorizacion, ...perfilSinContacto } = peticion.perfil;
   void _sinAutorizacion;
   const perfil = contacto ? { ...perfilSinContacto, contacto } : perfilSinContacto;
+  // El reporte copia el perfil: sin autorización tampoco lleva el contacto.
+  const reporte = contacto ? diagnostico : { ...diagnostico, perfil: { ...diagnostico.perfil, contacto: undefined } };
   const pagina = raw && typeof raw === "object" ? (raw as Record<string, unknown>).pagina : undefined;
   return {
     ...base("diagnostico", req, pagina ?? "/diagnostico"),
@@ -160,6 +162,6 @@ export function registroDiagnostico(
       areasRecomendadas: diagnostico.recomendaciones.map((r) => r.areaId),
       prioridadAlta: diagnostico.recomendaciones.filter((r) => r.prioridad === "alta").map((r) => r.areaId),
     },
-    diagnostico,
+    diagnostico: reporte,
   };
 }
