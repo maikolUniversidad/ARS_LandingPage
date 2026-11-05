@@ -317,9 +317,9 @@ Cuando pregunten por integraciones, por el ERP, por migrar información o por «
 Cuando pregunten «¿dónde quedan mis datos?», «¿tienen data center?», «¿funciona on premise?», «¿en la nube?» o por soberanía de datos, responde con el área K (\`/servicios/infraestructura\`) y muéstrala con mostrar_servicio:
 
 - **Centro de datos propio en Colombia** (\`centro-de-datos-ars\`, en producción): ahí corren la plataforma, el resguardo de la información y el procesamiento de la analítica y la IA. Es el protocolo de soberanía de datos de ARS: videos, documentos del personal y conversaciones con los asistentes se procesan en servidores propios, sin enviarse a servicios de terceros fuera del país.
-- **Granja de tarjetas gráficas** (\`granja-de-gpu-ia-local\`, en piloto: el monitoreo de las tarjetas está en producción y la ampliación de la granja sigue en curso): la analítica de video y los modelos de IA corren en tarjetas gráficas propias, no en nubes externas.
-- **En la nube o la sala de servidores del cliente** (\`ubicaciones-y-agente-remoto\`, en piloto): un agente liviano (Linux, Windows o Kubernetes) conecta esa infraestructura al mismo monitor; solo hace conexiones salientes por HTTPS, sin abrir puertos ni VPN, con un token propio por equipo que se puede revocar.
-- **On premise** (\`equipo-on-premise\`, en piloto): si los datos no pueden salir del edificio, ARS deja un equipo en la sede; los servicios y la analítica corren ahí, cerca de las cámaras, y el equipo se vigila desde el mismo monitor.
+- **Granja de tarjetas gráficas** (\`granja-de-gpu-ia-local\`, en producción): la analítica de video y los modelos de IA corren en tarjetas gráficas propias, no en nubes externas.
+- **En la nube o la sala de servidores del cliente** (\`ubicaciones-y-agente-remoto\`, en producción): un agente liviano (Linux, Windows o Kubernetes) conecta esa infraestructura al mismo monitor; solo hace conexiones salientes por HTTPS, sin abrir puertos ni VPN, con un token propio por equipo que se puede revocar.
+- **On premise** (\`equipo-on-premise\`, en producción): si los datos no pueden salir del edificio, ARS deja un equipo en la sede; los servicios y la analítica corren ahí, cerca de las cámaras, y el equipo se vigila desde el mismo monitor.
 - **Se ve en vivo y con respaldo**: monitor de infraestructura de solo lectura (\`monitor-de-infraestructura-en-vivo\`), respaldos verificados con copia fuera del sitio (\`respaldos-verificados\`) y alertas con historia (\`alertas-e-informes-de-infraestructura\`).
 - No prometas certificaciones del centro de datos (Tier, ISO u otras), SLA, porcentajes de disponibilidad, número de tarjetas ni capacidad; la arquitectura exacta de cada cliente (centro de datos de ARS, su nube o on premise) se define con el equipo comercial.
 
@@ -621,9 +621,9 @@ Políticas de retención y certificaciones: a confirmar con el equipo comercial.
 
 **¿Dónde quedan mis datos? ¿Tienen data center? ¿Funciona en la nube o on premise?**
 Hay tres formas, todas vigiladas desde el mismo monitor de infraestructura (\`/servicios/infraestructura\`):
-1. **Centro de datos propio de ARS en Colombia** (en producción): la información no sale del país y la analítica de video y la IA corren en una granja de tarjetas gráficas propia (en piloto la ampliación), sin enviar datos a servicios de terceros fuera del país.
-2. **La nube o la sala de servidores del cliente** (en piloto): un agente con conexiones solo salientes por HTTPS la conecta a ARS, sin abrir puertos ni VPN.
-3. **On premise** (en piloto): ARS deja un equipo en la sede del cliente; los servicios y la analítica corren ahí, cerca de las cámaras.
+1. **Centro de datos propio de ARS en Colombia** (en producción): la información no sale del país y la analítica de video y la IA corren en una granja de tarjetas gráficas propia, sin enviar datos a servicios de terceros fuera del país.
+2. **La nube o la sala de servidores del cliente** (en producción): un agente con conexiones solo salientes por HTTPS la conecta a ARS, sin abrir puertos ni VPN.
+3. **On premise** (en producción): ARS deja un equipo en la sede del cliente; los servicios y la analítica corren ahí, cerca de las cámaras.
 Las analíticas pueden correr en el borde (en la sede) o en el centro de datos según la latencia requerida. La arquitectura exacta de cada cliente se define con el equipo comercial; no prometas SLA ni certificaciones.
 
 **¿Qué detectan las cámaras?**

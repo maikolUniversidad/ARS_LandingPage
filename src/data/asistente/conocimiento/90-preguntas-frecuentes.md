@@ -26,9 +26,9 @@ Políticas de retención y certificaciones: a confirmar con el equipo comercial.
 
 **¿Dónde quedan mis datos? ¿Tienen data center? ¿Funciona en la nube o on premise?**
 Hay tres formas, todas vigiladas desde el mismo monitor de infraestructura (`/servicios/infraestructura`):
-1. **Centro de datos propio de ARS en Colombia** (en producción): la información no sale del país y la analítica de video y la IA corren en una granja de tarjetas gráficas propia (en piloto la ampliación), sin enviar datos a servicios de terceros fuera del país.
-2. **La nube o la sala de servidores del cliente** (en piloto): un agente con conexiones solo salientes por HTTPS la conecta a ARS, sin abrir puertos ni VPN.
-3. **On premise** (en piloto): ARS deja un equipo en la sede del cliente; los servicios y la analítica corren ahí, cerca de las cámaras.
+1. **Centro de datos propio de ARS en Colombia** (en producción): la información no sale del país y la analítica de video y la IA corren en una granja de tarjetas gráficas propia, sin enviar datos a servicios de terceros fuera del país.
+2. **La nube o la sala de servidores del cliente** (en producción): un agente con conexiones solo salientes por HTTPS la conecta a ARS, sin abrir puertos ni VPN.
+3. **On premise** (en producción): ARS deja un equipo en la sede del cliente; los servicios y la analítica corren ahí, cerca de las cámaras.
 Las analíticas pueden correr en el borde (en la sede) o en el centro de datos según la latencia requerida. La arquitectura exacta de cada cliente se define con el equipo comercial; no prometas SLA ni certificaciones.
 
 **¿Qué detectan las cámaras?**
