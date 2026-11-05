@@ -3,7 +3,15 @@
  * detección de áreas/módulos por palabras clave, catálogo compacto para los
  * prompts y saneamiento del perfil. Sin dependencias de servidor.
  */
-import { AREA_IDS, type AreaId, type PerfilEmpresa, type TamanoEmpresa } from "@/data/diagnostico/tipos";
+import {
+  AREA_IDS,
+  CAMPOS_PERFIL,
+  type AreaId,
+  type CampoPerfil,
+  type ContactoDiagnostico,
+  type PerfilEmpresa,
+  type TamanoEmpresa,
+} from "@/data/diagnostico/tipos";
 import { AREAS, areaPorId, buscarModulos, moduloPorId } from "@/data/servicios";
 
 export const TAMANOS: TamanoEmpresa[] = ["1-50", "51-200", "201-1000", "1000+"];
@@ -45,7 +53,15 @@ export function puntajeAreas(texto: string): Map<AreaId, number> {
 }
 
 export function textoDePerfil(p: Partial<PerfilEmpresa>): string {
-  return [p.sector, ...(p.dolores ?? []), ...(p.herramientasActuales ?? []), ...(p.prioridades ?? []), p.notas]
+  return [
+    p.sector,
+    ...(p.servicios ?? []),
+    ...(p.dolores ?? []),
+    ...(p.incidentes ?? []),
+    ...(p.herramientasActuales ?? []),
+    ...(p.prioridades ?? []),
+    p.notas,
+  ]
     .filter(Boolean)
     .join(". ");
 }
@@ -149,13 +165,33 @@ export function areaInfo(id: AreaId) {
 
 /* ───────────── Perfil ───────────── */
 
-const s = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
+const s = (v: unknown, max: number) => (typeof v === "string" ? v.replace(/[\u0000-\u001f\u007f]+/g, " ").trim().slice(0, max) : "");
 const lista = (v: unknown, maxItems: number, maxLargo: number) =>
   Array.isArray(v)
     ? [...new Set(v.map((x) => s(x, maxLargo)).filter(Boolean))].slice(0, maxItems)
     : [];
+const entero = (v: unknown, max: number) =>
+  typeof v === "number" && Number.isFinite(v) && v > 0 ? Math.min(max, Math.round(v)) : undefined;
 
-/** Sanea un perfil parcial que viene del cliente o de la IA. */
+const EMAIL = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/;
+
+/** Sanea el contacto: solo campos con forma válida. */
+export function contactoParcial(v: unknown): ContactoDiagnostico | undefined {
+  if (!v || typeof v !== "object") return undefined;
+  const o = v as Record<string, unknown>;
+  const out: ContactoDiagnostico = {};
+  const nombre = s(o.nombre, 80);
+  if (nombre) out.nombre = nombre;
+  const cargo = s(o.cargo, 80);
+  if (cargo) out.cargo = cargo;
+  const email = s(o.email, 120).toLowerCase();
+  if (EMAIL.test(email)) out.email = email;
+  const telefono = s(o.telefono, 30);
+  if (telefono.replace(/\D/g, "").length >= 7 && /^[+\d\s().-]+$/.test(telefono)) out.telefono = telefono;
+  return Object.keys(out).length ? out : undefined;
+}
+
+/** Sanea un perfil parcial que viene del cliente, de la IA o del análisis de un adjunto. */
 export function perfilParcial(v: unknown): Partial<PerfilEmpresa> {
   if (!v || typeof v !== "object") return {};
   const o = v as Record<string, unknown>;
@@ -167,13 +203,26 @@ export function perfilParcial(v: unknown): Partial<PerfilEmpresa> {
   const ciudad = s(o.ciudad, 60);
   if (ciudad) out.ciudad = ciudad;
   if (typeof o.tamano === "string" && (TAMANOS as string[]).includes(o.tamano)) out.tamano = o.tamano as TamanoEmpresa;
-  if (typeof o.sedes === "number" && Number.isFinite(o.sedes) && o.sedes > 0) out.sedes = Math.min(100_000, Math.round(o.sedes));
+  const sedes = entero(o.sedes, 100_000);
+  if (sedes) out.sedes = sedes;
+  const personal = entero(o.personal, 1_000_000);
+  if (personal) out.personal = personal;
+  const servicios = lista(o.servicios, 8, 80);
+  if (servicios.length) out.servicios = servicios;
   const dolores = lista(o.dolores, 8, 160);
   if (dolores.length) out.dolores = dolores;
+  const incidentes = lista(o.incidentes, 6, 160);
+  if (incidentes.length) out.incidentes = incidentes;
   const herramientas = lista(o.herramientasActuales, 10, 60);
   if (herramientas.length) out.herramientasActuales = herramientas;
   const prioridades = lista(o.prioridades, 6, 60);
   if (prioridades.length) out.prioridades = prioridades;
+  const plazo = s(o.plazo, 60);
+  if (plazo) out.plazo = plazo;
+  const presupuesto = s(o.presupuesto, 80);
+  if (presupuesto) out.presupuesto = presupuesto;
+  const contacto = contactoParcial(o.contacto);
+  if (contacto) out.contacto = contacto;
   const notas = s(o.notas, 600);
   if (notas) out.notas = notas;
   return out;
@@ -187,12 +236,18 @@ export function fusionarPerfil(a: Partial<PerfilEmpresa>, b: Partial<PerfilEmpre
     return out.length ? out : undefined;
   };
   const r: Partial<PerfilEmpresa> = { ...a, ...b };
-  const dolores = unir(a.dolores, b.dolores);
-  const herramientas = unir(a.herramientasActuales, b.herramientasActuales);
-  const prioridades = unir(a.prioridades, b.prioridades);
-  if (dolores) r.dolores = dolores.slice(0, 8);
-  if (herramientas) r.herramientasActuales = herramientas.slice(0, 10);
-  if (prioridades) r.prioridades = prioridades.slice(0, 6);
+  const listas = [
+    ["dolores", 8],
+    ["herramientasActuales", 10],
+    ["prioridades", 6],
+    ["servicios", 8],
+    ["incidentes", 6],
+  ] as const;
+  for (const [k, max] of listas) {
+    const u = unir(a[k], b[k]);
+    if (u) r[k] = u.slice(0, max);
+  }
+  if (a.contacto || b.contacto) r.contacto = { ...a.contacto, ...b.contacto };
   if (a.notas && b.notas && a.notas !== b.notas) r.notas = `${a.notas} ${b.notas}`.slice(0, 600);
   return r;
 }
@@ -200,28 +255,35 @@ export function fusionarPerfil(a: Partial<PerfilEmpresa>, b: Partial<PerfilEmpre
 /** Completa un perfil parcial con valores por defecto para pedir el diagnóstico. */
 export function perfilCompleto(p: Partial<PerfilEmpresa>): PerfilEmpresa {
   return {
+    ...p,
     nombre: p.nombre || "Tu empresa",
     sector: p.sector || "Seguridad privada",
-    ciudad: p.ciudad,
     tamano: p.tamano ?? "51-200",
-    sedes: p.sedes,
     dolores: p.dolores ?? [],
     herramientasActuales: p.herramientasActuales ?? [],
     prioridades: p.prioridades ?? [],
-    notas: p.notas,
   };
+}
+
+/** true si el campo del perfil ya tiene un valor útil. */
+export function campoLleno(p: Partial<PerfilEmpresa>, campo: CampoPerfil): boolean {
+  const v = p[campo];
+  if (campo === "contacto") return Boolean(p.contacto?.email || p.contacto?.telefono);
+  if (Array.isArray(v)) return v.length > 0;
+  return v !== undefined && v !== null && v !== "";
+}
+
+/** Campos de CAMPOS_PERFIL que aún faltan, en el orden de la entrevista. */
+export function camposFaltantes(p: Partial<PerfilEmpresa>): CampoPerfil[] {
+  return CAMPOS_PERFIL.filter((c) => !campoLleno(p, c));
 }
 
 /** 0–1: cuánto del perfil está lleno (para la barra del perfil en construcción). */
 export function completitud(p: Partial<PerfilEmpresa>): number {
-  const campos = [
-    Boolean(p.nombre),
-    Boolean(p.sector),
-    Boolean(p.tamano),
-    Boolean(p.sedes || p.ciudad),
-    Boolean(p.dolores?.length),
-    Boolean(p.herramientasActuales?.length),
-    Boolean(p.prioridades?.length),
-  ];
-  return campos.filter(Boolean).length / campos.length;
+  return (CAMPOS_PERFIL.length - camposFaltantes(p).length) / CAMPOS_PERFIL.length;
+}
+
+/** Lo mínimo para armar un diagnóstico serio: nombre, sector, tamaño, 2 dolores y prioridades. */
+export function perfilSuficiente(p: Partial<PerfilEmpresa>): boolean {
+  return Boolean(p.nombre && p.sector && p.tamano && (p.dolores?.length ?? 0) >= 2 && p.prioridades?.length);
 }
