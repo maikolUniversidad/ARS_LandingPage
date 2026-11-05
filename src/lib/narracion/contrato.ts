@@ -22,6 +22,7 @@ export const IDS_HOME = [
   "home/traza",
   "home/escala",
   "home/recap",
+  "home/capacitacion",
   "home/contacto",
 ] as const;
 
