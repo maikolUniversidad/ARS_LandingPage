@@ -76,6 +76,21 @@ export const IDS_ARQUITECTURA = [
   "arquitectura/cierre",
 ] as const;
 
+/** Secciones de /academia (capacitación de vigilantes en realidad virtual), en orden. */
+export const IDS_ACADEMIA = [
+  "academia/hero",
+  "academia/por-que",
+  "academia/curso",
+  "academia/modulo-1",
+  "academia/modulo-2",
+  "academia/modulo-3",
+  "academia/modulo-4",
+  "academia/personajes",
+  "academia/plataforma",
+  "academia/legal",
+  "academia/cierre",
+] as const;
+
 /** /proyectos: la portada y el mapa (pantalla fija, sin scroll). */
 export const IDS_PROYECTOS = ["proyectos/intro", "proyectos/mapa"] as const;
 
