@@ -68,3 +68,15 @@ Generado el 4-nov-2026. Guiones en `src/data/narracion/guiones-home.ts`, `guione
 ## Regeneración por posicionamiento ERP (2026-11-04)
 
 `plataforma/recorrido/finanzas-y-erp` se reescribió («Ars también es su ERP… y si ya tiene otros sistemas, todo se centraliza aquí o fluye entre ellos») y se regeneró con la misma voz, modelo y post-proceso (188 créditos). Ver `docs/posicionamiento-erp.md` y la lista completa en `NARRACION-servicios-areas.md`.
+
+## Sección «Despliegue y gobernanza de datos» (2026-11-05)
+
+Nueva sección del home entre `home/recap` y `home/capacitacion` (`src/components/home/SeccionDespliegue.tsx`). No hizo falta tocar `home/recap` ni `home/contacto`.
+
+| id | duración (s) | créditos |
+|---|---:|---:|
+| `home/despliegue` | 36.96 | 588 |
+
+- Misma voz («Sofía – Confianza & Calidez», `b2htR0pMe28pYwCY9gnP`), modelo `eleven_v4`, una toma, vía el conector MCP de ElevenLabs, en el mismo flow `1VhTgXKB2AgxaFLEEHjU` (generación `fY0YAEG6obU7ohfTiDBh`).
+- Texto enviado = guion, con «ARS» escrito «Ars» para la voz. Sin etiquetas de dirección.
+- Post-proceso igual al resto: recorte de silencio (−50 dB, ≤0,15 s), `loudnorm=I=-16:TP=-1.5:LRA=7`, mono, 44,1 kHz, 96 kbps, `-map_metadata -1`. Medido: −16,5 LUFS integrado. Dura ≈37 s, un poco más que la media, porque nombra las cuatro formas de desplegar y aclara que hoy la nube ARS está en operación y las demás en piloto.

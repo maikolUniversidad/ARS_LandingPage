@@ -31,6 +31,17 @@
         "3007"
       ],
       "port": 3007
+    },
+    {
+      "name": "home-despliegue-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "next",
+        "dev",
+        "-p",
+        "3011"
+      ],
+      "port": 3011
     }
   ]
 }
