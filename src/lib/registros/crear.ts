@@ -8,7 +8,7 @@ import type {
   TipoAdjunto,
 } from "@/data/diagnostico/tipos";
 import { ipDe } from "@/lib/asistente/servidor";
-import { configRegistros } from "./config";
+import { configRegistros, entornoRegistro } from "./config";
 import {
   VERSION_REGISTRO,
   type OrigenRegistro,
@@ -51,7 +51,7 @@ export function origenDe(req: Request, pagina?: unknown): OrigenRegistro {
     sitio: texto(req.headers.get("x-forwarded-host") ?? req.headers.get("host"), 200) || null,
     ipHash: createHash("sha256").update(`${cfg.salIp}:${ip}`).digest("hex").slice(0, 32),
     userAgent: texto(req.headers.get("user-agent"), 300) || null,
-    entorno: process.env.VERCEL_ENV || process.env.NODE_ENV || "development",
+    entorno: entornoRegistro(),
   };
 }
 

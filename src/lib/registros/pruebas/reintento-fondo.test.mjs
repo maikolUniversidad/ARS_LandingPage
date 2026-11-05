@@ -1,6 +1,7 @@
 // Pruebas del reintento de fondo de los registros:  npm run test:registros
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
+import { entornoRegistro } from "../config.ts";
 import { detenerReintentoFondo, iniciarReintentoFondo, intervaloReintento, rechazoDefinitivo } from "../reintento-fondo.ts";
 
 const silencio = () => {
@@ -20,6 +21,17 @@ describe("intervalo del reintento de fondo (REGISTROS_REINTENTO_MS)", () => {
     assert.equal(intervaloReintento("0"), 0);
     assert.equal(intervaloReintento("-5"), 0);
     assert.equal(intervaloReintento("999999999999"), 86_400_000);
+  });
+});
+
+describe("entorno del registro (REGISTROS_ENTORNO)", () => {
+  it("REGISTROS_ENTORNO manda sobre VERCEL_ENV y NODE_ENV; un valor inválido se ignora", () => {
+    assert.equal(entornoRegistro({ NODE_ENV: "production" }), "production");
+    assert.equal(entornoRegistro({ NODE_ENV: "production", REGISTROS_ENTORNO: "development" }), "development");
+    assert.equal(entornoRegistro({ VERCEL_ENV: "preview", NODE_ENV: "production" }), "preview");
+    assert.equal(entornoRegistro({ VERCEL_ENV: "production", REGISTROS_ENTORNO: " Preview " }), "preview");
+    assert.equal(entornoRegistro({ NODE_ENV: "production", REGISTROS_ENTORNO: "pruebas" }), "production");
+    assert.equal(entornoRegistro({}), "development");
   });
 });
 

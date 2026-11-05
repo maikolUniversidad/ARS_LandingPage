@@ -7,6 +7,19 @@ const entero = (k: string, porDefecto: number, min: number, max: number) => {
   return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : porDefecto;
 };
 
+const ENTORNOS = ["production", "preview", "development"] as const;
+export type EntornoRegistro = (typeof ENTORNOS)[number];
+
+/**
+ * `origen.entorno` del registro. REGISTROS_ENTORNO (production|preview|development), si está, manda sobre
+ * VERCEL_ENV y NODE_ENV: así los pods de prueba marcan sus registros como `development` aunque corran en producción.
+ */
+export function entornoRegistro(e: Record<string, string | undefined> = process.env): string {
+  const pedido = e.REGISTROS_ENTORNO?.trim().toLowerCase();
+  if (pedido && (ENTORNOS as readonly string[]).includes(pedido)) return pedido;
+  return e.VERCEL_ENV?.trim() || e.NODE_ENV?.trim() || "development";
+}
+
 export function configRegistros() {
   const url = env("ARS_REGISTROS_URL");
   const token = env("ARS_REGISTROS_TOKEN");

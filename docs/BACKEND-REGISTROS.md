@@ -597,6 +597,7 @@ Se configuran en Vercel (Project → Settings → Environment Variables) o en `.
 | `REGISTROS_COPIA_LOCAL` | No | `siempre` | `siempre` = copia local aunque el push funcione; `respaldo` = solo si el push falla. |
 | `REGISTROS_ESPERA_MS` | No | `2500` | Cuánto espera la respuesta al usuario a la confirmación (0–15000). |
 | `REGISTROS_REINTENTO_MS` | No | `300000` | Reintento de fondo de lo `pendiente` (mín. 30000; `0` = apagado). |
+| `REGISTROS_ENTORNO` | No | `VERCEL_ENV` o `NODE_ENV` | `production`, `preview` o `development` en `origen.entorno`. Para que las pruebas no se cuelen como leads reales. |
 | `REGISTROS_API_TOKEN` | Para la API pull | — | Bearer de `/api/registros`. Sin ella, la API responde 503. |
 | `REGISTROS_SAL_IP` | No | `ARS_REGISTROS_SECRET` | Sal del hash de la IP. |
 | `RESEND_API_KEY`, `CONTACT_TO`, `RESEND_FROM` | Ya existían | | El aviso por correo de contacto y diagnóstico se sigue enviando aunque el registro se guarde. |
