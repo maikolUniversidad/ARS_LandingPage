@@ -19,7 +19,7 @@ import { useEscenaMusical, useEstadoNarracion, useObservadorSecciones } from "./
 /** /diagnostico tiene su propio reproductor de voz: allí la narración no suena. */
 const RUTAS_SIN_AUDIO = ["/diagnostico", "/admin", "/vision-lab"];
 const RUTAS_NARRADAS = (p: string) =>
-  p === "/" || p === "/plataforma" || p === "/vision" || p === "/laboratorio" || p === "/proyectos" || p.startsWith("/servicios");
+  p === "/" || p === "/plataforma" || p === "/vision" || p === "/laboratorio" || p === "/proyectos" || p === "/arquitectura" || p.startsWith("/servicios");
 
 /** Pantallas táctiles o estrechas: dock fijo inferior en lugar del panel flotante. */
 const CONSULTA_DOCK = "(max-width: 767px), (pointer: coarse) and (max-width: 1024px)";

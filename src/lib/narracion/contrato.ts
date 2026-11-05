@@ -65,6 +65,17 @@ export const IDS_LABORATORIO = [
   "laboratorio/cierre",
 ] as const;
 
+/** Secciones de /arquitectura, en orden. */
+export const IDS_ARQUITECTURA = [
+  "arquitectura/hero",
+  "arquitectura/diagrama",
+  "arquitectura/sigue-un-dato",
+  "arquitectura/interoperabilidad",
+  "arquitectura/voz",
+  "arquitectura/por-que-erp",
+  "arquitectura/cierre",
+] as const;
+
 /** /proyectos: la portada y el mapa (pantalla fija, sin scroll). */
 export const IDS_PROYECTOS = ["proyectos/intro", "proyectos/mapa"] as const;
 

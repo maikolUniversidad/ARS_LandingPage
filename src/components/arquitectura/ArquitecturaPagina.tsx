@@ -10,6 +10,7 @@ import { CtaLink, Eyebrow, rgba } from "@/components/servicios/ui";
 import { COPY, NODO_POR_ID, NODOS, RECORRIDOS, tx, type Vista } from "./contenido";
 import { DiagramaArquitectura, EstilosArquitectura } from "./DiagramaArquitectura";
 import { EstadoChip } from "./PanelNodo";
+import { SeccionInteroperabilidad, SeccionVoz } from "./SeccionesVozInterop";
 import { useMenosMovimiento, useRecorrido } from "./recorrido";
 
 const unicos = (capa: string) => new Set(NODOS.filter((n) => n.capa === capa).flatMap((n) => n.modulos)).size;
@@ -38,7 +39,7 @@ export function ArquitecturaPagina() {
       <EstilosArquitectura />
 
       {/* ───────── Hero ───────── */}
-      <section aria-labelledby="arq-titulo" className="relative isolate overflow-hidden pb-20 pt-32 md:pb-28 md:pt-44">
+      <section data-narracion="arquitectura/hero" aria-labelledby="arq-titulo" className="relative isolate overflow-hidden pb-20 pt-32 md:pb-28 md:pt-44">
         <div className="absolute inset-0 -z-10" aria-hidden="true">
           <div className="absolute inset-0 bg-[radial-gradient(55%_70%_at_75%_30%,rgba(35,72,212,0.32),transparent_70%)]" />
           <div className="grid-bg absolute inset-0 opacity-25" />
@@ -88,7 +89,7 @@ export function ArquitecturaPagina() {
       </section>
 
       {/* ───────── Diagrama ───────── */}
-      <section id="diagrama" aria-labelledby="diagrama-titulo" className="relative scroll-mt-20 border-t border-white/10 py-20 md:py-28">
+      <section id="diagrama" data-narracion="arquitectura/diagrama" aria-labelledby="diagrama-titulo" className="relative scroll-mt-20 border-t border-white/10 py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-4 md:px-10">
           <Eyebrow>{t.diagramaEyebrow}</Eyebrow>
           <h2 id="diagrama-titulo" className={`mt-5 max-w-3xl ${titulo}`}>
@@ -101,7 +102,7 @@ export function ArquitecturaPagina() {
       </section>
 
       {/* ───────── Sigue un dato ───────── */}
-      <section id="sigue-un-dato" aria-labelledby="dato-titulo" className="relative scroll-mt-20 border-t border-white/10 py-20 md:py-28">
+      <section id="sigue-un-dato" data-narracion="arquitectura/sigue-un-dato" aria-labelledby="dato-titulo" className="relative scroll-mt-20 border-t border-white/10 py-20 md:py-28">
         <div className="grid-bg absolute inset-0 opacity-20" aria-hidden="true" />
         <div className="relative mx-auto max-w-7xl px-4 md:px-10">
           <RevealOnScroll>
@@ -172,8 +173,16 @@ export function ArquitecturaPagina() {
         </div>
       </section>
 
+      {/* ───────── Interoperabilidad y voz ───────── */}
+      <div data-narracion="arquitectura/interoperabilidad">
+        <SeccionInteroperabilidad l={l} t={t} />
+      </div>
+      <div data-narracion="arquitectura/voz">
+        <SeccionVoz l={l} t={t} />
+      </div>
+
       {/* ───────── Por qué un ERP propio ───────── */}
-      <section id="por-que-erp" aria-labelledby="porque-titulo" className="relative isolate scroll-mt-20 overflow-hidden border-t border-white/10 py-20 md:py-28">
+      <section id="por-que-erp" data-narracion="arquitectura/por-que-erp" aria-labelledby="porque-titulo" className="relative isolate scroll-mt-20 overflow-hidden border-t border-white/10 py-20 md:py-28">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_15%_0%,rgba(35,72,212,0.25),transparent_70%)]" aria-hidden="true" />
         <div className="mx-auto max-w-7xl px-4 md:px-10">
           <RevealOnScroll>
@@ -238,7 +247,7 @@ export function ArquitecturaPagina() {
       </section>
 
       {/* ───────── Cierre ───────── */}
-      <section id="cierre" aria-labelledby="cierre-titulo" className="relative isolate scroll-mt-16 overflow-hidden py-24 md:py-36">
+      <section id="cierre" data-narracion="arquitectura/cierre" aria-labelledby="cierre-titulo" className="relative isolate scroll-mt-16 overflow-hidden py-24 md:py-36">
         <div className="absolute inset-0 -z-10" aria-hidden="true">
           <div className="brand-gradient absolute inset-0 opacity-70" />
           <div className="absolute inset-0 bg-[radial-gradient(70%_90%_at_15%_10%,rgba(107,138,255,0.4),transparent_60%)]" />
