@@ -179,8 +179,8 @@ export const REEL: ItemReel[] = [
     "ancho",
     { es: "La Sala VR por dentro", en: "Inside the VR Room" },
     {
-      es: "El vestíbulo 3D, la Central Viva rodeada de tableros de eventos, radio, drones y sala de control, y el recorrido guiado de la Sede Inteligente. Datos simulados de demostración.",
-      en: "The 3D lobby, the Live Hub surrounded by event, radio, drone and control-room boards, and the guided Smart Site tour. Simulated demo data.",
+      es: "El vestíbulo 3D, la Central Viva rodeada de tableros de eventos, radio y sala de control, y el recorrido guiado por una sede. Datos simulados de demostración.",
+      en: "The 3D lobby, the Live Hub surrounded by event, radio and control-room boards, and a guided site tour. Simulated demo data.",
     }
   ),
   itemSecuencia(

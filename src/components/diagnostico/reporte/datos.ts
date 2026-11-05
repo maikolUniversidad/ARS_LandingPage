@@ -173,6 +173,6 @@ export function resumenTexto(d: Diagnostico): string {
     "Cifras estimadas:",
     cifras,
     "",
-    "Preparado por ARS Intelligence · arsintelligence.com",
+    "Preparado por ARS Intelligence · ars-intelligence.com",
   ].join("\n");
 }

@@ -1,9 +1,9 @@
 /**
  * Escena «inmersiva»: CENTRAL VIVA, la sala de control en realidad virtual.
  *
- * Sala circular con tableros curvos flotando (eventos, radio, dron, mapa,
+ * Sala circular con tableros curvos flotando (eventos, radio, cámaras, mapa,
  * indicadores y cámaras), un holograma central, y cuatro estaciones: la
- * maqueta de la Sede Inteligente, la Mesa Directiva con IA, Vigía (orbe de voz)
+ * maqueta de «La sede del cliente», la Mesa Directiva con IA, Vigía (orbe de voz)
  * y las gafas de realidad virtual. Se entra por un vestíbulo con pasarela de luz.
  *
  * Focos: vestibulo · central · sede · mesa · vigia · gafas.
@@ -141,7 +141,7 @@ function construir(kit: Kit): Escena {
     {
       th: grados(200),
       anim: "scrollX",
-      dibujo: fondoPanel("DRON 02 · EN VIVO", (c, w, h) => {
+      dibujo: fondoPanel("CÁMARA 02 · EN VIVO", (c, w, h) => {
         c.strokeStyle = "rgba(95,216,255,0.35)";
         c.lineWidth = 1.5;
         for (let i = 0; i < 14; i++) {

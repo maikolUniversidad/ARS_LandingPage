@@ -1,14 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { EventoEntrevista } from "@/components/diagnostico/entrevista/eventos";
 import { modoDemoDiagnostico } from "@/lib/diagnostico/servidor";
-import {
-  ESQUEMA_TURNO,
-  eventosDeSalida,
-  respuestaParcial,
-  streamDemoEntrevista,
-  systemEntrevista,
-  validarTurno,
-} from "@/lib/diagnostico/entrevista";
+import { ESQUEMA_TURNO, contextoTurno, eventosDeSalida, respuestaParcial, systemEntrevista, validarTurno } from "@/lib/diagnostico/entrevista";
+import { streamDemoEntrevista } from "@/lib/diagnostico/entrevista-demo";
 import { configuracion, limitado } from "@/lib/asistente/servidor";
 
 export const runtime = "nodejs";
@@ -32,7 +26,7 @@ export async function POST(req: Request) {
   if (limitado(req, "diag-entrevista", 30)) return jsonError("Vamos muy rápido. Espera un momento y seguimos.", 429);
 
   const texto = await req.text();
-  if (texto.length > 120_000) return jsonError("La conversación es demasiado larga.", 413);
+  if (texto.length > 160_000) return jsonError("La conversación es demasiado larga.", 413);
   let raw: unknown;
   try {
     raw = JSON.parse(texto);
@@ -54,7 +48,7 @@ export async function POST(req: Request) {
     {
       role: "user",
       content: [
-        { type: "text", text: `<perfil_actual>${JSON.stringify(peticion.perfil)}</perfil_actual>` },
+        { type: "text", text: contextoTurno(peticion) },
         { type: "text", text: ultimo.texto },
       ],
     },
@@ -105,7 +99,7 @@ export async function POST(req: Request) {
           if (typeof respuesta === "string" && respuesta.length > emitido.length && respuesta.startsWith(emitido)) {
             enviar({ t: "texto", d: respuesta.slice(emitido.length) });
           }
-          for (const e of eventosDeSalida(salida, peticion.perfil, ultimo.texto)) enviar(e);
+          for (const e of eventosDeSalida(salida, peticion)) enviar(e);
         }
         if (process.env.NODE_ENV !== "production") {
           const u = final.usage;

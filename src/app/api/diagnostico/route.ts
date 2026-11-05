@@ -1,13 +1,25 @@
 import Anthropic from "@anthropic-ai/sdk";
-import type { RespuestaDiagnostico } from "@/data/diagnostico/tipos";
+import { after } from "next/server";
+import type { Diagnostico, PeticionDiagnostico, RespuestaDiagnostico } from "@/data/diagnostico/tipos";
 import { configuracion, limitado } from "@/lib/asistente/servidor";
 import { areasCandidatas } from "@/lib/diagnostico/catalogo";
 import { diagnosticoDemo, diagnosticoIa, modoDemoDiagnostico, validarPeticionDiagnostico } from "@/lib/diagnostico/servidor";
+import { guardarRegistro, registroDiagnostico } from "@/lib/registros";
+import { correoDiagnostico, enviarCorreoEquipo } from "@/lib/registros/correo";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
 
 const responder = (r: RespuestaDiagnostico, status = 200) => Response.json(r, { status, headers: { "Cache-Control": "no-store" } });
+
+/** Guarda el registro (ARS + copia local), avisa al equipo por correo y responde con el id. */
+async function responderConRegistro(req: Request, peticion: PeticionDiagnostico, diagnostico: Diagnostico, raw: unknown) {
+  const registro = registroDiagnostico(req, peticion, diagnostico, raw);
+  // El correo no bloquea la respuesta.
+  after(() => enviarCorreoEquipo(correoDiagnostico(registro), "diagnostico"));
+  const guardado = await guardarRegistro(registro);
+  return responder({ ok: true, diagnostico, registro: guardado });
+}
 
 /** Recibe `PeticionDiagnostico` y devuelve `RespuestaDiagnostico`. */
 export async function POST(req: Request) {
@@ -31,12 +43,13 @@ export async function POST(req: Request) {
   const peticion = validarPeticionDiagnostico(raw);
   if (!peticion) return responder({ ok: false, mensaje: "Falta el perfil de la empresa." }, 400);
 
-  if (demo) return responder({ ok: true, diagnostico: diagnosticoDemo(peticion.perfil) });
+  // Demo también se guarda (marcado con fuente "demo") para probar el flujo completo.
+  if (demo) return responderConRegistro(req, peticion, diagnosticoDemo(peticion.perfil), raw);
 
   try {
     const candidatas = areasCandidatas(peticion.perfil, 3, 6);
     const diagnostico = await diagnosticoIa(peticion, candidatas, cfg, req.signal);
-    return responder({ ok: true, diagnostico });
+    return await responderConRegistro(req, peticion, diagnostico, raw);
   } catch (err) {
     if (req.signal.aborted) return responder({ ok: false, mensaje: "Cancelado." }, 499);
     console.error("[diagnostico] error:", err);

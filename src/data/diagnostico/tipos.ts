@@ -61,7 +61,75 @@ export type PerfilEmpresa = {
   prioridades: string[];
   /** Notas libres de la conversación. */
   notas?: string;
+  /* ── Detalle ampliado (todo opcional; lo llena la IA desde la charla o los adjuntos) ── */
+  /** Número aproximado de personas en operación (guardas, operarios, empleados). */
+  personal?: number;
+  /** Servicios que presta hoy: "Vigilancia fija", "Escoltas", "Monitoreo"... */
+  servicios?: string[];
+  /** Incidentes o problemas recientes concretos (texto corto). */
+  incidentes?: string[];
+  /** Plazo deseado: "inmediato", "1-3 meses", "este año"... */
+  plazo?: string;
+  /** Rango de presupuesto mencionado (texto libre, opcional). */
+  presupuesto?: string;
+  /** Persona de contacto (para guardar el registro y que ARS le escriba). */
+  contacto?: ContactoDiagnostico;
 };
+
+export type ContactoDiagnostico = {
+  nombre?: string;
+  cargo?: string;
+  email?: string;
+  telefono?: string;
+};
+
+/** Campos del perfil que el panel «Perfil en construcción» muestra y cuenta para el %. */
+export const CAMPOS_PERFIL = [
+  "nombre",
+  "sector",
+  "tamano",
+  "sedes",
+  "ciudad",
+  "personal",
+  "servicios",
+  "dolores",
+  "herramientasActuales",
+  "prioridades",
+  "incidentes",
+  "plazo",
+  "contacto",
+] as const;
+export type CampoPerfil = (typeof CAMPOS_PERFIL)[number];
+
+/* ───────────── Adjuntos (fotos, video, documentos) ───────────── */
+
+export type TipoAdjunto = "imagen" | "video" | "documento" | "audio";
+
+/**
+ * Resultado de POST /api/diagnostico/adjuntos (multipart: campo `archivo`,
+ * opcional `perfil` JSON y, para video, varios campos `fotograma` con JPEG
+ * extraídos en el navegador). La IA «entiende» el archivo y propone datos.
+ */
+export type AdjuntoAnalizado = {
+  id: string;
+  nombre: string;
+  tipo: TipoAdjunto;
+  mime: string;
+  bytes: number;
+  /** Qué vio la IA (1–3 frases, segunda persona). */
+  resumen: string;
+  /** Observaciones útiles para el diagnóstico (riesgos, equipos, procesos). */
+  hallazgos: string[];
+  /** Datos del perfil que se pueden deducir del archivo. */
+  cambios: Partial<PerfilEmpresa>;
+  /** Áreas del catálogo relacionadas con lo que se vio. */
+  areas: AreaId[];
+};
+
+export type RespuestaAdjunto = { ok: true; adjunto: AdjuntoAnalizado } | { ok: false; mensaje: string };
+
+/** Lo que viaja en cada turno sobre los adjuntos (solo texto, sin el archivo). */
+export type AdjuntoTurno = Pick<AdjuntoAnalizado, "id" | "nombre" | "tipo" | "resumen" | "hallazgos">;
 
 /** Un turno de la entrevista (para enviar a la IA y mostrar en el reporte). */
 export type TurnoEntrevista = { rol: "user" | "assistant"; texto: string };
@@ -163,10 +231,15 @@ export type Diagnostico = {
 export type PeticionDiagnostico = {
   perfil: PerfilEmpresa;
   conversacion: TurnoEntrevista[];
+  /** Adjuntos analizados durante la entrevista (metadatos + lo que entendió la IA). */
+  adjuntos?: AdjuntoTurno[];
 };
 
+/** Estado del guardado en el módulo de ARS (ver docs/BACKEND-REGISTROS.md). */
+export type RegistroGuardado = { id: string; guardado: boolean };
+
 export type RespuestaDiagnostico =
-  | { ok: true; diagnostico: Diagnostico }
+  | { ok: true; diagnostico: Diagnostico; registro?: RegistroGuardado }
   | { ok: false; mensaje: string };
 
 /** Clave de sessionStorage donde la entrevista guarda el último diagnóstico. */

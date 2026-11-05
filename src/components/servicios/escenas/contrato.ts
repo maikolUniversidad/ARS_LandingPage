@@ -86,12 +86,12 @@ export const FOCOS_ESCENA: Record<EscenaId, Record<string, string>> = {
     escaneo: "Escaneo 3D de la sede",
   },
   inmersiva: {
-    vestibulo: "Vestíbulo de la central",
+    vestibulo: "Vestíbulo, portales y Academia",
     central: "Central Viva en 3D",
-    sede: "Sede Inteligente",
+    sede: "La sede del cliente",
     mesa: "Mesa Directiva con IA",
     vigia: "Vigía, asistente de voz",
-    gafas: "Gafas Meta Quest",
+    gafas: "App ARS para Meta Quest",
   },
   humana: {
     seleccion: "Selección y contratación",

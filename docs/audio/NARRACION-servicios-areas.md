@@ -32,7 +32,7 @@ Se transcribieron cuatro clips con `creative_transcribe_audio`. Los cuatro salen
 ## Notas de contenido
 
 - Trato de usted, primera persona de Ars, números en letras y nada de lo que no se promete (ni placas, armas, EPP, térmica ni fuego; facial solo como alerta que verifica un operador; sin SLA ni cifras de uso).
-- **RADIAN** se narra como piloto. La **Sala VR nativa para Meta Quest** se narra como «planeada», tal como dice su resumen en el catálogo (su `estado` dice `vivo`, y eso no cuadra con el resumen). En /servicios no hay módulo de robótica.
+- **RADIAN** se narra como piloto. La **App ARS para Meta Quest** ya existe (versión 0.2.0); ver «Pendiente · Sala VR Fase 5». En /servicios no hay módulo de robótica.
 - En los guiones se escribe «Ars» (no «ARS») para que la voz lo diga como palabra. Los subtítulos usan este mismo texto.
 
 ## Duraciones (id → segundos)
@@ -129,3 +129,18 @@ El mensaje cambió a «ARS es un ERP y además se adapta: centraliza o hace flui
 - `servicios/finanzas-y-erp/`: `intro`, `ordenes-de-servicio-del-erp`, `contabilidad-conectada`, `agente-interoperador-de-datos`, `su-erp-dentro-de-ars`, `cotizador-y-crm-propios`.
 - `servicios/gestion-humana/`: `empleados-prestamos-y-contratos`, `nomina`, `prima-vacaciones-y-liquidacion`, `costos-y-comparacion-con-el-erp`, `auditoria-de-gestion-humana`.
 - Costo: estimación previa 249 créditos (`estimate_only`, no cobra); 12 clips en total ≈ **2.837 créditos (≈ USD 0,51)**; 1 transcripción de verificación (0 créditos).
+
+
+## Pendiente · Sala VR Fase 5 (5-nov-2026)
+
+El área `realidad-virtual` se reescribió con el documento «ARS · Sala de realidad virtual — contexto para la web» (app ARS 0.2.0). Cinco guiones cambiaron o son nuevos y **no tienen audio todavía**: la generación en el flow `38YscQmZrBp2G4qCmJZg` se rechazó por falta de créditos (quedaban 58; cada clip pide ≈250–325). Mientras tanto la narración calla en esas secciones (el motor ignora un mp3 que no existe). Los mp3 viejos de `intro`, `sede-inteligente` y `sala-vr-nativa-meta-quest` se retiraron porque decían cosas que ya no son ciertas.
+
+| id | estado |
+|---|---|
+| `servicios/realidad-virtual/intro` | guion nuevo, sin audio |
+| `servicios/realidad-virtual/su-empresa-por-dentro` | módulo nuevo, sin audio |
+| `servicios/realidad-virtual/sede-inteligente` | guion nuevo («La sede del cliente»), sin audio |
+| `servicios/realidad-virtual/academia-de-vigilantes-vr` | módulo nuevo, sin audio |
+| `servicios/realidad-virtual/sala-vr-nativa-meta-quest` | guion nuevo, sin audio |
+
+Costo estimado al recargar: ≈1.430 créditos (≈0,26 USD), misma voz y modelo, una toma por clip, y el mismo post-proceso de ffmpeg.
