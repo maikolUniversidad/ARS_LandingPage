@@ -18,6 +18,7 @@ const G = "formacion";
 const H = "finanzas-y-erp";
 const I = "productividad-e-ia";
 const J = "gobierno-y-seguridad";
+const K = "infraestructura";
 
 export const GUIONES_SERVICIOS_AREAS: Record<string, string> = {
   // ─── A · Operación en campo ───
@@ -205,4 +206,26 @@ export const GUIONES_SERVICIOS_AREAS: Record<string, string> = {
     "Sin pasar por una tienda de aplicaciones: Ars se instala desde el navegador en cualquier teléfono o computador. Un solo enlace basta para que una persona nueva la tenga en su pantalla de inicio.",
   [idModulo(J, "app-de-escritorio-para-la-central")]:
     "La central siempre abierta en su propia ventana de Windows, con el muro de video, notificaciones del sistema y micrófono para la radio. Está pensada para trabajar día y noche, y se actualiza sola.",
+
+  // ─── K · Infraestructura y centro de datos ───
+  [idIntroArea(K)]:
+    "Todo lo que ha visto corre sobre algo. Ars tiene su propio centro de datos en Colombia, con una granja de tarjetas gráficas donde se procesan la analítica y la inteligencia artificial. Su información no sale del país. Y si usted tiene su propia nube o sus propios servidores, también los conecto y los vigilo desde aquí.",
+  [idModulo(K, "centro-de-datos-ars")]:
+    "Este es nuestro protocolo de soberanía de datos. Los videos, los documentos de su personal y las conversaciones con los asistentes se procesan en servidores propios, aquí en Colombia, y no se envían a servicios de terceros fuera del país. La soberanía no queda en un contrato: queda en la arquitectura.",
+  [idModulo(K, "granja-de-gpu-ia-local")]:
+    "La analítica de video y los modelos de inteligencia artificial corren en nuestras propias tarjetas gráficas. Cada tarjeta de cada equipo se ve como una ficha viva, con su temperatura, su consumo y su uso, y le aviso antes de que algo se caliente.",
+  [idModulo(K, "monitor-de-infraestructura-en-vivo")]:
+    "En una sola pantalla veo el servidor, los contenedores, los servicios, las bases de datos, las alertas y los registros, y hasta una vista en tres dimensiones del centro de datos. Es de solo lectura por diseño: lo mira todo, pero no puede apagar ni crear nada.",
+  [idModulo(K, "cluster-y-nodos")]:
+    "La plataforma corre en un clúster. Cada equipo aparece con sus discos, su temperatura y su red, y con lo que está corriendo en él. Si se suma un equipo nuevo, lo descubro solo y queda vigilado desde el primer minuto.",
+  [idModulo(K, "sitios-red-y-dns")]:
+    "Vigilo lo que vive el usuario, no solo el servidor: que cada sitio responda, que el DNS resuelva y cuántos días le quedan a cada certificado. Si algo va a fallar, usted lo sabe antes que su cliente.",
+  [idModulo(K, "ubicaciones-y-agente-remoto")]:
+    "Si su infraestructura está en su propia nube o en su sala de servidores, instalo un agente liviano con un solo comando, en Linux, en Windows o en Kubernetes. Cada minuto me cuenta cómo está el equipo y sus respaldos. Solo envía información: no abre puertos ni necesita VPN.",
+  [idModulo(K, "equipo-on-premise")]:
+    "Y si sus datos no pueden salir de su edificio, Ars va hasta allá. Dejamos un equipo en su sede, donde corren los servicios y la analítica en local, y lo sigo viendo en el mismo monitor que nuestro centro de datos, con las mismas alertas.",
+  [idModulo(K, "respaldos-verificados")]:
+    "Un respaldo que nadie revisa no es un respaldo. De cada copia sé cuándo salió bien por última vez, si se verificó y si hay otra fuera del sitio. Si alguna se vence, o si ninguna está en otro lugar, se lo marco.",
+  [idModulo(K, "alertas-e-informes-de-infraestructura")]:
+    "Las alertas llegan solas, con su historia y sus registros. Y para publicar una versión, el monitor nunca ejecuta nada por su cuenta: deja el pedido en una cola, y un ejecutor aparte, con una lista cerrada de acciones, lo realiza y lo deja en bitácora.",
 };

@@ -19,6 +19,7 @@ const CARGADORES: Record<EscenaId, () => Promise<{ default: FabricaEscena }>> = 
   finanzas: () => import("./finanzas"),
   productividad: () => import("./productividad"),
   gobierno: () => import("./gobierno"),
+  infraestructura: () => import("./infraestructura"),
 };
 
 export type EscenaAreaProps = {

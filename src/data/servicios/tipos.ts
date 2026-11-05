@@ -1,7 +1,7 @@
 /**
  * Contrato de datos de la sección /servicios (catálogo completo de ARS).
  *
- * Fuente: inventario de servicios del 4-nov-2026 (69 fichas en 10 áreas).
+ * Fuente: inventario de servicios del 4-nov-2026 (69 fichas en 10 áreas) + K · Infraestructura (5-nov-2026).
  * Solo contenido publicable: nada de las «Notas internas — NO publicar».
  *
  * Lo consumen:
@@ -32,7 +32,8 @@ export type EscenaId =
   | "formacion" // G · formación: aula holográfica, módulos de curso, certificado con QR
   | "finanzas" // H · finanzas y ERP: flujo de datos entre bloques (turnos → nómina → contabilidad → ERP)
   | "productividad" // I · productividad e IA: red neuronal/grafo de tareas y automatizaciones
-  | "gobierno"; // J · gobierno: torre de control, escudo, capas de permisos y canales (web, Android, PWA, escritorio, gafas)
+  | "gobierno" // J · gobierno: torre de control, escudo, capas de permisos y canales (web, Android, PWA, escritorio, gafas)
+  | "infraestructura"; // K · infraestructura: centro de datos con racks, granja de GPU, clúster, nube del cliente y equipo on premise
 
 export type Captura = {
   /** Ruta pública, p. ej. "/servicios/capturas/40-sala-de-control.jpg" */
@@ -122,7 +123,7 @@ export type Destacado = {
 export type Area = {
   /** slug de la URL: /servicios/<id> */
   id: string;
-  /** Letra del inventario (A–J). */
+  /** Letra del inventario (A–K). */
   letra: string;
   nombre: string;
   /** Nombre corto para menús. */

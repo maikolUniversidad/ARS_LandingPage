@@ -26,7 +26,8 @@ export type AreaId =
   | "formacion"
   | "finanzas-y-erp"
   | "productividad-e-ia"
-  | "gobierno-y-seguridad";
+  | "gobierno-y-seguridad"
+  | "infraestructura";
 
 export const AREA_IDS: AreaId[] = [
   "operacion-en-campo",

@@ -426,6 +426,8 @@ const FABRICAS: Record<EscenaId, (c: Ctx) => Silueta> = {
   finanzas,
   productividad,
   gobierno,
+  // TODO(infra): silueta propia de racks; mientras tanto, la de gobierno.
+  infraestructura: gobierno,
 };
 
 export function construirSilueta(kit: Kit, escena: EscenaId, m: MaterialesDistrito, origen: THREE.Vector3, color: THREE.Color): Silueta {

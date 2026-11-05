@@ -1,7 +1,7 @@
 /**
  * Catálogo completo de servicios de ARS (inventario del 4-nov-2026).
  *
- * 10 áreas y sus módulos, en el orden del inventario. Solo contenido publicable:
+ * 11 áreas y sus módulos, en el orden del inventario. Solo contenido publicable:
  * los estados y las notas de cada módulo siguen la guía de «lo que no se promete»
  * (nada de placas, armas, EPP, térmica ni fuego en cámaras; facial solo como alerta
  * con verificación humana; ZKTeco solo como compatibilidad; sin SLA; sin cifras de uso).
@@ -2052,6 +2052,232 @@ export const AREAS: Area[] = [
         capturas: [],
         palabrasClave: ["app de escritorio", "Windows", "central de monitoreo", "video-wall", "PC"],
         foco: "escritorio",
+      },
+    ],
+  },
+  // ───────────────────────────── K · Infraestructura ─────────────────────────────
+  // Fuente: paquete de migración del módulo Infraestructura (5-nov-2026: ms-infra + submódulo web).
+  // Regla: sin nombres de equipos, IPs, modelos de tarjeta ni dominios internos; sin SLA ni cifras
+  // de capacidad. Monitor de SOLO LECTURA; el agente remoto solo hace conexiones salientes.
+  {
+    id: "infraestructura",
+    letra: "K",
+    nombre: "Infraestructura y centro de datos",
+    corto: "Infraestructura",
+    frase: "Sus datos se quedan en Colombia. Y su infraestructura, a la vista",
+    descripcion:
+      "El centro de datos propio de ARS en Colombia, con granja de tarjetas gráficas para la analítica de video y la inteligencia artificial en local, y un módulo integrado que vigila en vivo servidores, clúster, sitios, DNS, respaldos y alertas. Opera en nuestro centro de datos, en la nube del cliente o en un equipo on premise dentro de su sede.",
+    esencia:
+      "La información no sale de Colombia: la analítica y la IA se procesan en nuestras propias tarjetas gráficas, como parte de nuestro protocolo de soberanía de datos. Y donde esté la infraestructura del cliente —su nube, su sala de servidores o un equipo que dejamos en su sede— un agente la conecta al mismo monitor, sin abrir puertos.",
+    color: "#3fe0c5",
+    escena: "infraestructura",
+    ...medios("infraestructura"),
+    icono: "Server",
+    modulos: [
+      {
+        id: "centro-de-datos-ars",
+        ficha: 1,
+        nombre: "Centro de datos ARS en Colombia",
+        frase: "La información de su operación no sale del país",
+        resumen:
+          "ARS opera su propio centro de datos en Colombia: ahí corren la plataforma, el resguardo de la información y el procesamiento de la analítica y de la inteligencia artificial. Es nuestro protocolo de soberanía de datos: los videos, los documentos del personal y las conversaciones con los asistentes se procesan en servidores propios, sin enviarse a servicios de terceros fuera del país.",
+        innovacion:
+          "La soberanía no es una promesa en un contrato: es la arquitectura. Los modelos de IA corren en nuestras propias máquinas y el mismo monitor de infraestructura deja ver, en vivo, dónde está cada servicio.",
+        funciones: [
+          { titulo: "Soberanía de datos", detalle: "La información se procesa y se resguarda en Colombia, en infraestructura propia." },
+          { titulo: "IA en local", detalle: "Lectura de documentos, transcripción de reuniones y asistentes corren en servidores de ARS, no en nubes externas." },
+          { titulo: "Resguardo de la información", detalle: "Respaldos diarios verificados y con copia fuera del sitio, vigilados por el mismo módulo." },
+          { titulo: "Plataforma en contenedores", detalle: "Microservicios orquestados en clúster, con observabilidad de cada pieza." },
+          { titulo: "Nube híbrida cuando se necesita", detalle: "Si el cliente ya tiene su nube, ARS se conecta a ella sin perder el control desde aquí." },
+        ],
+        estado: "vivo",
+        roles: ["Dirección", "Tecnología", "Cumplimiento y protección de datos"],
+        canales: ["Web"],
+        capturas: [],
+        palabrasClave: ["centro de datos", "data center", "soberanía de datos", "Colombia", "datos en Colombia", "servidores propios", "habeas data", "protección de datos", "hosting", "nube privada"],
+        foco: "datacenter",
+      },
+      {
+        id: "granja-de-gpu-ia-local",
+        ficha: 2,
+        nombre: "Granja de tarjetas gráficas para IA",
+        frase: "La analítica y la inteligencia artificial, procesadas en casa",
+        resumen:
+          "Una granja de tarjetas gráficas en nuestro centro de datos, repartida en los nodos del clúster, para procesar la analítica de video y los modelos de IA en local. El módulo muestra cada tarjeta con su temperatura, ventilador, consumo, uso, memoria y enlace PCIe, y avisa antes de que algo se caliente.",
+        innovacion:
+          "Cada tarjeta de cada equipo se ve como una ficha viva, con alertas de temperatura alta y crítica: la capacidad de IA se cuida igual que una cámara o un puesto.",
+        funciones: [
+          { titulo: "Inventario de tarjetas por equipo", detalle: "Modelo, ensamblador, controlador y ranura de cada tarjeta, nodo por nodo." },
+          { titulo: "Temperatura, consumo y uso", detalle: "Series en vivo por tarjeta, con alertas de temperatura alta y crítica." },
+          { titulo: "Analítica de video en local", detalle: "Las cámaras se analizan con modelos que corren en nuestras propias tarjetas." },
+          { titulo: "Modelos de IA propios", detalle: "Asistentes y lectura de documentos sin enviar datos a proveedores externos." },
+          { titulo: "Crecimiento por nodos", detalle: "Se suman equipos con tarjeta al clúster y aparecen solos en el monitor.", nuevo: true },
+        ],
+        estado: "piloto",
+        notaEstado: "El monitoreo de las tarjetas está en producción; la ampliación de la granja sigue en curso",
+        roles: ["Tecnología", "Dirección"],
+        canales: ["Web"],
+        capturas: [],
+        palabrasClave: ["GPU", "tarjetas gráficas", "granja de GPU", "NVIDIA", "CUDA", "IA local", "inteligencia artificial en local", "procesamiento", "analítica de video", "modelos propios"],
+        foco: "gpus",
+      },
+      {
+        id: "monitor-de-infraestructura-en-vivo",
+        ficha: 3,
+        nombre: "Monitor de infraestructura en vivo",
+        frase: "Todo su ecosistema tecnológico, en una sola pantalla",
+        resumen:
+          "Un módulo integrado a ARS que muestra en vivo el servidor, los contenedores, los servicios, el clúster, los sitios, la red, las bases de datos, las alertas y los registros, y genera informes. Incluye una vista 3D del centro de datos con sus racks y luces de estado, y se actualiza solo, sin recargar la página.",
+        innovacion:
+          "Es de solo lectura por diseño: mira todo pero no puede apagar ni crear nada. Si una fuente de datos falla, solo esa pestaña queda vacía y el resto sigue funcionando.",
+        funciones: [
+          { titulo: "Resumen en vivo", detalle: "Salud general, avisos y cada servicio con su estado, conectado por un canal en tiempo real." },
+          { titulo: "Vista 3D del centro de datos", detalle: "Racks, equipos y plataformas remotas con luces de estado.", nuevo: true },
+          { titulo: "Servicios y contenedores", detalle: "Estado, salud, reinicios y eventos de cada pieza de la plataforma." },
+          { titulo: "Datos", detalle: "Tamaño de cada base de datos y estado de los respaldos." },
+          { titulo: "Alertas y registros", detalle: "Alertas activas, conteo de errores y avisos, y las líneas de registro de cada servicio." },
+          { titulo: "Informes", detalle: "Informes de infraestructura guardados, para revisar y compartir." },
+        ],
+        estado: "vivo",
+        roles: ["Tecnología", "Administración"],
+        canales: ["Web"],
+        capturas: [],
+        palabrasClave: ["monitoreo de infraestructura", "monitor de servidores", "observabilidad", "Prometheus", "Grafana", "contenedores", "Docker", "logs", "alertas", "dashboard", "NOC"],
+        foco: "monitor",
+      },
+      {
+        id: "cluster-y-nodos",
+        ficha: 4,
+        nombre: "Clúster y nodos",
+        frase: "Cada equipo del clúster, con sus discos, su temperatura y su red",
+        resumen:
+          "La plataforma corre en un clúster Kubernetes. El módulo muestra cada nodo con sus discos, temperatura, red y avisos propios, y los pods que corren en él, con métricas y eventos. Los equipos nuevos se descubren solos y quedan vigilados desde el primer minuto.",
+        innovacion:
+          "Una cuenta de solo lectura en el clúster: el monitor ve nodos, pods y eventos sin permiso para tocar nada.",
+        funciones: [
+          { titulo: "Nodos con discos y temperatura", detalle: "Almacenamiento por disco, temperatura y red de cada equipo." },
+          { titulo: "Pods y eventos", detalle: "Qué corre en cada nodo, con su estado y los eventos del clúster." },
+          { titulo: "Descubrimiento automático", detalle: "Un equipo nuevo en el clúster aparece solo en el monitor." },
+          { titulo: "Cuenta de solo lectura", detalle: "Permisos de consultar y listar; nunca de modificar." },
+        ],
+        estado: "vivo",
+        roles: ["Tecnología"],
+        canales: ["Web"],
+        capturas: [],
+        palabrasClave: ["Kubernetes", "K8s", "K3s", "clúster", "nodos", "pods", "orquestación", "contenedores"],
+        foco: "cluster",
+      },
+      {
+        id: "sitios-red-y-dns",
+        ficha: 5,
+        nombre: "Sitios, red y DNS",
+        frase: "Si un sitio, un certificado o un DNS falla, se sabe antes que el cliente",
+        resumen:
+          "Sondas propias revisan cada sitio por HTTPS, la resolución DNS, los días que le quedan a cada certificado y la conexión con los equipos de la red y con internet. El tráfico de cada sitio se ve por separado, sin guardar datos de las consultas de los usuarios.",
+        innovacion:
+          "Se vigila lo que el usuario vive, no solo el servidor: el sitio que responde, el certificado que vence y el DNS que resuelve.",
+        funciones: [
+          { titulo: "Sondas HTTPS", detalle: "Cada sitio se prueba como lo abriría un usuario." },
+          { titulo: "DNS y certificados", detalle: "Resolución de nombres y días restantes de cada certificado, con aviso antes de vencer." },
+          { titulo: "Red y conectividad", detalle: "Conexión con servidores, almacenamiento en red e internet." },
+          { titulo: "Tráfico por sitio", detalle: "Solicitudes y errores de cada sitio, sin guardar parámetros de las consultas." },
+        ],
+        estado: "vivo",
+        roles: ["Tecnología"],
+        canales: ["Web"],
+        capturas: [],
+        palabrasClave: ["DNS", "certificados", "SSL", "HTTPS", "sitios web", "red", "conectividad", "sondas", "uptime", "disponibilidad"],
+        foco: "red",
+      },
+      {
+        id: "ubicaciones-y-agente-remoto",
+        ficha: 6,
+        nombre: "Ubicaciones y agente remoto",
+        frase: "Su nube, su sala de servidores o su sede: todo en el mismo monitor",
+        resumen:
+          "Si el cliente tiene su propia infraestructura —en la nube o en sus instalaciones—, un agente liviano la conecta a ARS. Cada minuto reporta la salud del equipo: sistema, CPU, memoria, discos, tarjetas gráficas, red, contenedores, servicios caídos, chequeos locales y respaldos. Funciona en Linux, en Windows y en clústeres Kubernetes.",
+        innovacion:
+          "Solo hace conexiones salientes por HTTPS: no abre puertos ni necesita VPN. Cada equipo tiene su propio token, que se muestra una sola vez y se puede revocar.",
+        funciones: [
+          { titulo: "Ubicaciones", detalle: "Oficina, centro de datos o nube, cada una con sus equipos y clústeres." },
+          { titulo: "Instalación con un comando", detalle: "Linux, Windows o Kubernetes, con un token propio por equipo." },
+          { titulo: "Estado de cada equipo", detalle: "En línea, atrasado, caído o nunca reportó, según su último reporte." },
+          { titulo: "Chequeos locales", detalle: "Servicios internos, intranet y almacenamiento en red del cliente." },
+          { titulo: "Sin puertos abiertos", detalle: "El agente solo envía; la central no le devuelve información de la red.", nuevo: true },
+        ],
+        estado: "piloto",
+        notaEstado: "Desplegado en la plataforma; conectando los primeros equipos de clientes",
+        roles: ["Tecnología", "Clientes con infraestructura propia"],
+        canales: ["Web"],
+        capturas: [],
+        palabrasClave: ["agente", "nube del cliente", "AWS", "Azure", "Google Cloud", "multinube", "híbrido", "servidores remotos", "Windows Server", "Linux", "sin VPN"],
+        foco: "nube",
+      },
+      {
+        id: "equipo-on-premise",
+        ficha: 7,
+        nombre: "Equipo on premise en su sede",
+        frase: "Si los datos no pueden salir de su edificio, ARS va hasta allá",
+        resumen:
+          "Para clientes que necesitan que todo quede dentro de sus instalaciones, ARS deja un equipo en la sede: ahí corren los servicios y la analítica en local, y el agente lo mantiene conectado al monitor para vigilar su salud, sus respaldos, su DNS y sus servicios.",
+        innovacion:
+          "On premise no significa a ciegas: el equipo del cliente se ve en el mismo monitor que nuestro centro de datos, con las mismas alertas.",
+        funciones: [
+          { titulo: "Servicios en la sede", detalle: "La operación funciona dentro de las instalaciones del cliente." },
+          { titulo: "Analítica en el borde", detalle: "El video se procesa cerca de las cámaras, sin subirlo a internet." },
+          { titulo: "Monitoreo remoto", detalle: "Salud, discos, servicios y DNS del equipo, vistos desde la central." },
+          { titulo: "Respaldos vigilados", detalle: "Copias en la sede y fuera de ella, con aviso si alguna se vence." },
+        ],
+        estado: "piloto",
+        roles: ["Tecnología", "Clientes con requisitos de datos en sitio"],
+        canales: ["Web"],
+        capturas: [],
+        palabrasClave: ["on premise", "en sitio", "local", "servidor en la sede", "edge", "borde", "sin internet", "instalación local"],
+        foco: "onpremise",
+      },
+      {
+        id: "respaldos-verificados",
+        ficha: 8,
+        nombre: "Respaldos verificados (3-2-1)",
+        frase: "Un respaldo que nadie revisa no es un respaldo",
+        resumen:
+          "Cada trabajo de respaldo se vigila con su último éxito, su último intento, el resultado, el tamaño, si se verificó y si tiene copia fuera del sitio. Si no hay un respaldo bueno dentro del plazo definido, o si ninguna copia está en otro lugar, el monitor lo marca.",
+        innovacion:
+          "Aplica la regla 3-2-1 automáticamente: tres copias, en dos medios, con una fuera del sitio. Y detecta la corrida que empezó pero no terminó completa.",
+        funciones: [
+          { titulo: "Plazo de recuperación por trabajo", detalle: "Cada respaldo tiene su plazo; vencido si no hay éxito dentro de él." },
+          { titulo: "Verificación", detalle: "Respaldos con suma de comprobación marcados como verificados." },
+          { titulo: "Copia fuera del sitio", detalle: "Aviso si no existe ninguna copia en otra sede o en la nube." },
+          { titulo: "Corridas incompletas", detalle: "Aviso cuando la última corrida no terminó completa.", nuevo: true },
+        ],
+        estado: "vivo",
+        roles: ["Tecnología", "Dirección"],
+        canales: ["Web"],
+        capturas: [],
+        palabrasClave: ["respaldos", "backup", "copias de seguridad", "3-2-1", "RPO", "recuperación", "continuidad del negocio", "desastres"],
+        foco: "respaldos",
+      },
+      {
+        id: "alertas-e-informes-de-infraestructura",
+        ficha: 9,
+        nombre: "Alertas, DevOps e informes",
+        frase: "Las alertas llegan solas. Las publicaciones, con una lista cerrada de acciones",
+        resumen:
+          "Las alertas de infraestructura (un nodo sin métricas, una tarjeta caliente, un respaldo vencido) se ven con su historia y sus registros. La pestaña DevOps muestra las compilaciones y las publicaciones de las aplicaciones, y solo permite un conjunto cerrado de acciones que ejecuta un servicio aparte.",
+        innovacion:
+          "El monitor nunca ejecuta nada por su cuenta: deja el pedido en una cola y un ejecutor con lista cerrada de acciones lo realiza, todo con bitácora.",
+        funciones: [
+          { titulo: "Alertas con historia", detalle: "Qué se disparó, cuándo y qué dicen los registros." },
+          { titulo: "Compilaciones y publicaciones", detalle: "Estado de las compilaciones y de las versiones publicadas de las apps." },
+          { titulo: "Lista cerrada de acciones", detalle: "Solo lo permitido, ejecutado aparte y con bitácora." },
+          { titulo: "Informes", detalle: "Informes de infraestructura generados y guardados." },
+        ],
+        estado: "vivo",
+        roles: ["Tecnología"],
+        canales: ["Web"],
+        capturas: [],
+        palabrasClave: ["alertas", "DevOps", "CI/CD", "GitHub Actions", "Google Play", "publicaciones", "informes", "bitácora"],
+        foco: "alertas",
       },
     ],
   },

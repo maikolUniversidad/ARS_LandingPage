@@ -136,4 +136,15 @@ export const FOCOS_ESCENA: Record<EscenaId, Record<string, string>> = {
     pwa: "App instalable (PWA)",
     escritorio: "App de escritorio",
   },
+  infraestructura: {
+    datacenter: "Centro de datos ARS en Colombia",
+    gpus: "Granja de tarjetas gráficas",
+    monitor: "Monitor en vivo y vista 3D",
+    cluster: "Clúster y nodos",
+    red: "Sitios, red y DNS",
+    nube: "Nube del cliente y agente",
+    onpremise: "Equipo on premise en la sede",
+    respaldos: "Respaldos 3-2-1",
+    alertas: "Alertas, DevOps e informes",
+  },
 };
