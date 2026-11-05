@@ -3,11 +3,11 @@
  * actualizan el botón de WhatsApp, el formulario y los CTAs de toda la web.
  */
 
-// Gerencia comercial — +57 318 0005654 (solo dígitos para wa.me).
-export const WHATSAPP_NUMBER = "573180005654";
+// Gerencia comercial — +57 312 462 3357 (solo dígitos para wa.me).
+export const WHATSAPP_NUMBER = "573124623357";
 
 // Email donde llegan las solicitudes de demo / contacto.
-export const CONTACT_EMAIL = "gerencia.comercial@vigiasdecolombia.com";
+export const CONTACT_EMAIL = "j.muriel@ars-group.co";
 
 /** URL de WhatsApp con mensaje pre-cargado opcional. */
 export function whatsappUrl(message?: string) {

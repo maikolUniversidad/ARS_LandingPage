@@ -31,7 +31,7 @@ const TEXTOS = {
     ejemplosLista: [
       { t: "Vigilancia · 400 guardas", d: "Empresa de vigilancia con 400 guardas en 60 sedes. Programamos los turnos en Excel, no sabemos quién está en el puesto y la nómina de horas extra y recargos nos toma días." },
       { t: "Central de monitoreo", d: "Tenemos una central de monitoreo para 25 clientes con cámaras y radios. Los supervisores hacen rondas pero no hay forma de verificarlas, y ante un atraco dependemos de que contesten el teléfono." },
-      { t: "Gestión humana", d: "Somos 150 vigilantes y las hojas de vida y cursos están en carpetas. Los vencimientos se nos pasan, las auditorías del cliente nos toman días y la contabilidad va por otro lado en Siigo." },
+      { t: "Gestión humana", d: "Somos 150 vigilantes y las hojas de vida y cursos están en carpetas. Los vencimientos se nos pasan, las auditorías del cliente nos toman días y la nómina y la contabilidad van por otro lado en Excel." },
     ],
     prioridades: "Lo que más te importa",
     prioridadesLista: {

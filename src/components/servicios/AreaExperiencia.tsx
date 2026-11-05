@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Area } from "@/data/servicios";
+import { idIntroArea, idModulo } from "@/lib/narracion/contrato";
 import { cn } from "@/lib/utils";
 import { RevealOnScroll } from "@/components/integral/RevealOnScroll";
 import { FOCOS_ESCENA } from "./escenas/contrato";
@@ -167,7 +168,7 @@ export function AreaExperiencia({ area, anterior, siguiente, relacionadas, indic
 
       <main>
         {/* ───────── Hero ───────── */}
-        <section aria-labelledby="area-titulo" className="relative isolate flex min-h-[92svh] items-end overflow-hidden pb-14 pt-28 md:pb-20">
+        <section data-narracion={idIntroArea(area.id)} aria-labelledby="area-titulo" className="relative isolate flex min-h-[92svh] items-end overflow-hidden pb-14 pt-28 md:pb-20">
           <ArteArea
             src={area.arte}
             alt={`Arte de ${area.nombre}`}
@@ -348,6 +349,7 @@ export function AreaExperiencia({ area, anterior, siguiente, relacionadas, indic
                   acento={acento}
                   etiquetaFoco={focos[m.foco]}
                   activo={m.id === activoId}
+                  narracion={idModulo(area.id, m.id)}
                 />
               ))}
               <div className="h-[20svh]" aria-hidden="true" />

@@ -35,8 +35,11 @@ Todas están disponibles; algunas muestran además un sello del equipo de Visió
 **¿Sirve para empresas de seguridad con muchos clientes?**
 Sí: la plataforma es multi-cliente, multi-sede y multi-zona, con turnos, supervisión de guardas, reportes automáticos y trazabilidad para facturación o cumplimiento. Ver `/plataforma#casos`.
 
-**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, ERP)?**
-El sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT. Integraciones específicas con terceros: a confirmar con el equipo comercial.
+**¿ARS es un ERP? ¿Tengo que dejar el sistema que ya uso?**
+ARS es un ERP completo para la empresa de seguridad: clientes, contratos y planes, órdenes de servicio, nómina, costos, facturación, contabilidad con asistente de IA, cotizador y CRM, junto con toda la operación. Y además se adapta: si la empresa ya tiene su propio sistema u otros contratados, creamos los mecanismos (Agente interoperador de datos, integraciones y sincronización) para que todo se centralice en ARS o fluya entre sistemas, según los módulos que contrate. Ver `/servicios/finanzas-y-erp`.
+
+**¿Se integra con mis sistemas (barreras, alarmas, control de acceso, otro software de gestión)?**
+El sitio menciona integración con barreras en LPR y fichas de proyectos con control de acceso, alarmas e IoT; con el software de gestión que la empresa ya use, el Agente interoperador de datos conecta por API, por backend o por cargas programadas. El alcance con un sistema concreto: a confirmar con el equipo comercial.
 
 **¿Dónde operan?**
 Colombia y Perú, según el sitio. Ver `/proyectos`.
@@ -45,7 +48,7 @@ Colombia y Perú, según el sitio. Ver `/proyectos`.
 Sí, tres opciones:
 1. Probar ya la IA con tu cámara o un video: `/laboratorio#demo-stage`.
 2. Ver cada analítica funcionando: `/vision#visor`.
-3. Demo guiada con el equipo: formulario en `/#contacto`, WhatsApp +57 318 0005654 o correo gerencia.comercial@vigiasdecolombia.com.
+3. Demo guiada con el equipo: formulario en `/#contacto`, WhatsApp +57 312 462 3357 o correo j.muriel@ars-group.co.
 
 **¿Hay versión en inglés?**
 El sitio tiene selector de idioma (ES/EN). El catálogo de analíticas de `/vision` se presenta en español.
