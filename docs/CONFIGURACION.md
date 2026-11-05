@@ -33,13 +33,22 @@ npm run dev
 | `ELEVENLABS_AGENT_ID` | ElevenLabs | Agente conversacional (no es secreto) | Para la voz en vivo | Sin conversación en tiempo real |
 | `ELEVENLABS_TTS_MODEL` | ElevenLabs | Modelo de TTS | No | `eleven_flash_v2_5` |
 | `ELEVENLABS_STT_MODEL` | ElevenLabs | Modelo de STT | No | `scribe_v1` |
-| `RESEND_API_KEY` | Resend | Correo de leads (contacto y Propuesta con PDF) | **Sí en producción** | El lead no se envía; solo queda en el log del servidor |
+| `RESEND_API_KEY` | Resend | Correo de leads (contacto, resumen de diagnósticos y Propuesta con PDF) | **Sí en producción** | No hay aviso por correo; el lead queda en el registro (`ARS_REGISTROS_*`) y en el log |
 | `RESEND_FROM` | Resend | Remitente (dominio verificado) | No | `ARS Intelligence <onboarding@resend.dev>` |
 | `CONTACT_TO` | Resend | Destinatario de los leads | No | `CONTACT_EMAIL` de `src/lib/contact.ts` |
+| `ARS_REGISTROS_URL` | ARS (ERP) | Endpoint del módulo de registros de ARS que recibe cada contacto y diagnóstico (push firmado) | **Sí en producción** (junto con `_TOKEN` y `_SECRET`) | Los registros solo quedan en la copia local, que en Vercel no persiste |
+| `ARS_REGISTROS_TOKEN` | ARS (ERP) | Bearer que valida el servidor de ARS | Con `ARS_REGISTROS_URL` | Push desactivado |
+| `ARS_REGISTROS_SECRET` | ARS (ERP) | Secreto HMAC-SHA256 para firmar el cuerpo (`X-ARS-Firma`) | Con `ARS_REGISTROS_URL` | Push desactivado |
+| `ARS_REGISTROS_TIMEOUT_MS` | ARS (ERP) | Timeout por intento del push | No | `8000` |
+| `REGISTROS_DIR` | Registros | Carpeta de la copia local | No | `.data/registros` |
+| `REGISTROS_COPIA_LOCAL` | Registros | `siempre` o `respaldo` (solo si el push falla) | No | `siempre` |
+| `REGISTROS_ESPERA_MS` | Registros | Cuánto espera la respuesta al usuario a que se confirme el guardado | No | `2500` |
+| `REGISTROS_API_TOKEN` | Registros | Bearer de la API pull `/api/registros` para el ERP | No | La API responde 503 |
+| `REGISTROS_SAL_IP` | Registros | Sal del hash de la IP en los registros | No | `ARS_REGISTROS_SECRET` |
 | `NEXT_PUBLIC_ROBOFLOW_PUBLISHABLE_KEY` | Roboflow | Detector de EPP en el navegador (clave pública) | No | Se usa la que trae el código |
 | `FORCE` | Script | `FORCE=1` hace que `scripts/fetch-models.mjs` vuelva a copiar los modelos | No | Solo copia lo que falta |
 
-Las variables de la sección 9 de `.env.example` (`ROBOFLOW_API_KEY`, Google Cloud, AWS, Azure, `HF_TOKEN`, `VISION_API_URL`…) están **reservadas** para un backend de visión que todavía no existe. Hoy el código no las lee.
+Las variables de la sección 10 de `.env.example` (`ROBOFLOW_API_KEY`, Google Cloud, AWS, Azure, `HF_TOKEN`, `VISION_API_URL`…) están **reservadas** para un backend de visión que todavía no existe. Hoy el código no las lee.
 
 Dónde se consiguen las claves:
 
@@ -48,6 +57,8 @@ Dónde se consiguen las claves:
 - DeepSeek: <https://platform.deepseek.com/api_keys>
 - ElevenLabs: <https://elevenlabs.io/app/settings/api-keys>. Tiene que ser del mismo workspace que el agente y llevar los permisos TTS, STT y Agents.
 - Resend: <https://resend.com/api-keys>. Verifica el dominio en <https://resend.com/domains>.
+
+El contrato completo con el servidor de ARS (endpoint, firma, esquema JSON, SQL y API pull) está en [`BACKEND-REGISTROS.md`](BACKEND-REGISTROS.md).
 
 ## 3. Vercel
 
@@ -84,7 +95,8 @@ Sin ninguna clave, todo el sitio navega: home, servicios, `/vision-lab` y `/labo
 | Diagnóstico / Propuesta ARS | Respuestas simuladas automáticamente | 503 con mensaje para escribir por WhatsApp. Con `ASISTENTE_DEMO=1`, simuladas. |
 | Arquitecto de `/plataforma` y plan de visión | Motor de reglas | Motor de reglas |
 | Voz | Voz y micrófono del navegador | Voz y micrófono del navegador |
-| Formulario de contacto / envío de propuesta | El lead queda en el log del servidor | Igual: **configura Resend** para no perder leads |
+| Formulario de contacto / envío de propuesta | El lead queda en `.data/registros/` y en el log del servidor | **Configura Resend y `ARS_REGISTROS_*`** para no perder leads (el disco de Vercel no persiste) |
+| Registro de diagnósticos | Se guarda en `.data/registros/` (también los demo, con `fuente: "demo"`) | Solo si está configurado `ARS_REGISTROS_*` |
 
 ## 5. Si una clave se expone
 
@@ -105,6 +117,7 @@ Una auditoría del 2026-11-04 no encontró claves de Anthropic, OpenAI, Resend, 
 
 ## 6. Archivos locales que no van al repo
 
+- `.data/`: copia local de los registros de leads (`REGISTROS_DIR`). Tiene datos personales: no la subas ni la compartas.
 - `vision-trabajo/`: material de trabajo de las demos de visión, unos 1,4 GB de videos, salidas y un perfil de Chrome con sesiones. Es **solo local** y está en `.gitignore`. No lo subas ni lo copies al deploy.
 - `/Export/`, `public/mediapipe/`, `public/tesseract/`, `public/ort/`, `public/models/plate/`: modelos pesados que se regeneran con `npm install` (postinstall).
 - `*.pem`, `*.key`, `*.p12`, `credentials*.json`, `service-account*.json`, `secrets/`: credenciales; también ignoradas.
