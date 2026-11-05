@@ -150,6 +150,18 @@ export type HomeDict = {
   stats: { areas: string; modules: string; live: string; analytics: string };
   ctas: { vision: string; platform: string; lab: string; services: string; trace: string; diagnostic: string };
   recap: { eyebrow: string; title: string; body: string };
+  /** Sección «Capacitación»: plataforma de Formación (G) + Academia en realidad virtual. */
+  training: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    platform: { tag: string; status: string; title: string; body: string; points: string[]; cta: string };
+    academy: { tag: string; status: string; title: string; body: string; points: string[]; cta: string };
+    flowLabel: string;
+    flow: { title: string; body: string }[];
+    note: string;
+    sceneLabel: string;
+  };
   contact: {
     eyebrow: string;
     title1: string;
@@ -370,6 +382,47 @@ export const dictionaries: Record<Locale, Dict> = {
         title: "No son cinco programas. Es una sola operación.",
         body: "Cada capa trabaja sola y, al mismo tiempo, alimenta la misma traza y el mismo ERP de gestión. Elige por dónde empezar: la plataforma crece con tu operación.",
       },
+      training: {
+        eyebrow: "Capacitación · Formación + Academia en realidad virtual",
+        title: "Aquí se forma a la gente que cuida. Y cada certificado se puede comprobar.",
+        body: "La plataforma de capacitación del ARS lleva los cursos a toda la plantilla. La Academia ARS suma la práctica en realidad virtual: lo que no se puede practicar en la calle, sin riesgo y con un instructor que explica el porqué. La VR no es un sistema paralelo: es una actividad más dentro de los cursos del ARS.",
+        platform: {
+          tag: "G · Formación",
+          status: "En operación",
+          title: "Plataforma de capacitación",
+          body: "Cursos desde el celular, asignados solos a quien los necesita, con evaluaciones y un certificado que cualquiera puede verificar.",
+          points: [
+            "Asignación automática por cargo, sede, cliente o puesto",
+            "Diseñador de cursos con IA",
+            "Video largo convertido en temas",
+            "Evaluaciones de conocimiento",
+            "Certificados con QR verificable",
+          ],
+          cta: "Ver la plataforma de capacitación",
+        },
+        academy: {
+          tag: "Academia ARS · VR",
+          status: "Piloto",
+          title: "Academia en realidad virtual",
+          body: "El vigilante se pone las gafas, entra a la escuela de su empresa y aprende haciendo.",
+          points: [
+            "Atención a residentes, visitantes y domicilios",
+            "Dotación: se viste y pasa revista",
+            "Manejo seguro del arma en el polígono",
+            "Uso de la fuerza: ¿puede o no puede?",
+            "Un turno de doce horas en pocos minutos",
+          ],
+          cta: "Entrar a la Academia",
+        },
+        flowLabel: "Cómo funciona",
+        flow: [
+          { title: "Se asigna desde el ARS", body: "Por cargo, sede o cliente, con fecha límite. El curso le llega solo a quien lo necesita." },
+          { title: "Se practica en las gafas", body: "Con mandos o con las manos, hablando en voz alta. La persona del otro lado responde según el trato." },
+          { title: "Se certifica con QR", body: "El acta la firma un instructor y lleva un código QR que cualquiera puede comprobar." },
+        ],
+        note: "La Academia está en piloto: hoy se vive el recorrido de demostración (portal, polígono y certificado). La conexión que lleva la nota de las gafas a la plataforma está en diseño. La práctica en VR complementa la formación presencial; no la reemplaza.",
+        sceneLabel: "Vista de la Academia ARS",
+      },
       contact: {
         eyebrow: "Hablemos de tu operación",
         title1: "Lleva tu empresa de seguridad",
@@ -588,6 +641,47 @@ export const dictionaries: Record<Locale, Dict> = {
         eyebrow: "One platform · five layers + the base",
         title: "Not five programs. One operation.",
         body: "Each layer works on its own and, at the same time, feeds the same trace and the same management ERP. Choose where to start: the platform grows with your operation.",
+      },
+      training: {
+        eyebrow: "Training · Courses + virtual reality Academy",
+        title: "This is where the people who protect are trained. And every certificate can be checked.",
+        body: "The ARS training platform brings courses to the entire workforce. The ARS Academy adds practice in virtual reality: what can't be practiced on the street, risk-free and with an instructor who explains why. VR isn't a parallel system: it's one more activity inside ARS courses.",
+        platform: {
+          tag: "G · Training",
+          status: "Live",
+          title: "Training platform",
+          body: "Courses on the phone, assigned automatically to whoever needs them, with assessments and a certificate anyone can verify.",
+          points: [
+            "Automatic assignment by role, site, client or post",
+            "AI course designer",
+            "Long videos turned into topics",
+            "Knowledge assessments",
+            "Certificates with a verifiable QR code",
+          ],
+          cta: "See the training platform",
+        },
+        academy: {
+          tag: "ARS Academy · VR",
+          status: "Pilot",
+          title: "Virtual reality Academy",
+          body: "The guard puts on the headset, walks into their company's school and learns by doing.",
+          points: [
+            "Serving residents, visitors and deliveries",
+            "Gear: dressing up and passing inspection",
+            "Safe firearm handling at the range",
+            "Use of force: can they or can't they?",
+            "A twelve-hour shift in a few minutes",
+          ],
+          cta: "Enter the Academy",
+        },
+        flowLabel: "How it works",
+        flow: [
+          { title: "Assigned from ARS", body: "By role, site or client, with a deadline. The course reaches only those who need it." },
+          { title: "Practiced in the headset", body: "With controllers or hands, speaking out loud. The person on the other side reacts to how they're treated." },
+          { title: "Certified with a QR code", body: "The record is signed by an instructor and carries a QR code anyone can check." },
+        ],
+        note: "The Academy is in pilot: today you can try the demo tour (portal, range and certificate). The link that sends the headset score to the platform is in design. VR practice complements in-person training; it doesn't replace it.",
+        sceneLabel: "View of the ARS Academy",
       },
       contact: {
         eyebrow: "Let's talk about your operation",

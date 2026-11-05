@@ -18,6 +18,7 @@ import { motorNarracion } from "@/lib/narracion/motor";
 import { cn } from "@/lib/utils";
 import { createChapterStore } from "./chapter-store";
 import type { CanvasLabel } from "./HomeCanvas";
+import { SeccionCapacitacion } from "./SeccionCapacitacion";
 import { StaticBackdrop } from "./StaticBackdrop";
 import type { ErpGroup } from "./erp-groups";
 import { CHAPTERS, CHAPTER_LAYER, ERP_LAYER, ERP_TINT, LAYER_TINT, TRACE_STEPS, erpStep, traceStep, type ChapterId } from "./story";
@@ -304,6 +305,7 @@ export function HomeExperience({ counts, erpGroups }: { counts: HomeCounts; erpG
 
         <ErpBase h={h} groups={erpGroups} />
         <Recap h={h} />
+        <SeccionCapacitacion h={h} />
         <Contact h={h} />
         <Footer tagline={t.footer.tagline} />
       </main>
