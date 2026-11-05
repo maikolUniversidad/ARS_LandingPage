@@ -44,7 +44,106 @@ type Props = {
   active: boolean;
   /** Cómo se muestra el video: "cover" (cámara) o "contain" (video subido). */
   objectFit?: "cover" | "contain";
+  /** Telemetría en vivo (≈4 veces por segundo) para HUD/paneles externos. */
+  onStats?: (s: LiveStats) => void;
+  /** Muestra el chip de estado del motor dentro del overlay (default true). */
+  mostrarEstado?: boolean;
 };
+
+/** Lo que el overlay está viendo, agregado por etiqueta. */
+export type LiveLabel = { label: string; n: number; conf: number };
+
+/** Telemetría real del motor de IA, medida en el navegador. */
+export type LiveStats = {
+  status: "loading" | "running" | "error";
+  /** Motor que corre de verdad en el navegador. */
+  motor: "mediapipe" | "yolox" | "thermal";
+  backend: "GPU" | "CPU";
+  /** Inferencias (o cuadros procesados) por segundo. */
+  fps: number;
+  /** Duración media de una inferencia en ms (ventana de los últimos 20). */
+  latencyMs: number;
+  count: number;
+  /** Confianza media de las detecciones del cuadro (0..1), null sin detecciones. */
+  avgConf: number | null;
+  labels: LiveLabel[];
+  /** Alarma activa en el cuadro (pelea, sin EPP, arma, fuego, caída, saturación…). */
+  alarm: string | null;
+};
+
+function alarmOf(p: Prediction): string | null {
+  if (p.alarm === "fight") return "pelea";
+  if (p.alarm === "weapon") return "arma";
+  if (p.alarm === "fire") return "fuego";
+  if (p.alarm === "violation") return "sin EPP";
+  if (p.alarm === "arms") return "brazos arriba";
+  if (p.label.includes("fall")) return "caída";
+  return null;
+}
+
+/** Resume las predicciones de un cuadro para la telemetría. */
+function summarize(preds: Prediction[]): Pick<LiveStats, "count" | "avgConf" | "labels" | "alarm"> {
+  const by = new Map<string, LiveLabel>();
+  let sum = 0;
+  let alarm: string | null = null;
+  for (const p of preds) {
+    sum += p.confidence;
+    const cur = by.get(p.label);
+    if (cur) {
+      cur.n += 1;
+      cur.conf = Math.max(cur.conf, p.confidence);
+    } else by.set(p.label, { label: p.label, n: 1, conf: p.confidence });
+    alarm = alarm ?? alarmOf(p);
+  }
+  return {
+    count: preds.length,
+    avgConf: preds.length ? sum / preds.length : null,
+    labels: [...by.values()].sort((a, b) => b.n - a.n || b.conf - a.conf),
+    alarm,
+  };
+}
+
+/** Emisor con throttle: junta latencias y publica cada ~250 ms. */
+function makeEmitter(
+  ref: React.RefObject<((s: LiveStats) => void) | undefined>,
+  base: () => Pick<LiveStats, "status" | "motor" | "backend">
+) {
+  let last = 0;
+  let lat: number[] = [];
+  let frames = 0;
+  let windowStart = performance.now();
+  let fps = 0;
+  return {
+    /** Registra una inferencia terminada y su duración. */
+    frame(latencyMs: number) {
+      lat.push(latencyMs);
+      if (lat.length > 20) lat = lat.slice(-20);
+      frames += 1;
+    },
+    emit(preds: Prediction[], extraAlarm: string | null = null) {
+      const now = performance.now();
+      if (now - windowStart >= 1000) {
+        fps = Math.round((frames * 1000) / (now - windowStart));
+        frames = 0;
+        windowStart = now;
+      }
+      if (!ref.current || now - last < 250) return;
+      last = now;
+      const s = summarize(preds);
+      ref.current({
+        ...base(),
+        fps,
+        latencyMs: lat.length ? lat.reduce((a, b) => a + b, 0) / lat.length : 0,
+        ...s,
+        alarm: extraAlarm ?? s.alarm,
+      });
+    },
+  };
+}
+
+function errorStats(motor: LiveStats["motor"]): LiveStats {
+  return { status: "error", motor, backend: "CPU", fps: 0, latencyMs: 0, count: 0, avgConf: null, labels: [], alarm: null };
+}
 
 /** Rectángulo del contenido de video dentro del canvas, según object-fit. */
 type FitMap = { ox: number; oy: number; dw: number; dh: number };
@@ -127,8 +226,19 @@ function ocrBadge(o: { status: OcrStatus; progress: number; vehicles: number; en
   return "OCR…";
 }
 
-export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" }: Props) {
+export function LiveAIOverlay({
+  videoRef,
+  demoType,
+  active,
+  objectFit = "cover",
+  onStats,
+  mostrarEstado = true,
+}: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const onStatsRef = useRef(onStats);
+  useEffect(() => {
+    onStatsRef.current = onStats;
+  }, [onStats]);
   const engineRef = useRef<BrowserVisionEngine | null>(null);
   const analyzerRef = useRef<BehaviorAnalyzer | null>(null);
   const plateOcrRef = useRef<PlateLprController | null>(null);
@@ -169,6 +279,11 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
     let frames = 0;
     let fpsWindow = performance.now();
     let lastPreds: Prediction[] = [];
+    const tele = makeEmitter(onStatsRef, () => ({
+      status: "running",
+      motor: "mediapipe",
+      backend: engineRef.current?.backend ?? "GPU",
+    }));
 
     const engine = engineRef.current ?? new BrowserVisionEngine();
     engineRef.current = engine;
@@ -176,6 +291,7 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
     analyzerRef.current = analyzer;
     analyzer.reset();
     let lastFight = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reinicia el HUD al (re)activar el bucle externo de inferencia
     setFightAlarm(false);
 
     // Aglomeración: throttle del HUD para no re-renderizar React cada frame.
@@ -220,6 +336,7 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
               } catch {
                 lastPreds = []; // frame no listo → limpiar (evita overlay congelado)
               }
+              tele.frame(performance.now() - now);
 
               // LPR de placas → detecta la placa, la recorta, la lee (ONNX) y
               // anota p.text. Corre throttled con una sola inferencia en vuelo.
@@ -298,6 +415,7 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
               );
               draw(ctx, lastPreds, rect.width, rect.height, map, crowdA);
               setCount(lastPreds.length);
+              tele.emit(lastPreds, lastFight ? "pelea" : crowdA?.alert ? "zona saturada" : null);
 
               frames += 1;
               const t = performance.now();
@@ -313,7 +431,10 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
         raf = requestAnimationFrame(loop);
       } catch (e) {
         console.error("LiveAIOverlay error", e);
-        if (!cancelled) setStatus("error");
+        if (!cancelled) {
+          setStatus("error");
+          onStatsRef.current?.(errorStats("mediapipe"));
+        }
       }
     })();
 
@@ -334,7 +455,9 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
     const filter = thermalRef.current ?? new ThermalFilter();
     thermalRef.current = filter;
     filter.reset();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- el filtro térmico no carga modelo: queda listo al instante
     setStatus("running");
+    const tele = makeEmitter(onStatsRef, () => ({ status: "running", motor: "thermal", backend: "CPU" }));
 
     const loop = () => {
       if (cancelled) return;
@@ -351,7 +474,10 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
         if (ctx) {
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
           const map = fitMapping(video.videoWidth, video.videoHeight, rect.width, rect.height, objectFit);
+          const t0 = performance.now();
           filter.render(video, ctx, rect.width, rect.height, map);
+          tele.frame(performance.now() - t0);
+          tele.emit([]);
           frames += 1;
           const t = performance.now();
           if (t - fpsWindow >= 1000) {
@@ -392,6 +518,7 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
     }
     const det = yoloxRef.current ?? new YoloxDetector(cfg);
     yoloxRef.current = det;
+    const tele = makeEmitter(onStatsRef, () => ({ status: "running", motor: "yolox", backend: det.backend }));
 
     (async () => {
       setStatus("loading");
@@ -399,7 +526,10 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
       if (cancelled) return;
       setBackend(det.backend);
       setStatus(det.ready ? "running" : "error");
-      if (!det.ready) return;
+      if (!det.ready) {
+        onStatsRef.current?.(errorStats("yolox"));
+        return;
+      }
 
       const loop = () => {
         if (cancelled) return;
@@ -420,11 +550,13 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
             if (!inflight && now - lastRun >= THROTTLE) {
               inflight = true;
               lastRun = now;
+              const t0 = performance.now();
               det
                 .detect(video)
                 .then((r) => {
                   if (cancelled || !r) return;
                   lastPreds = r;
+                  tele.frame(performance.now() - t0);
                   infs += 1;
                   const t = performance.now();
                   if (t - fpsWindow >= 1000) {
@@ -446,6 +578,7 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
             );
             draw(ctx, lastPreds, rect.width, rect.height, map);
             setCount(lastPreds.length);
+            tele.emit(lastPreds);
           }
         }
         raf = requestAnimationFrame(loop);
@@ -597,6 +730,7 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
         </div>
       )}
       {/* Estado del motor */}
+      {mostrarEstado && (
       <div
         className="absolute left-3 top-14 z-20 border bg-deep/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] backdrop-blur"
         style={{
@@ -623,6 +757,7 @@ export function LiveAIOverlay({ videoRef, demoType, active, objectFit = "cover" 
               }`)}
         {status === "error" && "✕ no se pudo iniciar el modelo"}
       </div>
+      )}
     </>
   );
 }
