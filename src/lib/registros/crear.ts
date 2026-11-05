@@ -11,20 +11,22 @@ import { autorizacionDe } from "@/data/diagnostico/autorizacion";
 import { ipDe } from "@/lib/asistente/servidor";
 import { CONTACT_EMAIL } from "@/lib/contact";
 import { configRegistros, entornoRegistro } from "./config";
+import { cuerpoPropuesta, type DatosPropuesta } from "./propuesta";
 import {
   VERSION_REGISTRO,
   type OrigenRegistro,
   type RegistroContacto,
   type RegistroDiagnostico,
+  type RegistroPropuesta,
   type TipoRegistro,
 } from "./tipos";
 
 /** Alfabeto Crockford (sin I, L, O, U): legible por teléfono. */
 const ALFABETO = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
-const PREFIJO: Record<TipoRegistro, string> = { contacto: "CONT", diagnostico: "DIAG" };
-export const ID_RE = /^(CONT|DIAG)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$/;
+const PREFIJO: Record<TipoRegistro, string> = { contacto: "CONT", diagnostico: "DIAG", propuesta: "PROP" };
+export const ID_RE = /^(CONT|DIAG|PROP)-\d{4}-[0-9A-HJKMNP-TV-Z]{6}$/;
 
-/** CONT-2026-7K3QF2 / DIAG-2026-M4X9PA (32^6 ≈ 1.000 millones por año). */
+/** CONT-2026-7K3QF2 / DIAG-2026-M4X9PA / PROP-2026-9T4HKB (32^6 ≈ 1.000 millones por año). */
 export function nuevoId(tipo: TipoRegistro, fecha = new Date()): string {
   const bytes = randomBytes(6);
   const sufijo = Array.from(bytes, (b) => ALFABETO[b % 32]).join("");
@@ -164,4 +166,12 @@ export function registroDiagnostico(
     },
     diagnostico: reporte,
   };
+}
+
+/* ───────────── Propuesta ARS ───────────── */
+
+/** Registro de una propuesta enviada a un asesor (/api/propuesta/enviar). Ver `./propuesta.ts`. */
+export function registroPropuesta(req: Request, datos: DatosPropuesta & { pagina?: unknown }): RegistroPropuesta {
+  const { pagina, ...resto } = datos;
+  return { ...base("propuesta", req, pagina), ...cuerpoPropuesta(resto) };
 }

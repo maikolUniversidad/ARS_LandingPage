@@ -1,5 +1,5 @@
 /**
- * Módulo de registros: guarda cada lead (contacto o diagnóstico) en el módulo
+ * Módulo de registros: guarda cada lead (contacto, diagnóstico o propuesta) en el módulo
  * de ARS (push firmado) y en un almacén local de respaldo.
  *
  * Flujo de `guardarRegistro` (el id ya está generado en el registro):
@@ -18,9 +18,9 @@ import { rechazoDefinitivo } from "./reintento-fondo";
 import { AlmacenArsRemoto, ErrorDefinitivo } from "./remoto";
 import type { Registro, RegistroLocal, Sincronizacion } from "./tipos";
 
-export type { Registro, RegistroContacto, RegistroDiagnostico, EstadoRegistro, TipoRegistro } from "./tipos";
+export type { Registro, RegistroContacto, RegistroDiagnostico, RegistroPropuesta, EstadoRegistro, TipoRegistro } from "./tipos";
 export { ESTADOS_REGISTRO } from "./tipos";
-export { registroContacto, registroDiagnostico } from "./crear";
+export { registroContacto, registroDiagnostico, registroPropuesta } from "./crear";
 
 export function almacenLocal(cfg: ConfigRegistros = configRegistros()): AlmacenLocal {
   return new AlmacenLocal(cfg.dir);
