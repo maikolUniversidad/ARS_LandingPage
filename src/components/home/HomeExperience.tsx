@@ -831,10 +831,22 @@ function ErpBase({ h, groups }: { h: HomeDict; groups: ErpGroup[] }) {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-wrap justify-end gap-3 md:mt-10">
-          <CtaLink href="/arquitectura" primary>
-            {s.cta}
-          </CtaLink>
+        <div className="mt-8 flex flex-col gap-5 md:mt-10 md:flex-row md:items-end md:justify-between">
+          {/* Dónde corre: soberanía de datos */}
+          <p className="max-w-2xl text-[13px] leading-relaxed text-[#c5d2ee]">
+            {s.sovereignty}{" "}
+            <Link
+              href="/servicios/infraestructura"
+              className="whitespace-nowrap font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/80 hover:text-white"
+            >
+              <span className="text-[#3fe0c5]">▸</span> {s.sovereigntyCta}
+            </Link>
+          </p>
+          <div className="flex shrink-0 justify-end">
+            <CtaLink href="/arquitectura" primary>
+              {s.cta}
+            </CtaLink>
+          </div>
         </div>
       </div>
     </section>

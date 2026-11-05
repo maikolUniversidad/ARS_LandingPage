@@ -5,13 +5,13 @@ orden: 25
 rutas: ["/servicios"]
 ---
 
-Página `/servicios`: el catálogo completo de lo que hace ARS, en 10 áreas con una página cada una (`/servicios/<area>`) y un ancla por módulo (`/servicios/<area>#<modulo>`). **El catálogo de módulos (id, área, estado, frase y palabras clave) se incluye por separado**; úsalo para responder y enlazar siempre con el id exacto.
+Página `/servicios`: el catálogo completo de lo que hace ARS, en 11 áreas con una página cada una (`/servicios/<area>`) y un ancla por módulo (`/servicios/<area>#<modulo>`). **El catálogo de módulos (id, área, estado, frase y palabras clave) se incluye por separado**; úsalo para responder y enlazar siempre con el id exacto.
 
 ## La idea central
 
 ARS no es «un producto de cámaras»: es **el sistema operativo de una empresa de seguridad privada**. En una sola plataforma la empresa contrata, programa, paga y capacita a su gente; la supervisa en campo con GPS, rondas, zonas y reportes con foto, firma, ubicación y hora; se comunica por radio desde el celular con cada transmisión grabada; vigila con cámaras, sensores y acceso facial; responde las emergencias desde una sala de control; le rinde cuentas al cliente con un portal propio; lleva sus clientes, contratos, facturación, costos y contabilidad en el mismo ERP, y puede recorrer su central y una sede de ejemplo en realidad virtual.
 
-## Las 10 áreas
+## Las 11 áreas
 
 - **A · Operación en campo** (`operacion-en-campo`): turnos y programación, asistencia y relevos con selfie y verificación facial, rondas con QR, revistas y reportes de supervisión, visitantes y bicicletas, armas, vehículos y caninos.
 - **B · Centro de operaciones** (`centro-de-operaciones`): Sala de Control con mapa en vivo, zonas con alerta de salida de zona, sala del coordinador, recorridos GPS de supervisores, cumplimiento persona por persona y alias de clientes y sedes.
@@ -23,6 +23,7 @@ ARS no es «un producto de cámaras»: es **el sistema operativo de una empresa 
 - **H · Finanzas y ERP** (`finanzas-y-erp`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), cotizador y CRM propios, y el **Agente interoperador de datos**, que centraliza en ARS o hace fluir la información de los sistemas que la empresa ya tenga.
 - **I · Productividad e IA** (`productividad-e-ia`): tareas, reuniones con transcripción, tickets, formularios dinámicos, automatizaciones y Centro de IA.
 - **J · Gobierno, seguridad y canales** (`gobierno-y-seguridad`): Torre de Control, auditoría, configuración multiempresa, ingreso con cédula y doble factor, app Android, app instalable (PWA) y app de escritorio para la central.
+- **K · Infraestructura y centro de datos** (`infraestructura`): centro de datos propio de ARS en Colombia (soberanía de datos), granja de tarjetas gráficas (GPU) para la analítica de video y la IA en local, monitor de infraestructura en vivo (servidor, contenedores, clúster, sitios, DNS, bases de datos, alertas, registros e informes, con vista 3D del centro de datos), clúster y nodos, sitios/red/DNS, agente remoto para la nube o la sala de servidores del cliente, equipo on premise en su sede, respaldos verificados 3-2-1 y alertas/DevOps.
 
 ## Un día en ARS (cómo se encadenan las áreas)
 
@@ -61,6 +62,17 @@ Cuando pregunten por integraciones, por el ERP, por migrar información o por «
 - Enlaza al módulo `/servicios/finanzas-y-erp#agente-interoperador-de-datos`.
 - **Nunca nombres un ERP, proveedor o producto de terceros concreto** (ni el de un cliente). Habla siempre de «el sistema que ya usa la empresa» o «los sistemas que tenga contratados».
 
+## Dónde quedan los datos (infraestructura y soberanía)
+
+Cuando pregunten «¿dónde quedan mis datos?», «¿tienen data center?», «¿funciona on premise?», «¿en la nube?» o por soberanía de datos, responde con el área K (`/servicios/infraestructura`) y muéstrala con mostrar_servicio:
+
+- **Centro de datos propio en Colombia** (`centro-de-datos-ars`, en producción): ahí corren la plataforma, el resguardo de la información y el procesamiento de la analítica y la IA. Es el protocolo de soberanía de datos de ARS: videos, documentos del personal y conversaciones con los asistentes se procesan en servidores propios, sin enviarse a servicios de terceros fuera del país.
+- **Granja de tarjetas gráficas** (`granja-de-gpu-ia-local`, en piloto: el monitoreo de las tarjetas está en producción y la ampliación de la granja sigue en curso): la analítica de video y los modelos de IA corren en tarjetas gráficas propias, no en nubes externas.
+- **En la nube o la sala de servidores del cliente** (`ubicaciones-y-agente-remoto`, en piloto): un agente liviano (Linux, Windows o Kubernetes) conecta esa infraestructura al mismo monitor; solo hace conexiones salientes por HTTPS, sin abrir puertos ni VPN, con un token propio por equipo que se puede revocar.
+- **On premise** (`equipo-on-premise`, en piloto): si los datos no pueden salir del edificio, ARS deja un equipo en la sede; los servicios y la analítica corren ahí, cerca de las cámaras, y el equipo se vigila desde el mismo monitor.
+- **Se ve en vivo y con respaldo**: monitor de infraestructura de solo lectura (`monitor-de-infraestructura-en-vivo`), respaldos verificados con copia fuera del sitio (`respaldos-verificados`) y alertas con historia (`alertas-e-informes-de-infraestructura`).
+- No prometas certificaciones del centro de datos (Tier, ISO u otras), SLA, porcentajes de disponibilidad, número de tarjetas ni capacidad; la arquitectura exacta de cada cliente (centro de datos de ARS, su nube o on premise) se define con el equipo comercial.
+
 ## Multiagentes por área
 
 ARS cuenta con **multiagentes de inteligencia artificial trabajando dentro de cada una de las áreas** (campo, centro de operaciones, gestión humana, formación, finanzas, productividad…) para **complementar los procesos**: proponen, revisan, organizan y explican; la persona decide. Preséntalos como un complemento del trabajo del equipo, nunca como un reemplazo.
@@ -80,7 +92,7 @@ Si un módulo trae `notaEstado` (por ejemplo «con gafas Meta Quest, en piloto»
 - **Turnos:** la verificación facial del relevo compara con la foto registrada; no hables de «antisuplantación». Los relojes biométricos ZKTeco se mencionan como **compatibilidad**. El relevo entre empresas es para supervisores de un mismo grupo empresarial.
 - **Radio:** en el teléfono funciona con la app Android, con varios perfiles en un teléfono y manos libres.
 - **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.
-- **Servidores propios:** dilo para documentos del personal, reuniones y datos de personal; no lo generalices a toda la plataforma.
+- **Servidores propios:** la plataforma, el resguardo y la IA corren en el centro de datos propio de ARS en Colombia (área K); si el cliente elige su nube o un equipo on premise, los datos quedan donde él decida. No inventes certificaciones, SLA ni capacidades del centro de datos.
 - **Realidad virtual:** todo es **demostración con datos simulados** y empresas ficticias; las experiencias nuevas de la app para Meta Quest están en **piloto** (en prueba con las gafas). Sin drones, robots ni domótica. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.
 - **Nómina y contabilidad:** son parte del ERP de ARS. Si la empresa ya liquida o contabiliza en otro sistema, el Agente interoperador de datos centraliza esa información en ARS o la hace fluir entre los dos, y ARS muestra las diferencias antes de pagar o cerrar; el módulo de contabilidad se alimenta del sistema contable que la empresa conecta (copia de consulta actualizada cada 15 minutos). No des cifras de coincidencia entre sistemas. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. La facturación (líneas, aprobación, prefacturación y validación) está en ARS; la bandeja de facturas electrónicas DIAN y RADIAN está en piloto y pasa a producción en los próximos meses. No afirmes que ARS transmite facturas electrónicas a la DIAN: si lo preguntan, se confirma con el equipo comercial.
 - **Puertas con reconocimiento facial y escaneo 3D de sedes:** disponibles; el reconocimiento facial abre o alerta y una persona verifica.

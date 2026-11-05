@@ -52,8 +52,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Qué es ARS Intelligence › Posicionamiento: todas las capas, una sola traza",
    "ruta": "/",
-   "texto": "Otras ideas que comunica el sitio:\n- **La IA apoya al equipo humano**: multiagentes de IA que proponen y una persona que decide.\n- **Alertas con evidencia**: foto, video, ubicación, cámara, hora y responsable asociados al evento.\n- **Multi-cliente, multi-sede**: cada sede, cada cliente y cada turno en la misma plataforma.\n- Cifras de la portada (salen del catálogo de `/servicios`): 10 áreas de servicio, los módulos del catálogo y cuántos están en operación, y 8 analíticas de video. No uses otras cifras (no hay respaldo para «< 48 h», «24/7», «12+ modelos» ni porcentajes de precisión).\n- Plazos de despliegue, precios y alcance de cada proyecto: a confirmar con el equipo comercial.",
-   "h": "bb37ff53ae7bcaa6"
+   "texto": "Otras ideas que comunica el sitio:\n- **La IA apoya al equipo humano**: multiagentes de IA que proponen y una persona que decide.\n- **Alertas con evidencia**: foto, video, ubicación, cámara, hora y responsable asociados al evento.\n- **Multi-cliente, multi-sede**: cada sede, cada cliente y cada turno en la misma plataforma.\n- Cifras de la portada (salen del catálogo de `/servicios`): 11 áreas de servicio, los módulos del catálogo y cuántos están en operación, y 8 analíticas de video. No uses otras cifras (no hay respaldo para «< 48 h», «24/7», «12+ modelos» ni porcentajes de precisión).\n- Plazos de despliegue, precios y alcance de cada proyecto: a confirmar con el equipo comercial.",
+   "h": "34243fa0fae5e7ff"
   },
   {
    "id": "kb:que-es-ars:2",
@@ -111,8 +111,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/` — Portada (las capas de la seguridad unidas en una traza, sobre un ERP de gestión)",
    "ruta": "/",
-   "texto": "- `#hero` — «Todas las capas de la seguridad. Una sola traza.»\n- `#fisica` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.\n- `#vision` — Capa 02 · Visión con IA sobre las cámaras. En operación.\n- `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). En operación.\n- `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). En desarrollo.\n- `#central` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.\n- `#erp` — «Debajo de todo, un ERP hecho para la seguridad.»: el suelo se abre y se ve el ERP de gestión (contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría) alimentado por las cinco capas; un turno cumplido llega a la nómina, la ronda y el evento al informe del cliente, el servicio prestado a la prefactura y todo a la contabilidad.\n- `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.\n- `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma (la operación encima, el ERP de gestión debajo), cifras del catálogo y botones a demo y a `/servicios`.\n- `#la-base` — sección «La base: un ERP hecho para la seguridad»: dos niveles (Operación arriba, Gestión abajo) con los módulos reales del catálogo y su estado, cada uno enlazado a `/servicios/<área>#<módulo>`, y el botón «Ver la arquitectura completa» (`/arquitectura`).\n- `#contacto` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. `/#cierre` también lleva aquí.",
-   "h": "d76e512cb43929cc"
+   "texto": "- `#hero` — «Todas las capas de la seguridad. Una sola traza.»\n- `#fisica` — Capa 01 · Vigilancia física (turnos, rondas con QR, minuta, radio, pánico, supervisor). En operación.\n- `#vision` — Capa 02 · Visión con IA sobre las cámaras. En operación.\n- `#iot` — Capa 03 · Sensores e IoT (accesos, alarmas, relojes biométricos). En operación.\n- `#robotica` — Capa 04 · Robótica (perros robot con las mismas analíticas). En desarrollo.\n- `#central` — Capa 05 · Central de operaciones y gerencia en tiempo real. En operación.\n- `#erp` — «Debajo de todo, un ERP hecho para la seguridad.»: el suelo se abre y se ve el ERP de gestión (contratos y turnos, personas y nómina, documental, formación, clientes, finanzas y facturación, gobierno y auditoría) alimentado por las cinco capas; un turno cumplido llega a la nómina, la ronda y el evento al informe del cliente, el servicio prestado a la prefactura y todo a la contabilidad.\n- `#traza` — «Un evento. Cinco capas. Ningún cabo suelto.»: línea de tiempo de un evento de demostración, de la ronda al cierre en gerencia.\n- `#escala` — «La nueva era de la seguridad privada ya opera.»: todas las sedes en la misma plataforma (la operación encima, el ERP de gestión debajo), cifras del catálogo y botones a demo y a `/servicios`.\n- `#la-base` — sección «La base: un ERP hecho para la seguridad»: dos niveles (Operación arriba, Gestión abajo) con los módulos reales del catálogo y su estado, cada uno enlazado a `/servicios/<área>#<módulo>`, una nota de soberanía de datos (centro de datos propio en Colombia, nube del cliente u on premise) con enlace a `/servicios/infraestructura`, y el botón «Ver la arquitectura completa» (`/arquitectura`).\n- `#contacto` — formulario de contacto (nombre, empresa, correo, teléfono, mensaje), WhatsApp y correo. `/#cierre` también lleva aquí.",
+   "h": "05d62d40df91b4b4"
   },
   {
    "id": "kb:mapa-del-sitio:1.2",
@@ -185,8 +185,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Mapa del sitio y a dónde llevar al visitante › `/servicios` — Servicios: el sistema operativo de una empresa de seguridad",
    "ruta": "/",
-   "texto": "Catálogo completo de lo que hace ARS, organizado por áreas (operación en campo, centro de operaciones, comunicación, monitoreo inteligente, realidad virtual, gestión humana, formación, finanzas y ERP, productividad e IA, gobierno). El detalle de cada área y módulo está en el «Catálogo de servicios de ARS» al final de esta base de conocimiento.\n\nAnclas del hub `/servicios`:\n- `#dia` — «Un día en ARS»: una jornada que recorre todas las áreas.\n- `#areas` — tarjetas de las áreas.\n- `#por-que` — por qué ARS (pilares transversales).\n- `#buscar` — buscador de servicios.\n- `#cierre` — solicitar demo / hablar con un asesor.\n\nCada área tiene su página `/servicios/<área>` con una escena 3D que se puede girar y una sección por módulo con ancla `#<módulo>` (p. ej. `/servicios/monitoreo-inteligente#vision-artificial`). Al mostrar un módulo la escena 3D vuela a su punto (cámaras, puertas, radio, nómina…). En cada módulo hay un botón «Pregúntale a Ars sobre esto».",
-   "h": "209fe66942160235"
+   "texto": "Catálogo completo de lo que hace ARS, organizado por áreas (operación en campo, centro de operaciones, comunicación, monitoreo inteligente, realidad virtual, gestión humana, formación, finanzas y ERP, productividad e IA, gobierno, e infraestructura y centro de datos). El detalle de cada área y módulo está en el «Catálogo de servicios de ARS» al final de esta base de conocimiento.\n\nAnclas del hub `/servicios`:\n- `#dia` — «Un día en ARS»: una jornada que recorre todas las áreas.\n- `#areas` — tarjetas de las áreas.\n- `#por-que` — por qué ARS (pilares transversales).\n- `#buscar` — buscador de servicios.\n- `#cierre` — solicitar demo / hablar con un asesor.\n\nCada área tiene su página `/servicios/<área>` con una escena 3D que se puede girar y una sección por módulo con ancla `#<módulo>` (p. ej. `/servicios/monitoreo-inteligente#vision-artificial`). Al mostrar un módulo la escena 3D vuela a su punto (cámaras, puertas, radio, nómina…). En cada módulo hay un botón «Pregúntale a Ars sobre esto».",
+   "h": "f0ce1885ce8610cd"
   },
   {
    "id": "kb:mapa-del-sitio:7.1",
@@ -310,8 +310,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo",
    "ruta": "/servicios",
-   "texto": "Página `/servicios`: el catálogo completo de lo que hace ARS, en 10 áreas con una página cada una (`/servicios/<area>`) y un ancla por módulo (`/servicios/<area>#<modulo>`). **El catálogo de módulos (id, área, estado, frase y palabras clave) se incluye por separado**; úsalo para responder y enlazar siempre con el id exacto.",
-   "h": "813a629b3c01e38c"
+   "texto": "Página `/servicios`: el catálogo completo de lo que hace ARS, en 11 áreas con una página cada una (`/servicios/<area>`) y un ancla por módulo (`/servicios/<area>#<modulo>`). **El catálogo de módulos (id, área, estado, frase y palabras clave) se incluye por separado**; úsalo para responder y enlazar siempre con el id exacto.",
+   "h": "45a5768bc98173bf"
   },
   {
    "id": "kb:servicios-ars:1",
@@ -324,10 +324,10 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
   {
    "id": "kb:servicios-ars:2",
    "fuente": "kb",
-   "titulo": "Servicios de ARS · el catálogo completo › Las 10 áreas",
+   "titulo": "Servicios de ARS · el catálogo completo › Las 11 áreas",
    "ruta": "/servicios",
-   "texto": "- **A · Operación en campo** (`operacion-en-campo`): turnos y programación, asistencia y relevos con selfie y verificación facial, rondas con QR, revistas y reportes de supervisión, visitantes y bicicletas, armas, vehículos y caninos.\n- **B · Centro de operaciones** (`centro-de-operaciones`): Sala de Control con mapa en vivo, zonas con alerta de salida de zona, sala del coordinador, recorridos GPS de supervisores, cumplimiento persona por persona y alias de clientes y sedes.\n- **C · Comunicación y emergencias** (`comunicacion-y-emergencias`): radio PTT en el celular y la web, chat corporativo, conversación con la Central, consola de grabaciones, reporte por sede, botón de pánico y notificaciones.\n- **D · Monitoreo inteligente** (`monitoreo-inteligente`): visión artificial sobre las cámaras existentes, acceso inteligente con listas y consentimientos, IoT, levantamiento 2D/3D de sedes.\n- **E · Realidad virtual** (`realidad-virtual`): la app «ARS» para Meta Quest con la Central de monitoreo, «Su empresa, por dentro», «La sede del cliente» y la Academia de vigilantes, guiadas por Aria; además la Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz. Detalle en el documento de la Sala VR.\n- **F · Gestión humana** (`gestion-humana`): selección, colaboradores, nómina desde los turnos, costos, Área Documental con IA, portal documental para el cliente y Jurídica.\n- **G · Formación** (`formacion`): cursos con certificados QR, diseñador de cursos con IA, video por temas, auditoría de reglas y evaluaciones.\n- **H · Finanzas y ERP** (`finanzas-y-erp`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), cotizador y CRM propios, y el **Agente interoperador de datos**, que centraliza en ARS o hace fluir la información de los sistemas que la empresa ya tenga.\n- **I · Productividad e IA** (`productividad-e-ia`): tareas, reuniones con transcripción, tickets, formularios dinámicos, automatizaciones y Centro de IA.\n- **J · Gobierno, seguridad y canales** (`gobierno-y-seguridad`): Torre de Control, auditoría, configuración multiempresa, ingreso con cédula y doble factor, app Android, app instalable (PWA) y app de escritorio para la central.",
-   "h": "563ad5252a3d52c6"
+   "texto": "- **A · Operación en campo** (`operacion-en-campo`): turnos y programación, asistencia y relevos con selfie y verificación facial, rondas con QR, revistas y reportes de supervisión, visitantes y bicicletas, armas, vehículos y caninos.\n- **B · Centro de operaciones** (`centro-de-operaciones`): Sala de Control con mapa en vivo, zonas con alerta de salida de zona, sala del coordinador, recorridos GPS de supervisores, cumplimiento persona por persona y alias de clientes y sedes.\n- **C · Comunicación y emergencias** (`comunicacion-y-emergencias`): radio PTT en el celular y la web, chat corporativo, conversación con la Central, consola de grabaciones, reporte por sede, botón de pánico y notificaciones.\n- **D · Monitoreo inteligente** (`monitoreo-inteligente`): visión artificial sobre las cámaras existentes, acceso inteligente con listas y consentimientos, IoT, levantamiento 2D/3D de sedes.\n- **E · Realidad virtual** (`realidad-virtual`): la app «ARS» para Meta Quest con la Central de monitoreo, «Su empresa, por dentro», «La sede del cliente» y la Academia de vigilantes, guiadas por Aria; además la Mesa Directiva con directores simulados por IA y Vigía, el asistente de voz. Detalle en el documento de la Sala VR.\n- **F · Gestión humana** (`gestion-humana`): selección, colaboradores, nómina desde los turnos, costos, Área Documental con IA, portal documental para el cliente y Jurídica.\n- **G · Formación** (`formacion`): cursos con certificados QR, diseñador de cursos con IA, video por temas, auditoría de reglas y evaluaciones.\n- **H · Finanzas y ERP** (`finanzas-y-erp`): clientes, contratos y planes por módulos, órdenes de servicio, contabilidad conectada, asistente contable con IA, facturas DIAN y RADIAN (en piloto; pasan a producción en los próximos meses), cotizador y CRM propios, y el **Agente interoperador de datos**, que centraliza en ARS o hace fluir la información de los sistemas que la empresa ya tenga.\n- **I · Productividad e IA** (`productividad-e-ia`): tareas, reuniones con transcripción, tickets, formularios dinámicos, automatizaciones y Centro de IA.\n- **J · Gobierno, seguridad y canales** (`gobierno-y-seguridad`): Torre de Control, auditoría, configuración multiempresa, ingreso con cédula y doble factor, app Android, app instalable (PWA) y app de escritorio para la central.\n- **K · Infraestructura y centro de datos** (`infraestructura`): centro de datos propio de ARS en Colombia (soberanía de datos), granja de tarjetas gráficas (GPU) para la analítica de video y la IA en local, monitor de infraestructura en vivo (servidor, contenedores, clúster, sitios, DNS, bases de datos, alertas, registros e informes, con vista 3D del centro de datos), clúster y nodos, sitios/red/DNS, agente remoto para la nube o la sala de servidores del cliente, equipo on premise en su sede, respaldos verificados 3-2-1 y alertas/DevOps.",
+   "h": "1a2eca8d531216e8"
   },
   {
    "id": "kb:servicios-ars:3",
@@ -388,13 +388,29 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
   {
    "id": "kb:servicios-ars:7",
    "fuente": "kb",
+   "titulo": "Servicios de ARS · el catálogo completo › Dónde quedan los datos (infraestructura y soberanía)",
+   "ruta": "/servicios",
+   "texto": "Cuando pregunten «¿dónde quedan mis datos?», «¿tienen data center?», «¿funciona on premise?», «¿en la nube?» o por soberanía de datos, responde con el área K (`/servicios/infraestructura`) y muéstrala con mostrar_servicio:",
+   "h": "fbb2b3f9a3fc9345"
+  },
+  {
+   "id": "kb:servicios-ars:7.1",
+   "fuente": "kb",
+   "titulo": "Servicios de ARS · el catálogo completo › Dónde quedan los datos (infraestructura y soberanía)",
+   "ruta": "/servicios",
+   "texto": "- **Centro de datos propio en Colombia** (`centro-de-datos-ars`, en producción): ahí corren la plataforma, el resguardo de la información y el procesamiento de la analítica y la IA. Es el protocolo de soberanía de datos de ARS: videos, documentos del personal y conversaciones con los asistentes se procesan en servidores propios, sin enviarse a servicios de terceros fuera del país.\n- **Granja de tarjetas gráficas** (`granja-de-gpu-ia-local`, en piloto: el monitoreo de las tarjetas está en producción y la ampliación de la granja sigue en curso): la analítica de video y los modelos de IA corren en tarjetas gráficas propias, no en nubes externas.\n- **En la nube o la sala de servidores del cliente** (`ubicaciones-y-agente-remoto`, en piloto): un agente liviano (Linux, Windows o Kubernetes) conecta esa infraestructura al mismo monitor; solo hace conexiones salientes por HTTPS, sin abrir puertos ni VPN, con un token propio por equipo que se puede revocar.\n- **On premise** (`equipo-on-premise`, en piloto): si los datos no pueden salir del edificio, ARS deja un equipo en la sede; los servicios y la analítica corren ahí, cerca de las cámaras, y el equipo se vigila desde el mismo monitor.\n- **Se ve en vivo y con respaldo**: monitor de infraestructura de solo lectura (`monitor-de-infraestructura-en-vivo`), respaldos verificados con copia fuera del sitio (`respaldos-verificados`) y alertas con historia (`alertas-e-informes-de-infraestructura`).\n- No prometas certificaciones del centro de datos (Tier, ISO u otras), SLA, porcentajes de disponibilidad, número de tarjetas ni capacidad; la arquitectura exacta de cada cliente (centro de datos de ARS, su nube o on premise) se define con el equipo comercial.",
+   "h": "4d224b1aa3fe2837"
+  },
+  {
+   "id": "kb:servicios-ars:8",
+   "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Multiagentes por área",
    "ruta": "/servicios",
    "texto": "ARS cuenta con **multiagentes de inteligencia artificial trabajando dentro de cada una de las áreas** (campo, centro de operaciones, gestión humana, formación, finanzas, productividad…) para **complementar los procesos**: proponen, revisan, organizan y explican; la persona decide. Preséntalos como un complemento del trabajo del equipo, nunca como un reemplazo.",
    "h": "d28b595ddee8a4da"
   },
   {
-   "id": "kb:servicios-ars:8",
+   "id": "kb:servicios-ars:9",
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Cómo hablar de los estados",
    "ruta": "/servicios",
@@ -402,12 +418,12 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "a3ba48583adfb73c"
   },
   {
-   "id": "kb:servicios-ars:9",
+   "id": "kb:servicios-ars:10",
    "fuente": "kb",
    "titulo": "Servicios de ARS · el catálogo completo › Guía de lo que no se promete",
    "ruta": "/servicios",
-   "texto": "- **Cámaras:** habla solo de las analíticas del catálogo de servicios (intrusión, cruce de línea, merodeo, objetos olvidados, conteo, aforo, mapa de calor, atributos estimados de persona). No ofrezcas en este catálogo lectura de placas, detección de armas, EPP, visión térmica, clasificación vehicular ni detección de fuego o humo; si preguntan, di que se evalúan caso a caso con el equipo comercial y remite a `/vision` para ver su estado. El reconocimiento facial por cámara es una **alerta de personas desconocidas o de una lista, que verifica un operador**, nunca una identificación automática. Las analíticas dependen del equipo instalado en cada sede.\n- **Turnos:** la verificación facial del relevo compara con la foto registrada; no hables de «antisuplantación». Los relojes biométricos ZKTeco se mencionan como **compatibilidad**. El relevo entre empresas es para supervisores de un mismo grupo empresarial.\n- **Radio:** en el teléfono funciona con la app Android, con varios perfiles en un teléfono y manos libres.\n- **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.\n- **Servidores propios:** dilo para documentos del personal, reuniones y datos de personal; no lo generalices a toda la plataforma.\n- **Realidad virtual:** todo es **demostración con datos simulados** y empresas ficticias; las experiencias nuevas de la app para Meta Quest están en **piloto** (en prueba con las gafas). Sin drones, robots ni domótica. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.\n- **Nómina y contabilidad:** son parte del ERP de ARS. Si la empresa ya liquida o contabiliza en otro sistema, el Agente interoperador de datos centraliza esa información en ARS o la hace fluir entre los dos, y ARS muestra las diferencias antes de pagar o cerrar; el módulo de contabilidad se alimenta del sistema contable que la empresa conecta (copia de consulta actualizada cada 15 minutos). No des cifras de coincidencia entre sistemas. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. La facturación (líneas, aprobación, prefacturación y validación) está en ARS; la bandeja de facturas electrónicas DIAN y RADIAN está en piloto y pasa a producción en los próximos meses. No afirmes que ARS transmite facturas electrónicas a la DIAN: si lo preguntan, se confirma con el equipo comercial.\n- **Puertas con reconocimiento facial y escaneo 3D de sedes:** disponibles; el reconocimiento facial abre o alerta y una persona verifica.\n- **Cifras:** no des números de usuarios, vigilantes, clientes, sedes, documentos ni porcentajes de uso. No nombres clientes.\n- Si algo no está en el catálogo, di que se confirma con el equipo comercial y ofrece agendar una demo.",
-   "h": "abca5af16e3bf58f"
+   "texto": "- **Cámaras:** habla solo de las analíticas del catálogo de servicios (intrusión, cruce de línea, merodeo, objetos olvidados, conteo, aforo, mapa de calor, atributos estimados de persona). No ofrezcas en este catálogo lectura de placas, detección de armas, EPP, visión térmica, clasificación vehicular ni detección de fuego o humo; si preguntan, di que se evalúan caso a caso con el equipo comercial y remite a `/vision` para ver su estado. El reconocimiento facial por cámara es una **alerta de personas desconocidas o de una lista, que verifica un operador**, nunca una identificación automática. Las analíticas dependen del equipo instalado en cada sede.\n- **Turnos:** la verificación facial del relevo compara con la foto registrada; no hables de «antisuplantación». Los relojes biométricos ZKTeco se mencionan como **compatibilidad**. El relevo entre empresas es para supervisores de un mismo grupo empresarial.\n- **Radio:** en el teléfono funciona con la app Android, con varios perfiles en un teléfono y manos libres.\n- **Disponibilidad:** no prometas porcentajes de disponibilidad, SLA ni «cero caídas». No menciones certificaciones.\n- **Servidores propios:** la plataforma, el resguardo y la IA corren en el centro de datos propio de ARS en Colombia (área K); si el cliente elige su nube o un equipo on premise, los datos quedan donde él decida. No inventes certificaciones, SLA ni capacidades del centro de datos.\n- **Realidad virtual:** todo es **demostración con datos simulados** y empresas ficticias; las experiencias nuevas de la app para Meta Quest están en **piloto** (en prueba con las gafas). Sin drones, robots ni domótica. Los directores de la Mesa Directiva son **simulados por IA**: no los asocies con personas reales.\n- **Nómina y contabilidad:** son parte del ERP de ARS. Si la empresa ya liquida o contabiliza en otro sistema, el Agente interoperador de datos centraliza esa información en ARS o la hace fluir entre los dos, y ARS muestra las diferencias antes de pagar o cerrar; el módulo de contabilidad se alimenta del sistema contable que la empresa conecta (copia de consulta actualizada cada 15 minutos). No des cifras de coincidencia entre sistemas. Incluyen nómina quincenal, prima, vacaciones y liquidación de contratos. La facturación (líneas, aprobación, prefacturación y validación) está en ARS; la bandeja de facturas electrónicas DIAN y RADIAN está en piloto y pasa a producción en los próximos meses. No afirmes que ARS transmite facturas electrónicas a la DIAN: si lo preguntan, se confirma con el equipo comercial.\n- **Puertas con reconocimiento facial y escaneo 3D de sedes:** disponibles; el reconocimiento facial abre o alerta y una persona verifica.\n- **Cifras:** no des números de usuarios, vigilantes, clientes, sedes, documentos ni porcentajes de uso. No nombres clientes.\n- Si algo no está en el catálogo, di que se confirma con el equipo comercial y ofrece agendar una demo.",
+   "h": "76840afb80235bfe"
   },
   {
    "id": "kb:arquitectura-erp:0",
@@ -422,8 +438,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Arquitectura de soluciones ARS · la operación sobre un ERP base propio › Las cinco capas del diagrama (`#diagrama`)",
    "ruta": "/arquitectura",
-   "texto": "1. **Canales**: web, app Android (vigilante y supervisor, aun sin señal), PWA instalable, app de escritorio para la central (Windows) y gafas VR.\n2. **Capa operativa**: operación en campo, centro de operaciones, comunicación y emergencias, monitoreo inteligente (visión artificial e IoT), realidad virtual y el laboratorio (demos de visión IA y la línea de robótica, **en desarrollo, no es un producto comercial**).\n3. **Núcleo de datos e IA**: eventos y evidencia (cada marca, ronda, alerta, transmisión y reporte entra una sola vez, con foto, ubicación y hora), Centro de IA y automatizaciones (automatizaciones en piloto, en modo observación), trazabilidad y auditoría.\n4. **ERP base de ARS**: contratos y clientes, turnos y programación, gestión humana y nómina, gestión documental, formación, cotizador y CRM (**hoja de ruta**), gobierno multiempresa, finanzas y contabilidad, facturas DIAN y RADIAN (**próximamente**).\n5. **Integraciones externas**: las cámaras y grabadores que el cliente ya tiene, relojes biométricos ZKTeco (solo como compatibilidad; en piloto), Telegram (avisos por cliente y zona, en piloto), el ERP de la empresa vía el **Agente interoperador de datos** (API, backend o cargas programadas; completo o por partes) y la DIAN.",
-   "h": "7e08f53b055ba797"
+   "texto": "1. **Canales**: web, app Android (vigilante y supervisor, aun sin señal), PWA instalable, app de escritorio para la central (Windows) y gafas VR.\n2. **Capa operativa**: operación en campo, centro de operaciones, comunicación y emergencias, monitoreo inteligente (visión artificial e IoT), realidad virtual y el laboratorio (demos de visión IA y la línea de robótica, **en desarrollo, no es un producto comercial**).\n3. **Núcleo de datos e IA**: eventos y evidencia (cada marca, ronda, alerta, transmisión y reporte entra una sola vez, con foto, ubicación y hora), Centro de IA y automatizaciones (automatizaciones en piloto, en modo observación), trazabilidad y auditoría, y el centro de datos en Colombia (área K, `/servicios/infraestructura`: la información no sale del país y la IA corre en tarjetas gráficas propias; también en la nube del cliente o en un equipo on premise).\n4. **ERP base de ARS**: contratos y clientes, turnos y programación, gestión humana y nómina, gestión documental, formación, cotizador y CRM (**hoja de ruta**), gobierno multiempresa, finanzas y contabilidad, facturas DIAN y RADIAN (**próximamente**).\n5. **Integraciones externas**: las cámaras y grabadores que el cliente ya tiene, relojes biométricos ZKTeco (solo como compatibilidad; en piloto), Telegram (avisos por cliente y zona, en piloto), el ERP de la empresa vía el **Agente interoperador de datos** (API, backend o cargas programadas; completo o por partes) y la DIAN.",
+   "h": "522c97ae1aab2253"
   },
   {
    "id": "kb:arquitectura-erp:1.1",
@@ -622,8 +638,8 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Proyectos por sector y ciudad › Cómo se usa",
    "ruta": "/proyectos",
-   "texto": "- **Mapa** (`#mapa`): un marcador por ciudad con su número de proyectos; tocar una ciudad filtra los casos y volver a tocarla quita el filtro.\n- **Filtros**: estado (En operación, Piloto, En desarrollo), país (Colombia, Perú) y área de servicio (las 10 áreas del catálogo).\n- **Ficha**: se abre desde cada tarjeta y tiene enlace propio (`/proyectos#<id>`). Muestra cliente (tipo, sin nombre), sector, ciudad, escala, el reto, cómo se resolvió, lo que cambia y la lista de **módulos del catálogo**, cada uno enlazado a `/servicios/<area>#<modulo>`. Cierra con «Hacer el diagnóstico» (`/diagnostico`), «Quiero algo así» (WhatsApp) y «Ver la plataforma» (`/plataforma`).\n- **Cómo empieza un proyecto** (`#como-empieza`): diagnóstico → piloto en una sede → operación y escala.",
-   "h": "d7977772ed5b6d4e"
+   "texto": "- **Mapa** (`#mapa`): un marcador por ciudad con su número de proyectos; tocar una ciudad filtra los casos y volver a tocarla quita el filtro.\n- **Filtros**: estado (En operación, Piloto, En desarrollo), país (Colombia, Perú) y área de servicio (las 11 áreas del catálogo).\n- **Ficha**: se abre desde cada tarjeta y tiene enlace propio (`/proyectos#<id>`). Muestra cliente (tipo, sin nombre), sector, ciudad, escala, el reto, cómo se resolvió, lo que cambia y la lista de **módulos del catálogo**, cada uno enlazado a `/servicios/<area>#<modulo>`. Cierra con «Hacer el diagnóstico» (`/diagnostico`), «Quiero algo así» (WhatsApp) y «Ver la plataforma» (`/plataforma`).\n- **Cómo empieza un proyecto** (`#como-empieza`): diagnóstico → piloto en una sede → operación y escala.",
+   "h": "f86c108bc5c6eeb9"
   },
   {
    "id": "kb:proyectos:2",
@@ -736,12 +752,19 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
-   "texto": "**¿Qué pasa con la privacidad y los datos personales?**\n- En `/laboratorio` y en el motor «IA real» de `/vision-lab` la detección corre en el navegador: el video del visitante no se envía a ningún servidor.\n- El reconocimiento facial y la lectura de placas son sensibles: requieren autorización del responsable de datos y, en el caso facial, consentimiento y cumplimiento normativo (el sitio cita Habeas Data en Colombia y la Ley 29733 en Perú). La malla facial del laboratorio analiza geometría y expresión sin identificar a la persona.\n- En operación, la evidencia (foto, video, usuario, hora, ubicación) queda registrada para auditoría.\nPolíticas de retención, alojamiento de datos y certificaciones: a confirmar con el equipo comercial. No afirmes certificaciones.\n\n**¿Funciona en la nube o en sitio?**\nEl sitio menciona edge + nube según la latencia requerida, y que las analíticas de Visión corren en el propio servidor del sitio. Arquitectura exacta por cliente: a confirmar con el equipo comercial.",
-   "h": "496735e6b809a853",
-   "v": "FCIkFioS0h3n/h/1IbLMOMv44//4G/Py8bUFRQSu9tDP4tkPDQ0RHv7v7fPe8N7T7Cet9t1lzxbcH+8eJNUpJ/QQ0SrSACjsFuDJHgwz2LXgAQoBEgLPAMAvCiXSHTAoOADwMxW25sAf5BAf+RBD2hk7F/UC7gPv4xgGAQaZI8TH5ykLTtTyzDK5xQES0vsUyRz9Ji84CRTDFL8CCRfN7u8I/u/+KwPUqi/rHRIG+vA/4kfasAL87s3MywXaSeFDGDESru3Y37jjKmElG91lItL7SRtRMMQtnxn3W7gpA+4DJVDBB7oV+QIDHdQ37w7UFCb1ACkB1rZwGzgAA8cN8r3sB8EXGuTLF97uB/YCBg4M/vMaDtm9LLQ+5fzsNOnWqgYpDwg3DP9SDvjvCvYf5s5k8TXQ0qr59BnEwy/xCrYT3dP+t7UU01G1X9oW+gjx4iLLANjHrhBs8ETPQxr7yMvh1Sza3MbM0wdMQxf1tBcgxy/BL+vW5hFGCksmO+rwHvkHG+Xd6PDX3RULYOwa4wUG0QjuGvId8ggGlzPZ8us1ESEoRge66N0WLBbx27sIJQ7DE/j27AML9+MM29YFAguq+x7sI9TYOugJ/Qbo8l0oB9UDLfgMIwIF5fTY5gvyNC/f+D5/FzwcD/EDQe8SA9Kv8zcP7PLuwie35PfjMxM="
+   "texto": "**¿Qué pasa con la privacidad y los datos personales?**\n- En `/laboratorio` y en el motor «IA real» de `/vision-lab` la detección corre en el navegador: el video del visitante no se envía a ningún servidor.\n- El reconocimiento facial y la lectura de placas son sensibles: requieren autorización del responsable de datos y, en el caso facial, consentimiento y cumplimiento normativo (el sitio cita Habeas Data en Colombia y la Ley 29733 en Perú). La malla facial del laboratorio analiza geometría y expresión sin identificar a la persona.\n- En operación, la evidencia (foto, video, usuario, hora, ubicación) queda registrada para auditoría.\n- **Alojamiento**: los datos se quedan en Colombia, en el centro de datos propio de ARS (soberanía de datos; ver `/servicios/infraestructura#centro-de-datos-ars`), o donde el cliente decida: su nube o un equipo on premise en su sede.\nPolíticas de retención y certificaciones: a confirmar con el equipo comercial. No afirmes certificaciones.",
+   "h": "748864879a7181bf"
   },
   {
    "id": "kb:preguntas-frecuentes:0.2",
+   "fuente": "kb",
+   "titulo": "Preguntas frecuentes",
+   "ruta": "/",
+   "texto": "**¿Dónde quedan mis datos? ¿Tienen data center? ¿Funciona en la nube o on premise?**\nHay tres formas, todas vigiladas desde el mismo monitor de infraestructura (`/servicios/infraestructura`):\n1. **Centro de datos propio de ARS en Colombia** (en producción): la información no sale del país y la analítica de video y la IA corren en una granja de tarjetas gráficas propia (en piloto la ampliación), sin enviar datos a servicios de terceros fuera del país.\n2. **La nube o la sala de servidores del cliente** (en piloto): un agente con conexiones solo salientes por HTTPS la conecta a ARS, sin abrir puertos ni VPN.\n3. **On premise** (en piloto): ARS deja un equipo en la sede del cliente; los servicios y la analítica corren ahí, cerca de las cámaras.\nLas analíticas pueden correr en el borde (en la sede) o en el centro de datos según la latencia requerida. La arquitectura exacta de cada cliente se define con el equipo comercial; no prometas SLA ni certificaciones.",
+   "h": "a6aad33d0246631e"
+  },
+  {
+   "id": "kb:preguntas-frecuentes:0.3",
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
@@ -749,7 +772,7 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "1c4a8961af4d7d76"
   },
   {
-   "id": "kb:preguntas-frecuentes:0.3",
+   "id": "kb:preguntas-frecuentes:0.4",
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
@@ -757,7 +780,7 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "9885019dce722d46"
   },
   {
-   "id": "kb:preguntas-frecuentes:0.4",
+   "id": "kb:preguntas-frecuentes:0.5",
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",
@@ -765,7 +788,7 @@ export const INDICE: IndiceConocimiento = /*JSON*/{
    "h": "0d3de982c4573b21"
   },
   {
-   "id": "kb:preguntas-frecuentes:0.5",
+   "id": "kb:preguntas-frecuentes:0.6",
    "fuente": "kb",
    "titulo": "Preguntas frecuentes",
    "ruta": "/",

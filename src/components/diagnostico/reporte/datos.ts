@@ -91,7 +91,7 @@ export function recomendacionesOrdenadas(d: Diagnostico): AreaRecomendada[] {
     });
 }
 
-/** Las 10 áreas en orden de catálogo, con su recomendación (si la hay). */
+/** Las 11 áreas en orden de catálogo, con su recomendación (si la hay). */
 export function mapaAreas(d: Diagnostico): { area: Area; rec?: AreaRecomendada }[] {
   const porId = new Map(recomendacionesOrdenadas(d).map((r) => [r.area.id, r]));
   return AREAS.map((area) => ({ area, rec: porId.get(area.id) }));

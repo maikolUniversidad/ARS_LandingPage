@@ -461,7 +461,7 @@ export function DiagramaArquitectura({ l, t, vista, setVista, rec }: Props) {
                 )}
                 aria-hidden="true"
               />
-              <div className="relative grid gap-2 sm:grid-cols-3 lg:gap-6 lg:px-[8%]">{FILAS.nucleo.map((id) => nodoBtn(id))}</div>
+              <div className="relative grid gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4 lg:px-[4%]">{FILAS.nucleo.map((id) => nodoBtn(id))}</div>
             </div>
           </section>
 
