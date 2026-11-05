@@ -150,7 +150,7 @@ export default function PlataformaPage() {
                 className="h-7 w-auto opacity-80"
                 style={{ height: "auto", width: "auto", maxHeight: "28px" }}
               />
-              <span className="hidden sm:inline">arsintelligence.com</span>
+              <span className="hidden sm:inline">ars-intelligence.com</span>
             </div>
             <p className="font-serif text-sm italic text-foreground/55">
               {c.footerTagline}

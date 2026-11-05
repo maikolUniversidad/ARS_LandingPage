@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "es_CO",
-    url: "https://arsintelligence.com",
+    url: "https://ars-intelligence.com",
     siteName: "ARS Intelligence",
     title: TITLE,
     description: DESCRIPTION,

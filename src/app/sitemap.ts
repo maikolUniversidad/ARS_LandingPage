@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { AREAS } from "@/data/servicios";
 
-const SITE_URL = "https://arsintelligence.com";
+const SITE_URL = "https://ars-intelligence.com";
 
 /**
  * Rutas públicas e indexables. Fuera: /vision-lab (playground técnico, noindex),
