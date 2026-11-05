@@ -11,6 +11,7 @@ import { RevealOnScroll } from "@/components/integral/RevealOnScroll";
 import { FOCOS_ESCENA } from "./escenas/contrato";
 import { EscenaArea } from "./escenas/EscenaArea";
 import { ArteArea } from "./ArteArea";
+import { BloqueDestacado } from "./BloqueDestacado";
 import { Cierre } from "./Cierre";
 import { EVENTO_FOCO_SERVICIO } from "./eventos";
 import { SeccionModulo } from "./SeccionModulo";
@@ -254,6 +255,8 @@ export function AreaExperiencia({ area, anterior, siguiente, relacionadas, indic
             </nav>
           </div>
         </section>
+
+        {area.destacado && <BloqueDestacado destacado={area.destacado} colorArea={acento} />}
 
         {/* ───────── Escena 3D + capítulos ───────── */}
         <div className="relative lg:grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)]">

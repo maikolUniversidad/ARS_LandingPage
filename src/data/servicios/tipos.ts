@@ -89,10 +89,35 @@ export type Modulo = {
    */
   foco: string;
   /** Página propia del módulo, si la tiene (p. ej. la Academia en /academia). */
-  enlace?: { href: string; texto: string };
+  enlace?: EnlaceTexto;
 };
 
 export type Cifra = { valor: string; etiqueta: string };
+
+/** Enlace con texto (CTA o chip enlazado). */
+export type EnlaceTexto = { href: string; texto: string };
+
+/**
+ * Bloque destacado de un área: un acceso evidente a una página propia
+ * (p. ej. la Academia ARS en /academia), entre el hero y los módulos.
+ */
+export type Destacado = {
+  /** "grande": banner con escena; "compacto": franja de una línea con CTA. */
+  variante: "grande" | "compacto";
+  eyebrow: string;
+  titulo: string;
+  texto: string;
+  /** Chips (opcionalmente enlazados), p. ej. los módulos de un curso. */
+  chips?: { texto: string; href?: string }[];
+  cta: EnlaceTexto;
+  secundario?: EnlaceTexto;
+  /** Matiz honesto del estado (piloto, qué se puede vivir hoy). */
+  nota?: string;
+  /** Color de acento (hex); por defecto el del área. */
+  color?: string;
+  /** Escena visual a la derecha (solo variante "grande"). */
+  escena?: "academia-portal";
+};
 
 export type Area = {
   /** slug de la URL: /servicios/<id> */
@@ -116,6 +141,8 @@ export type Area = {
   ambiente?: string;
   /** Icono lucide-react (nombre del export, p. ej. "Radio"). */
   icono: string;
+  /** Acceso destacado a una página propia, entre el hero y los módulos. */
+  destacado?: Destacado;
   modulos: Modulo[];
 };
 

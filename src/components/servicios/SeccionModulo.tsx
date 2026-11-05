@@ -83,7 +83,9 @@ export function SeccionModulo({ modulo, indice, total, acento, etiquetaFoco, act
         </aside>
         {modulo.enlace && (
           <div className="mt-5">
-            <CtaLink href={modulo.enlace.href}>{modulo.enlace.texto}</CtaLink>
+            <CtaLink href={modulo.enlace.href} primary>
+              {modulo.enlace.texto}
+            </CtaLink>
           </div>
         )}
       </RevealOnScroll>

@@ -779,6 +779,23 @@ export const AREAS: Area[] = [
     escena: "inmersiva",
     ...medios("realidad-virtual"),
     icono: "Glasses",
+    destacado: {
+      variante: "grande",
+      eyebrow: "Nuevo · Academia ARS",
+      titulo: "Academia ARS · Capacitación de vigilantes en realidad virtual",
+      texto:
+        "El vigilante se capacita virtualmente en atención, dotación, manejo seguro del arma, uso de la fuerza y turno en la portería: practica con las gafas lo que no se puede ensayar en la calle, con un enfoque defensivo.",
+      chips: [
+        { texto: "01 · Inducción y dotación", href: "/academia#modulo-1" },
+        { texto: "02 · Manejo seguro y polígono", href: "/academia#modulo-2" },
+        { texto: "03 · Uso de la fuerza", href: "/academia#modulo-3" },
+        { texto: "04 · Turno en la portería", href: "/academia#modulo-4" },
+      ],
+      cta: { href: "/academia", texto: "Entrar a la Academia" },
+      secundario: { href: "/academia#demo-b1", texto: "Probar la demo de la garita" },
+      nota: "En piloto: construida para Meta Quest y en prueba con las gafas. Hoy se vive el recorrido de demostración (portal, polígono y certificado); es práctica complementaria a la formación presencial.",
+      escena: "academia-portal",
+    },
     modulos: [
       {
         id: "sala-vr-central-viva",
@@ -880,7 +897,7 @@ export const AREAS: Area[] = [
         capturas: [],
         palabrasClave: ["academia", "formación en realidad virtual", "polígono", "entrenamiento", "certificado QR", "capacitación VR", "vigilantes", "simulador"],
         foco: "vestibulo",
-        enlace: { href: "/academia", texto: "Ver la Academia completa" },
+        enlace: { href: "/academia", texto: "Entrar a la Academia ARS" },
       },
       {
         id: "mesa-directiva-con-ia",
@@ -1360,6 +1377,15 @@ export const AREAS: Area[] = [
     escena: "formacion",
     ...medios("formacion"),
     icono: "GraduationCap",
+    destacado: {
+      variante: "compacto",
+      eyebrow: "Y en realidad virtual",
+      titulo: "Y en realidad virtual: Academia ARS",
+      texto:
+        "Los cursos de la plataforma se complementan con práctica en gafas: atención, dotación, manejo seguro del arma, uso de la fuerza y turno en la portería. En piloto.",
+      cta: { href: "/academia", texto: "Conocer la Academia" },
+      color: "#b78bff",
+    },
     modulos: [
       {
         id: "capacitacion-virtual",
