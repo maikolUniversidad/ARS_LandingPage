@@ -8,7 +8,15 @@ import { enfocarServicio, prefiereMenosMovimiento, quitarHalo, resaltarElemento 
 import { extraerFotogramas, formatoBytes, imagenDesdeUrl, prepararAdjunto } from "@/lib/asistente/adjuntos";
 import { borrarHistorial, cargarHistorial, enviarChat, ErrorChat, guardarHistorial, leerEstado } from "@/lib/asistente/cliente";
 import { leerContexto, tituloSeccion, type PasoGuia } from "@/lib/asistente/contexto-pagina";
-import { EVENTO_PREGUNTAR, EVENTO_VOZ_ACTIVA, type DetallePreguntar, type DetalleVozActiva } from "@/lib/asistente/eventos-servicios";
+import {
+  EVENTO_CONVERSACION,
+  EVENTO_PREGUNTAR,
+  EVENTO_TERMINAR_CONVERSACION,
+  EVENTO_VOZ_ACTIVA,
+  type DetalleConversacion,
+  type DetallePreguntar,
+  type DetalleVozActiva,
+} from "@/lib/asistente/eventos-servicios";
 import { useTextosAsistente, type ClaveAsistente } from "@/lib/asistente/i18n";
 import { borrarMemoria, cargarPerfil, guardarPerfil, partirHistorial, recorridoReciente, registrarPaso, type Perfil } from "@/lib/asistente/memoria";
 import type { Accion, Cita, ClavePerfil, DocumentoAdjunto, EstadoServicios, MensajeChat, Tarjeta } from "@/lib/asistente/tipos";
@@ -32,7 +40,18 @@ const SIN_SERVICIOS: EstadoServicios = { chat: false, modelo: "", voz: { tts: fa
 
 /** Evento global para abrir el asistente desde cualquier parte del sitio. */
 export const EVENTO_ABRIR = "ars:asistente";
-export type DetalleAbrir = { mensaje?: string; voz?: boolean; recorrido?: boolean };
+/**
+ * `voz`: abre el micrófono (manos libres; tiempo real si el agente de voz está configurado).
+ * `origen: "narracion"`: lo abrió el botón «Preguntarle a Ars» de la narración. La
+ * conversación termina sola cuando Ars deja de hablar y la persona no dice nada
+ * en ~4 s, o al cerrar el panel; entonces la narración retoma (ver EVENTO_CONVERSACION).
+ */
+export type DetalleAbrir = { mensaje?: string; voz?: boolean; recorrido?: boolean; origen?: "narracion" };
+
+/** Silencio tras la última respuesta de Ars que da por terminada la conversación iniciada desde la narración. */
+const SILENCIO_FIN_MS = 4000;
+/** Margen para empezar a hablar si Ars todavía no ha respondido nada. */
+const SILENCIO_INICIO_MS = 10000;
 
 /** Texto plano de la última frase de Ars (para la hoja móvil). */
 function ultimaFrase(texto: string): string {
@@ -777,23 +796,109 @@ export function Asistente() {
     setBurbuja(null);
   }, []);
 
+  /* ───────────── Conversación por voz (pausa la narración) ───────────── */
+
+  /** Conversación por voz en curso y quién la abrió (null si no hay). */
+  const conversacion = useRef<DetalleConversacion["origen"] | null>(null);
+  const avisarConversacion = useCallback((activa: boolean) => {
+    const origen = conversacion.current ?? undefined;
+    window.dispatchEvent(new CustomEvent<DetalleConversacion>(EVENTO_CONVERSACION, { detail: { activa, origen } }));
+  }, []);
+  const finConversacion = useCallback(() => {
+    if (!conversacion.current) return;
+    avisarConversacion(false);
+    conversacion.current = null;
+  }, [avisarConversacion]);
+
+  // Cualquier modo de voz es una conversación: la narración se pausa mientras dure.
+  useEffect(() => {
+    if (modoVoz !== "apagado" && !conversacion.current) {
+      conversacion.current = "asistente";
+      avisarConversacion(true);
+    } else if (modoVoz === "apagado" && !(conversacion.current === "narracion" && abiertoRef.current)) {
+      // La que vino de la narración sigue mientras el panel esté abierto (puede
+      // seguir por escrito si no hubo micrófono): termina al cerrarlo.
+      finConversacion();
+    }
+  }, [modoVoz, avisarConversacion, finConversacion]);
+
+  /** Corta la conversación por voz; si vino de la narración, también cierra el panel. */
+  const cortarConversacion = useCallback(() => {
+    const deNarracion = conversacion.current === "narracion";
+    void cambiarModoVoz("apagado").then(finConversacion);
+    if (deNarracion) {
+      setAbierto(false);
+      setAcoplado(false);
+    }
+  }, [cambiarModoVoz, finConversacion]);
+
   const cerrar = useCallback(() => {
     setAbierto(false);
     setAcoplado(false);
     tour.salir();
-  }, [tour]);
+    // Cerrar el panel termina la conversación que empezó desde la narración.
+    if (conversacion.current === "narracion") void cambiarModoVoz("apagado").then(finConversacion);
+  }, [tour, cambiarModoVoz, finConversacion]);
+
+  // Fin por silencio (solo si vino de la narración): Ars terminó y la persona no habla.
+  const ultimaActividad = useRef(0);
+  const respondio = useRef(false);
+  useEffect(() => {
+    if (FASES_OCUPADAS.has(faseVoz) || subtitulo?.rol === "user") ultimaActividad.current = Date.now();
+    if (faseVoz === "hablando") respondio.current = true;
+  }, [faseVoz, subtitulo]);
+  useEffect(() => {
+    if (modoVoz === "apagado") return;
+    const id = window.setInterval(() => {
+      if (conversacion.current !== "narracion") return;
+      const ahora = Date.now();
+      const fase = faseVozRef.current;
+      if (FASES_OCUPADAS.has(fase) || enCursoRef.current || borradorRef.current.trim()) {
+        ultimaActividad.current = ahora;
+        return;
+      }
+      // Escuchando: si hay voz en el micrófono, la persona está hablando.
+      if (fase === "escuchando" && (grabadora.current?.nivel() ?? agente.current?.nivelEntrada() ?? 0) > 0.08) {
+        ultimaActividad.current = ahora;
+        return;
+      }
+      const limite = respondio.current ? SILENCIO_FIN_MS : SILENCIO_INICIO_MS;
+      if (ahora - ultimaActividad.current > limite) cortarConversacion();
+    }, 250);
+    return () => window.clearInterval(id);
+  }, [modoVoz, cortarConversacion]);
+
+  // Otro componente (el panel de narración) pide cortar la conversación.
+  useEffect(() => {
+    const alTerminar = () => {
+      if (conversacion.current) cortarConversacion();
+    };
+    window.addEventListener(EVENTO_TERMINAR_CONVERSACION, alTerminar);
+    return () => window.removeEventListener(EVENTO_TERMINAR_CONVERSACION, alTerminar);
+  }, [cortarConversacion]);
 
   useEffect(() => {
     const alAbrir = (e: Event) => {
       const d = (e as CustomEvent<DetalleAbrir>).detail ?? {};
       abrir();
-      if (d.voz) void cambiarModoVoz("manos-libres");
-      else if (d.recorrido) window.setTimeout(() => iniciarRecorridoRef.current(), 50);
+      if (d.voz) {
+        if (d.origen === "narracion") {
+          conversacion.current = "narracion";
+          ultimaActividad.current = Date.now();
+          respondio.current = false;
+          avisarConversacion(true);
+        }
+        // Desde la narración, conversación natural en tiempo real si el agente está configurado.
+        const conAgente = d.origen === "narracion" && Boolean(estado?.voz.agente);
+        // Si no hay micrófono, el panel queda abierto para escribir; la narración
+        // sigue en pausa hasta que se cierre (ver `cerrar`).
+        void cambiarModoVoz(conAgente ? "tiempo-real" : "manos-libres");
+      } else if (d.recorrido) window.setTimeout(() => iniciarRecorridoRef.current(), 50);
       else if (d.mensaje) window.setTimeout(() => void enviar(d.mensaje ?? ""), 50);
     };
     window.addEventListener(EVENTO_ABRIR, alAbrir);
     return () => window.removeEventListener(EVENTO_ABRIR, alAbrir);
-  }, [abrir, cambiarModoVoz, enviar]);
+  }, [abrir, cambiarModoVoz, enviar, estado, avisarConversacion]);
 
   // «Pregúntale a Ars sobre esto» desde un módulo de /servicios.
   useEffect(() => {

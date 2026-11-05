@@ -220,7 +220,7 @@ export default function VisionPage() {
 
       <main>
         {/* Intro corta: el visor empieza enseguida */}
-        <section className="relative isolate overflow-hidden px-4 pb-6 pt-28 sm:px-6 md:px-10 md:pb-8 md:pt-36">
+        <section data-narracion="vision/hero" className="relative isolate overflow-hidden px-4 pb-6 pt-28 sm:px-6 md:px-10 md:pb-8 md:pt-36">
           <div className="absolute inset-0 -z-10">
             <div className="grid-bg absolute inset-0 opacity-30" />
             <div
@@ -283,13 +283,17 @@ export default function VisionPage() {
         </section>
 
         {/* Visor: una analítica por lámina, 3D y prueba real lado a lado */}
-        <VisorAnaliticas actual={actual} onElegir={elegir} textos={c.visor} />
+        <div data-narracion="vision/visor">
+          <VisorAnaliticas actual={actual} onElegir={elegir} textos={c.visor} />
+        </div>
 
         {/* Planificador con IA: el cliente cuenta su sitio y ve en 3D cuántas cámaras y qué analítica corre cada una */}
-        <PlanificadorIA locale={locale === "en" ? "en" : "es"} onVer={abrirEnVisor} />
+        <div data-narracion="vision/planificador">
+          <PlanificadorIA locale={locale === "en" ? "en" : "es"} onVer={abrirEnVisor} />
+        </div>
 
         {/* Índice de las 45 */}
-        <section id="indice" className="relative border-b border-border/40 px-4 py-16 sm:px-6 md:px-10 md:py-24">
+        <section id="indice" data-narracion="vision/indice" className="relative border-b border-border/40 px-4 py-16 sm:px-6 md:px-10 md:py-24">
           <div className="mx-auto max-w-7xl">
             <header className="mb-8 flex flex-wrap items-end justify-between gap-6">
               <div>
@@ -351,7 +355,7 @@ export default function VisionPage() {
         </section>
 
         {/* Cierre */}
-        <section id="cierre" className="relative isolate overflow-hidden border-b border-border/40 px-6 py-24 md:px-10 md:py-32">
+        <section id="cierre" data-narracion="vision/cierre" className="relative isolate overflow-hidden border-b border-border/40 px-6 py-24 md:px-10 md:py-32">
           <div className="absolute inset-0 -z-10">
             <div className="brand-gradient absolute inset-0 opacity-90" />
             <div

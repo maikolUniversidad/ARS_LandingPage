@@ -150,27 +150,43 @@ export default function PlataformaPage() {
       </div>
 
       <main className="[&_section[id]]:scroll-mt-28">
-        <HeroPlataforma3D />
+        <div data-narracion="plataforma/hero">
+          <HeroPlataforma3D />
+        </div>
 
-        <ReelEnMovimiento />
+        <div data-narracion="plataforma/en-movimiento">
+          <ReelEnMovimiento />
+        </div>
 
-        <RecorridoModulos />
+        <div data-narracion="plataforma/recorrido">
+          <RecorridoModulos />
+        </div>
 
-        <ArquitectoPlataformaIA />
+        <div data-narracion="plataforma/arquitecto-ia">
+          <ArquitectoPlataformaIA />
+        </div>
 
-        <RevealOnScroll>
-          <OperationCycle />
-        </RevealOnScroll>
+        <div data-narracion="plataforma/ciclo">
+          <RevealOnScroll>
+            <OperationCycle />
+          </RevealOnScroll>
+        </div>
 
-        <Pilares />
+        <div data-narracion="plataforma/pilares">
+          <Pilares />
+        </div>
 
-        <RevealOnScroll>
-          <BeforeAfterComparison />
-        </RevealOnScroll>
+        <div data-narracion="plataforma/antes-despues">
+          <RevealOnScroll>
+            <BeforeAfterComparison />
+          </RevealOnScroll>
+        </div>
 
         <ClientLogos />
 
-        <FinalCTA />
+        <div data-narracion="plataforma/cierre">
+          <FinalCTA />
+        </div>
 
         <footer className="border-t border-border/40 bg-background py-12">
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row md:px-10">

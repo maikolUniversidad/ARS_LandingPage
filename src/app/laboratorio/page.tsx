@@ -99,7 +99,7 @@ export default function LaboratorioPage() {
 
       <main className="mx-auto max-w-[1600px] px-6 pb-32 pt-12 md:px-10">
         {/* Hero */}
-        <section className="grid gap-12 md:grid-cols-[1.2fr_1fr]">
+        <section data-narracion="laboratorio/hero" className="grid gap-12 md:grid-cols-[1.2fr_1fr]">
           <div>
             <div className="font-mono text-[11px] font-medium uppercase tracking-[0.4em] text-foreground/55">
               <span className="mr-3 inline-block size-1.5 align-middle bg-accent" />
@@ -178,7 +178,7 @@ export default function LaboratorioPage() {
         </section>
 
         {/* Capabilities grid */}
-        <section className="mt-20">
+        <section data-narracion="laboratorio/modelos" className="mt-20">
           <h2 className="font-heading text-2xl font-black uppercase tracking-tight">
             <Scramble text={isES ? "Modelos disponibles" : "Available models"} trigger={locale} />
           </h2>
@@ -216,7 +216,7 @@ export default function LaboratorioPage() {
         </section>
 
         {/* Demo stage */}
-        <section id="demo-stage" className="mt-20 scroll-mt-24">
+        <section id="demo-stage" data-narracion="laboratorio/demo" className="mt-20 scroll-mt-24">
           <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
             {/* Left: stage */}
             <div>
@@ -319,7 +319,7 @@ export default function LaboratorioPage() {
         </section>
 
         {/* CTA */}
-        <section className="brand-gradient relative mt-24 overflow-hidden">
+        <section data-narracion="laboratorio/cierre" className="brand-gradient relative mt-24 overflow-hidden">
           <div className="relative px-8 py-16 text-center text-white md:py-20">
             <h2 className="font-heading text-3xl font-black uppercase tracking-tight md:text-5xl">
               {isES ? "¿Querés probarlo sobre tus cámaras reales?" : "Want to try it on your real cameras?"}

@@ -83,7 +83,7 @@ export default function ServiciosPage() {
 
       <main>
         {/* ───────── Hero ───────── */}
-        <section aria-labelledby="hub-titulo" className="relative isolate flex min-h-[100svh] items-end overflow-hidden pb-16 pt-28 md:items-center md:pb-0">
+        <section data-narracion="servicios/hero" aria-labelledby="hub-titulo" className="relative isolate flex min-h-[100svh] items-end overflow-hidden pb-16 pt-28 md:items-center md:pb-0">
           <div className="absolute inset-0 -z-10">
             <HubEscena />
             <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#020a18]/90 to-transparent" />
@@ -128,7 +128,7 @@ export default function ServiciosPage() {
         </section>
 
         {/* ───────── Un día en ARS ───────── */}
-        <section id="dia" aria-labelledby="dia-titulo" className="relative scroll-mt-16 border-t border-white/10 py-24 md:py-32">
+        <section id="dia" data-narracion="servicios/dia" aria-labelledby="dia-titulo" className="relative scroll-mt-16 border-t border-white/10 py-24 md:py-32">
           <div className="grid-bg absolute inset-0 opacity-30" aria-hidden="true" />
           <div className="relative mx-auto max-w-7xl px-4 md:px-10">
             <RevealOnScroll>
@@ -171,7 +171,7 @@ export default function ServiciosPage() {
         </section>
 
         {/* ───────── Áreas ───────── */}
-        <section id="areas" aria-labelledby="areas-titulo" className="relative scroll-mt-16 py-24 md:py-32">
+        <section id="areas" data-narracion="servicios/areas" aria-labelledby="areas-titulo" className="relative scroll-mt-16 py-24 md:py-32">
           <div className="mx-auto max-w-7xl px-4 md:px-10">
             <RevealOnScroll className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div>
@@ -200,7 +200,7 @@ export default function ServiciosPage() {
 
         {/* ───────── Por qué ARS ───────── */}
         {PILARES.length > 0 && (
-          <section id="por-que" aria-labelledby="por-que-titulo" className="relative isolate scroll-mt-16 overflow-hidden border-y border-white/10 py-24 md:py-32">
+          <section id="por-que" data-narracion="servicios/por-que" aria-labelledby="por-que-titulo" className="relative isolate scroll-mt-16 overflow-hidden border-y border-white/10 py-24 md:py-32">
             <div className="absolute inset-0 -z-10" aria-hidden="true">
               <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_80%_0%,rgba(35,72,212,0.28),transparent_70%)]" />
               <div className="grid-bg absolute inset-0 opacity-25" />
@@ -229,7 +229,7 @@ export default function ServiciosPage() {
         )}
 
         {/* ───────── Buscador ───────── */}
-        <section id="buscar" aria-labelledby="buscar-titulo" className="relative scroll-mt-16 py-24 md:py-32">
+        <section id="buscar" data-narracion="servicios/buscar" aria-labelledby="buscar-titulo" className="relative scroll-mt-16 py-24 md:py-32">
           <div className="mx-auto max-w-3xl px-4 md:px-10">
             <RevealOnScroll>
               <Eyebrow>Buscar</Eyebrow>
@@ -245,7 +245,7 @@ export default function ServiciosPage() {
         </section>
 
         {/* ───────── Canales ───────── */}
-        <section aria-labelledby="canales-titulo" className="border-t border-white/10 py-16 md:py-20">
+        <section data-narracion="servicios/canales" aria-labelledby="canales-titulo" className="border-t border-white/10 py-16 md:py-20">
           <div className="mx-auto max-w-7xl px-4 md:px-10">
             <h2 id="canales-titulo" className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#9eb0c0]">
               Donde trabaja su gente
@@ -262,6 +262,7 @@ export default function ServiciosPage() {
           </div>
         </section>
 
+        <div data-narracion="servicios/cierre">
         <Cierre
           eyebrow="Demo guiada"
           titulo="Veamos su operación funcionando en ARS."
@@ -269,6 +270,7 @@ export default function ServiciosPage() {
           asunto="Solicitud de demo - Servicios ARS"
           mensajeWhatsapp="Hola ARS Intelligence, quiero una demo de la plataforma completa."
         />
+        </div>
       </main>
       <PieServicios />
     </div>

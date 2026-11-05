@@ -170,7 +170,7 @@ export default function ProyectosPage() {
 
       {/* INTRO */}
       {!entered && (
-        <div className="relative z-30 flex h-full flex-col items-center justify-center px-6 pb-16 pt-24">
+        <div data-narracion="proyectos/intro" className="relative z-30 flex h-full flex-col items-center justify-center px-6 pb-16 pt-24">
           <div className="mb-2 font-mono text-[11px] font-medium uppercase tracking-[0.4em] text-foreground/50">
             <Scramble text={tp.howTo} trigger={locale} />
           </div>
@@ -200,7 +200,7 @@ export default function ProyectosPage() {
 
       {entered && (
         <>
-          <div className="absolute inset-0 z-10">
+          <div data-narracion="proyectos/mapa" className="absolute inset-0 z-10">
             <LatamMap
               focusCityId={focusCityId}
               focusCountry={focusCountry}

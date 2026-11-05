@@ -17,15 +17,18 @@ type Props = {
   /** Etiqueta legible del foco 3D (FOCOS_ESCENA). */
   etiquetaFoco?: string;
   activo: boolean;
+  /** id del clip de narración de Ars para este módulo. */
+  narracion?: string;
 };
 
 /** Un «capítulo» de la página de área: un módulo completo. */
-export function SeccionModulo({ modulo, indice, total, acento, etiquetaFoco, activo }: Props) {
+export function SeccionModulo({ modulo, indice, total, acento, etiquetaFoco, activo, narracion }: Props) {
   const num = String(indice + 1).padStart(2, "0");
   return (
     <section
       id={modulo.id}
       data-modulo={modulo.id}
+      data-narracion={narracion}
       data-foco={modulo.foco}
       aria-labelledby={`${modulo.id}-titulo`}
       className="relative min-h-[70svh] scroll-mt-[calc(42svh+5rem)] border-t border-white/[0.07] py-16 md:py-24 lg:scroll-mt-20"
