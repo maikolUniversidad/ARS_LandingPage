@@ -1,0 +1,151 @@
+{
+ "id": "seguimiento",
+ "tipo": "comercial",
+ "nombre": "Seguimiento de personas",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Cada persona que entra recibe un número"
+  },
+  {
+   "t": 6,
+   "estado": "detecta",
+   "texto": "Dos se cruzan y se tapan: el número no se intercambia"
+  },
+  {
+   "t": 11,
+   "estado": "ok",
+   "texto": "Sale de cuadro, vuelve y recupera su número"
+  }
+ ],
+ "camara": {
+  "pos": [
+   0.8,
+   8.6,
+   3.3
+  ],
+  "mira": [
+   4.2,
+   2.6,
+   0.9
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 3,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   1.7,
+   0,
+   3,
+   2.3,
+   1.6
+  ],
+  [
+   5,
+   1.7,
+   0,
+   7,
+   2.3,
+   1.6
+  ]
+ ],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     0.5,
+     4,
+     0
+    ],
+    [
+     3.8,
+     4,
+     6
+    ],
+    [
+     7.5,
+     4,
+     11
+    ],
+    [
+     7.5,
+     4,
+     12
+    ],
+    [
+     4,
+     4.5,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "p2",
+   "rol": "cliente",
+   "ruta": [
+    [
+     7.5,
+     3.8,
+     0
+    ],
+    [
+     4.2,
+     3.8,
+     6
+    ],
+    [
+     0.5,
+     3.8,
+     11
+    ],
+    [
+     0.5,
+     3.8,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "p3",
+   "rol": "cliente",
+   "ruta": [
+    [
+     2,
+     5,
+     0
+    ],
+    [
+     2,
+     5,
+     4
+    ],
+    [
+     6,
+     5,
+     10
+    ],
+    [
+     6,
+     5,
+     16
+    ]
+   ]
+  }
+ ],
+ "objetos": [],
+ "vehiculos": [],
+ "eventos": [],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

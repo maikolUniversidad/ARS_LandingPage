@@ -1,0 +1,235 @@
+{
+ "id": "placas",
+ "tipo": "operativo",
+ "nombre": "Lectura de placas y parqueo",
+ "dur": 22,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Cada vehículo del parqueadero con su placa, tipo, color, cajón y tiempo"
+  },
+  {
+   "t": 3.4,
+   "estado": "detecta",
+   "texto": "Un carro llega a la barrera: lee KTV 482 · rojo · carro"
+  },
+  {
+   "t": 5,
+   "estado": "ok",
+   "texto": "Está registrado: entra a un cajón libre y empieza a contar"
+  },
+  {
+   "t": 12.5,
+   "estado": "detecta",
+   "texto": "Un furgón tapa la fila de autos y motos: los recuadros se mantienen punteados"
+  },
+  {
+   "t": 16,
+   "estado": "ok",
+   "texto": "Entra una moto al cajón de motos: se suma al registro"
+  }
+ ],
+ "camara": {
+  "pos": [
+   6,
+   -8,
+   4
+  ],
+  "mira": [
+   6,
+   6,
+   0.8
+  ]
+ },
+ "escenario": "parqueadero",
+ "personas": 0,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [],
+ "objetos": [
+  {
+   "id": "barrera",
+   "tipo": "barrera",
+   "pos": [
+    6,
+    0.5,
+    0
+   ]
+  },
+  {
+   "id": "auto0",
+   "tipo": "auto",
+   "pos": [
+    1.5,
+    6,
+    0
+   ],
+   "color": "gris"
+  },
+  {
+   "id": "auto1",
+   "tipo": "auto",
+   "pos": [
+    4.1,
+    6,
+    0
+   ],
+   "color": "blanco"
+  },
+  {
+   "id": "auto2",
+   "tipo": "auto",
+   "pos": [
+    6.7,
+    6,
+    0
+   ],
+   "color": "azul"
+  },
+  {
+   "id": "moto1",
+   "tipo": "moto",
+   "pos": [
+    11,
+    6,
+    0
+   ]
+  },
+  {
+   "id": "auto_rojo",
+   "tipo": "auto",
+   "pos": [
+    6,
+    -6,
+    0
+   ],
+   "color": "rojo",
+   "placa": "KTV 482"
+  },
+  {
+   "id": "furgon",
+   "tipo": "furgon",
+   "pos": [
+    -4,
+    3,
+    0
+   ]
+  },
+  {
+   "id": "moto2",
+   "tipo": "moto",
+   "pos": [
+    6,
+    -7,
+    0
+   ]
+  }
+ ],
+ "vehiculos": [
+  {
+   "id": "auto_rojo",
+   "ruta": [
+    [
+     6,
+     -6,
+     0
+    ],
+    [
+     6,
+     0,
+     3.4
+    ],
+    [
+     6,
+     0,
+     5
+    ],
+    [
+     9.3,
+     6,
+     9
+    ],
+    [
+     9.3,
+     6,
+     22
+    ]
+   ]
+  },
+  {
+   "id": "furgon",
+   "ruta": [
+    [
+     -4,
+     3,
+     10
+    ],
+    [
+     14,
+     3,
+     16
+    ],
+    [
+     14,
+     3,
+     22
+    ]
+   ]
+  },
+  {
+   "id": "moto2",
+   "ruta": [
+    [
+     6,
+     -7,
+     13
+    ],
+    [
+     6,
+     0,
+     16
+    ],
+    [
+     11.8,
+     6,
+     19
+    ],
+    [
+     11.8,
+     6,
+     22
+    ]
+   ]
+  }
+ ],
+ "eventos": [
+  {
+   "t": 4.2,
+   "tipo": "abrir",
+   "actor": "barrera"
+  },
+  {
+   "t": 7,
+   "tipo": "cerrar",
+   "actor": "barrera"
+  },
+  {
+   "t": 15.5,
+   "tipo": "abrir",
+   "actor": "barrera"
+  },
+  {
+   "t": 18,
+   "tipo": "cerrar",
+   "actor": "barrera"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

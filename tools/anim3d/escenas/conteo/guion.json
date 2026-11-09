@@ -1,0 +1,120 @@
+{
+ "id": "conteo",
+ "tipo": "comercial",
+ "nombre": "Conteo de personas",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "La línea de la puerta espera el primer cruce"
+  },
+  {
+   "t": 3.4,
+   "estado": "detecta",
+   "texto": "Cruza hacia adentro: suma una entrada"
+  },
+  {
+   "t": 9.4,
+   "estado": "ok",
+   "texto": "Cruza hacia afuera: suma una salida y ajusta el aforo"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   1.0,
+   2.8
+  ],
+  "mira": [
+   4,
+   6,
+   1.2
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 2,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     4,
+     7.5,
+     0
+    ],
+    [
+     4,
+     5.6,
+     3.4
+    ],
+    [
+     3,
+     3,
+     7
+    ],
+    [
+     3,
+     3,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "p2",
+   "rol": "cliente",
+   "ruta": [
+    [
+     5,
+     2.5,
+     0
+    ],
+    [
+     5,
+     2.5,
+     6
+    ],
+    [
+     4,
+     5.6,
+     9.4
+    ],
+    [
+     4,
+     7.5,
+     12
+    ],
+    [
+     4,
+     7.5,
+     16
+    ]
+   ]
+  }
+ ],
+ "objetos": [],
+ "vehiculos": [],
+ "eventos": [],
+ "lineas": [
+  {
+   "id": "puerta",
+   "de": [
+    3.4,
+    5.6
+   ],
+   "a": [
+    4.6,
+    5.6
+   ]
+  }
+ ],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

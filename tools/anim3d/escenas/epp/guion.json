@@ -1,0 +1,126 @@
+{
+ "id": "epp",
+ "tipo": "prevencion",
+ "nombre": "Equipo de protección (EPP)",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "En esta zona se exige casco y chaleco"
+  },
+  {
+   "t": 4,
+   "estado": "ok",
+   "texto": "Trabajador con casco y chaleco: en verde"
+  },
+  {
+   "t": 7.5,
+   "estado": "alerta",
+   "texto": "Otro entra sin casco: aviso por esa persona"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -5,
+   3.2
+  ],
+  "mira": [
+   4,
+   3,
+   1
+  ]
+ },
+ "escenario": "obra",
+ "personas": 2,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   4.5,
+   0,
+   3,
+   5.5,
+   1.2
+  ]
+ ],
+ "actores": [
+  {
+   "id": "w1",
+   "rol": "obrero",
+   "ruta": [
+    [
+     0.5,
+     3,
+     0
+    ],
+    [
+     3,
+     3,
+     4
+    ],
+    [
+     5,
+     3.5,
+     9
+    ],
+    [
+     5,
+     3.5,
+     15
+    ]
+   ],
+   "casco": true,
+   "chaleco": true
+  },
+  {
+   "id": "w2",
+   "rol": "obrero",
+   "ruta": [
+    [
+     7.5,
+     0.5,
+     3
+    ],
+    [
+     6,
+     2.5,
+     7.5
+    ],
+    [
+     4,
+     4.2,
+     12
+    ],
+    [
+     4,
+     4.2,
+     15
+    ]
+   ],
+   "casco": false,
+   "chaleco": true
+  }
+ ],
+ "objetos": [],
+ "vehiculos": [],
+ "eventos": [],
+ "lineas": [],
+ "zonas": [
+  {
+   "id": "zona_epp",
+   "caja": [
+    1,
+    1,
+    7,
+    5
+   ]
+  }
+ ],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

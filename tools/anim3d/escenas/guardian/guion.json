@@ -1,0 +1,198 @@
+{
+ "id": "guardian",
+ "tipo": "operativo",
+ "nombre": "Guardián de puestos",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Cada puesto con su titular y su sesión"
+  },
+  {
+   "t": 4,
+   "estado": "detecta",
+   "texto": "El titular se levanta: el puesto queda en espera"
+  },
+  {
+   "t": 8,
+   "estado": "alerta",
+   "texto": "Otra persona se sienta con la sesión abierta: aviso de relevo"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -3.5,
+   3
+  ],
+  "mira": [
+   4,
+   3,
+   1
+  ]
+ },
+ "escenario": "oficina",
+ "personas": 3,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   2.5,
+   0,
+   3,
+   3.3,
+   0.75
+  ],
+  [
+   5,
+   2.5,
+   0,
+   7,
+   3.3,
+   0.75
+  ]
+ ],
+ "actores": [
+  {
+   "id": "t1",
+   "rol": "staff",
+   "ruta": [
+    [
+     2,
+     2.0,
+     0
+    ],
+    [
+     2,
+     2.0,
+     4
+    ],
+    [
+     0.4,
+     2.0,
+     5.6
+    ],
+    [
+     0.4,
+     5.5,
+     7.5
+    ],
+    [
+     0.4,
+     5.5,
+     16
+    ]
+   ],
+   "sentado_hasta": 4
+  },
+  {
+   "id": "t2",
+   "rol": "staff",
+   "ruta": [
+    [
+     6,
+     2.0,
+     0
+    ],
+    [
+     6,
+     2.0,
+     16
+    ]
+   ],
+   "sentado_hasta": 16
+  },
+  {
+   "id": "x1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     7.7,
+     5.5,
+     0.5
+    ],
+    [
+     7.7,
+     0.9,
+     3.8
+    ],
+    [
+     2.4,
+     0.9,
+     7.3
+    ],
+    [
+     2,
+     2.0,
+     8
+    ],
+    [
+     2,
+     2.0,
+     16
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "silla1",
+   "tipo": "silla",
+   "pos": [
+    2,
+    2.0,
+    0
+   ]
+  },
+  {
+   "id": "silla2",
+   "tipo": "silla",
+   "pos": [
+    6,
+    2.0,
+    0
+   ]
+  },
+  {
+   "id": "pc1",
+   "tipo": "monitor",
+   "pos": [
+    2,
+    3,
+    0.75
+   ]
+  },
+  {
+   "id": "pc2",
+   "tipo": "monitor",
+   "pos": [
+    6,
+    3,
+    0.75
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 4,
+   "tipo": "levantarse",
+   "actor": "t1",
+   "objeto": "silla1"
+  },
+  {
+   "t": 8,
+   "tipo": "sentarse",
+   "actor": "x1",
+   "objeto": "silla1"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

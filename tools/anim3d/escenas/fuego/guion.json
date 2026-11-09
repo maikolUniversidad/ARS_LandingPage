@@ -1,0 +1,110 @@
+{
+ "id": "fuego",
+ "tipo": "prevencion",
+ "nombre": "Humo y fuego",
+ "dur": 20,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Bodega en calma"
+  },
+  {
+   "t": 2.5,
+   "estado": "detecta",
+   "texto": "Una chispa prende el cartón: llama pequeña y humo claro"
+  },
+  {
+   "t": 5,
+   "estado": "alerta",
+   "texto": "Humo + fuego confirmados: aviso con 87 s de margen"
+  },
+  {
+   "t": 11,
+   "estado": "alerta",
+   "texto": "El humo choca con el techo y baja en capa: la cámara empieza a perder la imagen"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -5,
+   3.5
+  ],
+  "mira": [
+   4,
+   3,
+   1.4
+  ]
+ },
+ "escenario": "bodega",
+ "personas": 0,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   0.5,
+   4.5,
+   0,
+   7.5,
+   5.5,
+   3.0
+  ],
+  [
+   5,
+   1.5,
+   0,
+   6.5,
+   2.5,
+   1.2
+  ]
+ ],
+ "actores": [],
+ "objetos": [
+  {
+   "id": "carton",
+   "tipo": "pila_cajas",
+   "pos": [
+    5.75,
+    2,
+    1.2
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 2.5,
+   "tipo": "fuego",
+   "actor": null,
+   "objeto": "carton",
+   "tamano": "pequeno"
+  },
+  {
+   "t": 2.5,
+   "tipo": "humo",
+   "actor": null,
+   "objeto": "carton",
+   "hasta": 20
+  },
+  {
+   "t": 5,
+   "tipo": "fuego",
+   "actor": null,
+   "objeto": "carton",
+   "tamano": "mediano"
+  },
+  {
+   "t": 11,
+   "tipo": "humo_techo",
+   "actor": null,
+   "hasta": 20
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

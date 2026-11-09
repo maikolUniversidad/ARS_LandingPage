@@ -1,0 +1,121 @@
+{
+ "id": "negras",
+ "tipo": "prevencion",
+ "nombre": "Listas negras",
+ "dur": 14,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Cada rostro del acceso se compara con la lista"
+  },
+  {
+   "t": 4,
+   "estado": "alerta",
+   "texto": "Coincidencia con la lista negra: aviso inmediato"
+  },
+  {
+   "t": 8,
+   "estado": "detecta",
+   "texto": "Se sigue a la persona dentro del local"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   1.0,
+   2.8
+  ],
+  "mira": [
+   4,
+   6,
+   1.2
+  ]
+ },
+ "escenario": "acceso",
+ "personas": 2,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     4,
+     8,
+     0
+    ],
+    [
+     4,
+     5.6,
+     4
+    ],
+    [
+     2,
+     3,
+     8
+    ],
+    [
+     6,
+     2,
+     12
+    ],
+    [
+     6,
+     2,
+     14
+    ]
+   ],
+   "rostro": "lista_negra"
+  },
+  {
+   "id": "p2",
+   "rol": "cliente",
+   "ruta": [
+    [
+     4.4,
+     8,
+     3
+    ],
+    [
+     4.4,
+     5.6,
+     7
+    ],
+    [
+     6.5,
+     3.5,
+     11
+    ],
+    [
+     6.5,
+     3.5,
+     14
+    ]
+   ]
+  }
+ ],
+ "objetos": [],
+ "vehiculos": [],
+ "eventos": [],
+ "lineas": [
+  {
+   "id": "puerta",
+   "de": [
+    3.4,
+    5.6
+   ],
+   "a": [
+    4.6,
+    5.6
+   ]
+  }
+ ],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

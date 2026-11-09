@@ -1,0 +1,433 @@
+{
+ "id": "exhibicion",
+ "tipo": "lite",
+ "nombre": "Verificación de exhibición",
+ "dur": 14,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Se carga el planograma acordado"
+  },
+  {
+   "t": 4,
+   "estado": "ok",
+   "texto": "Frentes y orden coinciden"
+  },
+  {
+   "t": 8,
+   "estado": "alerta",
+   "texto": "Un producto está fuera de su lugar y falta el aviso de precio: no cumple"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -2.5,
+   1.8
+  ],
+  "mira": [
+   4,
+   2,
+   1.0
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 0,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   1.7,
+   0,
+   7,
+   2.3,
+   1.8
+  ]
+ ],
+ "actores": [],
+ "objetos": [
+  {
+   "id": "pr0",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.4,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr1",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.9,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr2",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.4,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr3",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.9,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr4",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.4,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr5",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.9,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr6",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.4,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr7",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.9,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr8",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.4,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 2,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr9",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.9,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 2,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr10",
+   "tipo": "caja_pequena",
+   "pos": [
+    6.4,
+    1.75,
+    0.5
+   ],
+   "color_grupo": 2,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr11",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.4,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr12",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.9,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr13",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.4,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr14",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.9,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr15",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.4,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr16",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.9,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr17",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.4,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": true
+  },
+  {
+   "id": "pr18",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.9,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr19",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.4,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 2,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr20",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.9,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 2,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr21",
+   "tipo": "caja_pequena",
+   "pos": [
+    6.4,
+    1.75,
+    1.1
+   ],
+   "color_grupo": 2,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr22",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.4,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr23",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.9,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr24",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.4,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr25",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.9,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 0,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr26",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.4,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr27",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.9,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr28",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.4,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr29",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.9,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 1,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr30",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.4,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 2,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr31",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.9,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 2,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "pr32",
+   "tipo": "caja_pequena",
+   "pos": [
+    6.4,
+    1.75,
+    1.7
+   ],
+   "color_grupo": 2,
+   "fuera_de_lugar": false
+  },
+  {
+   "id": "fl_falta",
+   "tipo": "fleje",
+   "pos": [
+    4.4,
+    1.68,
+    1.0
+   ],
+   "estado": "falta"
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": false
+}

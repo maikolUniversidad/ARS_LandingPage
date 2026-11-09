@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { analiticas, familias, type Analitica, type EstadoSim, type FamiliaId } from "@/data/analiticas";
 import { EstadoPill, ESTADO_COLOR } from "./EstadoPill";
-import { Sim3D } from "./Sim3D";
+import { Anim3D } from "./Anim3D";
 import { cn } from "@/lib/utils";
 
 /** Color de cada familia (los mismos de la presentación original). */
@@ -186,7 +186,7 @@ export function VisorAnaliticas({ actual, onElegir, textos }: Props) {
                 </span>
                 <span className="hidden text-foreground/40 sm:inline">{textos.girar}</span>
               </figcaption>
-              <Sim3D id={actual.id} lazy={false} onFase={onFase} className="aspect-[16/10] w-full" title={`${textos.simulacion}: ${actual.nombre}`} />
+              <Anim3D id={actual.id} lazy={false} onFase={onFase} className="aspect-[16/10] w-full" title={`${textos.simulacion}: ${actual.nombre}`} />
             </figure>
 
             {/* Prueba real */}

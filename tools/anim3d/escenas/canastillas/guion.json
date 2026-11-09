@@ -1,0 +1,211 @@
+{
+ "id": "canastillas",
+ "tipo": "lite",
+ "nombre": "Inventario de canastillas y cajas",
+ "dur": 14,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Cuenta las canastillas de cada pila"
+  },
+  {
+   "t": 5,
+   "estado": "detecta",
+   "texto": "Se retiran 3 canastillas: el conteo baja solo"
+  },
+  {
+   "t": 9,
+   "estado": "alerta",
+   "texto": "Quedan menos del mínimo: aviso para reponer"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -4,
+   2.8
+  ],
+  "mira": [
+   4,
+   3,
+   0.8
+  ]
+ },
+ "escenario": "bodega",
+ "personas": 1,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "s1",
+   "rol": "staff",
+   "ruta": [
+    [
+     7.5,
+     5,
+     0
+    ],
+    [
+     3.7,
+     3.3,
+     4
+    ],
+    [
+     3.7,
+     3.3,
+     9
+    ],
+    [
+     7.5,
+     5,
+     12
+    ],
+    [
+     7.5,
+     5,
+     14
+    ]
+   ],
+   "uniforme": "amarillo"
+  }
+ ],
+ "objetos": [
+  {
+   "id": "c0",
+   "tipo": "canastilla",
+   "pos": [
+    3,
+    3,
+    0.0
+   ]
+  },
+  {
+   "id": "c1",
+   "tipo": "canastilla",
+   "pos": [
+    3,
+    3,
+    0.25
+   ]
+  },
+  {
+   "id": "c2",
+   "tipo": "canastilla",
+   "pos": [
+    3,
+    3,
+    0.5
+   ]
+  },
+  {
+   "id": "c3",
+   "tipo": "canastilla",
+   "pos": [
+    3,
+    3,
+    0.75
+   ]
+  },
+  {
+   "id": "c4",
+   "tipo": "canastilla",
+   "pos": [
+    3,
+    3,
+    1.0
+   ]
+  },
+  {
+   "id": "c5",
+   "tipo": "canastilla",
+   "pos": [
+    3,
+    3,
+    1.25
+   ]
+  },
+  {
+   "id": "c6",
+   "tipo": "canastilla",
+   "pos": [
+    3,
+    3,
+    1.5
+   ]
+  },
+  {
+   "id": "c7",
+   "tipo": "canastilla",
+   "pos": [
+    3,
+    3,
+    1.75
+   ]
+  },
+  {
+   "id": "d0",
+   "tipo": "canastilla",
+   "pos": [
+    5,
+    3,
+    0.0
+   ]
+  },
+  {
+   "id": "d1",
+   "tipo": "canastilla",
+   "pos": [
+    5,
+    3,
+    0.25
+   ]
+  },
+  {
+   "id": "d2",
+   "tipo": "canastilla",
+   "pos": [
+    5,
+    3,
+    0.5
+   ]
+  },
+  {
+   "id": "d3",
+   "tipo": "canastilla",
+   "pos": [
+    5,
+    3,
+    0.75
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 5,
+   "tipo": "tomar",
+   "actor": "s1",
+   "objeto": "c7"
+  },
+  {
+   "t": 6.3,
+   "tipo": "tomar",
+   "actor": "s1",
+   "objeto": "c6"
+  },
+  {
+   "t": 7.6,
+   "tipo": "tomar",
+   "actor": "s1",
+   "objeto": "c5"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

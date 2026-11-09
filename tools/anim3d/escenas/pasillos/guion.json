@@ -1,0 +1,139 @@
+{
+ "id": "pasillos",
+ "tipo": "lite",
+ "nombre": "Pasillos libres",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "El pasillo está libre"
+  },
+  {
+   "t": 3.4,
+   "estado": "detecta",
+   "texto": "Dejan una caja: candidato con su cuenta atrás"
+  },
+  {
+   "t": 8.4,
+   "estado": "alerta",
+   "texto": "Pasan 30 s: obstáculo confirmado"
+  },
+  {
+   "t": 13,
+   "estado": "ok",
+   "texto": "La retiran y el evento se cierra solo"
+  }
+ ],
+ "camara": {
+  "pos": [
+   -1.5,
+   3.0,
+   3.0
+  ],
+  "mira": [
+   5,
+   3.0,
+   0.6
+  ]
+ },
+ "escenario": "pasillo",
+ "personas": 1,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   0.5,
+   0.2,
+   0,
+   7.5,
+   0.8,
+   1.6
+  ],
+  [
+   0.5,
+   5.2,
+   0,
+   7.5,
+   5.8,
+   1.6
+  ]
+ ],
+ "actores": [
+  {
+   "id": "s1",
+   "rol": "staff",
+   "ruta": [
+    [
+     0.5,
+     3.5,
+     0
+    ],
+    [
+     4,
+     3,
+     3.4
+    ],
+    [
+     7.5,
+     3.5,
+     6
+    ],
+    [
+     7.5,
+     3.5,
+     11
+    ],
+    [
+     4,
+     3.3,
+     13
+    ],
+    [
+     0.5,
+     3.5,
+     16
+    ]
+   ],
+   "uniforme": "amarillo"
+  }
+ ],
+ "objetos": [
+  {
+   "id": "caja",
+   "tipo": "caja_grande",
+   "pos": [
+    0.5,
+    3,
+    0
+   ],
+   "en_mano": "s1"
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 3.4,
+   "tipo": "soltar",
+   "actor": "s1",
+   "objeto": "caja",
+   "destino": [
+    4,
+    3,
+    0
+   ]
+  },
+  {
+   "t": 13,
+   "tipo": "tomar",
+   "actor": "s1",
+   "objeto": "caja"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

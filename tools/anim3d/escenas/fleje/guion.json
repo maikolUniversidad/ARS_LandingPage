@@ -1,0 +1,212 @@
+{
+ "id": "fleje",
+ "tipo": "lite",
+ "nombre": "Verificación de etiqueta",
+ "dur": 14,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Lee cada fleje del borde de la góndola"
+  },
+  {
+   "t": 4,
+   "estado": "ok",
+   "texto": "Producto y fleje coinciden: en verde"
+  },
+  {
+   "t": 8,
+   "estado": "alerta",
+   "texto": "Fleje faltante y precio que no coincide: aviso para corregir"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -2.5,
+   1.8
+  ],
+  "mira": [
+   4,
+   2,
+   1.0
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 0,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   1.7,
+   0,
+   7,
+   2.3,
+   1.6
+  ]
+ ],
+ "actores": [],
+ "objetos": [
+  {
+   "id": "fl0",
+   "tipo": "fleje",
+   "pos": [
+    1.6,
+    1.68,
+    1.0
+   ],
+   "estado": "ok"
+  },
+  {
+   "id": "fl1",
+   "tipo": "fleje",
+   "pos": [
+    2.4000000000000004,
+    1.68,
+    1.0
+   ],
+   "estado": "ok"
+  },
+  {
+   "id": "fl2",
+   "tipo": "fleje",
+   "pos": [
+    3.2,
+    1.68,
+    1.0
+   ],
+   "estado": "ok"
+  },
+  {
+   "id": "fl3",
+   "tipo": "fleje",
+   "pos": [
+    4.0,
+    1.68,
+    1.0
+   ],
+   "estado": "falta"
+  },
+  {
+   "id": "fl4",
+   "tipo": "fleje",
+   "pos": [
+    4.800000000000001,
+    1.68,
+    1.0
+   ],
+   "estado": "ok"
+  },
+  {
+   "id": "fl5",
+   "tipo": "fleje",
+   "pos": [
+    5.6,
+    1.68,
+    1.0
+   ],
+   "estado": "precio_mal"
+  },
+  {
+   "id": "fl6",
+   "tipo": "fleje",
+   "pos": [
+    6.4,
+    1.68,
+    1.0
+   ],
+   "estado": "ok"
+  },
+  {
+   "id": "fl7",
+   "tipo": "fleje",
+   "pos": [
+    7.200000000000001,
+    1.68,
+    1.0
+   ],
+   "estado": "ok"
+  },
+  {
+   "id": "pr0",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.6,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr1",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.4000000000000004,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr2",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.2,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr3",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.0,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr4",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.800000000000001,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr5",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.6,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr6",
+   "tipo": "caja_pequena",
+   "pos": [
+    6.4,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr7",
+   "tipo": "caja_pequena",
+   "pos": [
+    7.200000000000001,
+    1.75,
+    1.1
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": false
+}

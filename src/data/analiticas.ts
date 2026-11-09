@@ -164,7 +164,11 @@ export const analiticas: Analitica[] = [
         "texto": "Arma el perfil de quién visita, hora por hora"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/demografia.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/demografia-poster.jpg",
+      "chapa": "CCTV pública · modelo real"
+    }
   },
   {
     "id": "calor",
@@ -316,7 +320,11 @@ export const analiticas: Analitica[] = [
         "texto": "Alguien que no está: la puerta sigue cerrada y pide validación"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/blancas.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/blancas-poster.jpg",
+      "chapa": "acceso real de cliente · modelo real"
+    }
   },
   {
     "id": "filas",
@@ -343,7 +351,11 @@ export const analiticas: Analitica[] = [
         "texto": "Abre la caja 2 y la fila se reparte"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/filas.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/filas-poster.jpg",
+      "chapa": "CCTV real · modelo real"
+    }
   },
   {
     "id": "aforo",
@@ -442,7 +454,11 @@ export const analiticas: Analitica[] = [
         "texto": "Cuenta cuántos hay de cada uno, en todo momento"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/staff.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/staff-poster.jpg",
+      "chapa": "cámara real de cliente · modelo real"
+    }
   },
   {
     "id": "derrames",
@@ -475,9 +491,9 @@ export const analiticas: Analitica[] = [
       }
     ],
     "video": {
-      "poster": "/analiticas-3d/evidencia-publica/piso-alerta.jpg",
-      "img": "/analiticas-3d/evidencia-publica/piso-alerta.jpg",
-      "chapa": "laboratorio propio"
+      "src": "/analiticas-3d/evidencia-publica/derrames.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/derrames-poster.jpg",
+      "chapa": "video público · modelo real"
     }
   },
   {
@@ -508,7 +524,7 @@ export const analiticas: Analitica[] = [
     "video": {
       "src": "/analiticas-3d/evidencia-publica/guardian.mp4",
       "poster": "/analiticas-3d/evidencia-publica/guardian-poster.jpg",
-      "chapa": "CCTV real · modelo real"
+      "chapa": "cámara real de cliente · modelo real"
     }
   },
   {
@@ -536,7 +552,11 @@ export const analiticas: Analitica[] = [
         "texto": "Se sigue a la persona dentro del local"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/negras.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/negras-poster.jpg",
+      "chapa": "acceso real de cliente · modelo real"
+    }
   },
   {
     "id": "merodeo",
@@ -563,7 +583,11 @@ export const analiticas: Analitica[] = [
         "texto": "Pasa el umbral de merodeo: aviso con su recorrido"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/merodeo.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/merodeo-poster.jpg",
+      "chapa": "CCTV real · modelo real"
+    }
   },
   {
     "id": "intrusion",
@@ -598,7 +622,7 @@ export const analiticas: Analitica[] = [
     "video": {
       "src": "/analiticas-3d/evidencia-publica/intrusion.mp4",
       "poster": "/analiticas-3d/evidencia-publica/intrusion-poster.jpg",
-      "chapa": "CCTV real · modelo real"
+      "chapa": "video público · modelo real"
     }
   },
   {
@@ -715,7 +739,11 @@ export const analiticas: Analitica[] = [
         "texto": "No se levanta: aviso para que alguien acuda"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/caidas.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/caidas-poster.jpg",
+      "chapa": "video público · modelo real"
+    }
   },
   {
     "id": "hurto",
@@ -748,9 +776,9 @@ export const analiticas: Analitica[] = [
       }
     ],
     "video": {
-      "src": "/analiticas-3d/evidencia-publica/hurto-vivo.mp4",
-      "poster": "/analiticas-3d/evidencia-publica/hurto-vivo-poster.jpg",
-      "chapa": "prueba en laboratorio propio"
+      "src": "/analiticas-3d/evidencia-publica/hurto.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/hurto-poster.jpg",
+      "chapa": "cámara real de cliente · modelo real"
     }
   },
   {
@@ -778,7 +806,11 @@ export const analiticas: Analitica[] = [
         "texto": "Desaparece bajo la chaqueta: «manipulación sospechosa · esconde»"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/ocultaProd.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/ocultaProd-poster.jpg",
+      "chapa": "prueba en laboratorio propio"
+    }
   },
   {
     "id": "armas",
@@ -877,7 +909,11 @@ export const analiticas: Analitica[] = [
         "texto": "Uno cae al piso: el aviso sube de prioridad"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/peleas.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/peleas-poster.jpg",
+      "chapa": "video público · heurística real"
+    }
   },
   {
     "id": "fuego",
@@ -972,7 +1008,11 @@ export const analiticas: Analitica[] = [
         "texto": "Casco puesto dentro del local: aviso en el acceso"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/rostro.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/rostro-poster.jpg",
+      "chapa": "video público · modelo real"
+    }
   },
   {
     "id": "activos",
@@ -1004,7 +1044,11 @@ export const analiticas: Analitica[] = [
         "texto": "Sigue sin estar: «activo retirado · celular», con video"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/activos.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/activos-poster.jpg",
+      "chapa": "cámara real de cliente · modelo real"
+    }
   },
   {
     "id": "fleje",
@@ -1238,7 +1282,11 @@ export const analiticas: Analitica[] = [
         "texto": "Invaden la franja prohibida bajo el techo: aviso"
       }
     ],
-    "video": null
+    "video": {
+      "src": "/analiticas-3d/evidencia-publica/racks.mp4",
+      "poster": "/analiticas-3d/evidencia-publica/racks-poster.jpg",
+      "chapa": "video público · modelo real"
+    }
   },
   {
     "id": "pasillos",

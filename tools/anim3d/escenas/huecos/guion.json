@@ -1,0 +1,473 @@
+{
+ "id": "huecos",
+ "tipo": "lite",
+ "nombre": "Huecos en góndola",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "ok",
+   "texto": "Góndola surtida: disponibilidad alta"
+  },
+  {
+   "t": 4,
+   "estado": "detecta",
+   "texto": "Se van abriendo huecos: candidatos en naranja"
+  },
+  {
+   "t": 9,
+   "estado": "alerta",
+   "texto": "Confirmados: la disponibilidad baja y avisa para reponer"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -3,
+   2.2
+  ],
+  "mira": [
+   4,
+   2,
+   1.0
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 2,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   1.7,
+   0,
+   7,
+   2.3,
+   1.8
+  ]
+ ],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     0.5,
+     3.5,
+     0
+    ],
+    [
+     3,
+     2.9,
+     3
+    ],
+    [
+     3,
+     2.9,
+     9
+    ],
+    [
+     7.5,
+     3.5,
+     12
+    ],
+    [
+     7.5,
+     3.5,
+     15
+    ]
+   ]
+  },
+  {
+   "id": "p2",
+   "rol": "cliente",
+   "ruta": [
+    [
+     7.5,
+     3.5,
+     1
+    ],
+    [
+     5.5,
+     2.9,
+     4
+    ],
+    [
+     5.5,
+     2.9,
+     11
+    ],
+    [
+     0.5,
+     3.5,
+     15
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "pr0",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.4,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr1",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.8499999999999999,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr2",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.3,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr3",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.75,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr4",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.2,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr5",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.65,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr6",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.1,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr7",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.55,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr8",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.0,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr9",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.449999999999999,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr10",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.9,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr11",
+   "tipo": "caja_pequena",
+   "pos": [
+    6.35,
+    1.75,
+    0.5
+   ]
+  },
+  {
+   "id": "pr12",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.4,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr13",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.8499999999999999,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr14",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.3,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr15",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.75,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr16",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.2,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr17",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.65,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr18",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.1,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr19",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.55,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr20",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.0,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr21",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.449999999999999,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr22",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.9,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr23",
+   "tipo": "caja_pequena",
+   "pos": [
+    6.35,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr24",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.4,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr25",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.8499999999999999,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr26",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.3,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr27",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.75,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr28",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.2,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr29",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.65,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr30",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.1,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr31",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.55,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr32",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.0,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr33",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.449999999999999,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr34",
+   "tipo": "caja_pequena",
+   "pos": [
+    5.9,
+    1.75,
+    1.7
+   ]
+  },
+  {
+   "id": "pr35",
+   "tipo": "caja_pequena",
+   "pos": [
+    6.35,
+    1.75,
+    1.7
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 4,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr3"
+  },
+  {
+   "t": 5,
+   "tipo": "tomar",
+   "actor": "p2",
+   "objeto": "pr21"
+  },
+  {
+   "t": 5.5,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr4"
+  },
+  {
+   "t": 7,
+   "tipo": "tomar",
+   "actor": "p2",
+   "objeto": "pr22"
+  },
+  {
+   "t": 8,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr15"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": false
+}

@@ -1,0 +1,141 @@
+{
+ "id": "zonaCiega",
+ "tipo": "lite",
+ "nombre": "Zona ciega",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Se proyecta lo que cubre cada cámara"
+  },
+  {
+   "t": 4,
+   "estado": "detecta",
+   "texto": "Queda a la vista el punto que nadie ve"
+  },
+  {
+   "t": 10,
+   "estado": "alerta",
+   "texto": "Alguien entra y no reaparece: aviso de zona ciega"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -6,
+   5
+  ],
+  "mira": [
+   4,
+   3,
+   0.5
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 1,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   1.7,
+   0,
+   3,
+   2.3,
+   1.6
+  ],
+  [
+   5,
+   1.7,
+   0,
+   7,
+   2.3,
+   1.6
+  ],
+  [
+   5,
+   4.5,
+   0,
+   7,
+   5.8,
+   2.2
+  ]
+ ],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     0.5,
+     4,
+     0
+    ],
+    [
+     4,
+     4,
+     5
+    ],
+    [
+     4.4,
+     6.6,
+     8
+    ],
+    [
+     6.2,
+     6.4,
+     10
+    ],
+    [
+     6.2,
+     6.4,
+     16
+    ]
+   ]
+  }
+ ],
+ "objetos": [],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 10,
+   "tipo": "desaparecer",
+   "actor": "p1",
+   "zona": "ciega"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [
+  {
+   "pos": [
+    0.3,
+    5.8,
+    2.6
+   ],
+   "mira": [
+    4,
+    2,
+    0.5
+   ],
+   "fov": 70
+  },
+  {
+   "pos": [
+    7.7,
+    0.3,
+    2.6
+   ],
+   "mira": [
+    3,
+    3,
+    0.5
+   ],
+   "fov": 70
+  }
+ ],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

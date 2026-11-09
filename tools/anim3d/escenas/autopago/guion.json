@@ -1,0 +1,218 @@
+{
+ "id": "autopago",
+ "tipo": "lite",
+ "nombre": "Validación de autopago",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Cada producto que pasa por el lector se cruza con el registro"
+  },
+  {
+   "t": 4,
+   "estado": "ok",
+   "texto": "Escaneados: coinciden"
+  },
+  {
+   "t": 8.6,
+   "estado": "alerta",
+   "texto": "Un producto pasa por fuera del lector: aviso al supervisor"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -3,
+   2.5
+  ],
+  "mira": [
+   4,
+   3,
+   1.0
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 1,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   3,
+   3.5,
+   0,
+   5,
+   4.3,
+   1.0
+  ]
+ ],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     4,
+     2.6,
+     0
+    ],
+    [
+     4,
+     2.6,
+     15
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "lector",
+   "tipo": "lector",
+   "pos": [
+    4,
+    3.9,
+    1.0
+   ]
+  },
+  {
+   "id": "pr0",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.3,
+    3.6,
+    1.05
+   ]
+  },
+  {
+   "id": "pr1",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.5999999999999996,
+    3.6,
+    1.05
+   ]
+  },
+  {
+   "id": "pr2",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.9,
+    3.6,
+    1.05
+   ]
+  },
+  {
+   "id": "pr3",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.199999999999999,
+    3.6,
+    1.05
+   ]
+  },
+  {
+   "id": "bolsa",
+   "tipo": "bolsa",
+   "pos": [
+    4.7,
+    3.7,
+    1.0
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 2.5,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr0"
+  },
+  {
+   "t": 3.2,
+   "tipo": "pasar_lector",
+   "actor": "p1",
+   "objeto": "pr0"
+  },
+  {
+   "t": 4,
+   "tipo": "soltar",
+   "actor": "p1",
+   "objeto": "pr0",
+   "destino": [
+    4.7,
+    3.7,
+    1.1
+   ]
+  },
+  {
+   "t": 4.5,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr1"
+  },
+  {
+   "t": 5.2,
+   "tipo": "pasar_lector",
+   "actor": "p1",
+   "objeto": "pr1"
+  },
+  {
+   "t": 6,
+   "tipo": "soltar",
+   "actor": "p1",
+   "objeto": "pr1",
+   "destino": [
+    4.7,
+    3.7,
+    1.2
+   ]
+  },
+  {
+   "t": 6.5,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr2"
+  },
+  {
+   "t": 7.2,
+   "tipo": "pasar_lector",
+   "actor": "p1",
+   "objeto": "pr2"
+  },
+  {
+   "t": 8,
+   "tipo": "soltar",
+   "actor": "p1",
+   "objeto": "pr2",
+   "destino": [
+    4.7,
+    3.7,
+    1.3
+   ]
+  },
+  {
+   "t": 8.6,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr3"
+  },
+  {
+   "t": 9.4,
+   "tipo": "soltar",
+   "actor": "p1",
+   "objeto": "pr3",
+   "destino": [
+    4.7,
+    3.7,
+    1.4
+   ]
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

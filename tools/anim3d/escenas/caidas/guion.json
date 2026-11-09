@@ -1,0 +1,96 @@
+{
+ "id": "caidas",
+ "tipo": "prevencion",
+ "nombre": "Detección de caídas",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Sigue la postura de quien camina"
+  },
+  {
+   "t": 4.2,
+   "estado": "detecta",
+   "texto": "Pasa de vertical a horizontal: posible caída"
+  },
+  {
+   "t": 8,
+   "estado": "alerta",
+   "texto": "No se levanta: aviso para que alguien acuda"
+  }
+ ],
+ "camara": {
+  "pos": [
+   -1.5,
+   3.0,
+   3.0
+  ],
+  "mira": [
+   5,
+   3.0,
+   0.6
+  ]
+ },
+ "escenario": "pasillo",
+ "personas": 1,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   0.5,
+   0.2,
+   0,
+   7.5,
+   0.8,
+   1.6
+  ],
+  [
+   0.5,
+   5.2,
+   0,
+   7.5,
+   5.8,
+   1.6
+  ]
+ ],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     0.5,
+     3,
+     0
+    ],
+    [
+     4,
+     3,
+     4.2
+    ],
+    [
+     4,
+     3,
+     15
+    ]
+   ]
+  }
+ ],
+ "objetos": [],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 4.2,
+   "tipo": "caer",
+   "actor": "p1",
+   "hasta": 15
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

@@ -1,0 +1,143 @@
+{
+ "id": "cierre",
+ "tipo": "operativo",
+ "nombre": "Cierre de puerta sin autorización",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "ok",
+   "texto": "15:18 · horario comercial, puerta abierta"
+  },
+  {
+   "t": 4,
+   "estado": "detecta",
+   "texto": "Un empleado cierra la puerta sin autorización"
+  },
+  {
+   "t": 8,
+   "estado": "detecta",
+   "texto": "Llega un cliente y no puede entrar"
+  },
+  {
+   "t": 11,
+   "estado": "alerta",
+   "texto": "Lleva 3 min cerrada en horario comercial: aviso al supervisor"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -4,
+   3
+  ],
+  "mira": [
+   4,
+   5,
+   1.2
+  ]
+ },
+ "escenario": "acceso",
+ "personas": 2,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "e1",
+   "rol": "staff",
+   "ruta": [
+    [
+     1,
+     3,
+     0
+    ],
+    [
+     4,
+     5,
+     3.5
+    ],
+    [
+     4,
+     5,
+     4.5
+    ],
+    [
+     6,
+     3,
+     7
+    ],
+    [
+     6,
+     3,
+     16
+    ]
+   ],
+   "uniforme": "amarillo"
+  },
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     4,
+     9,
+     5
+    ],
+    [
+     4,
+     6,
+     8
+    ],
+    [
+     4,
+     6,
+     11
+    ],
+    [
+     3,
+     8,
+     14
+    ],
+    [
+     3,
+     8,
+     16
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "puerta",
+   "tipo": "puerta_corrediza",
+   "pos": [
+    4,
+    5.5,
+    0
+   ],
+   "cerrada": false
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 4,
+   "tipo": "cerrar",
+   "actor": "puerta",
+   "por": "e1"
+  },
+  {
+   "t": 8,
+   "tipo": "detener",
+   "actor": "p1",
+   "hasta": 11
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": "15:18",
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

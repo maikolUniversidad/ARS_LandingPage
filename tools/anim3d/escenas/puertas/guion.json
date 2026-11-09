@@ -1,0 +1,150 @@
+{
+ "id": "puertas",
+ "tipo": "lite",
+ "nombre": "Puertas abiertas o cerradas",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "ok",
+   "texto": "Puerta de entrada abierta en horario; las cuatro neveras, cerradas"
+  },
+  {
+   "t": 3,
+   "estado": "detecta",
+   "texto": "Abre la puerta de la nevera 2 y toma una bebida"
+  },
+  {
+   "t": 6,
+   "estado": "detecta",
+   "texto": "Se va y la deja abierta: empieza a contar"
+  },
+  {
+   "t": 10,
+   "estado": "alerta",
+   "texto": "Lleva abierta más de lo permitido: aviso de cadena de frío"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -4,
+   3
+  ],
+  "mira": [
+   4,
+   3.5,
+   1.2
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 1,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     7.5,
+     1.5,
+     0
+    ],
+    [
+     3.1,
+     4.3,
+     3
+    ],
+    [
+     3.1,
+     4.3,
+     6
+    ],
+    [
+     0.5,
+     1.5,
+     9
+    ],
+    [
+     0.5,
+     1.5,
+     16
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "nev1",
+   "tipo": "nevera",
+   "pos": [
+    3.1,
+    5.2,
+    0
+   ]
+  },
+  {
+   "id": "nev2",
+   "tipo": "nevera",
+   "pos": [
+    4.7,
+    5.2,
+    0
+   ]
+  },
+  {
+   "id": "nev3",
+   "tipo": "nevera",
+   "pos": [
+    6.300000000000001,
+    5.2,
+    0
+   ]
+  },
+  {
+   "id": "nev4",
+   "tipo": "nevera",
+   "pos": [
+    7.9,
+    5.2,
+    0
+   ]
+  },
+  {
+   "id": "bebida",
+   "tipo": "botella",
+   "pos": [
+    3.1,
+    5.0,
+    1.0
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 3,
+   "tipo": "abrir",
+   "actor": "nev2"
+  },
+  {
+   "t": 4.2,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "bebida"
+  },
+  {
+   "t": 6,
+   "tipo": "alejarse",
+   "actor": "p1"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

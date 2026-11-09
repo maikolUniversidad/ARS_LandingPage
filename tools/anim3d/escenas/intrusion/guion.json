@@ -1,0 +1,137 @@
+{
+ "id": "intrusion",
+ "tipo": "prevencion",
+ "nombre": "Intrusión",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "El perímetro tiene tres franjas dibujadas"
+  },
+  {
+   "t": 3.5,
+   "estado": "detecta",
+   "texto": "Toca el borde: nivel 1, dos pitidos"
+  },
+  {
+   "t": 6,
+   "estado": "alerta",
+   "texto": "Avanza: nivel 2, sirena breve"
+  },
+  {
+   "t": 8.5,
+   "estado": "alerta",
+   "texto": "Está adentro: nivel 3, sirena continua"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -5,
+   3.5
+  ],
+  "mira": [
+   4,
+   4,
+   0.8
+  ]
+ },
+ "escenario": "perimetro",
+ "personas": 1,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   0,
+   6,
+   0,
+   8,
+   6.1,
+   2.0
+  ]
+ ],
+ "actores": [
+  {
+   "id": "x1",
+   "rol": "intruso",
+   "ruta": [
+    [
+     7.5,
+     0.5,
+     0
+    ],
+    [
+     5,
+     2.1,
+     3.5
+    ],
+    [
+     4,
+     3.2,
+     6
+    ],
+    [
+     3.5,
+     4.6,
+     8.5
+    ],
+    [
+     3,
+     5.6,
+     11
+    ],
+    [
+     3,
+     5.6,
+     15
+    ]
+   ]
+  }
+ ],
+ "objetos": [],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 11,
+   "tipo": "trepar",
+   "actor": "x1",
+   "objeto": "muro",
+   "hasta": 14
+  }
+ ],
+ "lineas": [],
+ "zonas": [
+  {
+   "id": "franja1",
+   "caja": [
+    0,
+    2,
+    8,
+    3
+   ]
+  },
+  {
+   "id": "franja2",
+   "caja": [
+    0,
+    3,
+    8,
+    4
+   ]
+  },
+  {
+   "id": "franja3",
+   "caja": [
+    0,
+    4,
+    8,
+    6
+   ]
+  }
+ ],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

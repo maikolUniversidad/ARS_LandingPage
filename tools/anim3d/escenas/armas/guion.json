@@ -1,0 +1,116 @@
+{
+ "id": "armas",
+ "tipo": "prevencion",
+ "nombre": "Armas de fuego",
+ "dur": 13,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Vigila manos y objetos en la escena"
+  },
+  {
+   "t": 4,
+   "estado": "detecta",
+   "texto": "Aparece un arma: espera varios cuadros seguidos"
+  },
+  {
+   "t": 4.3,
+   "estado": "alerta",
+   "texto": "Confirmada en 0,3 s: «arma de fuego · portada»"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   1.0,
+   2.8
+  ],
+  "mira": [
+   4,
+   6,
+   1.2
+  ]
+ },
+ "escenario": "acceso",
+ "personas": 2,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "x1",
+   "rol": "intruso",
+   "ruta": [
+    [
+     4.3,
+     8.5,
+     0
+    ],
+    [
+     4.3,
+     5.6,
+     4
+    ],
+    [
+     4.3,
+     4,
+     6
+    ],
+    [
+     4.3,
+     4,
+     13
+    ]
+   ]
+  },
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     2,
+     3,
+     0
+    ],
+    [
+     1,
+     2,
+     6
+    ],
+    [
+     1,
+     2,
+     13
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "arma",
+   "tipo": "pistola",
+   "pos": [
+    4.3,
+    7.2,
+    1.0
+   ],
+   "en_mano": "x1"
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 4,
+   "tipo": "mostrar",
+   "actor": "x1",
+   "objeto": "arma"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

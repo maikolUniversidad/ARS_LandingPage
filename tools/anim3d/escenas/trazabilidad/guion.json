@@ -1,0 +1,186 @@
+{
+ "id": "trazabilidad",
+ "tipo": "lite",
+ "nombre": "Trazabilidad góndola–caja",
+ "dur": 18,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Toma productos en la góndola: se cuentan"
+  },
+  {
+   "t": 8,
+   "estado": "detecta",
+   "texto": "Llega a la caja con lo que tomó"
+  },
+  {
+   "t": 12,
+   "estado": "alerta",
+   "texto": "Se registran 2 de 3: aviso de diferencia"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -5,
+   3.3
+  ],
+  "mira": [
+   4,
+   3,
+   1
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 2,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   1.7,
+   0,
+   3.5,
+   2.3,
+   1.6
+  ],
+  [
+   5.5,
+   4.5,
+   0,
+   7,
+   5.3,
+   1.0
+  ]
+ ],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     0.5,
+     4.5,
+     0
+    ],
+    [
+     2.2,
+     2.9,
+     2
+    ],
+    [
+     2.2,
+     2.9,
+     7
+    ],
+    [
+     6.2,
+     4.0,
+     10
+    ],
+    [
+     6.2,
+     4.0,
+     18
+    ]
+   ],
+   "bolsa": true
+  },
+  {
+   "id": "c1",
+   "rol": "staff",
+   "ruta": [
+    [
+     6.2,
+     5.8,
+     0
+    ],
+    [
+     6.2,
+     5.8,
+     18
+    ]
+   ],
+   "uniforme": "amarillo"
+  }
+ ],
+ "objetos": [
+  {
+   "id": "pr0",
+   "tipo": "caja_pequena",
+   "pos": [
+    1.6,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr1",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.2,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "pr2",
+   "tipo": "caja_pequena",
+   "pos": [
+    2.8,
+    1.75,
+    1.1
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 2.5,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr0"
+  },
+  {
+   "t": 4,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr1"
+  },
+  {
+   "t": 5.5,
+   "tipo": "tomar",
+   "actor": "p1",
+   "objeto": "pr2"
+  },
+  {
+   "t": 10.5,
+   "tipo": "soltar",
+   "actor": "p1",
+   "objeto": "pr0",
+   "destino": [
+    6.0,
+    4.9,
+    1.05
+   ]
+  },
+  {
+   "t": 11.5,
+   "tipo": "soltar",
+   "actor": "p1",
+   "objeto": "pr1",
+   "destino": [
+    6.4,
+    4.9,
+    1.05
+   ]
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

@@ -1,0 +1,146 @@
+{
+ "id": "peleas",
+ "tipo": "prevencion",
+ "nombre": "Peleas",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Dos personas discuten frente a frente"
+  },
+  {
+   "t": 3.4,
+   "estado": "detecta",
+   "texto": "Empujón: uno retrocede de golpe"
+  },
+  {
+   "t": 5,
+   "estado": "alerta",
+   "texto": "Golpes repetidos entre los dos: aviso de pelea"
+  },
+  {
+   "t": 10.4,
+   "estado": "alerta",
+   "texto": "Uno cae al piso: el aviso sube de prioridad"
+  }
+ ],
+ "camara": {
+  "pos": [
+   0.8,
+   8.6,
+   3.3
+  ],
+  "mira": [
+   4.2,
+   2.6,
+   0.9
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 3,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "a",
+   "rol": "cliente",
+   "ruta": [
+    [
+     3.3,
+     3,
+     0
+    ],
+    [
+     3.3,
+     3,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "b",
+   "rol": "cliente",
+   "ruta": [
+    [
+     4.7,
+     3,
+     0
+    ],
+    [
+     4.7,
+     3,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "p3",
+   "rol": "cliente",
+   "ruta": [
+    [
+     7.5,
+     5.5,
+     0
+    ],
+    [
+     6.5,
+     5,
+     6
+    ],
+    [
+     6.5,
+     5,
+     16
+    ]
+   ]
+  }
+ ],
+ "objetos": [],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 3.4,
+   "tipo": "empujar",
+   "actor": "a",
+   "objetivo": "b"
+  },
+  {
+   "t": 5,
+   "tipo": "golpear",
+   "actor": "a",
+   "objetivo": "b"
+  },
+  {
+   "t": 6.2,
+   "tipo": "golpear",
+   "actor": "b",
+   "objetivo": "a"
+  },
+  {
+   "t": 7.6,
+   "tipo": "golpear",
+   "actor": "a",
+   "objetivo": "b"
+  },
+  {
+   "t": 9,
+   "tipo": "golpear",
+   "actor": "b",
+   "objetivo": "a"
+  },
+  {
+   "t": 10.4,
+   "tipo": "caer",
+   "actor": "b",
+   "hasta": 16
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

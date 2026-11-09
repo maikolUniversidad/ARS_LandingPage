@@ -1,0 +1,110 @@
+{
+ "id": "ocultaProd",
+ "tipo": "prevencion",
+ "nombre": "Ocultamiento de producto",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Sigue cada producto que sale de la góndola"
+  },
+  {
+   "t": 3.6,
+   "estado": "detecta",
+   "texto": "El producto va a la mano"
+  },
+  {
+   "t": 7.4,
+   "estado": "alerta",
+   "texto": "Desaparece bajo la chaqueta: «manipulación sospechosa · esconde»"
+  }
+ ],
+ "camara": {
+  "pos": [
+   0.8,
+   8.6,
+   3.3
+  ],
+  "mira": [
+   4.2,
+   2.6,
+   0.9
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 1,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   2,
+   1.7,
+   0,
+   6,
+   2.3,
+   1.6
+  ]
+ ],
+ "actores": [
+  {
+   "id": "x1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     0.5,
+     4.5,
+     0
+    ],
+    [
+     4,
+     2.9,
+     3
+    ],
+    [
+     4,
+     2.9,
+     11
+    ],
+    [
+     7.5,
+     4.5,
+     15
+    ]
+   ],
+   "chaqueta": true
+  }
+ ],
+ "objetos": [
+  {
+   "id": "prod",
+   "tipo": "caja_pequena",
+   "pos": [
+    4,
+    1.75,
+    1.1
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 3.6,
+   "tipo": "tomar",
+   "actor": "x1",
+   "objeto": "prod"
+  },
+  {
+   "t": 7.4,
+   "tipo": "esconder",
+   "actor": "x1",
+   "objeto": "prod"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

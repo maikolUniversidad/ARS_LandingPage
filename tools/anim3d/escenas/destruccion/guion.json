@@ -1,0 +1,124 @@
+{
+ "id": "destruccion",
+ "tipo": "lite",
+ "nombre": "Vencimiento y destrucción",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "El contenedor de destrucción y su boca quedan fijados"
+  },
+  {
+   "t": 3,
+   "estado": "detecta",
+   "texto": "Toma un producto vencido del carro"
+  },
+  {
+   "t": 5.5,
+   "estado": "detecta",
+   "texto": "Lo bota al contenedor: la mano entra cargada y sale vacía"
+  },
+  {
+   "t": 6.4,
+   "estado": "ok",
+   "texto": "Se registra la destrucción y la tabla de pérdida suma uno: 3 → 4 de 25"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -4,
+   2.8
+  ],
+  "mira": [
+   4,
+   3,
+   0.9
+  ]
+ },
+ "escenario": "bodega",
+ "personas": 1,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "s1",
+   "rol": "staff",
+   "ruta": [
+    [
+     3.3,
+     2.2,
+     0
+    ],
+    [
+     3.3,
+     2.2,
+     15
+    ]
+   ],
+   "uniforme": "amarillo"
+  }
+ ],
+ "objetos": [
+  {
+   "id": "contenedor",
+   "tipo": "contenedor",
+   "pos": [
+    5.5,
+    3,
+    0
+   ],
+   "boca": [
+    5.5,
+    3,
+    1.0
+   ]
+  },
+  {
+   "id": "carro",
+   "tipo": "carro",
+   "pos": [
+    2.5,
+    3,
+    0
+   ]
+  },
+  {
+   "id": "venc",
+   "tipo": "lacteo",
+   "pos": [
+    2.5,
+    3,
+    0.9
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 3,
+   "tipo": "tomar",
+   "actor": "s1",
+   "objeto": "venc"
+  },
+  {
+   "t": 5.5,
+   "tipo": "soltar",
+   "actor": "s1",
+   "objeto": "venc",
+   "destino": [
+    5.5,
+    3,
+    1.05
+   ]
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

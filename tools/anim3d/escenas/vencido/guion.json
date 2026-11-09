@@ -1,0 +1,140 @@
+{
+ "id": "vencido",
+ "tipo": "lite",
+ "nombre": "Producto vencido o por vencer",
+ "dur": 14,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Lee la fecha de cada producto visible"
+  },
+  {
+   "t": 4.5,
+   "estado": "detecta",
+   "texto": "Tres productos vencen esta semana"
+  },
+  {
+   "t": 8.5,
+   "estado": "alerta",
+   "texto": "Uno ya está vencido: aviso para retirarlo"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -2.5,
+   1.8
+  ],
+  "mira": [
+   4,
+   2,
+   1.0
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 0,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   1.7,
+   0,
+   7,
+   2.3,
+   1.6
+  ]
+ ],
+ "actores": [],
+ "objetos": [
+  {
+   "id": "pr0",
+   "tipo": "lacteo",
+   "pos": [
+    1.6,
+    1.75,
+    1.1
+   ],
+   "vence": "ok"
+  },
+  {
+   "id": "pr1",
+   "tipo": "lacteo",
+   "pos": [
+    2.4000000000000004,
+    1.75,
+    1.1
+   ],
+   "vence": "ok"
+  },
+  {
+   "id": "pr2",
+   "tipo": "lacteo",
+   "pos": [
+    3.2,
+    1.75,
+    1.1
+   ],
+   "vence": "semana"
+  },
+  {
+   "id": "pr3",
+   "tipo": "lacteo",
+   "pos": [
+    4.0,
+    1.75,
+    1.1
+   ],
+   "vence": "ok"
+  },
+  {
+   "id": "pr4",
+   "tipo": "lacteo",
+   "pos": [
+    4.800000000000001,
+    1.75,
+    1.1
+   ],
+   "vence": "semana"
+  },
+  {
+   "id": "pr5",
+   "tipo": "lacteo",
+   "pos": [
+    5.6,
+    1.75,
+    1.1
+   ],
+   "vence": "vencido"
+  },
+  {
+   "id": "pr6",
+   "tipo": "lacteo",
+   "pos": [
+    6.4,
+    1.75,
+    1.1
+   ],
+   "vence": "ok"
+  },
+  {
+   "id": "pr7",
+   "tipo": "lacteo",
+   "pos": [
+    7.200000000000001,
+    1.75,
+    1.1
+   ],
+   "vence": "semana"
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": false
+}

@@ -1,0 +1,130 @@
+{
+ "id": "blancas",
+ "tipo": "operativo",
+ "nombre": "Listas blancas",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "La cámara del acceso ve llegar a alguien"
+  },
+  {
+   "t": 3,
+   "estado": "ok",
+   "texto": "Está en la lista blanca: la puerta se abre"
+  },
+  {
+   "t": 9,
+   "estado": "detecta",
+   "texto": "Alguien que no está: la puerta sigue cerrada y pide validación"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   1.0,
+   2.8
+  ],
+  "mira": [
+   4,
+   6,
+   1.2
+  ]
+ },
+ "escenario": "acceso",
+ "personas": 2,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "staff",
+   "ruta": [
+    [
+     4,
+     0.5,
+     0
+    ],
+    [
+     4,
+     3.4,
+     3
+    ],
+    [
+     4,
+     3.4,
+     4
+    ],
+    [
+     4,
+     6.5,
+     7
+    ],
+    [
+     4,
+     6.5,
+     15
+    ]
+   ]
+  },
+  {
+   "id": "p2",
+   "rol": "cliente",
+   "ruta": [
+    [
+     4.3,
+     0.5,
+     6
+    ],
+    [
+     4.3,
+     3.4,
+     9
+    ],
+    [
+     4.3,
+     3.4,
+     15
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "puerta",
+   "tipo": "puerta_batiente",
+   "pos": [
+    4,
+    4,
+    0
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 3.2,
+   "tipo": "abrir",
+   "actor": "puerta"
+  },
+  {
+   "t": 7.5,
+   "tipo": "cerrar",
+   "actor": "puerta"
+  },
+  {
+   "t": 9,
+   "tipo": "detener",
+   "actor": "p2",
+   "hasta": 15
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

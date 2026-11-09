@@ -1,0 +1,153 @@
+{
+ "id": "merodeo",
+ "tipo": "prevencion",
+ "nombre": "Merodeo",
+ "dur": 18,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Se vigila la zona frente a la vitrina"
+  },
+  {
+   "t": 5,
+   "estado": "detecta",
+   "texto": "Va y viene sin entrar: el reloj de permanencia corre"
+  },
+  {
+   "t": 11,
+   "estado": "alerta",
+   "texto": "Pasa el umbral de merodeo: aviso con su recorrido"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -4,
+   3
+  ],
+  "mira": [
+   4,
+   3,
+   1.2
+  ]
+ },
+ "escenario": "acceso",
+ "personas": 2,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   4.5,
+   0,
+   7,
+   4.8,
+   2.2
+  ]
+ ],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     0.5,
+     3.3,
+     0
+    ],
+    [
+     3,
+     3.3,
+     3
+    ],
+    [
+     6,
+     3.3,
+     6
+    ],
+    [
+     3,
+     3.5,
+     9
+    ],
+    [
+     6,
+     3.5,
+     12
+    ],
+    [
+     2,
+     3.3,
+     16
+    ],
+    [
+     2,
+     3.3,
+     18
+    ]
+   ]
+  },
+  {
+   "id": "p2",
+   "rol": "cliente",
+   "ruta": [
+    [
+     7.5,
+     1.2,
+     0
+    ],
+    [
+     0.5,
+     1.2,
+     8
+    ],
+    [
+     0.5,
+     1.2,
+     18
+    ]
+   ]
+  }
+ ],
+ "objetos": [],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 3,
+   "tipo": "mirar",
+   "actor": "p1",
+   "objetivo": [
+    4,
+    4.6,
+    1.4
+   ]
+  },
+  {
+   "t": 9,
+   "tipo": "mirar",
+   "actor": "p1",
+   "objetivo": [
+    3,
+    4.6,
+    1.4
+   ]
+  }
+ ],
+ "lineas": [],
+ "zonas": [
+  {
+   "id": "vitrina",
+   "caja": [
+    1,
+    2.2,
+    7,
+    4.4
+   ]
+  }
+ ],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

@@ -1,0 +1,177 @@
+{
+ "id": "hurto",
+ "tipo": "prevencion",
+ "nombre": "Hurto",
+ "dur": 20,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Llega a la góndola de productos pequeños: perfumes y cuchillas"
+  },
+  {
+   "t": 3,
+   "estado": "detecta",
+   "texto": "Mira a los lados antes de tomar nada"
+  },
+  {
+   "t": 5.2,
+   "estado": "detecta",
+   "texto": "Toma un producto, abre la chaqueta con la otra mano y lo guarda adentro"
+  },
+  {
+   "t": 10.6,
+   "estado": "alerta",
+   "texto": "Segundo producto a la chaqueta: la puntuación cruza el umbral y avisa"
+  }
+ ],
+ "camara": {
+  "pos": [
+   0.8,
+   8.6,
+   3.3
+  ],
+  "mira": [
+   4.2,
+   2.6,
+   0.9
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 2,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   2,
+   1.7,
+   0,
+   6,
+   2.3,
+   1.6
+  ]
+ ],
+ "actores": [
+  {
+   "id": "x1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     0.5,
+     4.5,
+     0
+    ],
+    [
+     4,
+     2.9,
+     3
+    ],
+    [
+     4,
+     2.9,
+     16
+    ],
+    [
+     7.5,
+     4.5,
+     20
+    ]
+   ],
+   "chaqueta": true
+  },
+  {
+   "id": "p2",
+   "rol": "cliente",
+   "ruta": [
+    [
+     7.5,
+     5,
+     0
+    ],
+    [
+     1,
+     5,
+     10
+    ],
+    [
+     1,
+     5,
+     20
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "perfume",
+   "tipo": "caja_pequena",
+   "pos": [
+    3.6,
+    1.75,
+    1.1
+   ]
+  },
+  {
+   "id": "cuchillas",
+   "tipo": "caja_pequena",
+   "pos": [
+    4.4,
+    1.75,
+    1.1
+   ]
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 3,
+   "tipo": "mirar",
+   "actor": "x1",
+   "objetivo": [
+    0.5,
+    4,
+    1.5
+   ]
+  },
+  {
+   "t": 4,
+   "tipo": "mirar",
+   "actor": "x1",
+   "objetivo": [
+    7.5,
+    4,
+    1.5
+   ]
+  },
+  {
+   "t": 5.2,
+   "tipo": "tomar",
+   "actor": "x1",
+   "objeto": "perfume"
+  },
+  {
+   "t": 6.5,
+   "tipo": "esconder",
+   "actor": "x1",
+   "objeto": "perfume"
+  },
+  {
+   "t": 9.5,
+   "tipo": "tomar",
+   "actor": "x1",
+   "objeto": "cuchillas"
+  },
+  {
+   "t": 10.6,
+   "tipo": "esconder",
+   "actor": "x1",
+   "objeto": "cuchillas"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

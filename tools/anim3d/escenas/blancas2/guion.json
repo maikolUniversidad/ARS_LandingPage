@@ -1,0 +1,151 @@
+{
+ "id": "blancas2",
+ "tipo": "prevencion",
+ "nombre": "Armas blancas",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "Entra a la recepción y se detiene"
+  },
+  {
+   "t": 2.6,
+   "estado": "detecta",
+   "texto": "Mira a todos lados, nervioso, y se lleva la mano a la cintura"
+  },
+  {
+   "t": 6.6,
+   "estado": "detecta",
+   "texto": "Saca un objeto cortante de entre la ropa"
+  },
+  {
+   "t": 7,
+   "estado": "alerta",
+   "texto": "Confirmado «cuchillo» en la mano: aviso para verificar"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -4,
+   3
+  ],
+  "mira": [
+   4,
+   3,
+   1.1
+  ]
+ },
+ "escenario": "recepcion",
+ "personas": 2,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   2,
+   4.5,
+   0,
+   6,
+   5.3,
+   1.1
+  ]
+ ],
+ "actores": [
+  {
+   "id": "x1",
+   "rol": "intruso",
+   "ruta": [
+    [
+     0.5,
+     1.5,
+     0
+    ],
+    [
+     4,
+     3,
+     2.6
+    ],
+    [
+     4,
+     3,
+     15
+    ]
+   ]
+  },
+  {
+   "id": "r1",
+   "rol": "staff",
+   "ruta": [
+    [
+     4,
+     5.8,
+     0
+    ],
+    [
+     4,
+     5.8,
+     15
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "cuchillo",
+   "tipo": "cuchillo",
+   "pos": [
+    4,
+    3,
+    1.0
+   ],
+   "oculto": true
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 2.6,
+   "tipo": "detener",
+   "actor": "x1",
+   "hasta": 15
+  },
+  {
+   "t": 3,
+   "tipo": "mirar",
+   "actor": "x1",
+   "objetivo": [
+    0.5,
+    3,
+    1.5
+   ]
+  },
+  {
+   "t": 4.5,
+   "tipo": "mirar",
+   "actor": "x1",
+   "objetivo": [
+    7.5,
+    3,
+    1.5
+   ]
+  },
+  {
+   "t": 5.5,
+   "tipo": "mano_cintura",
+   "actor": "x1"
+  },
+  {
+   "t": 6.6,
+   "tipo": "sacar",
+   "actor": "x1",
+   "objeto": "cuchillo"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

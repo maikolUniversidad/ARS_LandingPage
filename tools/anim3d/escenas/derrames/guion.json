@@ -1,0 +1,158 @@
+{
+ "id": "derrames",
+ "tipo": "operativo",
+ "nombre": "Detección de derrames",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "El piso limpio es la referencia"
+  },
+  {
+   "t": 2.4,
+   "estado": "detecta",
+   "texto": "Cae un envase y aparece un charco: empieza la espera"
+  },
+  {
+   "t": 6.5,
+   "estado": "alerta",
+   "texto": "Sigue ahí: aviso de derrame con su foto"
+  },
+  {
+   "t": 12,
+   "estado": "ok",
+   "texto": "Lo limpian y el evento se cierra solo"
+  }
+ ],
+ "camara": {
+  "pos": [
+   0.8,
+   8.6,
+   3.3
+  ],
+  "mira": [
+   4.2,
+   2.6,
+   0.9
+  ]
+ },
+ "escenario": "tienda",
+ "personas": 2,
+ "muebles": true,
+ "cajas_muebles": [
+  [
+   1,
+   1.7,
+   0,
+   7,
+   2.3,
+   1.6
+  ]
+ ],
+ "actores": [
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     0.5,
+     4,
+     0
+    ],
+    [
+     4,
+     2.9,
+     2
+    ],
+    [
+     7.5,
+     4,
+     5
+    ],
+    [
+     7.5,
+     4,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "s1",
+   "rol": "staff",
+   "ruta": [
+    [
+     7.5,
+     5.5,
+     8
+    ],
+    [
+     4,
+     3.2,
+     11
+    ],
+    [
+     4,
+     3.2,
+     14
+    ],
+    [
+     7.5,
+     5.5,
+     16
+    ]
+   ],
+   "uniforme": "amarillo"
+  }
+ ],
+ "objetos": [
+  {
+   "id": "envase",
+   "tipo": "botella",
+   "pos": [
+    4,
+    1.75,
+    1.1
+   ],
+   "liquido": true
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 2.0,
+   "tipo": "empujar",
+   "actor": "p1",
+   "objeto": "envase"
+  },
+  {
+   "t": 2.4,
+   "tipo": "derramar",
+   "actor": null,
+   "objeto": "envase",
+   "pos": [
+    4,
+    2.6,
+    0
+   ]
+  },
+  {
+   "t": 11,
+   "tipo": "limpiar",
+   "actor": "s1",
+   "pos": [
+    4,
+    2.6,
+    0
+   ],
+   "hasta": 13.5
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

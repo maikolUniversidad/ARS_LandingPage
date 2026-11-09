@@ -1,0 +1,158 @@
+{
+ "id": "apertura",
+ "tipo": "operativo",
+ "nombre": "Apertura de tienda",
+ "dur": 16,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "06:55 · puerta cerrada; la meta de apertura es 07:00"
+  },
+  {
+   "t": 3,
+   "estado": "detecta",
+   "texto": "Llega el encargado y abre la puerta"
+  },
+  {
+   "t": 5.5,
+   "estado": "ok",
+   "texto": "Apertura registrada a las 06:58 · puntual"
+  },
+  {
+   "t": 10,
+   "estado": "ok",
+   "texto": "Entran los primeros clientes: la tienda opera"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -4,
+   3
+  ],
+  "mira": [
+   4,
+   5,
+   1.2
+  ]
+ },
+ "escenario": "acceso",
+ "personas": 3,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "e1",
+   "rol": "staff",
+   "ruta": [
+    [
+     4,
+     8,
+     0
+    ],
+    [
+     4,
+     5.9,
+     3
+    ],
+    [
+     4,
+     5.9,
+     5
+    ],
+    [
+     4,
+     3,
+     7
+    ],
+    [
+     4,
+     3,
+     16
+    ]
+   ],
+   "uniforme": "amarillo"
+  },
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     3.5,
+     9,
+     7
+    ],
+    [
+     3.5,
+     5.6,
+     10
+    ],
+    [
+     2.5,
+     3,
+     13
+    ],
+    [
+     2.5,
+     3,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "p2",
+   "rol": "cliente",
+   "ruta": [
+    [
+     4.5,
+     9.5,
+     8
+    ],
+    [
+     4.5,
+     5.6,
+     11.5
+    ],
+    [
+     6,
+     3,
+     14.5
+    ],
+    [
+     6,
+     3,
+     16
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "puerta",
+   "tipo": "puerta_corrediza",
+   "pos": [
+    4,
+    5.5,
+    0
+   ],
+   "cerrada": true
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 3,
+   "tipo": "abrir",
+   "actor": "puerta",
+   "por": "e1"
+  }
+ ],
+ "lineas": [],
+ "zonas": [],
+ "camaras_virtuales": [],
+ "reloj": "06:55",
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}

@@ -1,0 +1,146 @@
+{
+ "id": "acceso",
+ "tipo": "prevencion",
+ "nombre": "Acceso no autorizado",
+ "dur": 15,
+ "fps": 30,
+ "fases": [
+  {
+   "t": 0,
+   "estado": "vigila",
+   "texto": "La puerta de bodega solo es para el personal"
+  },
+  {
+   "t": 3,
+   "estado": "ok",
+   "texto": "Pasa alguien con uniforme: sin aviso"
+  },
+  {
+   "t": 8.4,
+   "estado": "alerta",
+   "texto": "Cruza un cliente: aviso de acceso no autorizado"
+  }
+ ],
+ "camara": {
+  "pos": [
+   4,
+   -4,
+   3
+  ],
+  "mira": [
+   4,
+   4,
+   1.2
+  ]
+ },
+ "escenario": "bodega_puerta",
+ "personas": 2,
+ "muebles": false,
+ "cajas_muebles": [],
+ "actores": [
+  {
+   "id": "s1",
+   "rol": "staff",
+   "ruta": [
+    [
+     0.5,
+     2,
+     0
+    ],
+    [
+     4,
+     4.2,
+     3
+    ],
+    [
+     4,
+     6.5,
+     5.5
+    ],
+    [
+     4,
+     6.5,
+     15
+    ]
+   ],
+   "uniforme": "amarillo"
+  },
+  {
+   "id": "p1",
+   "rol": "cliente",
+   "ruta": [
+    [
+     7.5,
+     1.5,
+     3
+    ],
+    [
+     4.2,
+     4.2,
+     8.4
+    ],
+    [
+     4.2,
+     6.5,
+     11
+    ],
+    [
+     4.2,
+     6.5,
+     15
+    ]
+   ]
+  }
+ ],
+ "objetos": [
+  {
+   "id": "puerta",
+   "tipo": "puerta_batiente",
+   "pos": [
+    4,
+    4.5,
+    0
+   ],
+   "rotulo": "SOLO PERSONAL"
+  }
+ ],
+ "vehiculos": [],
+ "eventos": [
+  {
+   "t": 2.6,
+   "tipo": "abrir",
+   "actor": "puerta"
+  },
+  {
+   "t": 5.8,
+   "tipo": "cerrar",
+   "actor": "puerta"
+  },
+  {
+   "t": 8,
+   "tipo": "abrir",
+   "actor": "puerta"
+  },
+  {
+   "t": 11.5,
+   "tipo": "cerrar",
+   "actor": "puerta"
+  }
+ ],
+ "lineas": [],
+ "zonas": [
+  {
+   "id": "umbral",
+   "caja": [
+    3.2,
+    4.2,
+    4.8,
+    4.8
+   ]
+  }
+ ],
+ "camaras_virtuales": [],
+ "reloj": null,
+ "separacion_personas": 1.1,
+ "surtir_gondolas": true
+}
