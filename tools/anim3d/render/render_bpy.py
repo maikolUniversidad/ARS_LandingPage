@@ -133,16 +133,19 @@ world.node_tree.nodes["Background"].inputs[0].default_value = (0.75, 0.80, 0.88,
 # ---------------- muebles: gondolas con bandejas, resto cajas
 m_mueble = mat("mueble", (0.55, 0.57, 0.60, 1), rough=0.5)
 m_bandeja = mat("bandeja", (0.80, 0.80, 0.78, 1), rough=0.5)
-gond = {tuple(g[0]): g[1] for g in R.get("gondolas", [])}
+gond = {tuple(g[0]): (g[1], g[2] if len(g) > 2 else "x") for g in R.get("gondolas", [])}
 for i, c in enumerate(R.get("muebles", [])):
     x0, y0, z0, x1, y1, z1 = c
     if tuple(c) in gond:
-        fr = gond[tuple(c)]
-        if fr > 0: caja(f"gond{i}_panel", (x0, y0, z0), (x1, y0 + 0.05, z1), m_mueble)
-        else: caja(f"gond{i}_panel", (x0, y1 - 0.05, z0), (x1, y1, z1), m_mueble)
+        fr, eje = gond[tuple(c)]
+        if eje == "x":
+            caja(f"gond{i}_panel", (x0, y0, z0), (x1, y0 + 0.05, z1), m_mueble) if fr > 0 else caja(f"gond{i}_panel", (x0, y1 - 0.05, z0), (x1, y1, z1), m_mueble)
+            caja(f"gond{i}_lat0", (x0, y0, z0), (x0 + 0.03, y1, z1), m_mueble); caja(f"gond{i}_lat1", (x1 - 0.03, y0, z0), (x1, y1, z1), m_mueble)
+        else:
+            caja(f"gond{i}_panel", (x0, y0, z0), (x0 + 0.05, y1, z1), m_mueble) if fr > 0 else caja(f"gond{i}_panel", (x1 - 0.05, y0, z0), (x1, y1, z1), m_mueble)
+            caja(f"gond{i}_lat0", (x0, y0, z0), (x1, y0 + 0.03, z1), m_mueble); caja(f"gond{i}_lat1", (x0, y1 - 0.03, z0), (x1, y1, z1), m_mueble)
         for z in (0.0, 0.4, 0.8, 1.2, 1.6):
             caja(f"gond{i}_b{int(z*10)}", (x0, y0, max(z0, z - 0.03)), (x1, y1, z), m_bandeja)
-        caja(f"gond{i}_lat0", (x0, y0, z0), (x0 + 0.03, y1, z1), m_mueble); caja(f"gond{i}_lat1", (x1 - 0.03, y0, z0), (x1, y1, z1), m_mueble)
     else:
         caja(f"mueble{i}", (x0, y0, z0), (x1, y1, z1), m_mueble, suav=True)
 
@@ -162,11 +165,15 @@ personas = []
 for p in range(P):
     meta = R["actores"][p] if p < len(R["actores"]) else {}
     rol = meta.get("rol", "cliente")
-    col = COL.get(rol, COL["cliente"])
+    ROPAS = [(0.16, 0.33, 0.62, 1), (0.55, 0.22, 0.25, 1), (0.22, 0.45, 0.35, 1), (0.60, 0.50, 0.25, 1), (0.35, 0.30, 0.50, 1), (0.70, 0.70, 0.72, 1)]
+    PIELES = [(0.80, 0.62, 0.50, 1), (0.62, 0.45, 0.33, 1), (0.45, 0.30, 0.22, 1), (0.90, 0.75, 0.62, 1)]
+    col = ROPAS[p % len(ROPAS)] if rol == "cliente" else COL.get(rol, COL["cliente"])
     if meta.get("uniforme") == "amarillo": col = COL["staff"]
     if meta.get("chaqueta"): col = (0.12, 0.12, 0.14, 1)
-    m_ropa = mat(f"ropa{p}", col, rough=0.7); m_piel = mat("piel", COL["piel"], rough=0.6); m_pant = mat("pantalon", COL["pantalon"], rough=0.7)
+    m_ropa = mat(f"ropa{p}", col, rough=0.7); m_piel = mat(f"piel{p % 4}", PIELES[p % 4], rough=0.6)
+    m_pant = mat(f"pantalon{p % 2}", COL["pantalon"] if p % 2 == 0 else (0.30, 0.28, 0.26, 1), rough=0.7)
     m_casco = mat("casco", (0.95, 0.85, 0.1, 1), rough=0.3); m_chal = mat("chaleco", (0.95, 0.5, 0.05, 1), rough=0.7, emis=0.3)
+    m_zapato = mat("zapato", (0.08, 0.08, 0.09, 1), rough=0.5)
     partes = {}
     for b, (i, j) in enumerate(huesos):
         es_pierna = i in (17, 18, 20, 21)
@@ -177,7 +184,10 @@ for p in range(P):
         o = cilindro(f"p{p}_h{b}", float(hr[b]) * (0.9 if not es_dedo else 1.0), m); partes[("h", b)] = o
         for k in (i, j):
             if ("e", k) not in partes:
-                partes[("e", k)] = esfera(f"p{p}_e{k}", float(radio[k]) * (1.0 if k == 4 else 0.95), m_casco if (k == 4 and (meta.get("casco") or meta.get("casco_moto"))) else (m_piel if k in (4, 7, 13, 8, 9, 10, 14, 15, 16) else m), seg=20 if k == 4 else 10)
+                if k in (19, 22):      # zapato: elipsoide alargado hacia el frente
+                    z = esfera(f"p{p}_e{k}", 1.0, m_zapato, seg=12); z.scale = (0.045, 0.12, 0.038); partes[("e", k)] = z
+                else:
+                    partes[("e", k)] = esfera(f"p{p}_e{k}", float(radio[k]) * (1.0 if k == 4 else 0.95), m_casco if (k == 4 and (meta.get("casco") or meta.get("casco_moto"))) else (m_piel if k in (4, 7, 13, 8, 9, 10, 14, 15, 16) else m), seg=20 if k == 4 else 10)
     if meta.get("casco") is False and rol == "obrero":
         pass
     personas.append(partes)
@@ -235,8 +245,14 @@ def colocar(f):
         partes = personas[p]
         for b, (i, j) in enumerate(huesos):
             orientar_cilindro(partes[("h", b)], pos[f, p, i], pos[f, p, j])
+        lado = pos[f, p, J["hd"]] - pos[f, p, J["hi"]]; frente = np.array([-lado[1], lado[0], 0.0]); frente /= max(np.linalg.norm(frente), 1e-6)
+        ang = math.atan2(frente[1], frente[0]) - math.pi / 2
         for k in range(pos.shape[2]):
-            if ("e", k) in partes: partes[("e", k)].location = pos[f, p, k].tolist()
+            if ("e", k) in partes:
+                partes[("e", k)].location = pos[f, p, k].tolist()
+                if k in (19, 22):
+                    partes[("e", k)].rotation_euler = (0, 0, ang)
+                    partes[("e", k)].location = (pos[f, p, k] + frente * 0.05).tolist()
     for oid, (ob, tam, meta) in objetos.items():
         key = f"obj_{oid}"
         if key in ex:

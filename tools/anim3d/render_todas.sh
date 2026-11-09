@@ -3,7 +3,7 @@
 RES=${1:-1280x720}; MU=${2:-32}
 BASE=/datos2/vigias/anim3d; PY=$BASE/envs/render/bin/python; SRV=/datos2/vigias/anim3d-molde/servidor
 mkdir -p $BASE/render/lote $BASE/logs
-if pgrep -f "correr_todas.sh|orquestador.py" >/dev/null; then echo "hay simulaciones corriendo (correr_todas/orquestador): no se renderiza sobre archivos que cambian"; exit 2; fi
+if pgrep -f "correr_todas.sh|orquestador.py" | grep -v -w -e $$ -e $PPID | grep -q .; then echo "hay simulaciones corriendo (correr_todas/orquestador): no se renderiza sobre archivos que cambian"; exit 2; fi
 lista=()
 for E in $BASE/escenas/*/; do
   s=$(basename $E)

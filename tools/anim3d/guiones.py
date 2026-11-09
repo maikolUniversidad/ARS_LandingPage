@@ -132,7 +132,7 @@ E["peleas"] = dict(escenario="tienda", actores=[
 E["fuego"] = dict(escenario="bodega", camara={"pos": [4, -5, 3.5], "mira": [4, 3, 1.4]}, muebles=[[0.5, 4.5, 0, 7.5, 5.5, 3.0], [5, 1.5, 0, 6.5, 2.5, 1.2]],
     objetos=[{"id": "carton", "tipo": "pila_cajas", "pos": [5.75, 2, 1.2]}], personas=0,
     eventos=[ev(2.5, "fuego", objeto="carton", tamano="pequeno"), ev(5, "fuego", objeto="carton", tamano="mediano"), ev(2.5, "humo", objeto="carton", hasta=20), ev(11, "humo_techo", hasta=20)])
-E["abandono"] = dict(escenario="cafeteria", muebles=[[3, 2.5, 0, 5, 3.5, 0.75]], objetos=[{"id": "maleta", "tipo": "maleta", "pos": [3.3, 2.2, 0]}, {"id": "celular", "tipo": "celular", "pos": [4.3, 3, 0.75]}, {"id": "silla", "tipo": "silla", "pos": [4, 2.0, 0]}],
+E["abandono"] = dict(escenario="cafeteria", camara={"pos": [7.0, 0.0, 2.6], "mira": [4, 2.8, 0.7]}, muebles=[[3, 2.5, 0, 5, 3.5, 0.75]], objetos=[{"id": "maleta", "tipo": "maleta", "pos": [3.3, 2.2, 0]}, {"id": "celular", "tipo": "celular", "pos": [4.3, 3, 0.75]}, {"id": "silla", "tipo": "silla", "pos": [4, 2.0, 0]}],
     actores=[actor("p1", "cliente", ruta((4, 2.0, 0), (4, 2.0, 3), (3.3, 2.2, 3.6), (2.2, 1.8, 4.4), (0.5, 5.5, 6), (0.5, 5.5, 16)), sentado_hasta=3)],
     eventos=[ev(3, "levantarse", "p1", objeto="silla"), ev(3.6, "tomar", "p1", objeto="maleta")])
 E["rostro"] = dict(escenario="acceso", camara=CAM_ACCESO, actores=[

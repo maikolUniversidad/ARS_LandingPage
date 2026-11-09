@@ -424,22 +424,28 @@ def caida(p0, v0, z_fin, fps, T_max):
     return out
 
 
-def muebles_colision(cajas, frente_y=None):
-    """gondolas (altas, poco profundas, anchas) -> panel trasero (lado opuesto a la gente) + 5 bandejas; el resto, caja tal cual.
-    frente_y: y medio de las rutas de la gente; decide de que lado queda el frente de cada gondola."""
+def muebles_colision(cajas, frente_y=None, frente_x=None):
+    """gondolas (altas, poco profundas, largas; el largo puede ir en x o en y) -> panel trasero (lado opuesto a la gente)
+    + 5 bandejas; el resto, caja tal cual. frente_y / frente_x: centro de la gente, decide el lado del frente.
+    gondolas: (caja, frente, eje) con eje 'x' (largo en x, frente ±y) o 'y' (largo en y, frente ±x)."""
     out, gondolas = [], []
     for c in cajas:
         x0, y0, z0, x1, y1, z1 = c
-        if (y1 - y0) <= 0.7 and z1 >= 1.5 and (x1 - x0) >= 1.0:
-            cy = (y0 + y1) / 2
-            frente = 1 if (frente_y is None or frente_y >= cy) else -1     # +1: la gente esta en y mayor
-            if frente > 0:
-                out.append([x0, y0, z0, x1, y0 + 0.05, z1])                   # panel al fondo (y menor)
+        dx, dy = x1 - x0, y1 - y0
+        if z1 >= 1.5 and min(dx, dy) <= 0.7 and max(dx, dy) >= 1.0:
+            if dx >= dy:
+                cy = (y0 + y1) / 2
+                frente = 1 if (frente_y is None or frente_y >= cy) else -1
+                out.append([x0, y0, z0, x1, y0 + 0.05, z1] if frente > 0 else [x0, y1 - 0.05, z0, x1, y1, z1])
+                eje = "x"
             else:
-                out.append([x0, y1 - 0.05, z0, x1, y1, z1])
+                cx = (x0 + x1) / 2
+                frente = 1 if (frente_x is None or frente_x >= cx) else -1       # +1: la gente esta en x mayor
+                out.append([x0, y0, z0, x0 + 0.05, y1, z1] if frente > 0 else [x1 - 0.05, y0, z0, x1, y1, z1])
+                eje = "y"
             for z in (0.0, 0.4, 0.8, 1.2, 1.6):
-                out.append([x0, y0, max(z0, z - 0.03), x1, y1, z])         # bandejas de 3 cm
-            gondolas.append((list(c), frente))
+                out.append([x0, y0, max(z0, z - 0.03), x1, y1, z])
+            gondolas.append((list(c), frente, eje))
         else:
             out.append(list(c))
     return np.array(out, float) if out else np.zeros((0, 6)), gondolas
@@ -448,12 +454,14 @@ def muebles_colision(cajas, frente_y=None):
 def snap_gondola(obj, gondolas):
     """un producto 'en la gondola' se apoya sobre la bandeja mas cercana, 10 cm dentro del borde del frente."""
     x, y, z = obj.pos[0]
-    for g, frente in gondolas:
+    for g, frente, eje in gondolas:
         x0, y0, z0, x1, y1, z1 = g
         if x0 - 0.3 <= x <= x1 + 0.3 and y0 - 0.5 <= y <= y1 + 0.5:
             band = min((0.4, 0.8, 1.2, 1.6), key=lambda b: abs(b - (z - obj.r)))
-            yy = (y1 - 0.10) if frente > 0 else (y0 + 0.10)
-            obj.pos[:] = (x, yy, band + obj.r)
+            if eje == "x":
+                obj.pos[:] = (x, (y1 - 0.10) if frente > 0 else (y0 + 0.10), band + obj.r)
+            else:
+                obj.pos[:] = ((x1 - 0.10) if frente > 0 else (x0 + 0.10), y, band + obj.r)
             return True
     return False
 
@@ -473,27 +481,34 @@ def surtir_gondolas(gondolas, objetos, eventos, dur, libres_x=0.40):
         if e.get("tipo") == "soltar" and e.get("destino"):
             ocupados.append((float(e["destino"][0]), float(e["destino"][2])))
     rng = np.random.default_rng(7)
-    for gi, (g, frente) in enumerate(gondolas):
+    for gi, (g, frente, eje) in enumerate(gondolas):
         x0, y0, z0, x1, y1, z1 = g
-        yf = (y1 - 0.11) if frente > 0 else (y0 + 0.11)
+        if eje == "x":
+            yf = (y1 - 0.11) if frente > 0 else (y0 + 0.11); a0, a1 = x0, x1
+        else:
+            xf = (x1 - 0.11) if frente > 0 else (x0 + 0.11); a0, a1 = y0, y1
         for band in (0.0, 0.4, 0.8, 1.2):
             if band + 0.03 > z1: continue
             tipo, ax, ay, az = SURTIDO[rng.integers(len(SURTIDO))]
             if band + az > z1 - 0.02: tipo, ax, ay, az = SURTIDO[0]
             paso = ax + 0.02
-            n = int((x1 - x0 - 0.1) / paso)
+            n = int((a1 - a0 - 0.1) / paso)
             fila = []
             def cerrar_fila():
                 if len(fila) >= 1:
-                    xs = [p["pos"][0] for p in fila]
-                    cajas.append([min(xs) - ax / 2, yf - ay / 2, band, max(xs) + ax / 2, yf + ay / 2, band + az])
+                    if eje == "x":
+                        xs = [p["pos"][0] for p in fila]
+                        cajas.append([min(xs) - ax / 2, yf - ay / 2, band, max(xs) + ax / 2, yf + ay / 2, band + az])
+                    else:
+                        ys_ = [p["pos"][1] for p in fila]
+                        cajas.append([xf - ay / 2, min(ys_) - ax / 2, band, xf + ay / 2, max(ys_) + ax / 2, band + az])
             for i in range(n):
-                x = x0 + 0.08 + ax / 2 + i * paso
-                if any(abs(x - ox) < libres_x and abs(band - oz) < 0.25 for ox, oz in ocupados):
+                u = a0 + 0.08 + ax / 2 + i * paso
+                if eje == "x" and any(abs(u - ox) < libres_x and abs(band - oz) < 0.25 for ox, oz in ocupados):
                     cerrar_fila(); fila = []
                     continue
-                p = {"id": f"surt_{gi}_{int(band*10)}_{i}", "tipo": tipo, "pos": [round(x, 3), round(yf, 3), round(band + az / 2, 3)],
-                     "tam": [ax, ay, az], "tono": int(rng.integers(4))}
+                pos_ = [round(u, 3), round(yf, 3), round(band + az / 2, 3)] if eje == "x" else [round(xf, 3), round(u, 3), round(band + az / 2, 3)]
+                p = {"id": f"surt_{gi}_{int(band*10)}_{i}", "tipo": tipo, "pos": pos_, "tam": [ax, ay, az] if eje == "x" else [ay, ax, az], "tono": int(rng.integers(4))}
                 prods.append(p); fila.append(p)
             cerrar_fila()
     return (np.array(cajas, float) if cajas else np.zeros((0, 6))), prods
@@ -502,11 +517,13 @@ def surtir_gondolas(gondolas, objetos, eventos, dur, libres_x=0.40):
 def snap_punto(dest, gondolas, r):
     """destino 'en la gondola' -> sobre la bandeja mas cercana, 10 cm dentro del frente."""
     x, y, z = dest
-    for g, frente in gondolas:
+    for g, frente, eje in gondolas:
         x0, y0, z0, x1, y1, z1 = g
         if x0 - 0.3 <= x <= x1 + 0.3 and y0 - 0.5 <= y <= y1 + 0.5:
             band = min((0.4, 0.8, 1.2, 1.6), key=lambda b: abs(b - (z - r)))
-            return [x, (y1 - 0.10) if frente > 0 else (y0 + 0.10), band]
+            if eje == "x":
+                return [x, (y1 - 0.10) if frente > 0 else (y0 + 0.10), band]
+            return [(x1 - 0.10) if frente > 0 else (x0 + 0.10), y, band]
     return list(dest)
 
 
@@ -636,7 +653,18 @@ def main():
     if not actores:
         actores = [{"id": "fondo", "rol": "staff", "ruta": [[0.5, 5.8, 0], [7.5, 5.8, g["dur"]]], "uniforme": "amarillo"}]
     ys = [w[1] for act in actores for w in act["ruta"]]
-    obst, gondolas = muebles_colision(g.get("cajas_muebles", []), float(np.mean(ys)) if ys else None)
+    pts = [(w[0], w[1]) for act in actores for w in act["ruta"]] + [(o["pos"][0], o["pos"][1]) for o in g.get("objetos", [])] \
+        + [(v[0], v[1]) for veh in g.get("vehiculos", []) for v in veh["ruta"]]
+    def libre(c, margen=0.9):
+        return not any(c[0] - margen <= x <= c[3] + margen and c[1] - margen <= y <= c[4] + margen for x, y in pts)
+    DECOR = {"tienda": [[0.5, 7.6, 0, 7.5, 8.2, 1.6], [-1.6, 0.5, 0, -1.0, 6.0, 1.6], [9.0, 0.5, 0, 9.6, 6.0, 1.6]],
+             "pasillo": [[0.5, 7.6, 0, 7.5, 8.2, 1.6]], "cafeteria": [[0.5, 7.6, 0, 7.5, 8.2, 1.6], [-1.6, 1.0, 0, -1.0, 5.0, 1.6]],
+             "bodega": [[0.5, 7.6, 0, 7.5, 8.6, 3.0], [9.2, 0.5, 0, 10.2, 7.0, 3.0]], "oficina": [[-1.6, 1.0, 0, -0.8, 6.0, 1.8]],
+             "acceso": [[-1.6, 0.5, 0, -1.0, 3.5, 1.6], [9.0, 0.5, 0, 9.6, 3.5, 1.6]], "recepcion": [[-1.6, 0.5, 0, -1.0, 3.5, 1.6]]}
+    decor = [c for c in DECOR.get(g.get("escenario", "tienda"), []) if libre(c)] if g.get("decorado", True) else []
+    cajas_muebles = list(g.get("cajas_muebles", [])) + decor
+    xs_ = [w[0] for act in actores for w in act["ruta"]]
+    obst, gondolas = muebles_colision(cajas_muebles, float(np.mean(ys)) if ys else None, float(np.mean(xs_)) if xs_ else None)
     holg = float(P["ruta_holgura_m"]) + float(P["colision_margen_m"])
     Persona.obst = obst
     personas = []
@@ -658,8 +686,12 @@ def main():
         p.cinematica(pel)
     idx = {p.a["id"]: i for i, p in enumerate(personas)}
     objetos = {o["id"]: Objeto(o, T) for o in g.get("objetos", [])}
+    BASE = {"silla", "nevera", "contenedor", "carro", "maleta", "canastilla", "caja_grande", "estiba_cargada", "pila_cajas", "monitor", "lector", "bolsa", "auto", "moto", "furgon"}
     for o in objetos.values():
-        snap_gondola(o, gondolas)
+        if o.o["tipo"] in BASE and not snap_gondola(o, gondolas):
+            o.pos[:, 2] = o.pos[:, 2] + o.r
+        elif o.o["tipo"] not in BASE:
+            snap_gondola(o, gondolas)
     surtido_cajas, surtido = ([], [])
     if g.get("surtir_gondolas", True) and gondolas:
         surtido_cajas, surtido = surtir_gondolas(gondolas, objetos, g.get("eventos", []), g["dur"])
@@ -838,7 +870,7 @@ def main():
                   "agarre_persona": principal["persona"], "obj_pos": o.pos, "obj_radio": o.r,
                   "evento_tomar": principal["cuadro"], "evento_soltar": principal["cuadro_fin"]})
     np.savez(out / "trayectoria.npz", **d)
-    render = {"id": g["id"], "fps": fps, "T": T, "camara": g.get("camara"), "escenario": g.get("escenario"), "muebles": g.get("cajas_muebles", []),
+    render = {"id": g["id"], "fps": fps, "T": T, "camara": g.get("camara"), "escenario": g.get("escenario"), "muebles": cajas_muebles, "decorado": decor,
               "gondolas": gondolas, "zonas": g.get("zonas", []), "lineas": g.get("lineas", []), "fases": g.get("fases", []), "reloj": g.get("reloj"),
               "camaras_virtuales": g.get("camaras_virtuales", []),
               "actores": [{k: v for k, v in p.a.items() if k != "ruta"} for p in personas],

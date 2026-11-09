@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /datos2/vigias/anim3d-molde/servidor || exit 1
-if pgrep -f "render_todas.sh|render_bpy.py" >/dev/null; then echo "hay un render en curso: no se re-simula (rompe los archivos que lee)"; exit 2; fi
+if pgrep -f "render_todas.sh|render_bpy.py" | grep -v -w -e $$ -e $PPID | grep -q .; then echo "hay un render en curso: no se re-simula (rompe los archivos que lee)"; exit 2; fi
 PY=/datos2/vigias/anim3d/envs/nucleo/bin/python
 export OMP_NUM_THREADS=2
 ok=0; tot=0
