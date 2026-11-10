@@ -1,1 +1,317 @@
-{}
+{
+ "abandono": {
+  "src": "/analiticas-3d/fisica/abandono.mp4",
+  "poster": "/analiticas-3d/fisica/abandono-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/abandono-overlay.json",
+  "certificado": "ENTREGABLE_CON_RESERVAS"
+ },
+ "acceso": {
+  "src": "/analiticas-3d/fisica/acceso.mp4",
+  "poster": "/analiticas-3d/fisica/acceso-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/acceso-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "activos": {
+  "src": "/analiticas-3d/fisica/activos.mp4",
+  "poster": "/analiticas-3d/fisica/activos-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/activos-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "aforo": {
+  "src": "/analiticas-3d/fisica/aforo.mp4",
+  "poster": "/analiticas-3d/fisica/aforo-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/aforo-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "aglomeracion": {
+  "src": "/analiticas-3d/fisica/aglomeracion.mp4",
+  "poster": "/analiticas-3d/fisica/aglomeracion-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/aglomeracion-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "apertura": {
+  "src": "/analiticas-3d/fisica/apertura.mp4",
+  "poster": "/analiticas-3d/fisica/apertura-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/apertura-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "armas": {
+  "src": "/analiticas-3d/fisica/armas.mp4",
+  "poster": "/analiticas-3d/fisica/armas-poster.jpg",
+  "dur": 13.03,
+  "overlay": "/analiticas-3d/fisica/armas-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "autopago": {
+  "src": "/analiticas-3d/fisica/autopago.mp4",
+  "poster": "/analiticas-3d/fisica/autopago-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/autopago-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "blancas": {
+  "src": "/analiticas-3d/fisica/blancas.mp4",
+  "poster": "/analiticas-3d/fisica/blancas-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/blancas-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "blancas2": {
+  "src": "/analiticas-3d/fisica/blancas2.mp4",
+  "poster": "/analiticas-3d/fisica/blancas2-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/blancas2-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "bodega": {
+  "src": "/analiticas-3d/fisica/bodega.mp4",
+  "poster": "/analiticas-3d/fisica/bodega-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/bodega-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "caidas": {
+  "src": "/analiticas-3d/fisica/caidas.mp4",
+  "poster": "/analiticas-3d/fisica/caidas-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/caidas-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "calor": {
+  "src": "/analiticas-3d/fisica/calor.mp4",
+  "poster": "/analiticas-3d/fisica/calor-poster.jpg",
+  "dur": 18.03,
+  "overlay": "/analiticas-3d/fisica/calor-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "canastillas": {
+  "src": "/analiticas-3d/fisica/canastillas.mp4",
+  "poster": "/analiticas-3d/fisica/canastillas-poster.jpg",
+  "dur": 14.03,
+  "overlay": "/analiticas-3d/fisica/canastillas-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "cierre": {
+  "src": "/analiticas-3d/fisica/cierre.mp4",
+  "poster": "/analiticas-3d/fisica/cierre-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/cierre-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "comprador": {
+  "src": "/analiticas-3d/fisica/comprador.mp4",
+  "poster": "/analiticas-3d/fisica/comprador-poster.jpg",
+  "dur": 17.03,
+  "overlay": "/analiticas-3d/fisica/comprador-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "conteo": {
+  "src": "/analiticas-3d/fisica/conteo.mp4",
+  "poster": "/analiticas-3d/fisica/conteo-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/conteo-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "cruce": {
+  "src": "/analiticas-3d/fisica/cruce.mp4",
+  "poster": "/analiticas-3d/fisica/cruce-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/cruce-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "demografia": {
+  "src": "/analiticas-3d/fisica/demografia.mp4",
+  "poster": "/analiticas-3d/fisica/demografia-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/demografia-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "derrames": {
+  "src": "/analiticas-3d/fisica/derrames.mp4",
+  "poster": "/analiticas-3d/fisica/derrames-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/derrames-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "destruccion": {
+  "src": "/analiticas-3d/fisica/destruccion.mp4",
+  "poster": "/analiticas-3d/fisica/destruccion-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/destruccion-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "epp": {
+  "src": "/analiticas-3d/fisica/epp.mp4",
+  "poster": "/analiticas-3d/fisica/epp-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/epp-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "exhibicion": {
+  "src": "/analiticas-3d/fisica/exhibicion.mp4",
+  "poster": "/analiticas-3d/fisica/exhibicion-poster.jpg",
+  "dur": 14.03,
+  "overlay": "/analiticas-3d/fisica/exhibicion-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "filas": {
+  "src": "/analiticas-3d/fisica/filas.mp4",
+  "poster": "/analiticas-3d/fisica/filas-poster.jpg",
+  "dur": 18.03,
+  "overlay": "/analiticas-3d/fisica/filas-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "fleje": {
+  "src": "/analiticas-3d/fisica/fleje.mp4",
+  "poster": "/analiticas-3d/fisica/fleje-poster.jpg",
+  "dur": 14.03,
+  "overlay": "/analiticas-3d/fisica/fleje-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "fuego": {
+  "src": "/analiticas-3d/fisica/fuego.mp4",
+  "poster": "/analiticas-3d/fisica/fuego-poster.jpg",
+  "dur": 20.03,
+  "overlay": "/analiticas-3d/fisica/fuego-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "guardian": {
+  "src": "/analiticas-3d/fisica/guardian.mp4",
+  "poster": "/analiticas-3d/fisica/guardian-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/guardian-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "huecos": {
+  "src": "/analiticas-3d/fisica/huecos.mp4",
+  "poster": "/analiticas-3d/fisica/huecos-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/huecos-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "hurto": {
+  "src": "/analiticas-3d/fisica/hurto.mp4",
+  "poster": "/analiticas-3d/fisica/hurto-poster.jpg",
+  "dur": 20.03,
+  "overlay": "/analiticas-3d/fisica/hurto-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "intrusion": {
+  "src": "/analiticas-3d/fisica/intrusion.mp4",
+  "poster": "/analiticas-3d/fisica/intrusion-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/intrusion-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "merodeo": {
+  "src": "/analiticas-3d/fisica/merodeo.mp4",
+  "poster": "/analiticas-3d/fisica/merodeo-poster.jpg",
+  "dur": 18.03,
+  "overlay": "/analiticas-3d/fisica/merodeo-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "negras": {
+  "src": "/analiticas-3d/fisica/negras.mp4",
+  "poster": "/analiticas-3d/fisica/negras-poster.jpg",
+  "dur": 14.03,
+  "overlay": "/analiticas-3d/fisica/negras-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "ocultaProd": {
+  "src": "/analiticas-3d/fisica/ocultaProd.mp4",
+  "poster": "/analiticas-3d/fisica/ocultaProd-poster.jpg",
+  "dur": 15.03,
+  "overlay": "/analiticas-3d/fisica/ocultaProd-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "pasillos": {
+  "src": "/analiticas-3d/fisica/pasillos.mp4",
+  "poster": "/analiticas-3d/fisica/pasillos-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/pasillos-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "peleas": {
+  "src": "/analiticas-3d/fisica/peleas.mp4",
+  "poster": "/analiticas-3d/fisica/peleas-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/peleas-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "permanencia": {
+  "src": "/analiticas-3d/fisica/permanencia.mp4",
+  "poster": "/analiticas-3d/fisica/permanencia-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/permanencia-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "placas": {
+  "src": "/analiticas-3d/fisica/placas.mp4",
+  "poster": "/analiticas-3d/fisica/placas-poster.jpg",
+  "dur": 22.03,
+  "overlay": "/analiticas-3d/fisica/placas-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "puertas": {
+  "src": "/analiticas-3d/fisica/puertas.mp4",
+  "poster": "/analiticas-3d/fisica/puertas-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/puertas-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "racks": {
+  "src": "/analiticas-3d/fisica/racks.mp4",
+  "poster": "/analiticas-3d/fisica/racks-poster.jpg",
+  "dur": 14.03,
+  "overlay": "/analiticas-3d/fisica/racks-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "rostro": {
+  "src": "/analiticas-3d/fisica/rostro.mp4",
+  "poster": "/analiticas-3d/fisica/rostro-poster.jpg",
+  "dur": 13.03,
+  "overlay": "/analiticas-3d/fisica/rostro-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "seguimiento": {
+  "src": "/analiticas-3d/fisica/seguimiento.mp4",
+  "poster": "/analiticas-3d/fisica/seguimiento-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/seguimiento-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "staff": {
+  "src": "/analiticas-3d/fisica/staff.mp4",
+  "poster": "/analiticas-3d/fisica/staff-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/staff-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "trazabilidad": {
+  "src": "/analiticas-3d/fisica/trazabilidad.mp4",
+  "poster": "/analiticas-3d/fisica/trazabilidad-poster.jpg",
+  "dur": 18.03,
+  "overlay": "/analiticas-3d/fisica/trazabilidad-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "vencido": {
+  "src": "/analiticas-3d/fisica/vencido.mp4",
+  "poster": "/analiticas-3d/fisica/vencido-poster.jpg",
+  "dur": 14.03,
+  "overlay": "/analiticas-3d/fisica/vencido-overlay.json",
+  "certificado": "ENTREGABLE"
+ },
+ "zonaCiega": {
+  "src": "/analiticas-3d/fisica/zonaCiega.mp4",
+  "poster": "/analiticas-3d/fisica/zonaCiega-poster.jpg",
+  "dur": 16.03,
+  "overlay": "/analiticas-3d/fisica/zonaCiega-overlay.json",
+  "certificado": "ENTREGABLE"
+ }
+}
