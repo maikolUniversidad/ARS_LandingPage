@@ -7,12 +7,7 @@ const nextConfig: NextConfig = {
   // Redirección (no rewrite): sus scripts son rutas relativas y necesitan la
   // URL con la carpeta para resolverse.
   async redirects() {
-    return [
-      { source: "/analiticas-3d", destination: "/analiticas-3d/index.html", permanent: false },
-      // Vigias IA (Argos y Reina Roja): estaticos en public/vigias-ia, mismo patron que la presentacion 3D
-      { source: "/ia", destination: "/vigias-ia/index.html", permanent: false },
-      { source: "/vigias-ia", destination: "/vigias-ia/index.html", permanent: false },
-    ];
+    return [{ source: "/analiticas-3d", destination: "/analiticas-3d/index.html", permanent: false }];
   },
   images: {
     // AVIF primero (mejor compresión); webp como fallback. next/image sirve

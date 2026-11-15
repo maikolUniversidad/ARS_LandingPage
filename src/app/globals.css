@@ -305,31 +305,3 @@
   .cta-destacado,
   .cta-latido { animation: none !important; }
 }
-
-/* ---------------------------------------------------------------------------------------------------------------
-   Tema Vigias (15-nov): estilo de Argos (Rodrigo) — gris carbon calido, vidrio, naranja suave, Inter.
-   Se aplica envolviendo una pagina con .tema-vigias (hoy /vision); redefine los tokens del tema oscuro. */
-@font-face { font-family: "Inter Vigias"; src: url("/vigias-ia/fuente/inter.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
-.tema-vigias {
-  --background: #0d0e12; --foreground: #f3f3f5; --card: rgba(255, 255, 255, 0.045); --card-foreground: #f3f3f5;
-  --popover: #15161b; --popover-foreground: #f3f3f5; --primary: #f3f3f5; --primary-foreground: #0d0e12;
-  --secondary: rgba(255, 255, 255, 0.075); --secondary-foreground: #f3f3f5; --muted: rgba(255, 255, 255, 0.04);
-  --muted-foreground: rgba(243, 243, 245, 0.62); --accent: #ff9b57; --accent-foreground: #1a0e05;
-  --border: rgba(255, 255, 255, 0.085); --input: rgba(255, 255, 255, 0.12); --ring: #ff9b57;
-  font-family: "Inter Vigias", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-.tema-vigias .font-mono, .tema-vigias .font-serif { font-family: inherit; font-style: normal; }
-.tema-vigias .bevel-btn { border-radius: 999px; letter-spacing: -0.005em; text-transform: none; font-family: inherit; font-weight: 600;
-  backdrop-filter: blur(30px) saturate(1.6); transition: transform .35s cubic-bezier(.16, 1, .3, 1), background .2s; }
-.tema-vigias .bevel-btn:hover { transform: translateY(-1px); }
-.tema-vigias .uppercase { text-transform: none; letter-spacing: -0.01em; }
-.tema-vigias h1, .tema-vigias h2, .tema-vigias h3 { letter-spacing: -0.035em; }
-.tema-vigias .mundo-vigias { position: fixed; inset: -12%; filter: blur(90px); opacity: .34; pointer-events: none; }
-.tema-vigias .mundo-vigias i { position: absolute; border-radius: 50%; animation: flota-vigias 24s ease-in-out infinite alternate; }
-.tema-vigias .mundo-vigias i:nth-child(1) { width: 48vw; height: 48vw; left: 2%; top: 0; background: #3a3556; opacity: .75; }
-.tema-vigias .mundo-vigias i:nth-child(2) { width: 38vw; height: 38vw; right: 4%; top: 18%; background: #232a36; opacity: .55; animation-delay: -7s; }
-.tema-vigias .mundo-vigias i:nth-child(3) { width: 34vw; height: 34vw; left: 34%; bottom: -8%; background: #5b3b24; opacity: .45; animation-delay: -12s; }
-@keyframes flota-vigias { to { transform: translate(50px, -40px) scale(1.12); } }
-@media (prefers-reduced-motion: reduce) { .tema-vigias .mundo-vigias i { animation: none; } }
-.tema-vigias .grid-bg { display: none; }
