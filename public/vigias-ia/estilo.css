@@ -196,7 +196,7 @@ main { position: relative; z-index: 1; }
 .persona { background: rgba(255,255,255,.05); border: 1px solid var(--borde); border-radius: 18px; overflow: hidden; opacity: 0; transform: translateY(40px) scale(.9);
   transition: opacity .6s var(--ease-out), transform .9s var(--ease-expo), filter .6s; }
 .argos-ui.panel .persona { opacity: 1; transform: none; }
-.persona .foto { position: relative; aspect-ratio: 5 / 4; background: #222 center / cover; }
+.persona .foto { position: relative; aspect-ratio: 16 / 11; background: #222 center / cover; }
 .persona .foto::after { content: ""; position: absolute; inset: 0; background: inherit; background-image: var(--grueso); background-size: cover; transition: opacity 1.4s var(--ease-out) .5s; }
 .argos-ui.panel .persona .foto::after { opacity: 0; }
 .persona .info { padding: 8px 12px 10px; display: grid; grid-template-columns: 1fr auto; column-gap: 8px; align-items: center; }
@@ -274,7 +274,8 @@ main { position: relative; z-index: 1; }
 
 /* ================================================================== REINA ROJA (replica de su consola sobre el video) */
 .reina-ui { background: #05080b; color: var(--rq-text); }
-.muro { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 4px; padding: 4px; transition: opacity .6s; }
+.muro { position: absolute; left: 4px; right: 4px; top: 41px; height: 677px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 4px; transition: opacity .6s; }
+/* celdas 16:9 exactas (1184/3 x 669/3): las cajas del seguimiento caen sobre el video sin recorte */
 .tile { position: relative; overflow: hidden; border-radius: 10px; background: #0b1117; transition: transform 1s var(--ease-expo), opacity .6s, filter .6s; }
 .tile video, .tile img.poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .tile .rot { position: absolute; left: 10px; top: 8px; font-size: 12px; font-weight: 650; background: rgba(5,8,11,.62); padding: 3px 9px; border-radius: 8px; display: flex; gap: 7px; align-items: center; }
@@ -282,7 +283,7 @@ main { position: relative; z-index: 1; }
 @keyframes vivo { 50% { opacity: .35; } }
 .tile canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .reina-ui.zoom .tile:not(.foco) { opacity: 0; transform: scale(.9); filter: blur(8px); }
-.reina-ui.zoom .tile.foco { position: absolute; inset: 4px; z-index: 2; }
+.reina-ui.zoom .tile.foco { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; }
 .consola { position: absolute; top: 14px; right: 14px; width: 360px; background: var(--rq-surface); border: 1px solid var(--rq-borde); border-radius: 16px; z-index: 5;
   box-shadow: 0 12px 32px rgba(0,0,0,.38), inset 0 2px 0 var(--rq-brand); backdrop-filter: blur(14px); overflow: hidden; transition: transform .8s var(--ease-expo), opacity .6s; }
 .consola .cab { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid rgba(232,237,242,.1); }
@@ -322,7 +323,7 @@ main { position: relative; z-index: 1; }
 .lupa .et { position: absolute; left: 10px; bottom: 10px; font-size: 12px; font-weight: 700; background: rgba(5,8,11,.7); padding: 4px 10px; border-radius: 99px; }
 .lupa .et b { color: var(--rq-brand-vivo); }
 /* seguir persona */
-.pastilla-seg { position: absolute; left: 50%; top: calc(50% - 22px); translate: -50% 0; z-index: 6; background: var(--rq-surface); border: 1px solid var(--rq-borde); border-radius: 99px; padding: 8px 14px 8px 10px;
+.pastilla-seg { position: absolute; left: 50%; top: 14px; translate: -50% 0; z-index: 6; background: var(--rq-surface); border: 1px solid var(--rq-borde); border-radius: 99px; padding: 8px 14px 8px 10px;
   display: flex; gap: 10px; align-items: center; font-size: 13.5px; font-weight: 650; opacity: 0; transform: translateY(-12px); transition: opacity .5s, transform .7s var(--ease-expo); }
 .pastilla-seg.v { opacity: 1; transform: none; }
 .pastilla-seg .cara { width: 28px; height: 28px; border-radius: 50%; background: #2a3a35; overflow: hidden; }
@@ -380,3 +381,19 @@ main { position: relative; z-index: 1; }
 }
 
 @media (max-width: 700px) { .marco { aspect-ratio: auto; overflow: hidden; border-radius: 22px; } .maqueta { border-radius: 0; } }
+
+/* microinteracciones: destello en botones, chips que entran escalonados, camaras que responden al puntero */
+.boton, .barra .cta { position: relative; overflow: hidden; }
+.boton::after, .barra .cta::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%);
+  transform: translateX(-120%); transition: transform .9s var(--ease-expo); pointer-events: none; }
+.boton:hover::after, .barra .cta:hover::after { transform: translateX(120%); }
+.boton:active, .barra .cta:active { transform: scale(.97); }
+.escena.vista .au-chips span { animation: chip-in .8s var(--ease-expo) both; }
+.escena.vista .au-chips span:nth-child(2) { animation-delay: .08s; } .escena.vista .au-chips span:nth-child(3) { animation-delay: .16s; } .escena.vista .au-chips span:nth-child(4) { animation-delay: .24s; }
+@keyframes chip-in { from { opacity: 0; transform: translateY(14px) scale(.92); } }
+.escena.vista .au-tarj { animation: chip-in 1s var(--ease-expo) both; } .escena.vista .au-tarj:nth-child(2) { animation-delay: .1s; } .escena.vista .au-tarj:nth-child(3) { animation-delay: .2s; }
+.tile video { transition: transform 1.2s var(--ease-expo); } .tile:hover video { transform: scale(1.04); }
+.barra nav a { position: relative; }
+.barra nav a::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 5px; height: 2px; border-radius: 2px; background: var(--accent); transform: scaleX(0); transition: transform .4s var(--ease-expo); }
+.barra nav a:hover::after { transform: scaleX(1); }
+.persona { cursor: default; } .argos-ui.panel .persona:hover { transform: translateY(-4px); }

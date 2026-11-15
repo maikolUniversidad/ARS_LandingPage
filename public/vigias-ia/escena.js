@@ -110,8 +110,9 @@
   /* ================================================================ REINA ROJA */
   const rq = $("#rq"), lista = $("#rq-lista"), marca = $("#rq-marca"), puntero = $("#rq-puntero"), ficha = $("#rq-ficha"), fichaA = $("#rq-ficha-a"),
         lupa = $("#rq-lupa"), seg = $("#rq-seg"), segCam = $("#rq-seg-cam"), mem = $("#rq-mem"), voz = $("#rq-voz"), camLbl = $("#rq-cam");
-  const RR = reloj(); let SEG = null, siguiendo = false, enEscena = false;
+  const RR = reloj(); let SEG = null, siguiendo = false, enEscena = false; const OBJ = "p2";   // persona de camiseta verde
   const tiles = $$(".tile", rq), vids = tiles.map(t => $("video", t)), principales = tiles.filter(t => t.dataset.cam);
+  vids.forEach(v => { const d = +(v.dataset.desfase || 0); if (d) v.addEventListener("loadedmetadata", () => { try { v.currentTime = d; } catch (e) {} }, { once: true }); });
   fetch("camaras/seguir.json").then(r => r.json()).then(j => { SEG = j; }).catch(() => {});
   const decir = (texto, sub, alerta) => {
     const li = document.createElement("li"); if (alerta) li.className = "alerta";
@@ -138,13 +139,13 @@
       for (const pid of ["p1", "p2", "p3"]) {
         const c = caja(tile.dataset.cam, pid, v.currentTime); if (!c) continue;
         const x = c[0] * w, y = c[1] * h, bw = (c[2] - c[0]) * w, bh = (c[3] - c[1]) * h, L = Math.min(14, bw * .3);
-        const sel = siguiendo && pid === "p1";
+        const sel = siguiendo && pid === OBJ;
         g.strokeStyle = sel ? "#e0566c" : "rgba(232,237,242,.75)"; g.lineWidth = sel ? 3 : 1.5;
         g.beginPath();   // esquinas (estilo cinematico compacto)
         [[x, y, 1, 1], [x + bw, y, -1, 1], [x, y + bh, 1, -1], [x + bw, y + bh, -1, -1]].forEach(([px, py, sx, sy]) => {
           g.moveTo(px, py + sy * L); g.lineTo(px, py); g.lineTo(px + sx * L, py); });
         g.stroke();
-        const et = sel ? "P1 · siguiendo" : "persona"; g.font = `600 ${sel ? 12 : 11}px Inter, system-ui`;
+        const et = sel ? "P7 · siguiendo" : "persona"; g.font = `600 ${sel ? 12 : 11}px Inter, system-ui`;
         const tw = g.measureText(et).width + 12;
         g.fillStyle = sel ? "rgba(185,61,80,.92)" : "rgba(5,8,11,.6)"; g.fillRect(x, y - 19, tw, 17);
         g.fillStyle = "#fff"; g.fillText(et, x + 6, y - 6);
@@ -152,10 +153,10 @@
     });
     if (siguiendo && SEG) {   // camara donde mas se ve a P1
       let mejor = null, area = 0;
-      principales.forEach(t => { const c = caja(t.dataset.cam, "p1", $("video", t).currentTime);
+      principales.forEach(t => { const c = caja(t.dataset.cam, OBJ, $("video", t).currentTime);
         if (c) { const a = (c[2] - c[0]) * (c[3] - c[1]); if (a > area) { area = a; mejor = t; } } });
       if (mejor) { const nom = $(".rot", mejor).textContent.trim(); if (segCam.dataset.cam !== nom) {
-        if (segCam.dataset.cam) decir(`P1 paso a ${nom}.`, "seguimiento por apariencia", true);
+        if (segCam.dataset.cam) decir(`P7 paso a ${nom}.`, "seguimiento por apariencia", true);
         segCam.dataset.cam = nom; segCam.textContent = "· " + nom; } }
     }
     requestAnimationFrame(dibujar);
@@ -165,8 +166,8 @@
     vPrin.slice(1).forEach(v => { if (v.duration && Math.abs(v.currentTime - v0.currentTime) > .12) v.currentTime = v0.currentTime; }); };
   setInterval(() => { if (enEscena && !rq.classList.contains("zoom")) sincronizar(); }, 400);
   // rectangulo de P1 en la camara del foco, en pixeles de la maqueta
-  const rectFoco = t => { const c = caja("cam2", "p1", t) || [.42, .3, .52, .78];
-    return { x: 4 + c[0] * 1192, y: 4 + c[1] * 752, w: (c[2] - c[0]) * 1192, h: (c[3] - c[1]) * 752 }; };
+  const rectFoco = t => { const c = caja("cam2", OBJ, t) || [.42, .3, .52, .78];
+    return { x: 4 + c[0] * 1192, y: 41 + c[1] * 677, w: (c[2] - c[0]) * 1192, h: (c[3] - c[1]) * 677 }; };
   const T_FOCO = () => (SEG && SEG.t_foco) || 6.0;
   const pon = (el, r) => Object.assign(el.style, { left: r.x + "px", top: r.y + "px", width: r.w + "px", height: r.h + "px" });
 
@@ -207,7 +208,7 @@
       segCam.dataset.cam = ""; seg.classList.add("v");
       RR.en(400, () => mem.classList.add("v"));
       $$(".tira i", mem).forEach((i, k) => { i.classList.remove("v"); RR.en(quieto ? 0 : 900 + k * 1300, () => i.classList.add("v")); });
-      if (prev < 4) decir("Siguiendo a P1: camiseta verde, pantalon oscuro, cabello corto.", "la reconoce por apariencia en todas las camaras", true);
+      if (prev < 4) decir("Siguiendo a P7: camiseta verde, pantalon oscuro, cabello corto.", "la reconoce por apariencia en todas las camaras", true);
     }
     if (paso === 5) { vids.forEach(v => v.play().catch(() => {})); voz.classList.add("v"); RR.en(quieto ? 0 : 1500, () => voz.classList.add("r"));
       if (prev < 5) RR.en(1700, () => decir("Cam 4 · salud en silencio hasta que cambie algo.", "orden de voz · usted")); }
@@ -223,6 +224,7 @@
       const r = e.el.getBoundingClientRect(), total = Math.max(1, e.el.offsetHeight - innerHeight);
       const p = Math.min(1, Math.max(0, -r.top / total)); e.el.style.setProperty("--p", p.toFixed(3));
       const visible = r.bottom > 0 && r.top < innerHeight;
+      if (visible) e.el.classList.add("vista");
       if (e.el.dataset.escena === "reina") { const antes = enEscena; enEscena = visible;
         if (visible && !antes) requestAnimationFrame(dibujar); if (!visible && antes) vids.forEach(v => v.pause()); }
       const paso = Math.min(e.n - 1, Math.floor(p * e.n * 0.999));
