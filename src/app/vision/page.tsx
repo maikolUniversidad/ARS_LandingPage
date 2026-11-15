@@ -77,10 +77,10 @@ export default function VisionPage() {
           closingTitle: `${analiticas.length} analytics. The same cameras.`,
           closingBody: "Everything runs on the site's own server, over the circuit already installed. Each analytic is presented the same way: what it does, how it triggers and the video that proves it.",
           talkToAdvisor: "Talk to an advisor",
-          whatsappMessage: "Hi ARS Intelligence, I'd like to see the video analytics module.",
+          whatsappMessage: "Hi Vigias, I would like to see the video analytics module.",
           downloadDeck: "Download the PowerPoint",
           openDeck: "Open the full 3D presentation",
-          footerTagline: "The simple way to make everything work.",
+          footerTagline: "Security that understands what it sees.",
         }
       : {
           navPlatform: "Plataforma",
@@ -131,10 +131,10 @@ export default function VisionPage() {
           closingTitle: `${analiticas.length} analíticas. Las mismas cámaras.`,
           closingBody: "Todo corre en el propio servidor del sitio, sobre el circuito que ya está instalado. Cada analítica se presenta igual: qué hace, cómo se activa y el video que lo demuestra.",
           talkToAdvisor: "Hablar con un asesor",
-          whatsappMessage: "Hola ARS Intelligence, quiero conocer el módulo de analíticas de video.",
+          whatsappMessage: "Hola Vigias, quiero conocer el módulo de analíticas de video.",
           downloadDeck: "Descargar el PowerPoint",
           openDeck: "Abrir la presentación 3D completa",
-          footerTagline: "La forma simple de hacer que todo funcione.",
+          footerTagline: "Seguridad que entiende lo que ve.",
         };
 
   // Desde el índice: elige la analítica y sube al visor.
@@ -147,31 +147,42 @@ export default function VisionPage() {
   );
 
   return (
-    <div className="relative bg-background text-foreground">
+    <div className="tema-vigias relative bg-background text-foreground">
       {/* Fondo */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-background">
-        <div className="grid-bg absolute inset-0 opacity-25" />
-        <div
-          className="absolute -top-1/4 left-1/2 h-[80vh] w-[80vh] -translate-x-1/2 rounded-full"
-          style={{ background: "radial-gradient(closest-side, rgba(35,72,212,0.18), transparent 70%)" }}
-        />
+        <div className="mundo-vigias" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </div>
       </div>
 
       {/* Cabecera */}
       <header className="fixed inset-x-0 top-0 z-50 border-b border-border/40 bg-background/70 backdrop-blur">
         <div className="flex items-center justify-between gap-4 px-6 py-4 md:px-10">
-          <Link href="/" aria-label="ARS Intelligence — inicio" className="flex shrink-0 items-center gap-2">
+          <Link href="/" aria-label="Vigias — inicio" className="flex shrink-0 items-center gap-2">
             <Image
-              src="/images/logos/horizontal-blanco.png"
-              alt="ARS Intelligence"
-              width={160}
-              height={36}
+              src="/vigias-ia/marca/vigias-logo.png"
+              alt="Vigias de Colombia"
+              width={40}
+              height={40}
               priority
-              className="h-9 w-auto"
-              style={{ height: "auto", width: "auto", maxHeight: "36px" }}
+              className="h-10 w-10"
             />
+            <span className="leading-tight">
+              <span className="block text-[15px] font-bold tracking-tight">Vigias</span>
+              <span className="block text-[11px] text-foreground/55">Seguridad Preventiva</span>
+            </span>
           </Link>
-          <SiteNav contacto="#cierre" idioma />
+          <div className="flex items-center gap-3">
+            <a
+              href="/vigias-ia/index.html"
+              className="bevel-btn group hidden items-center gap-2 border border-accent/40 bg-accent/15 px-5 py-2.5 text-sm text-foreground backdrop-blur transition-colors hover:bg-accent/25 sm:flex"
+            >
+              <span className="h-2 w-2 rounded-full bg-accent" /> Argos y Reina Roja
+            </a>
+            <SiteNav contacto="#cierre" idioma />
+          </div>
         </div>
       </header>
 
@@ -184,8 +195,8 @@ export default function VisionPage() {
               className="absolute inset-0"
               style={{
                 background:
-                  "radial-gradient(circle at 15% 10%, rgba(35,72,212,0.35), transparent 50%)," +
-                  "radial-gradient(circle at 85% 90%, rgba(214,171,76,0.10), transparent 50%)",
+                  "radial-gradient(circle at 15% 10%, rgba(58,53,86,0.55), transparent 55%)," +
+                  "radial-gradient(circle at 85% 90%, rgba(255,155,87,0.12), transparent 50%)",
               }}
             />
           </div>
@@ -314,13 +325,12 @@ export default function VisionPage() {
         {/* Cierre */}
         <section id="cierre" data-narracion="vision/cierre" className="relative isolate overflow-hidden border-b border-border/40 px-6 py-24 md:px-10 md:py-32">
           <div className="absolute inset-0 -z-10">
-            <div className="brand-gradient absolute inset-0 opacity-90" />
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  "radial-gradient(circle at 30% 30%, rgba(34,211,238,0.28), transparent 55%)," +
-                  "radial-gradient(circle at 75% 70%, rgba(35,72,212,0.45), transparent 55%)",
+                  "radial-gradient(circle at 30% 30%, rgba(91,59,36,0.55), transparent 55%)," +
+                  "radial-gradient(circle at 75% 70%, rgba(58,53,86,0.6), transparent 55%), #121318",
               }}
             />
             <div className="grid-bg absolute inset-0 opacity-15" />
@@ -334,7 +344,7 @@ export default function VisionPage() {
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 md:text-lg">{c.closingBody}</p>
             <div className="mt-10 flex flex-wrap justify-center gap-3">
               <a
-                href={mailtoUrl("Demo del módulo de analíticas de video - ARS Intelligence")}
+                href={mailtoUrl("Demo del módulo de analíticas de video - Vigias")}
                 className="bevel-btn inline-flex items-center gap-3 border border-white/30 bg-white px-7 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-[#020a18] shadow-xl transition-opacity hover:opacity-90"
               >
                 <span>▸</span> {c.requestDemo}
@@ -363,17 +373,16 @@ export default function VisionPage() {
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row md:px-10">
             <div className="flex items-center gap-4 font-mono text-xs uppercase tracking-[0.25em] text-foreground/70">
               <Image
-                src="/images/logos/horizontal-blanco.png"
-                alt="ARS Intelligence"
-                width={120}
-                height={28}
-                className="h-7 w-auto opacity-80"
-                style={{ height: "auto", width: "auto", maxHeight: "28px" }}
+                src="/vigias-ia/marca/vigias-logo.png"
+                alt="Vigias de Colombia"
+                width={56}
+                height={56}
+                className="h-14 w-14 opacity-90"
               />
-              <span className="hidden sm:inline">ars-intelligence.com</span>
+              <span className="hidden sm:inline">Vigias de Colombia · Seguridad Preventiva</span>
             </div>
             <p className="font-serif text-sm italic text-foreground/55">{c.footerTagline}</p>
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/40">© {new Date().getFullYear()} ARS Intelligence</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/40">© {new Date().getFullYear()} Vigias de Colombia</p>
           </div>
         </footer>
       </main>

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vigias IA — Argos y Reina Roja</title>
+<meta name="description" content="Argos responde preguntas sobre sus camaras y la Reina Roja mira en vivo con su equipo. Inteligencia artificial de Vigias de Colombia que corre en sus propios servidores.">
+<meta name="theme-color" content="#0d0e12">
+<link rel="icon" href="marca/vigias-logo.png">
+<link rel="preload" href="fuente/inter.woff2" as="font" type="font/woff2" crossorigin>
+<script>window.__errores = []; addEventListener("error", e => window.__errores.push(String(e.message)));</script>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<div id="mundo" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<header class="barra">
+  <a class="marca" href="#inicio" aria-label="Vigias de Colombia, inicio"><img src="marca/vigias-logo.png" alt=""><span>Vigias IA<small>Seguridad Preventiva</small></span></a>
+  <nav aria-label="Secciones">
+    <a href="#argos">Argos</a>
+    <a href="#reina">Reina Roja</a>
+    <a href="/vision">Analiticas 3D</a>
+  </nav>
+  <a class="cta" href="#contacto">Hablemos</a>
+</header>
+
+<main>
+<!-- ============================================================ PORTADA -->
+<section class="portada" id="inicio">
+  <div>
+    <div class="aguila"><img src="marca/aguila.png" alt="Vigias de Colombia" width="230" height="170"></div>
+    <h1><span class="l">Vigias</span> <span class="l ia">IA</span></h1>
+    <p class="lema">Sus camaras ya no solo graban. Responden.</p>
+    <p class="bajada">Argos contesta preguntas sobre lo que paso. La Reina Roja mira en vivo con su equipo. Todo corre en sus propios servidores: el video no sale a la nube.</p>
+    <div class="botones">
+      <a class="boton lleno" href="#argos"><span class="punto"></span>Conocer Argos</a>
+      <a class="boton rojo" href="#reina"><span class="punto"></span>Conocer la Reina Roja</a>
+    </div>
+  </div>
+  <div class="indicio" aria-hidden="true"><i></i>Deslice</div>
+</section>
+
+<!-- ============================================================ ARGOS -->
+<section class="intro contenedor" id="argos" data-zona="argos">
+  <svg class="icono revela" width="96" height="72" viewBox="0 0 40 30" aria-hidden="true"><g class="cuerpo"><path d="M6.5 16C6.5 8.5 12.4 3 20.2 3S34 8.5 34 16s-6 12-13.8 12S6.5 23.5 6.5 16z" fill="#fff"/><circle cx="4" cy="21.5" r="2.6" fill="#fff"/><rect class="ojo" x="14.6" y="11.5" width="3.6" height="7.6" rx="1.8" fill="#16171c"/><rect class="ojo" x="22.4" y="11.5" width="3.6" height="7.6" rx="1.8" fill="#16171c"/></g></svg>
+  <h2 class="revela">Argos.<br>Preguntele a sus camaras.</h2>
+  <p class="revela">Un asistente que entiende <b>espanol de verdad</b>: fechas, camaras, prendas y colores. Busca personas por apariencia, arma recorridos, resume el turno y propone acciones que <b>usted confirma</b>.</p>
+  <div class="datos revela">
+    <div><strong data-cuenta="100" data-suf=" %">0</strong><span>local, sin nube</span></div>
+    <div><strong data-cuenta="10">0</strong><span>herramientas de analisis</span></div>
+    <div><strong data-cuenta="0.7" data-dec="1" data-suf=" s">0</strong><span>de retraso al dictar por voz</span></div>
+  </div>
+</section>
+
+<section class="escena argos" data-escena="argos" data-pasos="6" style="height: 640vh" aria-label="Demostracion de Argos">
+  <div class="fijo">
+    <div>
+      <div class="leyendas">
+        <div class="leyenda"><span class="num">Inicio</span><h3>Todo su sitio, de un vistazo.</h3><p>Alertas del dia, criticas por revisar y camaras con ritmo anormal apenas abre Argos.</p></div>
+        <div class="leyenda"><span class="num">Pregunta</span><h3>Preguntele como a una persona.</h3><p>Escriba o dicte. «¿Quien tenia chaqueta naranja?» basta: Argos entiende la prenda y el color.</p></div>
+        <div class="leyenda"><span class="num">Razona</span><h3>Muestra como lo obtuvo.</h3><p>Cada respuesta dice que consulto y con que criterio. Nada de numeros sin respaldo.</p></div>
+        <div class="leyenda"><span class="num">Resultados</span><h3>Busca por apariencia en todas las camaras.</h3><p>Cada candidato trae la camara, la hora y los rasgos que coincidieron. Son candidatos, no identificaciones.</p></div>
+        <div class="leyenda"><span class="num">Filtros</span><h3>Descarte lo dudoso de un toque.</h3><p>Parecido alto o medio: el contraluz naranja de un atardecer no es una chaqueta, y Argos lo sabe distinguir.</p></div>
+        <div class="leyenda"><span class="num">Recorrido</span><h3>Siga a la persona por todo el sitio.</h3><p>Elija un candidato y Argos arma su paso por cada camara, con linea de tiempo, plano y video de cada aparicion.</p></div>
+      </div>
+      <div class="progreso" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="marco"><div class="maqueta argos-ui" id="au" role="img" aria-label="Interfaz de Argos respondiendo una busqueda de personas">
+      <div class="au-barra">
+        <svg class="mascota" viewBox="0 0 40 30" aria-hidden="true"><g class="cuerpo"><path d="M6.5 16C6.5 8.5 12.4 3 20.2 3S34 8.5 34 16s-6 12-13.8 12S6.5 23.5 6.5 16z" fill="#fff"/><circle cx="4" cy="21.5" r="2.6" fill="#fff"/><rect class="ojo" x="14.6" y="11.5" width="3.6" height="7.6" rx="1.8" fill="#16171c"/><rect class="ojo" x="22.4" y="11.5" width="3.6" height="7.6" rx="1.8" fill="#16171c"/></g></svg>
+        <span class="nom">Argos</span><span class="tit">¿Quien tenia chaqueta naranja?</span>
+        <span class="busca">Conversaciones <kbd>Ctrl K</kbd></span>
+      </div>
+      <div class="au-cuerpo">
+        <div class="au-inicio">
+          <div class="fecha">Lunes, 17 de noviembre</div>
+          <h4>Buenos dias</h4>
+          <div class="au-tarjetas">
+            <div class="au-tarj"><div class="t"><i></i>Alertas de hoy</div><strong>38</strong>
+              <div class="barras"><b style="height:40%"></b><b style="height:65%"></b><b style="height:30%"></b><b style="height:85%"></b><b style="height:55%"></b><b style="height:70%"></b><b style="height:45%"></b><b style="height:90%"></b><b style="height:60%"></b></div></div>
+            <div class="au-tarj"><div class="t"><i style="background:var(--negative)"></i>Criticas</div><strong style="color:var(--negative)">3</strong><div class="fila"><span>por revisar</span><span>11</span></div><div class="fila"><span>falsas alarmas</span><span>24</span></div></div>
+            <div class="au-tarj"><div class="t"><i style="background:var(--positive)"></i>Camaras</div><strong>14<span style="font-size:18px;color:var(--faint)"> / 15</span></strong><div class="fila"><span>Cam 9 · Bodega</span><span style="color:#f2bd6b">sin senal</span></div></div>
+          </div>
+          <div class="au-chips"><span>Briefing de turno</span><span>Resumen de la semana</span><span>Ver la ultima intrusion</span><span>Buscar a alguien por su ropa</span></div>
+        </div>
+        <div class="au-chat" id="au-chat">
+          <div class="cab"><svg class="mascota" viewBox="0 0 40 30" aria-hidden="true"><g class="cuerpo"><path d="M6.5 16C6.5 8.5 12.4 3 20.2 3S34 8.5 34 16s-6 12-13.8 12S6.5 23.5 6.5 16z" fill="#fff"/><rect class="ojo" x="14.6" y="11.5" width="3.6" height="7.6" rx="1.8" fill="#16171c"/><rect class="ojo" x="22.4" y="11.5" width="3.6" height="7.6" rx="1.8" fill="#16171c"/></g></svg><div><b>Argos</b><small>Asistente local · sin nube</small></div></div>
+          <div class="burbuja-u b1">¿Quien tenia chaqueta naranja?</div>
+          <div class="resp r1" id="resp1"><span class="av"><i></i><i></i></span><div>
+            <span class="como">Como lo obtuvo · 1 consulta</span>
+            <div class="puntos"><i></i><i></i><i></i></div>
+            <div class="texto" data-texto="Encontre 5 candidatos por apariencia en 4 camaras. En cada foto, lo que el modelo vio en esa persona. Son candidatos, no identificaciones: si me dice cual es, sigo su recorrido."></div>
+            <div class="nota">Contado: buscado chaqueta o abrigo · color naranja · hoy</div></div></div>
+          <div class="burbuja-u b2" style="margin-top:14px">Es la primera. Sigue su recorrido</div>
+          <div class="resp r2" id="resp2"><span class="av"><i></i><i></i></span><div>
+            <span class="como">Como lo obtuvo · 1 consulta</span>
+            <div class="puntos"><i></i><i></i><i></i></div>
+            <div class="texto" data-texto="Recorrido de P12: 3 apariciones en 3 camaras, de 14:22 a 14:27. Es una reconstruccion por firma de apariencia: verifiquela en los recortes."></div></div></div>
+        </div>
+        <div class="au-entrada"><span class="txt" id="au-txt">Pregunte a Argos…</span><span class="env" id="au-env"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z" transform="rotate(-90 12 12)"/></svg></span></div>
+        <div class="au-panel">
+          <h5>Candidatos por apariencia</h5>
+          <div class="sub">5 encontrados · buscado: <b>chaqueta/abrigo</b>, <b>naranja</b></div>
+          <div class="filtros"><span class="on" data-f="todos">Todos 5</span><span data-f="alto">Parecido alto 3</span><span data-f="medio">Parecido medio 2</span></div>
+          <div class="cuadricula">
+            <div class="persona alto p1" style="transition-delay:.05s"><div class="foto" style="background-image:url(fotos/naranja_c00.jpg);--grueso:url(fotos/naranja_c00_grueso.jpg)"><span class="nivel alto">Alto</span></div><div class="info"><div class="id">P12</div><div class="meta">Cam 3 · Entrada · 14:22:05</div><div class="ras">mujer · chaqueta · <b>≈ naranja arriba</b></div><div class="seguir">Seguir</div></div></div>
+            <div class="persona alto" style="transition-delay:.15s"><div class="foto" style="background-image:url(fotos/naranja_c01.jpg);--grueso:url(fotos/naranja_c01_grueso.jpg)"><span class="nivel alto">Alto</span></div><div class="info"><div class="id">P27</div><div class="meta">Cam 7 · Pasillo 2 · 14:31:40</div><div class="ras">abrigo largo · <b>≈ naranja arriba</b></div><div class="seguir">Seguir</div></div></div>
+            <div class="persona alto" style="transition-delay:.25s"><div class="foto" style="background-image:url(fotos/naranja_c05.jpg);--grueso:url(fotos/naranja_c05_grueso.jpg)"><span class="nivel alto">Alto</span></div><div class="info"><div class="id">P31</div><div class="meta">Cam 11 · Exterior · 15:02:13</div><div class="ras">gorro · chaqueta · <b>≈ naranja arriba</b></div><div class="seguir">Seguir</div></div></div>
+            <div class="persona medio" style="transition-delay:.35s"><div class="foto" style="background-image:url(fotos/naranja_c03.jpg);--grueso:url(fotos/naranja_c03_grueso.jpg)"><span class="nivel medio">Medio</span></div><div class="info"><div class="id">P40</div><div class="meta">Cam 4 · Cajas · 15:10:51</div><div class="ras">sombrero · <b>≈ cafe, no naranja</b></div><div class="seguir">Seguir</div></div></div>
+            <div class="persona medio" style="transition-delay:.45s"><div class="foto" style="background-image:url(fotos/naranja_c04.jpg);--grueso:url(fotos/naranja_c04_grueso.jpg)"><span class="nivel medio">Medio</span></div><div class="info"><div class="id">P44</div><div class="meta">Cam 11 · Exterior · 17:48:20</div><div class="ras">contraluz · <b>color dudoso</b></div><div class="seguir">Seguir</div></div></div>
+          </div>
+          <div class="recorrido">
+            <h5>Recorrido de P12</h5><div class="sub">3 apariciones en 3 camaras · 14:22 a 14:27</div>
+            <div class="fila2">
+              <div class="lt"><div class="t">Linea de tiempo por camara</div>
+                <div class="carril">Cam 3 · Entrada<div class="pista"><b style="left:2%;width:24%">P12</b></div></div>
+                <div class="carril">Cam 7 · Pasillo 2<div class="pista"><b style="left:30%;width:30%;transition-delay:.35s">P12</b></div></div>
+                <div class="carril">Cam 5 · Cajas<div class="pista"><b class="otra" style="left:66%;width:30%;transition-delay:.7s">P12</b></div></div>
+                <div class="horas"><span>14:22</span><span>14:24</span><span>14:27</span></div></div>
+              <div class="lt plano"><div class="t">Recorrido en el plano</div>
+                <svg viewBox="0 0 400 190" aria-hidden="true">
+                  <rect x="6" y="6" width="388" height="178" rx="14" fill="none" stroke="rgba(255,255,255,.18)"/>
+                  <g fill="rgba(255,255,255,.07)"><rect x="70" y="40" width="180" height="22" rx="4"/><rect x="70" y="92" width="180" height="22" rx="4"/><rect x="290" y="40" width="22" height="110" rx="4"/></g>
+                  <rect x="40" y="150" width="70" height="20" rx="4" fill="rgba(255,155,87,.18)"/>
+                  <path class="ruta" d="M 20 170 C 40 150 40 80 58 76 S 220 78 262 78 S 270 140 220 140 S 90 150 75 160" fill="none" stroke="#ff9b57" stroke-width="4" stroke-linecap="round"/>
+                  <g class="cam" fill="#fff"><circle cx="28" cy="160" r="6"/><circle cx="160" cy="78" r="6" style="transition-delay:.9s"/><circle cx="75" cy="160" r="6" style="transition-delay:1.8s"/></g>
+                  <g class="cam" font-size="11" fill="rgba(243,243,245,.75)" font-family="Inter"><text x="38" y="150">Entrada</text><text x="150" y="70">Pasillo 2</text><text x="118" y="176">Cajas</text></g>
+                </svg></div>
+            </div>
+            <div class="apariciones">
+              <div style="background-image:url(fotos/naranja_c00.jpg);background-position:30% 40%;background-size:140%"><span>Cam 3 · 14:22:05</span></div>
+              <div style="background-image:url(fotos/naranja_c00.jpg);background-position:70% 60%;background-size:180%;transition-delay:.2s"><span>Cam 7 · 14:23:10</span></div>
+              <div style="background-image:url(fotos/naranja_c00.jpg);background-position:50% 20%;background-size:220%;transition-delay:.4s"><span>Cam 5 · 14:26:48</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="contenedor">
+  <div class="bento">
+    <div class="pieza ancha revela"><h4>Briefing de turno</h4><p>«Ponme al dia» y recibe el parte de relevo: criticos, pendientes y camaras con problemas.</p>
+      <div class="viz lineas-b"><i class="a" style="width:72%"></i><i style="width:90%;transition-delay:.15s"></i><i style="width:60%;transition-delay:.3s"></i><i class="a" style="width:44%;transition-delay:.45s"></i></div></div>
+    <div class="pieza ancha revela"><h4>Compare periodos</h4><p>Esta semana contra la anterior, por tipo de alerta y por camara, con grafico listo.</p>
+      <div class="viz barras-c"><div><b style="height:50%"></b><b class="a" style="height:72%;transition-delay:.1s"></b></div><div><b style="height:80%;transition-delay:.2s"></b><b class="a" style="height:46%;transition-delay:.3s"></b></div><div><b style="height:35%;transition-delay:.4s"></b><b class="a" style="height:58%;transition-delay:.5s"></b></div><div><b style="height:66%;transition-delay:.6s"></b><b class="a" style="height:90%;transition-delay:.7s"></b></div></div></div>
+    <div class="pieza revela"><h4>Triaje de alertas</h4><p>Falsa alarma, verificada o escalada: por voz o texto.</p>
+      <div class="viz estados" data-cicla><span class="on"><i style="background:var(--positive)"></i>Verificada</span><span><i style="background:#f2bd6b"></i>Falsa alarma</span><span><i style="background:var(--negative)"></i>Escalada</span></div></div>
+    <div class="pieza revela"><h4>Dictado por voz, sin nube</h4><p>El texto aparece mientras habla, a 0,7 s de su voz.</p>
+      <div class="viz onda"><i></i><i style="animation-delay:-.2s"></i><i style="animation-delay:-.5s"></i><i style="animation-delay:-.1s"></i><i style="animation-delay:-.7s"></i><i style="animation-delay:-.3s"></i><i style="animation-delay:-.9s"></i><i style="animation-delay:-.4s"></i><i style="animation-delay:-.6s"></i><i style="animation-delay:-.15s"></i><i style="animation-delay:-.8s"></i><i style="animation-delay:-.35s"></i></div></div>
+    <div class="pieza revela"><h4>Salud de camaras</h4><p>Cual se cayo, cual va lenta y desde cuando.</p>
+      <div class="viz camaras-s"><span><i></i>Cam 1</span><span><i></i>Cam 2</span><span><i class="mal"></i>Cam 9</span><span><i></i>Cam 4</span><span><i></i>Cam 5</span><span><i></i>Cam 6</span><span><i></i>Cam 7</span><span><i></i>Cam 8</span></div></div>
+    <div class="pieza doble revela"><h4>La IA propone. Usted confirma.</h4><p>Argos prepara la accion y solo su clic la ejecuta. Queda registrado quien confirmo y cuando.</p>
+      <div class="viz accion"><div class="tar">Accion propuesta<small>Marcar 6 alertas de Cam 4 como falsa alarma</small></div><div class="si">Confirmar</div></div></div>
+    <div class="pieza doble revela"><h4>Todo en su servidor.</h4><p>El modelo de lenguaje, la voz y la busqueda corren en sus equipos. Ninguna imagen ni pregunta sale a internet.</p>
+      <div class="viz" style="display:flex;align-items:end;gap:12px"><strong style="font-size:56px;letter-spacing:-.04em;line-height:.9">0</strong><span style="color:var(--muted);padding-bottom:6px">imagenes enviadas a la nube</span></div></div>
+  </div>
+</section>
+
+<!-- ============================================================ REINA ROJA -->
+<section class="intro contenedor" id="reina" data-zona="reina">
+  <span class="icono revela" style="display:block;width:22px;height:22px;border-radius:50%;background:var(--rq-brand-vivo);box-shadow:0 0 0 10px rgba(224,86,108,.16),0 0 60px rgba(224,86,108,.5)"></span>
+  <h2 class="revela">Reina Roja.<br>Mira con usted.</h2>
+  <p class="revela">Vive sobre el video en vivo: <b>narra lo importante</b>, responde lo que usted senala y <b>sigue a una persona</b> de una camara a la siguiente. Se le habla y contesta con la voz de las alarmas.</p>
+</section>
+
+<section class="escena reina" data-escena="reina" data-pasos="6" style="height: 640vh" aria-label="Demostracion de la Reina Roja">
+  <div class="fijo">
+    <div>
+      <div class="leyendas">
+        <div class="leyenda"><span class="num">Muro</span><h3>Todas sus camaras, con lo que importa encima.</h3><p>Etiquetas discretas sobre el video y una consola que narra lo que vale la pena mirar.</p></div>
+        <div class="leyenda"><span class="num">Zoom</span><h3>Entre a cualquier camara.</h3><p>Un toque y la camara ocupa la pantalla, con su narracion propia.</p></div>
+        <div class="leyenda"><span class="num">Senalar</span><h3>Senale y pregunte.</h3><p>Encierre algo con el dedo o el mouse. La Reina Roja le dice que es y que esta pasando.</p></div>
+        <div class="leyenda"><span class="num">Detalle</span><h3>Amplie lo que apenas se ve.</h3><p>La zona marcada se amplia y se mejora para ver mejor lo que la camara alcanza a captar.</p></div>
+        <div class="leyenda"><span class="num">Seguir</span><h3>Una persona, todas las camaras.</h3><p>Marquela una vez. La Reina Roja la reconoce en la siguiente camara, guarda fotos para no perderla y le avisa por donde va.</p></div>
+        <div class="leyenda"><span class="num">Voz</span><h3>Hablele como a su equipo.</h3><p>«Ignora la camara 4 hasta que cambie algo». Entiende, confirma y le avisa si pasa algo distinto.</p></div>
+      </div>
+      <div class="progreso" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="marco"><div class="maqueta reina-ui" id="rq" role="img" aria-label="Interfaz de la Reina Roja sobre un muro de camaras">
+      <div class="muro" id="muro">
+        <div class="tile"><video muted playsinline loop preload="metadata" src="camaras/cam4.mp4"></video><span class="rot"><i></i>Cam 4 · Cajas</span></div>
+        <div class="tile"><video muted playsinline loop preload="metadata" src="camaras/cam5.mp4"></video><span class="rot"><i></i>Cam 5 · Bodega</span></div>
+        <div class="tile"><video muted playsinline loop preload="metadata" src="camaras/cam6.mp4"></video><span class="rot"><i></i>Cam 6 · Salida</span></div>
+        <div class="tile" data-cam="cam1"><video muted playsinline loop preload="metadata" src="camaras/cam1.mp4"></video><canvas></canvas><span class="rot"><i></i>Cam 1 · Entrada</span></div>
+        <div class="tile foco" data-cam="cam2"><video muted playsinline loop preload="metadata" src="camaras/cam2.mp4"></video><canvas></canvas><span class="rot"><i></i>Cam 2 · Pasillo central</span></div>
+        <div class="tile" data-cam="cam3"><video muted playsinline loop preload="metadata" src="camaras/cam3.mp4"></video><canvas></canvas><span class="rot"><i></i>Cam 3 · Fondo</span></div>
+      </div>
+      <div class="consola"><div class="cab"><span class="dot"></span><h6>Reina Roja</h6><span id="rq-cam">· todas las camaras</span></div>
+        <ul id="rq-lista"></ul></div>
+      <div class="marca-rq" id="rq-marca"></div>
+      <svg class="puntero" id="rq-puntero" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 2l17 9-7 2-3 7z" fill="#fff" stroke="#05080b" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      <div class="ficha" id="rq-ficha"><div class="q">¿Que es esto?</div><div class="a" id="rq-ficha-a"></div><div class="chips"><i>persona</i><i>camiseta verde</i><i>pantalon oscuro</i><i>mira la gondola</i></div></div>
+      <div class="lupa" id="rq-lupa"><img src="camaras/detalle_baja.jpg" alt=""><img class="nitida" src="camaras/detalle_alta.jpg" alt=""><span class="barrido"></span><span class="et"><b>●</b> Detalle mejorado</span></div>
+      <div class="pastilla-seg" id="rq-seg"><span class="dot"></span>Siguiendo a P1 <small id="rq-seg-cam">· Cam 1</small></div>
+      <div class="memoria" id="rq-mem"><div class="t">Ficha y memoria · 5 fotos guardadas</div><div class="tira"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="voz" id="rq-voz"><span class="mic"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11z"/></svg></span>
+        <div class="orden">«Reina Roja, ignora la camara 4 hasta que cambie algo.»</div><div class="respuesta">Entendido. Silencio la salud de la Cam 4; sus alarmas de seguridad siguen activas.</div></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============================================================ ANALITICAS -->
+<section class="intro contenedor" data-zona="argos">
+  <h2 class="revela" style="font-size:clamp(40px,6vw,80px)">Y 45 analiticas<br>que no se distraen.</h2>
+  <p class="revela">Hurto, filas, aforo, merodeo, cruce de linea, elementos de proteccion… Cada una explicada con una escena 3D con fisica real.</p>
+  <div class="vitrina revela">
+    <a href="/vision#hurto"><video muted playsinline loop autoplay preload="none" data-src="camaras/vitrina1.mp4"></video><span>Hurto</span></a>
+    <a href="/vision#filas"><video muted playsinline loop autoplay preload="none" data-src="camaras/vitrina2.mp4"></video><span>Filas en cajas</span></a>
+    <a href="/vision#aforo"><video muted playsinline loop autoplay preload="none" data-src="camaras/vitrina3.mp4"></video><span>Aforo</span></a>
+  </div>
+  <p class="revela" style="margin-top:30px"><a class="boton" href="/vision">Ver las 45 analiticas</a></p>
+</section>
+
+<!-- ============================================================ CIERRE -->
+<section class="cierre contenedor" id="contacto" data-zona="argos">
+  <img class="aguila-g revela" src="marca/vigias-logo.png" alt="Vigias de Colombia — Seguridad Preventiva" width="340" height="340">
+  <h2 class="revela">Seguridad que entiende<br>lo que ve.</h2>
+  <div class="botones revela" style="display:flex;gap:12px;justify-content:center;margin-top:34px;flex-wrap:wrap">
+    <a class="boton lleno" href="https://wa.me/573180005654?text=Hola%20Vigias%2C%20quiero%20conocer%20Argos%20y%20la%20Reina%20Roja" id="whatsapp">Agendar una demostracion</a>
+    <a class="boton" href="/vision">Ver analiticas en 3D</a>
+  </div>
+</section>
+
+<footer class="pie contenedor">
+  <div class="fila"><img src="marca/vigias-logo.png" alt="Vigias de Colombia"><span>© <span id="anio">2026</span> Vigias de Colombia · Seguridad Preventiva</span></div>
+  <details><summary>Creditos de las imagenes de ejemplo</summary>
+    <p style="margin-top:8px">Las personas de la busqueda de Argos son fotos de ejemplo pixeladas a proposito; no son clientes ni camaras de Vigias. Las camaras de la Reina Roja son escenas 3D propias.</p>
+    <ul id="creditos"></ul></details>
+</footer>
+</main>
+
+<script src="escena.js" defer></script>
+</body>
+</html>
